@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">UnlockMaster</string>
+    <string name="unlock_count_is">Unlock count is %1$d</string>
+    <string name="background_service_notification_channel_title">Background work indication</string>
+    <string name="background_service_notification_channel_description">Display an ongoing notification about background service running</string>
+</resources>
