@@ -5,6 +5,8 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
 import android.os.Build
+import com.sweak.unlockmaster.presentation.unlock_counter_service.FOREGROUND_SERVICE_NOTIFICATION_CHANNEL_ID
+import com.sweak.unlockmaster.presentation.unlock_counter_service.ScreenUnlockListenerService
 
 class UnlockMasterApplication : Application() {
 
@@ -12,13 +14,13 @@ class UnlockMasterApplication : Application() {
         super.onCreate()
 
         createNotificationChannelIfVersionRequires()
-        startBackgroundService()
+        startUnlockListenerService()
     }
 
     private fun createNotificationChannelIfVersionRequires() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val alarmNotificationChannel = NotificationChannel(
-                BACKGROUND_SERVICE_NOTIFICATION_CHANNEL_ID,
+                FOREGROUND_SERVICE_NOTIFICATION_CHANNEL_ID,
                 getString(R.string.background_service_notification_channel_title),
                 NotificationManager.IMPORTANCE_LOW
             ).apply {
@@ -30,7 +32,7 @@ class UnlockMasterApplication : Application() {
         }
     }
 
-    private fun startBackgroundService() {
+    private fun startUnlockListenerService() {
         val serviceIntent = Intent(this, ScreenUnlockListenerService::class.java)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

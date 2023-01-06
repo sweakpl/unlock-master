@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.ui.theme
+package com.sweak.unlockmaster.presentation.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

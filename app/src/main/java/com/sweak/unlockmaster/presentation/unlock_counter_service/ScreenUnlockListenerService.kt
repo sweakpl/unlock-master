@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster
+package com.sweak.unlockmaster.presentation.unlock_counter_service
 
 import android.app.Notification
 import android.app.NotificationManager
@@ -10,6 +10,8 @@ import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import com.sweak.unlockmaster.*
+import com.sweak.unlockmaster.presentation.MainActivity
 
 class ScreenUnlockListenerService : Service() {
 
@@ -21,7 +23,7 @@ class ScreenUnlockListenerService : Service() {
 
             (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).notify(
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) FOREGROUND_SERVICE_ID
-                else BACKGROUND_SERVICE_NOTIFICATION_ID,
+                else FOREGROUND_SERVICE_NOTIFICATION_ID,
                 createNewServiceNotification()
             )
         }
@@ -50,7 +52,7 @@ class ScreenUnlockListenerService : Service() {
             }
             else -> {
                 (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).notify(
-                    BACKGROUND_SERVICE_NOTIFICATION_ID,
+                    FOREGROUND_SERVICE_NOTIFICATION_ID,
                     createNewServiceNotification()
                 )
             }
@@ -62,7 +64,7 @@ class ScreenUnlockListenerService : Service() {
     private fun createNewServiceNotification(): Notification {
         val notificationPendingIntent = PendingIntent.getActivity(
             applicationContext,
-            BACKGROUND_SERVICE_NOTIFICATION_REQUEST_CODE,
+            FOREGROUND_SERVICE_NOTIFICATION_REQUEST_CODE,
             Intent(applicationContext, MainActivity::class.java),
             PendingIntent.FLAG_UPDATE_CURRENT or
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -72,7 +74,7 @@ class ScreenUnlockListenerService : Service() {
 
         NotificationCompat.Builder(
             applicationContext,
-            BACKGROUND_SERVICE_NOTIFICATION_CHANNEL_ID
+            FOREGROUND_SERVICE_NOTIFICATION_CHANNEL_ID
         ).apply {
             priority = NotificationCompat.PRIORITY_LOW
             setOngoing(true)
