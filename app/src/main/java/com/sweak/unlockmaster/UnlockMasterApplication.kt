@@ -5,10 +5,17 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
 import android.os.Build
+import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.presentation.unlock_counter_service.FOREGROUND_SERVICE_NOTIFICATION_CHANNEL_ID
 import com.sweak.unlockmaster.presentation.unlock_counter_service.ScreenUnlockListenerService
+import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
+@HiltAndroidApp
 class UnlockMasterApplication : Application() {
+
+    @Inject
+    lateinit var notificationManager: NotificationManagerCompat
 
     override fun onCreate() {
         super.onCreate()
@@ -24,11 +31,11 @@ class UnlockMasterApplication : Application() {
                 getString(R.string.background_service_notification_channel_title),
                 NotificationManager.IMPORTANCE_LOW
             ).apply {
-                description = getString(R.string.background_service_notification_channel_description)
+                description =
+                    getString(R.string.background_service_notification_channel_description)
             }
 
-            (getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
-                .createNotificationChannel(alarmNotificationChannel)
+            notificationManager.createNotificationChannel(alarmNotificationChannel)
         }
     }
 

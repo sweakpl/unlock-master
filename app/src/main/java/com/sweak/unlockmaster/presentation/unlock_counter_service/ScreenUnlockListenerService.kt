@@ -1,7 +1,6 @@
 package com.sweak.unlockmaster.presentation.unlock_counter_service
 
 import android.app.Notification
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
@@ -10,10 +9,17 @@ import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import com.sweak.unlockmaster.*
+import androidx.core.app.NotificationManagerCompat
+import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ScreenUnlockListenerService : Service() {
+
+    @Inject
+    lateinit var notificationManager: NotificationManagerCompat
 
     private var unlockCount = 0
 
@@ -21,7 +27,7 @@ class ScreenUnlockListenerService : Service() {
         onScreenUnlock = {
             unlockCount += 1
 
-            (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).notify(
+            notificationManager.notify(
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) FOREGROUND_SERVICE_ID
                 else FOREGROUND_SERVICE_NOTIFICATION_ID,
                 createNewServiceNotification()
@@ -51,7 +57,7 @@ class ScreenUnlockListenerService : Service() {
                 )
             }
             else -> {
-                (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).notify(
+                notificationManager.notify(
                     FOREGROUND_SERVICE_NOTIFICATION_ID,
                     createNewServiceNotification()
                 )
