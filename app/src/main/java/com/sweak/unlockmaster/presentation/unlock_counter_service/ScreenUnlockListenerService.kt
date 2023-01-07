@@ -11,27 +11,38 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
+import com.sweak.unlockmaster.domain.use_case.unlock_events.GetTodayUnlockEventsCountUseCase
 import com.sweak.unlockmaster.presentation.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class ScreenUnlockListenerService : Service() {
 
+    private val serviceScope = CoroutineScope(Dispatchers.IO)
+
     @Inject
     lateinit var notificationManager: NotificationManagerCompat
 
-    private var unlockCount = 0
+    @Inject
+    lateinit var addUnlockEventUseCase: AddUnlockEventUseCase
+
+    @Inject
+    lateinit var getTodayUnlockEventsCountUseCase: GetTodayUnlockEventsCountUseCase
 
     private val screenUnlockReceiver = ScreenUnlockReceiver().apply {
         onScreenUnlock = {
-            unlockCount += 1
+            serviceScope.launch {
+                addUnlockEventUseCase()
 
-            notificationManager.notify(
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) FOREGROUND_SERVICE_ID
-                else FOREGROUND_SERVICE_NOTIFICATION_ID,
-                createNewServiceNotification()
-            )
+                notificationManager.notify(
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) FOREGROUND_SERVICE_ID
+                    else FOREGROUND_SERVICE_NOTIFICATION_ID,
+                    createNewServiceNotification(getTodayUnlockEventsCountUseCase())
+                )
+            }
         }
     }
 
@@ -42,32 +53,36 @@ class ScreenUnlockListenerService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> {
-                startForeground(
-                    FOREGROUND_SERVICE_ID,
-                    createNewServiceNotification(),
-                    ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST
-                )
-            }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
-                startForeground(
-                    FOREGROUND_SERVICE_ID,
-                    createNewServiceNotification()
-                )
-            }
-            else -> {
-                notificationManager.notify(
-                    FOREGROUND_SERVICE_NOTIFICATION_ID,
-                    createNewServiceNotification()
-                )
+        serviceScope.launch {
+            val todayUnlockEventsCount = getTodayUnlockEventsCountUseCase()
+
+            when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> {
+                    startForeground(
+                        FOREGROUND_SERVICE_ID,
+                        createNewServiceNotification(todayUnlockEventsCount),
+                        ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST
+                    )
+                }
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
+                    startForeground(
+                        FOREGROUND_SERVICE_ID,
+                        createNewServiceNotification(todayUnlockEventsCount)
+                    )
+                }
+                else -> {
+                    notificationManager.notify(
+                        FOREGROUND_SERVICE_NOTIFICATION_ID,
+                        createNewServiceNotification(todayUnlockEventsCount)
+                    )
+                }
             }
         }
 
         return START_STICKY
     }
 
-    private fun createNewServiceNotification(): Notification {
+    private fun createNewServiceNotification(todayUnlockEventsCount: Int): Notification {
         val notificationPendingIntent = PendingIntent.getActivity(
             applicationContext,
             FOREGROUND_SERVICE_NOTIFICATION_REQUEST_CODE,
@@ -86,7 +101,7 @@ class ScreenUnlockListenerService : Service() {
             setOngoing(true)
             setSmallIcon(R.drawable.ic_launcher_foreground)
             setContentTitle(getString(R.string.app_name))
-            setContentText(getString(R.string.unlock_count_is, unlockCount))
+            setContentText(getString(R.string.unlock_count_is, todayUnlockEventsCount))
             setContentIntent(notificationPendingIntent)
             return build()
         }
@@ -95,10 +110,12 @@ class ScreenUnlockListenerService : Service() {
     override fun onDestroy() {
         unregisterReceiver(screenUnlockReceiver)
 
+        serviceScope.cancel(
+            CancellationException("ScreenUnlockListenerService has been destroyed")
+        )
+
         super.onDestroy()
     }
 
-    override fun onBind(intent: Intent): IBinder? {
-        return null
-    }
+    override fun onBind(intent: Intent): IBinder? = null
 }

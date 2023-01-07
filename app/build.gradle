@@ -29,6 +29,7 @@ android {
         }
     }
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -67,6 +68,15 @@ dependencies {
     implementation 'com.google.dagger:hilt-android:2.44'
     kapt 'com.google.dagger:hilt-compiler:2.44'
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+
+    // Room
+    implementation 'androidx.room:room-ktx:2.4.3'
+    annotationProcessor 'androidx.room:room-compiler:2.4.3'
+    kapt 'androidx.room:room-compiler:2.4.3'
+
+    // Api >= 21 support for DateTime API
+    // noinspection GradleDependency
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
 
     // Test
     testImplementation 'junit:junit:4.13.2'
