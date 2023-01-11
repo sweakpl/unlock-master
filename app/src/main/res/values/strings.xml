@@ -3,4 +3,9 @@
     <string name="unlock_count_is">Unlock count is %1$d</string>
     <string name="background_service_notification_channel_title">Background work indication</string>
     <string name="background_service_notification_channel_description">Display an ongoing notification about background service running</string>
+    <string name="welcome_to_unlock_master">Welcome to UnlockMaster!</string>
+    <string name="welcome_introduction_subtitle">Get an insight into how your screen unlocks influence your usage habits and make your relation with the smartphone more efficient and healthy!</string>
+    <string name="lets_start">Let\'s start!</string>
+
+    <string name="content_description_application_icon">UnlockMaster application icon</string>
 </resources>

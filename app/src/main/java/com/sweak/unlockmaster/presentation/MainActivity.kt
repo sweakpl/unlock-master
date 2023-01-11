@@ -3,8 +3,8 @@ package com.sweak.unlockmaster.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.Text
 import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
+import com.sweak.unlockmaster.presentation.introduction.welcome.WelcomeScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             UnlockMasterTheme {
-                Text(text = "Hello world!")
+                WelcomeScreen()
             }
         }
     }
