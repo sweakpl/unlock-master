@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.ui.theme
+package com.sweak.unlockmaster.presentation.common.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

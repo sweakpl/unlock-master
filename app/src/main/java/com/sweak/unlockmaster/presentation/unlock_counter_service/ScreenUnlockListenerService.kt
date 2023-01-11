@@ -99,7 +99,7 @@ class ScreenUnlockListenerService : Service() {
         ).apply {
             priority = NotificationCompat.PRIORITY_LOW
             setOngoing(true)
-            setSmallIcon(R.drawable.ic_launcher_foreground)
+            setSmallIcon(R.drawable.ic_notification_icon)
             setContentTitle(getString(R.string.app_name))
             setContentText(getString(R.string.unlock_count_is, todayUnlockEventsCount))
             setContentIntent(notificationPendingIntent)
