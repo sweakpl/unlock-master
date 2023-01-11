@@ -1,44 +1,34 @@
 package com.sweak.unlockmaster.presentation.common.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.graphics.Color
 
-private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
-)
-
-private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
-
-    /* Other default colors to override
-    background = Color.White,
+private val colorPalette = lightColors(
+    primary = Riptide,
+    primaryVariant = OceanGreen,
+    secondary = PictonBlue,
+    secondaryVariant = Lochmara,
+    background = Porcelain,
     surface = Color.White,
-    onPrimary = Color.White,
+    error = Monza,
+    onPrimary = Color.Black,
     onSecondary = Color.Black,
     onBackground = Color.Black,
     onSurface = Color.Black,
-    */
+    onError = Color.White
 )
 
 @Composable
-fun UnlockMasterTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
+fun UnlockMasterTheme(content: @Composable () -> Unit) {
+    CompositionLocalProvider(LocalSpace provides Space()) {
+        MaterialTheme(
+            colors = colorPalette,
+            typography = Typography,
+            shapes = Shapes,
+            content = content
+        )
     }
-
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
 }
