@@ -15,13 +15,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
-import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
+import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(navController: NavController) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -50,7 +50,7 @@ fun WelcomeScreen() {
         )
 
         Text(
-            text = stringResource(R.string.welcome_introduction_subtitle),
+            text = stringResource(R.string.welcome_to_unlock_master_subtitle),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.subtitle1,
             color = Color.White,
@@ -63,7 +63,7 @@ fun WelcomeScreen() {
         )
 
         Button(
-            onClick = { /* no-op */ },
+            onClick = { navController.navigate(Screen.IntroductionScreen.route) },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = MaterialTheme.colors.surface
             ),
@@ -76,17 +76,8 @@ fun WelcomeScreen() {
             )
         ) {
             Text(
-                text = stringResource(R.string.lets_start),
-                style = MaterialTheme.typography.h1
+                text = stringResource(R.string.lets_start)
             )
         }
-    }
-}
-
-@Preview
-@Composable
-fun Preview() {
-    UnlockMasterTheme {
-        WelcomeScreen()
     }
 }

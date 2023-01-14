@@ -4,8 +4,22 @@
     <string name="background_service_notification_channel_title">Background work indication</string>
     <string name="background_service_notification_channel_description">Display an ongoing notification about background service running</string>
     <string name="welcome_to_unlock_master">Welcome to UnlockMaster!</string>
-    <string name="welcome_introduction_subtitle">Get an insight into how your screen unlocks influence your usage habits and make your relation with the smartphone more efficient and healthy!</string>
+    <string name="welcome_to_unlock_master_subtitle">Get an insight into how your screen unlocks influence your usage habits and make your relation with the smartphone more efficient and healthy!</string>
     <string name="lets_start">Let\'s start!</string>
+    <string name="introduction">Introduction</string>
+    <string name="got_it">Got it!</string>
+    <string name="how_does_it_work">How does it work?</string>
+    <string name="how_it_works_description">UnlockMaster gathers data about your device unlocks to bring you these core values:</string>
+    <string name="guidance">Guidance</string>
+    <string name="guidance_description">Constant screen usage control via mobilizing notifications.</string>
+    <string name="statistics">Statistics</string>
+    <string name="statistics_description">Insightful and visually attractive data about your smartphone usage.</string>
+    <string name="wellness">Wellness</string>
+    <string name="wellness_description">More healthy and efficient relationship with your device.</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
+    <string name="content_description_back_icon">Back arrow icon</string>
+    <string name="content_description_guidance_icon">Ringing bell icon</string>
+    <string name="content_description_statistics_icon">Line chart with a magnifying glass icon</string>
+    <string name="content_description_wellness_icon">Wellness (spa) icon</string>
 </resources>

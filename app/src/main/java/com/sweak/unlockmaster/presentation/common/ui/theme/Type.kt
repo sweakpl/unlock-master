@@ -18,14 +18,19 @@ val Typography = Typography(
     h1 = TextStyle(
         fontFamily = amikoFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 18.sp
+        fontSize = 20.sp
     ),
     h2 = TextStyle(
+        fontFamily = amikoFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp
+    ),
+    h3 = TextStyle(
         fontFamily = amikoFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp
     ),
-    h3 = TextStyle(
+    h4 = TextStyle(
         fontFamily = amikoFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp
@@ -43,6 +48,6 @@ val Typography = Typography(
     button = TextStyle(
         fontFamily = amikoFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 12.sp
+        fontSize = 18.sp
     )
 )
