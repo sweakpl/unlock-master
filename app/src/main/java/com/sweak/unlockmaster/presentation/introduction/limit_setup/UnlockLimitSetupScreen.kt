@@ -106,6 +106,7 @@ fun UnlockLimitSetupScreen(navController: NavController) {
                         R.string.content_description_statistics_icon
                     ),
                     modifier = Modifier
+                        .fillMaxWidth()
                         .padding(
                             start = MaterialTheme.space.medium,
                             end = MaterialTheme.space.medium,
@@ -121,6 +122,7 @@ fun UnlockLimitSetupScreen(navController: NavController) {
                         R.string.content_description_wellness_icon
                     ),
                     modifier = Modifier
+                        .fillMaxWidth()
                         .padding(
                             start = MaterialTheme.space.medium,
                             end = MaterialTheme.space.medium,
@@ -136,7 +138,10 @@ fun UnlockLimitSetupScreen(navController: NavController) {
                         width = 2.dp,
                         color = MaterialTheme.colors.secondary
                     ),
-                    modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
+                    elevation = MaterialTheme.space.default,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = MaterialTheme.space.medium)
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,

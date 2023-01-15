@@ -73,6 +73,7 @@ fun IntroductionScreen(navController: NavController) {
                         R.string.content_description_guidance_icon
                     ),
                     modifier = Modifier
+                        .fillMaxWidth()
                         .padding(
                             start = MaterialTheme.space.medium,
                             end = MaterialTheme.space.medium,
@@ -88,6 +89,7 @@ fun IntroductionScreen(navController: NavController) {
                         R.string.content_description_statistics_icon
                     ),
                     modifier = Modifier
+                        .fillMaxWidth()
                         .padding(
                             start = MaterialTheme.space.medium,
                             end = MaterialTheme.space.medium,
@@ -102,7 +104,9 @@ fun IntroductionScreen(navController: NavController) {
                     iconContentDescription = stringResource(
                         R.string.content_description_wellness_icon
                     ),
-                    modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = MaterialTheme.space.medium)
                 )
 
                 Spacer(modifier = Modifier.height(MaterialTheme.space.run { xLarge + 2 * medium }))

@@ -25,8 +25,7 @@ fun InformationCard(
         modifier = modifier
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Spacer(modifier = Modifier.width(MaterialTheme.space.medium))
 

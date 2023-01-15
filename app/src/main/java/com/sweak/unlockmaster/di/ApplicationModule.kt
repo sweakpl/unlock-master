@@ -4,9 +4,12 @@ import android.app.Application
 import androidx.core.app.NotificationManagerCompat
 import androidx.room.Room
 import com.sweak.unlockmaster.data.local.database.UnlockMasterDatabase
+import com.sweak.unlockmaster.data.local.database.dao.LockEventsDao
 import com.sweak.unlockmaster.data.local.database.dao.UnlockEventsDao
+import com.sweak.unlockmaster.data.repository.LockEventsRepositoryImpl
 import com.sweak.unlockmaster.data.repository.TimeRepositoryImpl
 import com.sweak.unlockmaster.data.repository.UnlockEventsRepositoryImpl
+import com.sweak.unlockmaster.domain.repository.LockEventsRepository
 import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.repository.UnlockEventsRepository
 import dagger.Module
@@ -27,11 +30,14 @@ object ApplicationModule {
     @Provides
     @Singleton
     fun provideUnlockMasterDatabase(app: Application): UnlockMasterDatabase =
-        Room.databaseBuilder(
-            app.applicationContext,
-            UnlockMasterDatabase::class.java,
-            "unlock_master_database"
-        ).build()
+        Room
+            .databaseBuilder(
+                app.applicationContext,
+                UnlockMasterDatabase::class.java,
+                "unlock_master_database"
+            )
+            .fallbackToDestructiveMigration()
+            .build()
 
     @Provides
     @Singleton
@@ -40,8 +46,18 @@ object ApplicationModule {
 
     @Provides
     @Singleton
+    fun provideLockEventsDao(database: UnlockMasterDatabase): LockEventsDao =
+        database.lockEventsDao()
+
+    @Provides
+    @Singleton
     fun provideUnlockEventsRepository(unlockEventsDao: UnlockEventsDao): UnlockEventsRepository =
         UnlockEventsRepositoryImpl(unlockEventsDao)
+
+    @Provides
+    @Singleton
+    fun provideLockEventsRepository(lockEventsDao: LockEventsDao): LockEventsRepository =
+        LockEventsRepositoryImpl(lockEventsDao)
 
     @Provides
     @Singleton

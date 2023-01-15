@@ -11,6 +11,7 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.domain.use_case.lock_events.AddLockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetTodayUnlockEventsCountUseCase
 import com.sweak.unlockmaster.presentation.MainActivity
@@ -30,6 +31,9 @@ class ScreenUnlockListenerService : Service() {
     lateinit var addUnlockEventUseCase: AddUnlockEventUseCase
 
     @Inject
+    lateinit var addLockEventUseCase: AddLockEventUseCase
+
+    @Inject
     lateinit var getTodayUnlockEventsCountUseCase: GetTodayUnlockEventsCountUseCase
 
     private val screenUnlockReceiver = ScreenUnlockReceiver().apply {
@@ -37,11 +41,21 @@ class ScreenUnlockListenerService : Service() {
             serviceScope.launch {
                 addUnlockEventUseCase()
 
-                notificationManager.notify(
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) FOREGROUND_SERVICE_ID
-                    else FOREGROUND_SERVICE_NOTIFICATION_ID,
-                    createNewServiceNotification(getTodayUnlockEventsCountUseCase())
-                )
+                try {
+                    notificationManager.notify(
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) FOREGROUND_SERVICE_ID
+                        else FOREGROUND_SERVICE_NOTIFICATION_ID,
+                        createNewServiceNotification(getTodayUnlockEventsCountUseCase())
+                    )
+                } catch (_: SecurityException) { /* no-op */ }
+            }
+        }
+    }
+
+    private val screenLockReceiver = ScreenLockReceiver().apply {
+        onScreenLock = {
+            serviceScope.launch {
+                addLockEventUseCase()
             }
         }
     }
@@ -50,6 +64,7 @@ class ScreenUnlockListenerService : Service() {
         super.onCreate()
 
         registerReceiver(screenUnlockReceiver, IntentFilter(Intent.ACTION_USER_PRESENT))
+        registerReceiver(screenLockReceiver, IntentFilter(Intent.ACTION_SCREEN_OFF))
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -71,10 +86,12 @@ class ScreenUnlockListenerService : Service() {
                     )
                 }
                 else -> {
-                    notificationManager.notify(
-                        FOREGROUND_SERVICE_NOTIFICATION_ID,
-                        createNewServiceNotification(todayUnlockEventsCount)
-                    )
+                    try {
+                        notificationManager.notify(
+                            FOREGROUND_SERVICE_NOTIFICATION_ID,
+                            createNewServiceNotification(todayUnlockEventsCount)
+                        )
+                    } catch (_: SecurityException) { /* no-op */ }
                 }
             }
         }
@@ -109,6 +126,7 @@ class ScreenUnlockListenerService : Service() {
 
     override fun onDestroy() {
         unregisterReceiver(screenUnlockReceiver)
+        unregisterReceiver(screenLockReceiver)
 
         serviceScope.cancel(
             CancellationException("ScreenUnlockListenerService has been destroyed")
