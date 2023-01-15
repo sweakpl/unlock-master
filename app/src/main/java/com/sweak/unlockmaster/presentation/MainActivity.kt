@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
 import com.sweak.unlockmaster.presentation.introduction.introduction.IntroductionScreen
+import com.sweak.unlockmaster.presentation.introduction.limit_setup.UnlockLimitSetupScreen
 import com.sweak.unlockmaster.presentation.introduction.welcome.WelcomeScreen
 
 class MainActivity : ComponentActivity() {
@@ -32,6 +33,10 @@ class MainActivity : ComponentActivity() {
 
                     composable(route = Screen.IntroductionScreen.route) {
                         IntroductionScreen(navController = navController)
+                    }
+
+                    composable(route = Screen.UnlockLimitSetupScreen.route) {
+                        UnlockLimitSetupScreen(navController = navController)
                     }
                 }
             }

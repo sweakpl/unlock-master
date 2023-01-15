@@ -16,10 +16,23 @@
     <string name="statistics_description">Insightful and visually attractive data about your smartphone usage.</string>
     <string name="wellness">Wellness</string>
     <string name="wellness_description">More healthy and efficient relationship with your device.</string>
+    <string name="unlock_limit">Unlock limit</string>
+    <string name="set_up_unlock_limit">Set up your unlock limit</string>
+    <string name="set_up_unlock_limit_description">Before you start using UnlockMaster you have to set up your unlock limit:</string>
+    <string name="unlock_limit_purposes">" Unlock limit serves these purposes:"</string>
+    <string name="confirm">Confirm</string>
+    <string name="reference">Reference</string>
+    <string name="reference_description">Unlock limit is a number of unlocks that you don’t want to exceed during the day.</string>
+    <string name="adjustability">Adjustability</string>
+    <string name="adjustability_description">Unlock limit can be adjusted to meet your improving smartphone usage standards.</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>
     <string name="content_description_guidance_icon">Ringing bell icon</string>
     <string name="content_description_statistics_icon">Line chart with a magnifying glass icon</string>
     <string name="content_description_wellness_icon">Wellness (spa) icon</string>
+    <string name="content_description_subtract_icon">Subtraction sign icon</string>
+    <string name="content_description_add_icon">Addition sign icon</string>
+    <string name="content_description_info_icon">Information icon</string>
+    <string name="note_reaching_limit_wont_prevent_unlocking">Note: reaching your unlock limit will NOT prevent you from unlocking your screen.</string>
 </resources>

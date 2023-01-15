@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.times
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.introduction.components.InformationCard
@@ -109,7 +110,7 @@ fun IntroductionScreen(navController: NavController) {
 
             ProceedButton(
                 text = stringResource(R.string.got_it),
-                onClick = { /* no-op */ },
+                onClick = { navController.navigate(Screen.UnlockLimitSetupScreen.route) },
                 modifier = Modifier.padding(all = MaterialTheme.space.medium)
             )
         }
