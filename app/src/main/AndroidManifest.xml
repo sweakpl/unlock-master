@@ -33,7 +33,7 @@
         </activity>
 
         <service
-            android:name=".presentation.unlock_counter_service.ScreenUnlockListenerService"
+            android:name=".presentation.unlock_counter_service.UnlockMasterService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />

@@ -9,6 +9,8 @@ class AddUnlockEventUseCase @Inject constructor(
     private val timeRepository: TimeRepository
 ) {
     suspend operator fun invoke() {
-        unlockEventsRepository.addUnlockEvent(timeRepository.getCurrentTimeInMillis())
+        unlockEventsRepository.addUnlockEvent(
+            unlockEventTimeInMillis = timeRepository.getCurrentTimeInMillis()
+        )
     }
 }

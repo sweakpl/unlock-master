@@ -7,7 +7,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.presentation.unlock_counter_service.FOREGROUND_SERVICE_NOTIFICATION_CHANNEL_ID
-import com.sweak.unlockmaster.presentation.unlock_counter_service.ScreenUnlockListenerService
+import com.sweak.unlockmaster.presentation.unlock_counter_service.UnlockMasterService
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -40,7 +40,7 @@ class UnlockMasterApplication : Application() {
     }
 
     private fun startUnlockListenerService() {
-        val serviceIntent = Intent(this, ScreenUnlockListenerService::class.java)
+        val serviceIntent = Intent(this, UnlockMasterService::class.java)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(serviceIntent)

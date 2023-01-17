@@ -15,5 +15,5 @@ class UnlockEventsRepositoryImpl(
     }
 
     override suspend fun getUnlockEventsCountSinceTime(sinceTimeInMillis: Long): Int =
-        unlockEventsDao.getUnlockEventsCountSinceTime(sinceTimeInMillis)
+        unlockEventsDao.getUnlockEventsCountSinceTime(sinceTimeInMillis = sinceTimeInMillis)
 }

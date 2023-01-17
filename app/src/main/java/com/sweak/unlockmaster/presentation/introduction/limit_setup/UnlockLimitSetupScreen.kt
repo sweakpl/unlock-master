@@ -17,11 +17,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.introduction.components.InformationCard
@@ -29,9 +32,19 @@ import com.sweak.unlockmaster.presentation.introduction.components.NumberPickerS
 import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
 
 @Composable
-fun UnlockLimitSetupScreen(navController: NavController) {
+fun UnlockLimitSetupScreen(
+    unlockLimitSetupViewModel: UnlockLimitSetupViewModel = hiltViewModel(),
+    navController: NavController
+) {
+    val context = LocalContext.current
 
-    var pickedUnlockLimit by remember { mutableStateOf(40) }
+    LaunchedEffect(key1 = context) {
+        unlockLimitSetupViewModel.unlockEventsSubmittedEvents.collect {
+            navController.navigate(Screen.WorkInBackgroundScreen.route)
+        }
+    }
+
+    val pickedUnlockLimit = unlockLimitSetupViewModel.pickedUnlockLimit
 
     Column(
         modifier = Modifier.background(color = MaterialTheme.colors.background)
@@ -77,7 +90,7 @@ fun UnlockLimitSetupScreen(navController: NavController) {
                     pickedNumber = pickedUnlockLimit,
                     numbersRange = IntRange(start = 10, endInclusive = 70),
                     onNewNumberPicked = { newUnlockLimit ->
-                        pickedUnlockLimit = newUnlockLimit
+                        unlockLimitSetupViewModel.pickNewUnlockLimit(newUnlockLimit)
                     },
                     modifier = Modifier
                         .padding(
@@ -169,7 +182,7 @@ fun UnlockLimitSetupScreen(navController: NavController) {
 
             ProceedButton(
                 text = stringResource(R.string.confirm),
-                onClick = { /* no-op */ },
+                onClick = { unlockLimitSetupViewModel.submitUnlockLimitForToday() },
                 modifier = Modifier.padding(all = MaterialTheme.space.medium)
             )
         }

@@ -9,6 +9,8 @@ class AddLockEventUseCase @Inject constructor(
     private val timeRepository: TimeRepository
 ) {
     suspend operator fun invoke() {
-        lockEventsRepository.addLockEvent(timeRepository.getCurrentTimeInMillis())
+        lockEventsRepository.addLockEvent(
+            lockEventTimeInMillis = timeRepository.getCurrentTimeInMillis()
+        )
     }
 }

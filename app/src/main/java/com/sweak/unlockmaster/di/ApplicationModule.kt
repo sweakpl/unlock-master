@@ -6,12 +6,15 @@ import androidx.room.Room
 import com.sweak.unlockmaster.data.local.database.UnlockMasterDatabase
 import com.sweak.unlockmaster.data.local.database.dao.LockEventsDao
 import com.sweak.unlockmaster.data.local.database.dao.UnlockEventsDao
+import com.sweak.unlockmaster.data.local.database.dao.UnlockLimitsDao
 import com.sweak.unlockmaster.data.repository.LockEventsRepositoryImpl
 import com.sweak.unlockmaster.data.repository.TimeRepositoryImpl
 import com.sweak.unlockmaster.data.repository.UnlockEventsRepositoryImpl
+import com.sweak.unlockmaster.data.repository.UnlockLimitsRepositoryImpl
 import com.sweak.unlockmaster.domain.repository.LockEventsRepository
 import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.repository.UnlockEventsRepository
+import com.sweak.unlockmaster.domain.repository.UnlockLimitsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,6 +54,11 @@ object ApplicationModule {
 
     @Provides
     @Singleton
+    fun provideUnlockLimitsDao(database: UnlockMasterDatabase): UnlockLimitsDao =
+        database.unlockLimitsDao()
+
+    @Provides
+    @Singleton
     fun provideUnlockEventsRepository(unlockEventsDao: UnlockEventsDao): UnlockEventsRepository =
         UnlockEventsRepositoryImpl(unlockEventsDao)
 
@@ -58,6 +66,11 @@ object ApplicationModule {
     @Singleton
     fun provideLockEventsRepository(lockEventsDao: LockEventsDao): LockEventsRepository =
         LockEventsRepositoryImpl(lockEventsDao)
+
+    @Provides
+    @Singleton
+    fun provideUnlockLimitsRepository(unlockLimitsDao: UnlockLimitsDao): UnlockLimitsRepository =
+        UnlockLimitsRepositoryImpl(unlockLimitsDao)
 
     @Provides
     @Singleton

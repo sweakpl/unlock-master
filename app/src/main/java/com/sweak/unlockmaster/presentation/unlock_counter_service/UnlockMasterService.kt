@@ -11,16 +11,18 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.domain.DEFAULT_UNLOCK_LIMIT
 import com.sweak.unlockmaster.domain.use_case.lock_events.AddLockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetTodayUnlockEventsCountUseCase
+import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitForTodayUseCase
 import com.sweak.unlockmaster.presentation.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ScreenUnlockListenerService : Service() {
+class UnlockMasterService : Service() {
 
     private val serviceScope = CoroutineScope(Dispatchers.IO)
 
@@ -36,6 +38,9 @@ class ScreenUnlockListenerService : Service() {
     @Inject
     lateinit var getTodayUnlockEventsCountUseCase: GetTodayUnlockEventsCountUseCase
 
+    @Inject
+    lateinit var getUnlockLimitForTodayUseCase: GetUnlockLimitForTodayUseCase
+
     private val screenUnlockReceiver = ScreenUnlockReceiver().apply {
         onScreenUnlock = {
             serviceScope.launch {
@@ -45,7 +50,10 @@ class ScreenUnlockListenerService : Service() {
                     notificationManager.notify(
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) FOREGROUND_SERVICE_ID
                         else FOREGROUND_SERVICE_NOTIFICATION_ID,
-                        createNewServiceNotification(getTodayUnlockEventsCountUseCase())
+                        createNewServiceNotification(
+                            getTodayUnlockEventsCountUseCase(),
+                            getUnlockLimitForTodayUseCase()
+                        )
                     )
                 } catch (_: SecurityException) { /* no-op */ }
             }
@@ -70,26 +78,27 @@ class ScreenUnlockListenerService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         serviceScope.launch {
             val todayUnlockEventsCount = getTodayUnlockEventsCountUseCase()
+            val todayUnlockLimit = getUnlockLimitForTodayUseCase()
 
             when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> {
                     startForeground(
                         FOREGROUND_SERVICE_ID,
-                        createNewServiceNotification(todayUnlockEventsCount),
+                        createNewServiceNotification(todayUnlockEventsCount, todayUnlockLimit),
                         ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST
                     )
                 }
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
                     startForeground(
                         FOREGROUND_SERVICE_ID,
-                        createNewServiceNotification(todayUnlockEventsCount)
+                        createNewServiceNotification(todayUnlockEventsCount, todayUnlockLimit)
                     )
                 }
                 else -> {
                     try {
                         notificationManager.notify(
                             FOREGROUND_SERVICE_NOTIFICATION_ID,
-                            createNewServiceNotification(todayUnlockEventsCount)
+                            createNewServiceNotification(todayUnlockEventsCount, todayUnlockLimit)
                         )
                     } catch (_: SecurityException) { /* no-op */ }
                 }
@@ -99,7 +108,10 @@ class ScreenUnlockListenerService : Service() {
         return START_STICKY
     }
 
-    private fun createNewServiceNotification(todayUnlockEventsCount: Int): Notification {
+    private fun createNewServiceNotification(
+        todayUnlockEventsCount: Int,
+        todayUnlockLimit: Int?
+    ): Notification {
         val notificationPendingIntent = PendingIntent.getActivity(
             applicationContext,
             FOREGROUND_SERVICE_NOTIFICATION_REQUEST_CODE,
@@ -118,7 +130,13 @@ class ScreenUnlockListenerService : Service() {
             setOngoing(true)
             setSmallIcon(R.drawable.ic_notification_icon)
             setContentTitle(getString(R.string.app_name))
-            setContentText(getString(R.string.unlock_count_is, todayUnlockEventsCount))
+            setContentText(
+                getString(
+                    R.string.your_unlock_count_is,
+                    todayUnlockEventsCount,
+                    todayUnlockLimit ?: DEFAULT_UNLOCK_LIMIT
+                )
+            )
             setContentIntent(notificationPendingIntent)
             return build()
         }
@@ -129,7 +147,7 @@ class ScreenUnlockListenerService : Service() {
         unregisterReceiver(screenLockReceiver)
 
         serviceScope.cancel(
-            CancellationException("ScreenUnlockListenerService has been destroyed")
+            CancellationException("UnlockMasterService has been destroyed")
         )
 
         super.onDestroy()
