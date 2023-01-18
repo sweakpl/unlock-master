@@ -33,6 +33,7 @@ import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
@@ -40,8 +41,10 @@ import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun WorkInBackgroundScreen(navController: NavController) {
-
+fun WorkInBackgroundScreen(
+    navController: NavController,
+    onWorkInBackgroundAllowed: () -> Unit
+) {
     val uriHandler = LocalUriHandler.current
     val backgroundWorkImprovementWebsite = stringResource(R.string.dontkilmyapp_com_full_uri)
 
@@ -257,7 +260,10 @@ fun WorkInBackgroundScreen(navController: NavController) {
 
             ProceedButton(
                 text = stringResource(R.string._continue),
-                onClick = { /* TODO: continue */ },
+                onClick = {
+                    onWorkInBackgroundAllowed()
+                    navController.navigate(Screen.SetupCompleteScreen.route)
+                },
                 enabled = notificationsPermissionState.status is PermissionStatus.Granted,
                 modifier = Modifier.padding(all = MaterialTheme.space.medium)
             )

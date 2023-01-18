@@ -41,6 +41,15 @@
     <string name="notifications_permission_required_description">Notifications permission is crucial for UnlockMaster to function properly. Go to settings in order to grant it.</string>
     <string name="settings">Settings</string>
     <string name="later">Later</string>
+    <string name="all_set">All set, you’re ready to go!</string>
+    <string name="all_set_description">Now UnlockMaster will constantly work for you and help you improve your smartphone usage habits! You can know that UnlockMaster is working when you see notification like this one:</string>
+    <string name="mobilizing_notifications">Mobilizing notifications</string>
+    <string name="mobilizing_notifications_description">UnlockMaster will cyclically post popping-off notifications reminding you of your goals and to prevent unnecessary smartphone usage:</string>
+    <string name="daily_wrapups">Daily wrap-ups</string>
+    <string name="daily_wrapups_description">UnlockMaster will remind you to check on your progress and set new goals every evening by posting daily wrap-up notifications:</string>
+    <string name="note_you_can_change_time_of_notifications">Note: you can always change the frequency and time of those notifications in the settings.</string>
+    <string name="lets_go">Let\'s go!</string>
+    <string name="setup_complete">Setup complete</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>
@@ -53,4 +62,7 @@
     <string name="content_description_wrench_icon">Wrench icon</string>
     <string name="content_description_disabled_notifications_icon">Disabled notification bell icon</string>
     <string name="content_description_next_icon">Arrow indicating further navigation icon</string>
+    <string name="content_description_service_notification_image">Notification indicating working background service image</string>
+    <string name="content_description_mobilizing_notification_image">Mobilizing notification image</string>
+    <string name="content_description_wrapup_notification_image">Notification reminding about daily wrap-up image</string>
 </resources>

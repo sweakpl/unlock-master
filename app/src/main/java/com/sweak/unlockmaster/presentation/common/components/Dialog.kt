@@ -11,7 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
@@ -75,7 +74,9 @@ fun Dialog(
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = Color.Transparent
                     ),
-                    elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
+                    elevation = ButtonDefaults.elevation(
+                        defaultElevation = MaterialTheme.space.default
+                    ),
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(

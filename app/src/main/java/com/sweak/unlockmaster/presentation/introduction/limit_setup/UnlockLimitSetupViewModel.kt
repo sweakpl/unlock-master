@@ -5,9 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sweak.unlockmaster.domain.DEFAULT_UNLOCK_LIMIT
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.AddOrUpdateUnlockLimitForTodayUseCase
-import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitForTodayUseCase
+import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -17,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UnlockLimitSetupViewModel @Inject constructor(
     private val addOrUpdateUnlockLimitForTodayUseCase: AddOrUpdateUnlockLimitForTodayUseCase,
-    private val getUnlockLimitForTodayUseCase: GetUnlockLimitForTodayUseCase
+    private val getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase
 ) : ViewModel() {
 
     var pickedUnlockLimit by mutableStateOf<Int?>(null)
@@ -27,7 +26,7 @@ class UnlockLimitSetupViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            pickedUnlockLimit = getUnlockLimitForTodayUseCase() ?: DEFAULT_UNLOCK_LIMIT
+            pickedUnlockLimit = getUnlockLimitAmountForTodayUseCase()
         }
     }
 

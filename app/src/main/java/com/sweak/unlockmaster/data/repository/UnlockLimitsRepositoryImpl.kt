@@ -26,6 +26,6 @@ class UnlockLimitsRepositoryImpl(
         )
     }
 
-    override suspend fun getCurrentUnlockLimit(currentTimeInMillis: Long): Int? =
+    override suspend fun getCurrentUnlockLimit(currentTimeInMillis: Long): UnlockLimit? =
         unlockLimitsDao.getCurrentUnlockLimit(currentTimeInMillis = currentTimeInMillis)
 }

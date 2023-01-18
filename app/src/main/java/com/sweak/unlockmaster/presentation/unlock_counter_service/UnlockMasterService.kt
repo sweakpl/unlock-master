@@ -11,11 +11,10 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.R
-import com.sweak.unlockmaster.domain.DEFAULT_UNLOCK_LIMIT
 import com.sweak.unlockmaster.domain.use_case.lock_events.AddLockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetTodayUnlockEventsCountUseCase
-import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitForTodayUseCase
+import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
 import com.sweak.unlockmaster.presentation.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -39,7 +38,7 @@ class UnlockMasterService : Service() {
     lateinit var getTodayUnlockEventsCountUseCase: GetTodayUnlockEventsCountUseCase
 
     @Inject
-    lateinit var getUnlockLimitForTodayUseCase: GetUnlockLimitForTodayUseCase
+    lateinit var getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase
 
     private val screenUnlockReceiver = ScreenUnlockReceiver().apply {
         onScreenUnlock = {
@@ -52,7 +51,7 @@ class UnlockMasterService : Service() {
                         else FOREGROUND_SERVICE_NOTIFICATION_ID,
                         createNewServiceNotification(
                             getTodayUnlockEventsCountUseCase(),
-                            getUnlockLimitForTodayUseCase()
+                            getUnlockLimitAmountForTodayUseCase()
                         )
                     )
                 } catch (_: SecurityException) { /* no-op */ }
@@ -78,7 +77,7 @@ class UnlockMasterService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         serviceScope.launch {
             val todayUnlockEventsCount = getTodayUnlockEventsCountUseCase()
-            val todayUnlockLimit = getUnlockLimitForTodayUseCase()
+            val todayUnlockLimit = getUnlockLimitAmountForTodayUseCase()
 
             when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> {
@@ -110,7 +109,7 @@ class UnlockMasterService : Service() {
 
     private fun createNewServiceNotification(
         todayUnlockEventsCount: Int,
-        todayUnlockLimit: Int?
+        todayUnlockLimit: Int
     ): Notification {
         val notificationPendingIntent = PendingIntent.getActivity(
             applicationContext,
@@ -131,11 +130,7 @@ class UnlockMasterService : Service() {
             setSmallIcon(R.drawable.ic_notification_icon)
             setContentTitle(getString(R.string.app_name))
             setContentText(
-                getString(
-                    R.string.your_unlock_count_is,
-                    todayUnlockEventsCount,
-                    todayUnlockLimit ?: DEFAULT_UNLOCK_LIMIT
-                )
+                getString(R.string.your_unlock_count_is, todayUnlockEventsCount, todayUnlockLimit)
             )
             setContentIntent(notificationPendingIntent)
             return build()
