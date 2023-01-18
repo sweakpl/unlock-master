@@ -75,6 +75,9 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.5.0'
     kapt 'androidx.room:room-compiler:2.5.0'
 
+    // Permission handling
+    implementation "com.google.accompanist:accompanist-permissions:0.28.0"
+
     // Api >= 21 support for DateTime API
     // noinspection GradleDependency
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'

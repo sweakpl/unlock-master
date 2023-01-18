@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable(route = Screen.WorkInBackgroundScreen.route) {
-                        WorkInBackgroundScreen()
+                        WorkInBackgroundScreen(navController = navController)
                     }
                 }
             }

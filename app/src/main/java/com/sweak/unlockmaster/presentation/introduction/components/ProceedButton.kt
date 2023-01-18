@@ -14,10 +14,12 @@ import com.sweak.unlockmaster.presentation.common.ui.theme.space
 fun ProceedButton(
     text: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
 ) {
     Button(
         onClick = onClick,
+        enabled = enabled,
         elevation = ButtonDefaults.elevation(
             defaultElevation = MaterialTheme.space.xSmall
         ),

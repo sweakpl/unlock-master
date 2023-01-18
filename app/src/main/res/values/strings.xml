@@ -25,6 +25,22 @@
     <string name="reference_description">Unlock limit is a number of unlocks that you don’t want to exceed during the day.</string>
     <string name="adjustability">Adjustability</string>
     <string name="adjustability_description">Unlock limit can be adjusted to meet your improving smartphone usage standards.</string>
+    <string name="note_reaching_limit_wont_prevent_unlocking">Note: reaching your unlock limit will NOT prevent you from unlocking your screen.</string>
+    <string name="work_in_background">Work in background</string>
+    <string name="allow_work_in_background">Allow UnlockMaster to fully work in background</string>
+    <string name="allow_work_in_background_description">UnlockMaster constantly works in background to gather your device unlocks. Some mobile phone manufacturers impose restrictions on background work by killing working applications. In order to prevent this behavior please visit the dontkillmyapp.com website and follow instructions for your smartphone manufacturer:</string>
+    <string name="allow_notifications">Allow UnlockMaster to show notifications</string>
+    <string name="allow_notifications_description">UnlockMaster is designed to send you mobilizing notifications and remind you about your daily unlocks with a persistent notification. This requires the app to have the permission to post notifications. Make sure you grant that permission before continuing:</string>
+    <string name="dontkilmyapp_com" translatable="false">dontkillmyapp.com</string>
+    <string name="dontkilmyapp_com_full_uri" translatable="false">https://dontkillmyapp.com/</string>
+    <string name="select_manufacturer_and_follow_instructions">Select your phone manufacturer and follow the instructions provided.</string>
+    <string name="notifications_disabled_click_to_enable">Notifications permission is denied. Click to enable.</string>
+    <string name="_continue">Continue</string>
+    <string name="notifications_enabled">Notifications permission is granted. Good job!</string>
+    <string name="notifications_permission_required">Notifications permission required</string>
+    <string name="notifications_permission_required_description">Notifications permission is crucial for UnlockMaster to function properly. Go to settings in order to grant it.</string>
+    <string name="settings">Settings</string>
+    <string name="later">Later</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>
@@ -34,5 +50,7 @@
     <string name="content_description_subtract_icon">Subtraction sign icon</string>
     <string name="content_description_add_icon">Addition sign icon</string>
     <string name="content_description_info_icon">Information icon</string>
-    <string name="note_reaching_limit_wont_prevent_unlocking">Note: reaching your unlock limit will NOT prevent you from unlocking your screen.</string>
+    <string name="content_description_wrench_icon">Wrench icon</string>
+    <string name="content_description_disabled_notifications_icon">Disabled notification bell icon</string>
+    <string name="content_description_next_icon">Arrow indicating further navigation icon</string>
 </resources>
