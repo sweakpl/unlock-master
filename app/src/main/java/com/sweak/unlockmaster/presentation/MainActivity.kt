@@ -5,9 +5,11 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
 import com.sweak.unlockmaster.presentation.introduction.background_work.WorkInBackgroundScreen
@@ -17,9 +19,15 @@ import com.sweak.unlockmaster.presentation.introduction.setup_complete.SetupComp
 import com.sweak.unlockmaster.presentation.introduction.welcome.WelcomeScreen
 import com.sweak.unlockmaster.presentation.unlock_counter_service.UnlockMasterService
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var userSessionRepository: UserSessionRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +38,10 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = Screen.WelcomeScreen.route
+                    startDestination =
+                    if (runBlocking { userSessionRepository.isIntroductionFinished() })
+                        Screen.HomeScreen.route
+                    else Screen.WelcomeScreen.route
                 ) {
                     composable(route = Screen.WelcomeScreen.route) {
                         WelcomeScreen(navController = navController)
@@ -47,12 +58,21 @@ class MainActivity : ComponentActivity() {
                     composable(route = Screen.WorkInBackgroundScreen.route) {
                         WorkInBackgroundScreen(
                             navController = navController,
-                            onWorkInBackgroundAllowed = { startUnlockMasterService() }
+                            onWorkInBackgroundAllowed = {
+                                startUnlockMasterService()
+                                lifecycleScope.launch {
+                                    userSessionRepository.setIntroductionFinished()
+                                }
+                            }
                         )
                     }
 
                     composable(route = Screen.SetupCompleteScreen.route) {
                         SetupCompleteScreen(navController = navController)
+                    }
+
+                    composable(route = Screen.HomeScreen.route) {
+
                     }
                 }
             }

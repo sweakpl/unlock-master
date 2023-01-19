@@ -6,4 +6,5 @@ sealed class Screen(val route: String) {
     object UnlockLimitSetupScreen: Screen("unlock_limit_setup_screen")
     object WorkInBackgroundScreen: Screen("work_in_background_screen")
     object SetupCompleteScreen: Screen("setup_complete_screen")
+    object HomeScreen: Screen("home_screen")
 }

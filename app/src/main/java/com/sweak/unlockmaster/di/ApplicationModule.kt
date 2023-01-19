@@ -7,14 +7,8 @@ import com.sweak.unlockmaster.data.local.database.UnlockMasterDatabase
 import com.sweak.unlockmaster.data.local.database.dao.LockEventsDao
 import com.sweak.unlockmaster.data.local.database.dao.UnlockEventsDao
 import com.sweak.unlockmaster.data.local.database.dao.UnlockLimitsDao
-import com.sweak.unlockmaster.data.repository.LockEventsRepositoryImpl
-import com.sweak.unlockmaster.data.repository.TimeRepositoryImpl
-import com.sweak.unlockmaster.data.repository.UnlockEventsRepositoryImpl
-import com.sweak.unlockmaster.data.repository.UnlockLimitsRepositoryImpl
-import com.sweak.unlockmaster.domain.repository.LockEventsRepository
-import com.sweak.unlockmaster.domain.repository.TimeRepository
-import com.sweak.unlockmaster.domain.repository.UnlockEventsRepository
-import com.sweak.unlockmaster.domain.repository.UnlockLimitsRepository
+import com.sweak.unlockmaster.data.repository.*
+import com.sweak.unlockmaster.domain.repository.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,6 +35,11 @@ object ApplicationModule {
             )
             .fallbackToDestructiveMigration()
             .build()
+
+    @Provides
+    @Singleton
+    fun provideUserSessionRepository(app: Application):UserSessionRepository =
+        UserSessionRepositoryImpl(app)
 
     @Provides
     @Singleton

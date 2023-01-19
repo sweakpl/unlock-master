@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
@@ -195,7 +196,13 @@ fun SetupCompleteScreen(navController: NavController) {
 
             ProceedButton(
                 text = stringResource(R.string.lets_go),
-                onClick = { /* TODO: Navigate to main screen */ },
+                onClick = {
+                    navController.navigate(Screen.HomeScreen.route) {
+                        popUpTo(Screen.WelcomeScreen.route) {
+                            inclusive = true
+                        }
+                    }
+                },
                 modifier = Modifier.padding(all = MaterialTheme.space.medium)
             )
         }
