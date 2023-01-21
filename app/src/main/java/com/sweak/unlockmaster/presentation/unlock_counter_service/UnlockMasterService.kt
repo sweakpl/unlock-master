@@ -3,6 +3,8 @@ package com.sweak.unlockmaster.presentation.unlock_counter_service
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ServiceInfo
@@ -40,6 +42,45 @@ class UnlockMasterService : Service() {
     @Inject
     lateinit var getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase
 
+    private val unlockCounterPauseReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            intent?.let {
+                if (intent.action == UNLOCK_COUNTER_PAUSE_CHANGED) {
+                    serviceScope.launch {
+                        val isUnlockCounterPaused = intent.getBooleanExtra(
+                            EXTRA_IS_UNLOCK_COUNTER_PAUSED,
+                            false
+                        )
+
+                        if (isUnlockCounterPaused) {
+                            unregisterScreenEventReceivers()
+
+                            // We're adding a lock event for the data to be coherent as the service
+                            // will not be able to catch the lock event that is supposed to be
+                            // the one corresponding to the latest unlock event:
+                            addLockEventUseCase()
+                        } else {
+                            registerScreenEventReceivers()
+                        }
+
+                        try {
+                            notificationManager.notify(
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                                    FOREGROUND_SERVICE_ID
+                                else FOREGROUND_SERVICE_NOTIFICATION_ID,
+                                createNewServiceNotification(
+                                    getTodayUnlockEventsCountUseCase(),
+                                    getUnlockLimitAmountForTodayUseCase(),
+                                    isUnlockCounterPaused
+                                )
+                            )
+                        } catch (_: SecurityException) { /* no-op */ }
+                    }
+                }
+            }
+        }
+    }
+
     private val screenUnlockReceiver = ScreenUnlockReceiver().apply {
         onScreenUnlock = {
             serviceScope.launch {
@@ -70,8 +111,8 @@ class UnlockMasterService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        registerReceiver(screenUnlockReceiver, IntentFilter(Intent.ACTION_USER_PRESENT))
-        registerReceiver(screenLockReceiver, IntentFilter(Intent.ACTION_SCREEN_OFF))
+        registerScreenEventReceivers()
+        registerReceiver(unlockCounterPauseReceiver, IntentFilter(UNLOCK_COUNTER_PAUSE_CHANGED))
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -109,7 +150,8 @@ class UnlockMasterService : Service() {
 
     private fun createNewServiceNotification(
         todayUnlockEventsCount: Int,
-        todayUnlockLimit: Int
+        todayUnlockLimit: Int,
+        isUnlockCounterPaused: Boolean = false
     ): Notification {
         val notificationPendingIntent = PendingIntent.getActivity(
             applicationContext,
@@ -128,7 +170,11 @@ class UnlockMasterService : Service() {
             priority = NotificationCompat.PRIORITY_LOW
             setOngoing(true)
             setSmallIcon(R.drawable.ic_notification_icon)
-            setContentTitle(getString(R.string.app_name))
+            setContentTitle(
+                getString(
+                    if (isUnlockCounterPaused) R.string.unlock_master_paused else R.string.app_name
+                )
+            )
             setContentText(
                 getString(R.string.your_unlock_count_is, todayUnlockEventsCount, todayUnlockLimit)
             )
@@ -138,14 +184,24 @@ class UnlockMasterService : Service() {
     }
 
     override fun onDestroy() {
-        unregisterReceiver(screenUnlockReceiver)
-        unregisterReceiver(screenLockReceiver)
+        unregisterScreenEventReceivers()
+        unregisterReceiver(unlockCounterPauseReceiver)
 
         serviceScope.cancel(
             CancellationException("UnlockMasterService has been destroyed")
         )
 
         super.onDestroy()
+    }
+
+    private fun registerScreenEventReceivers() {
+        registerReceiver(screenUnlockReceiver, IntentFilter(Intent.ACTION_USER_PRESENT))
+        registerReceiver(screenLockReceiver, IntentFilter(Intent.ACTION_SCREEN_OFF))
+    }
+
+    private fun unregisterScreenEventReceivers() {
+        unregisterReceiver(screenUnlockReceiver)
+        unregisterReceiver(screenLockReceiver)
     }
 
     override fun onBind(intent: Intent): IBinder? = null

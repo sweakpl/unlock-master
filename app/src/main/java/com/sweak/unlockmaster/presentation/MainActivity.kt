@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
+import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
 import com.sweak.unlockmaster.presentation.introduction.background_work.WorkInBackgroundScreen
@@ -29,6 +30,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var userSessionRepository: UserSessionRepository
+
+    @Inject
+    lateinit var addUnlockEventUseCase: AddUnlockEventUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,9 +64,14 @@ class MainActivity : ComponentActivity() {
                         WorkInBackgroundScreen(
                             navController = navController,
                             onWorkInBackgroundAllowed = {
-                                startUnlockMasterService()
                                 lifecycleScope.launch {
+                                    // We're adding an unlock event for the data to be coherent as
+                                    // the next lock event that will be caught has to have
+                                    // a corresponding unlock event:
+                                    addUnlockEventUseCase()
+
                                     userSessionRepository.setIntroductionFinished()
+                                    startUnlockMasterService()
                                 }
                             }
                         )

@@ -50,6 +50,8 @@
     <string name="note_you_can_change_time_of_notifications">Note: you can always change the frequency and time of those notifications in the settings.</string>
     <string name="lets_go">Let\'s go!</string>
     <string name="setup_complete">Setup complete</string>
+    <string name="unlocks">Unlocks</string>
+    <string name="unlock_master_paused">UnlockMaster (paused)</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>
@@ -66,5 +68,6 @@
     <string name="content_description_mobilizing_notification_image">Mobilizing notification image</string>
     <string name="content_description_wrapup_notification_image">Notification reminding about daily wrap-up image</string>
     <string name="content_description_menu_icon">Menu icon</string>
-    <string name="unlocks">Unlocks</string>
+    <string name="content_description_play_icon">Play icon</string>
+    <string name="content_description_pause_icon">Pause icon</string>
 </resources>

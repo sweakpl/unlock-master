@@ -1,5 +1,6 @@
 package com.sweak.unlockmaster.presentation.main.home
 
+import android.content.Intent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,6 +26,8 @@ import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
+import com.sweak.unlockmaster.presentation.unlock_counter_service.EXTRA_IS_UNLOCK_COUNTER_PAUSED
+import com.sweak.unlockmaster.presentation.unlock_counter_service.UNLOCK_COUNTER_PAUSE_CHANGED
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -87,7 +92,7 @@ fun HomeScreen(
 
                     CircularProgressIndicator(
                         progress = homeScreenState.run {
-                            unlockCount!!.toFloat() / unlockLimit!!.toFloat()
+                            unlockCount.toFloat() / unlockLimit.toFloat()
                         },
                         color = MaterialTheme.colors.primaryVariant,
                         strokeWidth = progressBarStrokeWidth,
@@ -120,13 +125,32 @@ fun HomeScreen(
                         )
                     }
 
+                    val context = LocalContext.current
+
                     IconButton(
-                        onClick = { /* pause the unlock counter */ },
+                        onClick = {
+                            homeViewModel.onEvent(
+                                HomeScreenEvent.UnlockCounterPauseChanged {
+                                    context.sendBroadcast(
+                                        Intent(
+                                            UNLOCK_COUNTER_PAUSE_CHANGED
+                                        ).apply {
+                                            putExtra(EXTRA_IS_UNLOCK_COUNTER_PAUSED, it)
+                                        }
+                                    )
+                                }
+                            )
+                        },
                         modifier = Modifier.align(Alignment.TopStart)
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.Pause,
-                            contentDescription = null
+                            imageVector =
+                            if (homeScreenState.isUnlockCounterPaused) Icons.Filled.PlayArrow
+                            else Icons.Filled.Pause,
+                            contentDescription =
+                            if (homeScreenState.isUnlockCounterPaused)
+                                stringResource(R.string.content_description_play_icon)
+                            else stringResource(R.string.content_description_pause_icon)
                         )
                     }
                 }
