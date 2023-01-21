@@ -65,4 +65,6 @@
     <string name="content_description_service_notification_image">Notification indicating working background service image</string>
     <string name="content_description_mobilizing_notification_image">Mobilizing notification image</string>
     <string name="content_description_wrapup_notification_image">Notification reminding about daily wrap-up image</string>
+    <string name="content_description_menu_icon">Menu icon</string>
+    <string name="unlocks">Unlocks</string>
 </resources>
