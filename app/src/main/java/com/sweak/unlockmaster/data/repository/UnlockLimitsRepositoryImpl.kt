@@ -28,4 +28,11 @@ class UnlockLimitsRepositoryImpl(
 
     override suspend fun getCurrentUnlockLimit(currentTimeInMillis: Long): UnlockLimit? =
         unlockLimitsDao.getCurrentUnlockLimit(currentTimeInMillis = currentTimeInMillis)
+
+    override suspend fun getUnlockLimitWithApplianceDay(
+        limitApplianceDayTimeInMillis: Long
+    ): UnlockLimit? =
+        unlockLimitsDao.getUnlockLimitWithApplianceDay(
+            limitApplianceDayTimeInMillis = limitApplianceDayTimeInMillis
+        )
 }

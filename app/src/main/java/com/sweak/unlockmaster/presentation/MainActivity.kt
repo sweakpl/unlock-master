@@ -6,12 +6,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
 import com.sweak.unlockmaster.presentation.common.Screen
+import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_IS_UPDATING_EXISTING_UNLOCK_LIMIT
 import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
 import com.sweak.unlockmaster.presentation.introduction.background_work.WorkInBackgroundScreen
 import com.sweak.unlockmaster.presentation.introduction.introduction.IntroductionScreen
@@ -56,8 +59,22 @@ class MainActivity : ComponentActivity() {
                         IntroductionScreen(navController = navController)
                     }
 
-                    composable(route = Screen.UnlockLimitSetupScreen.route) {
-                        UnlockLimitSetupScreen(navController = navController)
+                    composable(
+                        route = Screen.UnlockLimitSetupScreen.route
+                                + "/{$KEY_IS_UPDATING_EXISTING_UNLOCK_LIMIT}",
+                        arguments = listOf(
+                            navArgument(KEY_IS_UPDATING_EXISTING_UNLOCK_LIMIT) {
+                                type = NavType.BoolType
+                                defaultValue = true
+                                nullable = false
+                            }
+                        )
+                    ) {
+                        UnlockLimitSetupScreen(
+                            navController = navController,
+                            isUpdatingExistingUnlockLimit =
+                            it.arguments?.getBoolean(KEY_IS_UPDATING_EXISTING_UNLOCK_LIMIT) ?: true
+                        )
                     }
 
                     composable(route = Screen.WorkInBackgroundScreen.route) {
@@ -82,7 +99,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable(route = Screen.HomeScreen.route) {
-                        HomeScreen()
+                        HomeScreen(navController = navController)
                     }
                 }
             }

@@ -70,4 +70,8 @@
     <string name="content_description_menu_icon">Menu icon</string>
     <string name="content_description_play_icon">Play icon</string>
     <string name="content_description_pause_icon">Pause icon</string>
+    <string name="todays_unlock_limit">Today\'s unlock limit:</string>
+    <string name="set_new">Set new</string>
+    <string name="update_your_unlock_limit">Update your unlock limit</string>
+    <string name="update_your_unlock_limit_description">"You can change your unlock limit to better suit your smartphone usage style. The new unlock limit will take  effect tomorrow: "</string>
 </resources>

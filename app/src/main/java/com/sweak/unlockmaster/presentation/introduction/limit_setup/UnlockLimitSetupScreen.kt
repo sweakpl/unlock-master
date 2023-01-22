@@ -34,13 +34,18 @@ import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
 @Composable
 fun UnlockLimitSetupScreen(
     unlockLimitSetupViewModel: UnlockLimitSetupViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
+    isUpdatingExistingUnlockLimit: Boolean
 ) {
     val context = LocalContext.current
 
     LaunchedEffect(key1 = context) {
         unlockLimitSetupViewModel.unlockEventsSubmittedEvents.collect {
-            navController.navigate(Screen.WorkInBackgroundScreen.route)
+            if (isUpdatingExistingUnlockLimit) {
+                navController.popBackStack()
+            } else {
+                navController.navigate(Screen.WorkInBackgroundScreen.route)
+            }
         }
     }
 
@@ -64,7 +69,10 @@ fun UnlockLimitSetupScreen(
                     .verticalScroll(rememberScrollState())
             ) {
                 Text(
-                    text = stringResource(R.string.set_up_unlock_limit),
+                    text = stringResource(
+                        if (isUpdatingExistingUnlockLimit) R.string.update_your_unlock_limit
+                        else R.string.set_up_unlock_limit
+                    ),
                     style = MaterialTheme.typography.h1,
                     modifier = Modifier
                         .padding(
@@ -76,7 +84,11 @@ fun UnlockLimitSetupScreen(
                 )
 
                 Text(
-                    text = stringResource(R.string.set_up_unlock_limit_description),
+                    text = stringResource(
+                        if (isUpdatingExistingUnlockLimit)
+                            R.string.update_your_unlock_limit_description
+                        else R.string.set_up_unlock_limit_description
+                    ),
                     style = MaterialTheme.typography.subtitle1,
                     modifier = Modifier
                         .padding(
@@ -90,7 +102,9 @@ fun UnlockLimitSetupScreen(
                     pickedNumber = pickedUnlockLimit,
                     numbersRange = IntRange(start = 10, endInclusive = 70),
                     onNewNumberPicked = { newUnlockLimit ->
-                        unlockLimitSetupViewModel.pickNewUnlockLimit(newUnlockLimit)
+                        unlockLimitSetupViewModel.onEvent(
+                            UnlockLimitSetupScreenEvent.NewUnlockLimitPicked(newUnlockLimit)
+                        )
                     },
                     modifier = Modifier
                         .padding(
@@ -182,7 +196,13 @@ fun UnlockLimitSetupScreen(
 
             ProceedButton(
                 text = stringResource(R.string.confirm),
-                onClick = { unlockLimitSetupViewModel.submitUnlockLimitForToday() },
+                onClick = {
+                    unlockLimitSetupViewModel.onEvent(
+                        UnlockLimitSetupScreenEvent.SelectedUnlockLimitSubmitted(
+                            isUpdating = isUpdatingExistingUnlockLimit
+                        )
+                    )
+                },
                 modifier = Modifier.padding(all = MaterialTheme.space.medium)
             )
         }

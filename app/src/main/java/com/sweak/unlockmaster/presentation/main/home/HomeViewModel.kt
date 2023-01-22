@@ -7,9 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sweak.unlockmaster.domain.use_case.IsUnlockCounterPaused
 import com.sweak.unlockmaster.domain.use_case.SetUnlockCounterPause
-import com.sweak.unlockmaster.domain.use_case.lock_events.AddLockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetTodayUnlockEventsCountUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
+import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTomorrowUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -19,6 +19,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getTodayUnlockEventsCountUseCase: GetTodayUnlockEventsCountUseCase,
     private val getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase,
+    private val getUnlockLimitAmountForTomorrowUseCase: GetUnlockLimitAmountForTomorrowUseCase,
     private val setUnlockCounterPause: SetUnlockCounterPause,
     private val isUnlockCounterPaused: IsUnlockCounterPaused
 ) : ViewModel() {

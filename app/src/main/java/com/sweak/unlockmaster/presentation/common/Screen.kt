@@ -7,4 +7,17 @@ sealed class Screen(val route: String) {
     object WorkInBackgroundScreen: Screen("work_in_background_screen")
     object SetupCompleteScreen: Screen("setup_complete_screen")
     object HomeScreen: Screen("home_screen")
+
+    fun withArguments(vararg arguments: String): String {
+        return buildString {
+            append(route)
+            arguments.forEach { argument ->
+                append("/$argument")
+            }
+        }
+    }
+
+    companion object {
+        const val KEY_IS_UPDATING_EXISTING_UNLOCK_LIMIT = "isUpdatingExistingUnlockLimit"
+    }
 }

@@ -114,7 +114,11 @@ fun IntroductionScreen(navController: NavController) {
 
             ProceedButton(
                 text = stringResource(R.string.got_it),
-                onClick = { navController.navigate(Screen.UnlockLimitSetupScreen.route) },
+                onClick = {
+                    navController.navigate(
+                        Screen.UnlockLimitSetupScreen.withArguments(false.toString())
+                    )
+                },
                 modifier = Modifier.padding(all = MaterialTheme.space.medium)
             )
         }

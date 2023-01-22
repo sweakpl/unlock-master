@@ -21,4 +21,10 @@ interface UnlockLimitsDao {
                 "WHERE limitApplianceDayTimeInMillis < :currentTimeInMillis)"
     )
     suspend fun getCurrentUnlockLimit(currentTimeInMillis: Long): UnlockLimit?
+
+    @Query(
+        "SELECT * FROM unlock_limit " +
+                "WHERE limitApplianceDayTimeInMillis = :limitApplianceDayTimeInMillis"
+    )
+    suspend fun getUnlockLimitWithApplianceDay(limitApplianceDayTimeInMillis: Long): UnlockLimit?
 }
