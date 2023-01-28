@@ -5,9 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sweak.unlockmaster.domain.use_case.unlock_limits.AddOrUpdateUnlockLimitForTodayUseCase
-import com.sweak.unlockmaster.domain.use_case.unlock_limits.AddOrUpdateUnlockLimitForTomorrowUseCase
-import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
+import com.sweak.unlockmaster.domain.use_case.unlock_limits.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -18,27 +16,38 @@ import javax.inject.Inject
 class UnlockLimitSetupViewModel @Inject constructor(
     private val addOrUpdateUnlockLimitForTodayUseCase: AddOrUpdateUnlockLimitForTodayUseCase,
     private val addOrUpdateUnlockLimitForTomorrowUseCase: AddOrUpdateUnlockLimitForTomorrowUseCase,
-    private val getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase
+    private val getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase,
+    private val getUnlockLimitAmountForTomorrowUseCase: GetUnlockLimitAmountForTomorrowUseCase,
+    private val deleteUnlockLimitForTomorrowUseCase: DeleteUnlockLimitForTomorrowUseCase
 ) : ViewModel() {
 
-    var pickedUnlockLimit by mutableStateOf<Int?>(null)
+    var state by mutableStateOf(UnlockLimitSetupScreenState())
 
     private val unlockLimitSubmittedEventsChannel = Channel<UnlockLimitSubmittedEvent>()
     val unlockEventsSubmittedEvents = unlockLimitSubmittedEventsChannel.receiveAsFlow()
 
     init {
         viewModelScope.launch {
-            pickedUnlockLimit = getUnlockLimitAmountForTodayUseCase()
+            val unlockLimitForToday = getUnlockLimitAmountForTodayUseCase()
+            val unlockLimitForTomorrow = getUnlockLimitAmountForTomorrowUseCase()
+
+            state = state.copy(
+                pickedUnlockLimit = unlockLimitForToday,
+                unlockLimitForTomorrow =
+                if (unlockLimitForTomorrow != null && unlockLimitForToday != unlockLimitForTomorrow)
+                    unlockLimitForTomorrow
+                else null
+            )
         }
     }
 
     fun onEvent(event: UnlockLimitSetupScreenEvent) {
         when (event) {
             is UnlockLimitSetupScreenEvent.NewUnlockLimitPicked -> {
-                pickedUnlockLimit = event.newUnlockLimit
+                state = state.copy(pickedUnlockLimit = event.newUnlockLimit)
             }
             is UnlockLimitSetupScreenEvent.SelectedUnlockLimitSubmitted -> {
-                pickedUnlockLimit?.let {
+                state.pickedUnlockLimit?.let {
                     viewModelScope.launch {
                         if (event.isUpdating) {
                             addOrUpdateUnlockLimitForTomorrowUseCase(limitAmount = it)
@@ -46,9 +55,20 @@ class UnlockLimitSetupViewModel @Inject constructor(
                         } else {
                             addOrUpdateUnlockLimitForTodayUseCase(limitAmount = it)
                             unlockLimitSubmittedEventsChannel.send(UnlockLimitSubmittedEvent)
-
                         }
                     }
+                }
+            }
+            is UnlockLimitSetupScreenEvent.RemoveUnlockLimitForTomorrowDialogVisibilityChanged -> {
+                state = state.copy(isRemoveUnlockLimitForTomorrowDialogVisible = event.isVisible)
+            }
+            is UnlockLimitSetupScreenEvent.ConfirmRemoveUnlockLimitForTomorrow -> {
+                viewModelScope.launch {
+                    deleteUnlockLimitForTomorrowUseCase()
+                    state = state.copy(
+                        unlockLimitForTomorrow = null,
+                        isRemoveUnlockLimitForTomorrowDialogVisible = false
+                    )
                 }
             }
         }

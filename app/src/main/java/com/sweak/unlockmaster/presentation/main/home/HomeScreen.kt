@@ -2,11 +2,10 @@ package com.sweak.unlockmaster.presentation.main.home
 
 import android.content.Intent
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pause
@@ -175,47 +174,108 @@ fun HomeScreen(
                                 bottom = MaterialTheme.space.small
                             )
                     ) {
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(all = MaterialTheme.space.medium)
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(all = MaterialTheme.space.medium)
                         ) {
-                            Column {
-                                Text(
-                                    text = stringResource(R.string.todays_unlock_limit),
-                                    style = MaterialTheme.typography.h4
-                                )
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        bottom =
+                                        if (homeScreenState.unlockLimitForTomorrow != null)
+                                            MaterialTheme.space.smallMedium
+                                        else MaterialTheme.space.default
+                                    )
+                            ) {
+                                Column {
+                                    Text(
+                                        text = stringResource(R.string.todays_unlock_limit),
+                                        style = MaterialTheme.typography.h4
+                                    )
 
-                                Text(
-                                    text = homeScreenState.unlockLimit.toString(),
-                                    style = MaterialTheme.typography.h2
-                                )
-                            }
-
-                            Button(
-                                onClick = {
-                                    navController.navigate(
-                                        Screen.UnlockLimitSetupScreen.withArguments(
-                                            true.toString()
-                                        )
+                                    Text(
+                                        text = homeScreenState.unlockLimit.toString(),
+                                        style = MaterialTheme.typography.h2
                                     )
                                 }
-                            ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(
-                                        text = stringResource(R.string.set_new),
-                                        style = MaterialTheme.typography.subtitle1,
-                                        modifier = Modifier.padding(end = MaterialTheme.space.small)
-                                    )
 
-                                    Icon(
-                                        imageVector = Icons.Outlined.NavigateNext,
-                                        contentDescription = stringResource(
-                                            R.string.content_description_next_icon
+                                Button(
+                                    onClick = {
+                                        navController.navigate(
+                                            Screen.UnlockLimitSetupScreen.withArguments(
+                                                true.toString()
+                                            )
                                         )
-                                    )
+                                    }
+                                ) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = stringResource(R.string.set_new),
+                                            style = MaterialTheme.typography.subtitle1,
+                                            modifier = Modifier
+                                                .padding(end = MaterialTheme.space.small)
+                                        )
+
+                                        Icon(
+                                            imageVector = Icons.Outlined.NavigateNext,
+                                            contentDescription = stringResource(
+                                                R.string.content_description_next_icon
+                                            )
+                                        )
+                                    }
+                                }
+                            }
+
+                            AnimatedVisibility(
+                                visible = homeScreenState.unlockLimitForTomorrow != null,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Card(
+                                    backgroundColor = Color.Transparent,
+                                    border = BorderStroke(
+                                        width = 2.dp,
+                                        color = MaterialTheme.colors.secondary
+                                    ),
+                                    elevation = MaterialTheme.space.default,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clickable {
+                                            navController.navigate(
+                                                Screen.UnlockLimitSetupScreen.withArguments(
+                                                    true.toString()
+                                                )
+                                            )
+                                        }
+                                ) {
+                                    Row(
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier.padding(
+                                            horizontal = MaterialTheme.space.smallMedium,
+                                            vertical = MaterialTheme.space.small
+                                        )
+                                    ) {
+                                        Text(
+                                            text = stringResource(
+                                                R.string.new_unlock_limit_set_for_tomorrow
+                                            ),
+                                            style = MaterialTheme.typography.subtitle2,
+                                            modifier = Modifier
+                                                .padding(end = MaterialTheme.space.small)
+                                        )
+
+                                        Text(
+                                            text =
+                                            homeScreenState.unlockLimitForTomorrow?.toString() ?: "",
+                                            style = MaterialTheme.typography.h2
+                                        )
+                                    }
                                 }
                             }
                         }

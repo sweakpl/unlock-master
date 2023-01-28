@@ -4,13 +4,13 @@ import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.repository.UnlockLimitsRepository
 import javax.inject.Inject
 
-class GetUnlockLimitAmountForTomorrowUseCase @Inject constructor(
+class DeleteUnlockLimitForTomorrowUseCase @Inject constructor(
     private val unlockLimitsRepository: UnlockLimitsRepository,
     private val timeRepository: TimeRepository
 ) {
-    suspend operator fun invoke(): Int? {
-        return unlockLimitsRepository.getUnlockLimitWithApplianceDay(
+    suspend operator fun invoke() {
+        unlockLimitsRepository.deleteUnlockLimitWithApplianceDay(
             limitApplianceDayTimeInMillis = timeRepository.getTomorrowBeginningTimeInMillis()
-        )?.limitAmount
+        )
     }
 }

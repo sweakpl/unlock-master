@@ -32,11 +32,16 @@ class HomeViewModel @Inject constructor(
         // before we post them to the UI:
         delay(1000)
 
+        val unlockLimitForToday = getUnlockLimitAmountForTodayUseCase()
+        val unlockLimitForTomorrow = getUnlockLimitAmountForTomorrowUseCase()
+
         state = state.copy(
             isInitializing = false,
             unlockCount = getTodayUnlockEventsCountUseCase(),
-            unlockLimit = getUnlockLimitAmountForTodayUseCase(),
-            isUnlockCounterPaused = isUnlockCounterPaused()
+            unlockLimit = unlockLimitForToday,
+            isUnlockCounterPaused = isUnlockCounterPaused(),
+            unlockLimitForTomorrow =
+            if (unlockLimitForTomorrow != unlockLimitForToday) unlockLimitForTomorrow else null
         )
     }
 

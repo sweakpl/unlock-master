@@ -7,4 +7,5 @@ interface UnlockLimitsRepository {
     suspend fun updateUnlockLimit(limitApplianceDayTimeInMillis: Long, limitAmount: Int)
     suspend fun getCurrentUnlockLimit(currentTimeInMillis: Long): UnlockLimit?
     suspend fun getUnlockLimitWithApplianceDay(limitApplianceDayTimeInMillis: Long): UnlockLimit?
+    suspend fun deleteUnlockLimitWithApplianceDay(limitApplianceDayTimeInMillis: Long)
 }

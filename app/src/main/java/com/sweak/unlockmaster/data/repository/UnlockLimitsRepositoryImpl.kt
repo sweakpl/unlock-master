@@ -35,4 +35,12 @@ class UnlockLimitsRepositoryImpl(
         unlockLimitsDao.getUnlockLimitWithApplianceDay(
             limitApplianceDayTimeInMillis = limitApplianceDayTimeInMillis
         )
+
+    override suspend fun deleteUnlockLimitWithApplianceDay(limitApplianceDayTimeInMillis: Long) {
+        unlockLimitsDao.getUnlockLimitWithApplianceDay(
+            limitApplianceDayTimeInMillis = limitApplianceDayTimeInMillis
+        )?.let {
+            unlockLimitsDao.delete(it)
+        }
+    }
 }

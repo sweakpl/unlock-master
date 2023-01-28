@@ -74,4 +74,10 @@
     <string name="set_new">Set new</string>
     <string name="update_your_unlock_limit">Update your unlock limit</string>
     <string name="update_your_unlock_limit_description">"You can change your unlock limit to better suit your smartphone usage style. The new unlock limit will take  effect tomorrow: "</string>
+    <string name="new_unlock_limit_set_for_tomorrow">New unlock limit is already set for tomorrow:</string>
+    <string name="remove_tomorrow_unlock_limit">Remove tomorrow’s new unlock limit?</string>
+    <string name="remove_tomorrow_unlock_limit_description">Are you sure you want to cancel the new unlock limit that would take effect tomorrow?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="content_description_delete_icon">Trash can icon indicating deleting</string>
 </resources>

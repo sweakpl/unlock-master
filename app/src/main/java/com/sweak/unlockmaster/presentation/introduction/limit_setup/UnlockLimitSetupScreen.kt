@@ -5,15 +5,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ModeEdit
 import androidx.compose.material.icons.filled.MyLocation
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.Screen
+import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.introduction.components.InformationCard
@@ -49,7 +49,7 @@ fun UnlockLimitSetupScreen(
         }
     }
 
-    val pickedUnlockLimit = unlockLimitSetupViewModel.pickedUnlockLimit
+    val unlockLimitSetupScreenState = unlockLimitSetupViewModel.state
 
     Column(
         modifier = Modifier.background(color = MaterialTheme.colors.background)
@@ -99,7 +99,7 @@ fun UnlockLimitSetupScreen(
                 )
 
                 NumberPickerSlider(
-                    pickedNumber = pickedUnlockLimit,
+                    pickedNumber = unlockLimitSetupScreenState.pickedUnlockLimit,
                     numbersRange = IntRange(start = 10, endInclusive = 70),
                     onNewNumberPicked = { newUnlockLimit ->
                         unlockLimitSetupViewModel.onEvent(
@@ -110,19 +110,74 @@ fun UnlockLimitSetupScreen(
                         .padding(
                             start = MaterialTheme.space.medium,
                             end = MaterialTheme.space.medium,
-                            bottom = MaterialTheme.space.xLarge,
+                            bottom = MaterialTheme.space.large,
                         )
                 )
+
+                if (unlockLimitSetupScreenState.unlockLimitForTomorrow != null) {
+                    Card(
+                        backgroundColor = Color.Transparent,
+                        border = BorderStroke(
+                            width = 2.dp,
+                            color = MaterialTheme.colors.secondary
+                        ),
+                        elevation = MaterialTheme.space.default,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                start = MaterialTheme.space.medium,
+                                end = MaterialTheme.space.medium,
+                                bottom = MaterialTheme.space.small
+                            )
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(
+                                horizontal = MaterialTheme.space.smallMedium,
+                                vertical = MaterialTheme.space.small
+                            )
+                        ) {
+                            Column {
+                                Text(
+                                    text = stringResource(
+                                        R.string.new_unlock_limit_set_for_tomorrow
+                                    ),
+                                    style = MaterialTheme.typography.subtitle2
+                                )
+
+                                Text(
+                                    text =
+                                    unlockLimitSetupScreenState.unlockLimitForTomorrow.toString(),
+                                    style = MaterialTheme.typography.h2
+                                )
+                            }
+
+                            IconButton(
+                                onClick = {
+                                    unlockLimitSetupViewModel.onEvent(
+                                        UnlockLimitSetupScreenEvent.RemoveUnlockLimitForTomorrowDialogVisibilityChanged(
+                                            isVisible = true
+                                        )
+                                    )
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Delete,
+                                    contentDescription = stringResource(
+                                        R.string.content_description_delete_icon
+                                    ),
+                                    modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
+                                )
+                            }
+                        }
+                    }
+                }
 
                 Text(
                     text = stringResource(R.string.unlock_limit_purposes),
                     style = MaterialTheme.typography.h3,
-                    modifier = Modifier
-                        .padding(
-                            start = MaterialTheme.space.medium,
-                            end = MaterialTheme.space.medium,
-                            bottom = MaterialTheme.space.small
-                        )
+                    modifier = Modifier.padding(all = MaterialTheme.space.medium)
                 )
 
                 InformationCard(
@@ -206,5 +261,26 @@ fun UnlockLimitSetupScreen(
                 modifier = Modifier.padding(all = MaterialTheme.space.medium)
             )
         }
+    }
+
+    if (unlockLimitSetupScreenState.isRemoveUnlockLimitForTomorrowDialogVisible) {
+        Dialog(
+            title = stringResource(R.string.remove_tomorrow_unlock_limit),
+            message = stringResource(R.string.remove_tomorrow_unlock_limit_description),
+            onDismissRequest = {
+                unlockLimitSetupViewModel.onEvent(
+                    UnlockLimitSetupScreenEvent.RemoveUnlockLimitForTomorrowDialogVisibilityChanged(
+                        isVisible = false
+                    )
+                )
+            },
+            onPositiveClick = {
+                unlockLimitSetupViewModel.onEvent(
+                    UnlockLimitSetupScreenEvent.ConfirmRemoveUnlockLimitForTomorrow
+                )
+            },
+            positiveButtonText = stringResource(R.string.yes),
+            negativeButtonText = stringResource(R.string.no)
+        )
     }
 }

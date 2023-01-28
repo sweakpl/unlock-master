@@ -1,9 +1,6 @@
 package com.sweak.unlockmaster.data.local.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.sweak.unlockmaster.data.local.database.entities.UnlockLimit
 
 @Dao
@@ -14,6 +11,9 @@ interface UnlockLimitsDao {
 
     @Update
     suspend fun update(unlockLimit: UnlockLimit)
+
+    @Delete
+    suspend fun delete(unlockLimit: UnlockLimit)
 
     @Query(
         "SELECT * FROM unlock_limit WHERE limitApplianceDayTimeInMillis = " +
