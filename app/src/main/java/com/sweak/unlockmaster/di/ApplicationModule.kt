@@ -1,6 +1,8 @@
 package com.sweak.unlockmaster.di
 
 import android.app.Application
+import android.app.KeyguardManager
+import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import androidx.room.Room
 import com.sweak.unlockmaster.data.local.database.UnlockMasterDatabase
@@ -20,9 +22,12 @@ import javax.inject.Singleton
 object ApplicationModule {
 
     @Provides
-    @Singleton
     fun provideNotificationManager(app: Application): NotificationManagerCompat =
         NotificationManagerCompat.from(app)
+
+    @Provides
+    fun provideKeyguardManager(app: Application): KeyguardManager =
+        app.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 
     @Provides
     @Singleton

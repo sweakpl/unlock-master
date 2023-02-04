@@ -18,19 +18,15 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/Theme.UnlockMaster">
-
             <intent-filter>
-
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
 
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
         </activity>
 
         <service
@@ -42,13 +38,18 @@
         <receiver
             android:name=".presentation.unlock_counter_service.ScreenUnlockReceiver"
             android:exported="true">
-
             <intent-filter>
-
                 <action android:name="android.intent.action.USER_PRESENT" />
-
             </intent-filter>
+        </receiver>
 
+        <receiver
+            android:name=".presentation.unlock_counter_service.BootReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
         </receiver>
 
     </application>
