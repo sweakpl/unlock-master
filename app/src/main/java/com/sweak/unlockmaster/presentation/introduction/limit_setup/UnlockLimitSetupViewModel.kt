@@ -32,7 +32,7 @@ class UnlockLimitSetupViewModel @Inject constructor(
             val unlockLimitForTomorrow = getUnlockLimitAmountForTomorrowUseCase()
 
             state = state.copy(
-                pickedUnlockLimit = unlockLimitForToday,
+                pickedUnlockLimit = unlockLimitForTomorrow ?: unlockLimitForToday,
                 unlockLimitForTomorrow =
                 if (unlockLimitForTomorrow != null && unlockLimitForToday != unlockLimitForTomorrow)
                     unlockLimitForTomorrow
