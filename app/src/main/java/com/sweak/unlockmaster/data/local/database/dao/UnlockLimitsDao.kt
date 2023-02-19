@@ -1,30 +1,30 @@
 package com.sweak.unlockmaster.data.local.database.dao
 
 import androidx.room.*
-import com.sweak.unlockmaster.data.local.database.entities.UnlockLimit
+import com.sweak.unlockmaster.data.local.database.entities.UnlockLimitEntity
 
 @Dao
 interface UnlockLimitsDao {
 
     @Insert
-    suspend fun insert(unlockLimit: UnlockLimit)
+    suspend fun insert(unlockLimitEntity: UnlockLimitEntity)
 
     @Update
-    suspend fun update(unlockLimit: UnlockLimit)
+    suspend fun update(unlockLimitEntity: UnlockLimitEntity)
 
     @Delete
-    suspend fun delete(unlockLimit: UnlockLimit)
+    suspend fun delete(unlockLimitEntity: UnlockLimitEntity)
 
     @Query(
         "SELECT * FROM unlock_limit WHERE limitApplianceDayTimeInMillis = " +
                 "(SELECT MAX(limitApplianceDayTimeInMillis) FROM unlock_limit " +
                 "WHERE limitApplianceDayTimeInMillis < :currentTimeInMillis)"
     )
-    suspend fun getCurrentUnlockLimit(currentTimeInMillis: Long): UnlockLimit?
+    suspend fun getCurrentUnlockLimit(currentTimeInMillis: Long): UnlockLimitEntity?
 
     @Query(
         "SELECT * FROM unlock_limit " +
                 "WHERE limitApplianceDayTimeInMillis = :limitApplianceDayTimeInMillis"
     )
-    suspend fun getUnlockLimitWithApplianceDay(limitApplianceDayTimeInMillis: Long): UnlockLimit?
+    suspend fun getUnlockLimitWithApplianceDay(limitApplianceDayTimeInMillis: Long): UnlockLimitEntity?
 }

@@ -1,7 +1,7 @@
 package com.sweak.unlockmaster.data.repository
 
 import com.sweak.unlockmaster.data.local.database.dao.UnlockLimitsDao
-import com.sweak.unlockmaster.data.local.database.entities.UnlockLimit
+import com.sweak.unlockmaster.data.local.database.entities.UnlockLimitEntity
 import com.sweak.unlockmaster.domain.repository.UnlockLimitsRepository
 
 class UnlockLimitsRepositoryImpl(
@@ -10,7 +10,7 @@ class UnlockLimitsRepositoryImpl(
 
     override suspend fun addUnlockLimit(limitApplianceDayTimeInMillis: Long, limitAmount: Int) {
         unlockLimitsDao.insert(
-            UnlockLimit(
+            UnlockLimitEntity(
                 limitApplianceDayTimeInMillis = limitApplianceDayTimeInMillis,
                 limitAmount = limitAmount
             )
@@ -19,19 +19,19 @@ class UnlockLimitsRepositoryImpl(
 
     override suspend fun updateUnlockLimit(limitApplianceDayTimeInMillis: Long, limitAmount: Int) {
         unlockLimitsDao.update(
-            UnlockLimit(
+            UnlockLimitEntity(
                 limitApplianceDayTimeInMillis = limitApplianceDayTimeInMillis,
                 limitAmount = limitAmount
             )
         )
     }
 
-    override suspend fun getCurrentUnlockLimit(currentTimeInMillis: Long): UnlockLimit? =
+    override suspend fun getCurrentUnlockLimit(currentTimeInMillis: Long): UnlockLimitEntity? =
         unlockLimitsDao.getCurrentUnlockLimit(currentTimeInMillis = currentTimeInMillis)
 
     override suspend fun getUnlockLimitWithApplianceDay(
         limitApplianceDayTimeInMillis: Long
-    ): UnlockLimit? =
+    ): UnlockLimitEntity? =
         unlockLimitsDao.getUnlockLimitWithApplianceDay(
             limitApplianceDayTimeInMillis = limitApplianceDayTimeInMillis
         )

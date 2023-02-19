@@ -4,6 +4,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "unlock_event")
-data class UnlockEvent(
+data class UnlockEventEntity(
     @PrimaryKey val timeInMillis: Long
 )

@@ -80,4 +80,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="content_description_delete_icon">Trash can icon indicating deleting</string>
+    <string name="todays_screen_time">Today\'s screen time:</string>
+    <string name="details">Details</string>
+    <string name="hours_and_minutes_amount">%1$dh %2$dmin</string>
 </resources>

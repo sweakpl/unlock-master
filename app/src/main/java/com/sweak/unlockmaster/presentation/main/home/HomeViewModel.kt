@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sweak.unlockmaster.domain.use_case.IsUnlockCounterPaused
 import com.sweak.unlockmaster.domain.use_case.SetUnlockCounterPause
+import com.sweak.unlockmaster.domain.use_case.screen_time.GetTodayHoursAndMinutesScreenTimePair
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetTodayUnlockEventsCountUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTomorrowUseCase
@@ -21,16 +22,17 @@ class HomeViewModel @Inject constructor(
     private val getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase,
     private val getUnlockLimitAmountForTomorrowUseCase: GetUnlockLimitAmountForTomorrowUseCase,
     private val setUnlockCounterPause: SetUnlockCounterPause,
-    private val isUnlockCounterPaused: IsUnlockCounterPaused
+    private val isUnlockCounterPaused: IsUnlockCounterPaused,
+    private val getTodayHoursAndMinutesScreenTimePair: GetTodayHoursAndMinutesScreenTimePair
 ) : ViewModel() {
 
     var state by mutableStateOf(HomeScreenState())
 
     fun refresh() = viewModelScope.launch {
-        // This one-second delay should give the UnlockMasterService enough time to update all
+        // This half a second delay should give the UnlockMasterService enough time to update all
         // values (in case of e.g. unlocking the screen and immediately landing on the HomeScreen)
         // before we post them to the UI:
-        delay(1000)
+        delay(500)
 
         val unlockLimitForToday = getUnlockLimitAmountForTodayUseCase()
         val unlockLimitForTomorrow = getUnlockLimitAmountForTomorrowUseCase()
@@ -41,7 +43,8 @@ class HomeViewModel @Inject constructor(
             unlockLimit = unlockLimitForToday,
             isUnlockCounterPaused = isUnlockCounterPaused(),
             unlockLimitForTomorrow =
-            if (unlockLimitForTomorrow != unlockLimitForToday) unlockLimitForTomorrow else null
+            if (unlockLimitForTomorrow != unlockLimitForToday) unlockLimitForTomorrow else null,
+            todayHoursAndMinutesScreenTimePair = getTodayHoursAndMinutesScreenTimePair()
         )
     }
 

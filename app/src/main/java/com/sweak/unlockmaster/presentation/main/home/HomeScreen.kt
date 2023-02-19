@@ -280,6 +280,63 @@ fun HomeScreen(
                             }
                         }
                     }
+
+                    Card(
+                        elevation = MaterialTheme.space.xSmall,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                start = MaterialTheme.space.medium,
+                                end = MaterialTheme.space.medium,
+                                bottom = MaterialTheme.space.small
+                            )
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(all = MaterialTheme.space.medium)
+                        ) {
+                            Column {
+                                Text(
+                                    text = stringResource(R.string.todays_screen_time),
+                                    style = MaterialTheme.typography.h4
+                                )
+
+                                Text(
+                                    text = stringResource(
+                                        R.string.hours_and_minutes_amount,
+                                        homeScreenState.todayHoursAndMinutesScreenTimePair.first,
+                                        homeScreenState.todayHoursAndMinutesScreenTimePair.second
+                                    ),
+                                    style = MaterialTheme.typography.h2
+                                )
+                            }
+
+                            Button(
+                                onClick = { /* TODO: redirect */ }
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.details),
+                                        style = MaterialTheme.typography.subtitle1,
+                                        modifier = Modifier
+                                            .padding(end = MaterialTheme.space.small)
+                                    )
+
+                                    Icon(
+                                        imageVector = Icons.Outlined.NavigateNext,
+                                        contentDescription = stringResource(
+                                            R.string.content_description_next_icon
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
             } else {
                 Box(modifier = Modifier.fillMaxHeight()) {
