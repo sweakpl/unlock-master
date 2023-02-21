@@ -16,6 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
 
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
         }
@@ -79,9 +80,14 @@ dependencies {
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
 
     // Permission handling
-    implementation "com.google.accompanist:accompanist-permissions:0.28.0"
+    implementation 'com.google.accompanist:accompanist-permissions:0.28.0'
 
     // Api >= 21 support for DateTime API
     // noinspection GradleDependency
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
+
+    // Test
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
 }

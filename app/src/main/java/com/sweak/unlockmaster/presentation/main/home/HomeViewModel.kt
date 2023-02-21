@@ -5,9 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sweak.unlockmaster.domain.use_case.IsUnlockCounterPaused
-import com.sweak.unlockmaster.domain.use_case.SetUnlockCounterPause
-import com.sweak.unlockmaster.domain.use_case.screen_time.GetTodayHoursAndMinutesScreenTimePair
+import com.sweak.unlockmaster.domain.use_case.IsUnlockCounterPausedUseCase
+import com.sweak.unlockmaster.domain.use_case.SetUnlockCounterPauseUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_time.GetTodayScreenTimeHoursAndMinutesUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetTodayUnlockEventsCountUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTomorrowUseCase
@@ -21,9 +21,9 @@ class HomeViewModel @Inject constructor(
     private val getTodayUnlockEventsCountUseCase: GetTodayUnlockEventsCountUseCase,
     private val getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase,
     private val getUnlockLimitAmountForTomorrowUseCase: GetUnlockLimitAmountForTomorrowUseCase,
-    private val setUnlockCounterPause: SetUnlockCounterPause,
-    private val isUnlockCounterPaused: IsUnlockCounterPaused,
-    private val getTodayHoursAndMinutesScreenTimePair: GetTodayHoursAndMinutesScreenTimePair
+    private val setUnlockCounterPauseUseCase: SetUnlockCounterPauseUseCase,
+    private val isUnlockCounterPausedUseCase: IsUnlockCounterPausedUseCase,
+    private val getTodayScreenTimeHoursAndMinutesUseCase: GetTodayScreenTimeHoursAndMinutesUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf(HomeScreenState())
@@ -41,19 +41,19 @@ class HomeViewModel @Inject constructor(
             isInitializing = false,
             unlockCount = getTodayUnlockEventsCountUseCase(),
             unlockLimit = unlockLimitForToday,
-            isUnlockCounterPaused = isUnlockCounterPaused(),
+            isUnlockCounterPaused = isUnlockCounterPausedUseCase(),
             unlockLimitForTomorrow =
             if (unlockLimitForTomorrow != unlockLimitForToday) unlockLimitForTomorrow else null,
-            todayHoursAndMinutesScreenTimePair = getTodayHoursAndMinutesScreenTimePair()
+            todayHoursAndMinutesScreenTimePair = getTodayScreenTimeHoursAndMinutesUseCase()
         )
     }
 
     fun onEvent(event: HomeScreenEvent) {
         when (event) {
             is HomeScreenEvent.UnlockCounterPauseChanged -> viewModelScope.launch {
-                val isUnlockCounterPaused = isUnlockCounterPaused()
+                val isUnlockCounterPaused = isUnlockCounterPausedUseCase()
 
-                setUnlockCounterPause(isPaused = !isUnlockCounterPaused)
+                setUnlockCounterPauseUseCase(isPaused = !isUnlockCounterPaused)
                 state = state.copy(isUnlockCounterPaused = !isUnlockCounterPaused)
                 event.pauseChangedCallback(!isUnlockCounterPaused)
             }

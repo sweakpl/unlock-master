@@ -8,7 +8,7 @@ import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.repository.UnlockEventsRepository
 import javax.inject.Inject
 
-class GetTodayHoursAndMinutesScreenTimePair @Inject constructor(
+class GetTodayScreenTimeHoursAndMinutesUseCase @Inject constructor(
     private val unlockEventsRepository: UnlockEventsRepository,
     private val lockEventsRepository: LockEventsRepository,
     private val timeRepository: TimeRepository
@@ -30,11 +30,14 @@ class GetTodayHoursAndMinutesScreenTimePair @Inject constructor(
 
         var screenTimeDuration = 0L
         var previousScreenEvent: ScreenEvent = screenEvents[0]
-        var previousSinceTime: Long = todayBeginningTimeInMillis
 
-        if (previousScreenEvent is LockEvent && screenEvents.size == 1) {
-            screenTimeDuration += previousScreenEvent.timeInMillis - previousSinceTime
+        if (previousScreenEvent is LockEvent) {
+            screenTimeDuration += previousScreenEvent.timeInMillis - todayBeginningTimeInMillis
         }
+
+        var previousSinceTime: Long =
+            if (previousScreenEvent is UnlockEvent) previousScreenEvent.timeInMillis
+            else todayBeginningTimeInMillis
 
         screenEvents.subList(1, screenEvents.size).forEach {
             if (it is UnlockEvent) {
