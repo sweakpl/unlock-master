@@ -22,4 +22,11 @@ class UnlockEventsRepositoryImpl(
         unlockEventsDao.getUnlockEventsSinceTime(sinceTimeInMillis = sinceTimeInMillis).map {
             UnlockEvent(unlockTimeInMillis = it.timeInMillis)
         }
+
+    override suspend fun getLatestUnlockEvent(): UnlockEvent? =
+        unlockEventsDao.getLatestUnlockEvent()?.let {
+            UnlockEvent(
+                unlockTimeInMillis = it.timeInMillis
+            )
+        }
 }

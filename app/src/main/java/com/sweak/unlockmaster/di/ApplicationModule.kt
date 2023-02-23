@@ -7,6 +7,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.room.Room
 import com.sweak.unlockmaster.data.local.database.UnlockMasterDatabase
 import com.sweak.unlockmaster.data.local.database.dao.LockEventsDao
+import com.sweak.unlockmaster.data.local.database.dao.ScreenOnEventsDao
 import com.sweak.unlockmaster.data.local.database.dao.UnlockEventsDao
 import com.sweak.unlockmaster.data.local.database.dao.UnlockLimitsDao
 import com.sweak.unlockmaster.data.repository.*
@@ -43,7 +44,7 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideUserSessionRepository(app: Application):UserSessionRepository =
+    fun provideUserSessionRepository(app: Application): UserSessionRepository =
         UserSessionRepositoryImpl(app)
 
     @Provides
@@ -55,6 +56,11 @@ object ApplicationModule {
     @Singleton
     fun provideLockEventsDao(database: UnlockMasterDatabase): LockEventsDao =
         database.lockEventsDao()
+
+    @Provides
+    @Singleton
+    fun provideScreenOnEventsDao(database: UnlockMasterDatabase): ScreenOnEventsDao =
+        database.screenOnEventsDao()
 
     @Provides
     @Singleton
@@ -70,6 +76,11 @@ object ApplicationModule {
     @Singleton
     fun provideLockEventsRepository(lockEventsDao: LockEventsDao): LockEventsRepository =
         LockEventsRepositoryImpl(lockEventsDao)
+
+    @Provides
+    @Singleton
+    fun provideScreenOnEventsRepository(screenOnEventsDao: ScreenOnEventsDao): ScreenOnEventsRepository =
+        ScreenOnEventsRepositoryImpl(screenOnEventsDao)
 
     @Provides
     @Singleton

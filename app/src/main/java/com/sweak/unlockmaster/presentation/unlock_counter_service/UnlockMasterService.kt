@@ -14,6 +14,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.domain.use_case.lock_events.AddLockEventUseCase
+import com.sweak.unlockmaster.domain.use_case.lock_events.ShouldAddLockEventUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_on_events.AddScreenOnEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetTodayUnlockEventsCountUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
@@ -35,6 +37,12 @@ class UnlockMasterService : Service() {
 
     @Inject
     lateinit var addLockEventUseCase: AddLockEventUseCase
+
+    @Inject
+    lateinit var shouldAddLockEventUseCase: ShouldAddLockEventUseCase
+
+    @Inject
+    lateinit var addScreenEventUseCase: AddScreenOnEventUseCase
 
     @Inject
     lateinit var getTodayUnlockEventsCountUseCase: GetTodayUnlockEventsCountUseCase
@@ -103,7 +111,17 @@ class UnlockMasterService : Service() {
     private val screenLockReceiver = ScreenLockReceiver().apply {
         onScreenLock = {
             serviceScope.launch {
-                addLockEventUseCase()
+                if (shouldAddLockEventUseCase()) {
+                    addLockEventUseCase()
+                }
+            }
+        }
+    }
+
+    private val screenOnReceiver = ScreenOnReceiver().apply {
+        onScreenOn = {
+            serviceScope.launch {
+                addScreenEventUseCase()
             }
         }
     }
@@ -197,11 +215,13 @@ class UnlockMasterService : Service() {
     private fun registerScreenEventReceivers() {
         registerReceiver(screenUnlockReceiver, IntentFilter(Intent.ACTION_USER_PRESENT))
         registerReceiver(screenLockReceiver, IntentFilter(Intent.ACTION_SCREEN_OFF))
+        registerReceiver(screenOnReceiver, IntentFilter(Intent.ACTION_SCREEN_ON))
     }
 
     private fun unregisterScreenEventReceivers() {
         unregisterReceiver(screenUnlockReceiver)
         unregisterReceiver(screenLockReceiver)
+        unregisterReceiver(screenOnReceiver)
     }
 
     override fun onBind(intent: Intent): IBinder? = null
