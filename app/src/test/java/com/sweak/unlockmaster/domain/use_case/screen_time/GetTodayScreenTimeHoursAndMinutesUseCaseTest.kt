@@ -1,8 +1,6 @@
 package com.sweak.unlockmaster.domain.use_case.screen_time
 
-import com.sweak.unlockmaster.data.repository.LockEventsRepositoryFake
-import com.sweak.unlockmaster.data.repository.TimeRepositoryFake
-import com.sweak.unlockmaster.data.repository.UnlockEventsRepositoryFake
+import com.sweak.unlockmaster.data.repository.*
 import com.sweak.unlockmaster.domain.model.LockEvent
 import com.sweak.unlockmaster.domain.model.UnlockEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,30 +15,36 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
     private lateinit var getTodayScreenTimeHoursAndMinutesUseCase: GetTodayScreenTimeHoursAndMinutesUseCase
     private lateinit var unlockEventsRepository: UnlockEventsRepositoryFake
     private lateinit var lockEventsRepository: LockEventsRepositoryFake
+    private lateinit var counterPausedEventsRepository: CounterPausedEventsRepositoryFake
+    private lateinit var counterUnpausedEventsRepository: CounterUnpausedEventsRepositoryFake
     private lateinit var timeRepository: TimeRepositoryFake
 
     @Before
     fun setUp() {
         unlockEventsRepository = UnlockEventsRepositoryFake()
         lockEventsRepository = LockEventsRepositoryFake()
+        counterPausedEventsRepository = CounterPausedEventsRepositoryFake()
+        counterUnpausedEventsRepository = CounterUnpausedEventsRepositoryFake()
         timeRepository = TimeRepositoryFake()
         getTodayScreenTimeHoursAndMinutesUseCase = GetTodayScreenTimeHoursAndMinutesUseCase(
             unlockEventsRepository,
             lockEventsRepository,
+            counterPausedEventsRepository,
+            counterUnpausedEventsRepository,
             timeRepository
         )
     }
 
     @Test
-    fun `If there are no screen events, then returns 0 hours and 0 minutes`() = runTest {
+    fun `If there are no screen events, then returns 2 hours and 45 minutes`() = runTest {
         unlockEventsRepository.unlockEventsSinceTimeToBeReturned = emptyList()
         lockEventsRepository.lockEventsSinceTimeToBeReturned = emptyList()
-        timeRepository.currentTimeInMillisToBeReturned = 1676836800000
+        timeRepository.currentTimeInMillisToBeReturned = 1676771100000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
         getTodayScreenTimeHoursAndMinutesUseCase().apply {
-            Assert.assertEquals(0, first)
-            Assert.assertEquals(0, second)
+            Assert.assertEquals(2, first)
+            Assert.assertEquals(45, second)
         }
     }
 

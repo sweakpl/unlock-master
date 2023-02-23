@@ -17,4 +17,8 @@ class UnlockEventsRepositoryFake : UnlockEventsRepository {
 
     override suspend fun getUnlockEventsSinceTime(sinceTimeInMillis: Long): List<UnlockEvent> =
         unlockEventsSinceTimeToBeReturned
+
+    override suspend fun getLatestUnlockEvent(): UnlockEvent? {
+        TODO("Not yet implemented")
+    }
 }
