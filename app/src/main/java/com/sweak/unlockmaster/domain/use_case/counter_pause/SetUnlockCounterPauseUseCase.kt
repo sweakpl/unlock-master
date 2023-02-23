@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.domain.use_case
+package com.sweak.unlockmaster.domain.use_case.counter_pause
 
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import javax.inject.Inject

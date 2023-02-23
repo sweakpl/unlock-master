@@ -6,10 +6,7 @@ import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import androidx.room.Room
 import com.sweak.unlockmaster.data.local.database.UnlockMasterDatabase
-import com.sweak.unlockmaster.data.local.database.dao.LockEventsDao
-import com.sweak.unlockmaster.data.local.database.dao.ScreenOnEventsDao
-import com.sweak.unlockmaster.data.local.database.dao.UnlockEventsDao
-import com.sweak.unlockmaster.data.local.database.dao.UnlockLimitsDao
+import com.sweak.unlockmaster.data.local.database.dao.*
 import com.sweak.unlockmaster.data.repository.*
 import com.sweak.unlockmaster.domain.repository.*
 import dagger.Module
@@ -69,6 +66,16 @@ object ApplicationModule {
 
     @Provides
     @Singleton
+    fun provideCounterPausedDao(database: UnlockMasterDatabase): CounterPausedEventsDao =
+        database.counterPausedEventsDao()
+
+    @Provides
+    @Singleton
+    fun provideCounterUnpausedDao(database: UnlockMasterDatabase): CounterUnpausedEventsDao =
+        database.counterUnpausedEventsDao()
+
+    @Provides
+    @Singleton
     fun provideUnlockEventsRepository(unlockEventsDao: UnlockEventsDao): UnlockEventsRepository =
         UnlockEventsRepositoryImpl(unlockEventsDao)
 
@@ -86,6 +93,20 @@ object ApplicationModule {
     @Singleton
     fun provideUnlockLimitsRepository(unlockLimitsDao: UnlockLimitsDao): UnlockLimitsRepository =
         UnlockLimitsRepositoryImpl(unlockLimitsDao)
+
+    @Provides
+    @Singleton
+    fun provideCounterPausedRepository(
+        counterPausedEventsDao: CounterPausedEventsDao
+    ): CounterPausedEventsRepository =
+        CounterPausedEventsRepositoryImpl(counterPausedEventsDao)
+
+    @Provides
+    @Singleton
+    fun provideCounterUnpausedRepository(
+        counterUnpausedEventsDao: CounterUnpausedEventsDao
+    ): CounterUnpausedEventsRepository =
+        CounterUnpausedEventsRepositoryImpl(counterUnpausedEventsDao)
 
     @Provides
     @Singleton

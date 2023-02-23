@@ -13,6 +13,8 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.domain.use_case.counter_pause.AddCounterPausedEventUseCase
+import com.sweak.unlockmaster.domain.use_case.counter_pause.AddCounterUnpausedEventUseCase
 import com.sweak.unlockmaster.domain.use_case.lock_events.AddLockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.lock_events.ShouldAddLockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.AddScreenOnEventUseCase
@@ -50,6 +52,12 @@ class UnlockMasterService : Service() {
     @Inject
     lateinit var getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase
 
+    @Inject
+    lateinit var addCounterPausedEventUseCase: AddCounterPausedEventUseCase
+
+    @Inject
+    lateinit var addCounterUnpausedEventUseCase: AddCounterUnpausedEventUseCase
+
     private val unlockCounterPauseReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             intent?.let {
@@ -62,12 +70,9 @@ class UnlockMasterService : Service() {
 
                         if (isUnlockCounterPaused) {
                             unregisterScreenEventReceivers()
-
-                            // We're adding a lock event for the data to be coherent as the service
-                            // will not be able to catch the lock event that is supposed to be
-                            // the one corresponding to the latest unlock event:
-                            addLockEventUseCase()
+                            addCounterPausedEventUseCase()
                         } else {
+                            addCounterUnpausedEventUseCase()
                             registerScreenEventReceivers()
                         }
 

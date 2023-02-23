@@ -3,14 +3,14 @@ package com.sweak.unlockmaster.domain.use_case.screen_time
 import com.sweak.unlockmaster.domain.model.LockEvent
 import com.sweak.unlockmaster.domain.model.ScreenEvent
 import com.sweak.unlockmaster.domain.model.UnlockEvent
-import com.sweak.unlockmaster.domain.repository.LockEventsRepository
-import com.sweak.unlockmaster.domain.repository.TimeRepository
-import com.sweak.unlockmaster.domain.repository.UnlockEventsRepository
+import com.sweak.unlockmaster.domain.repository.*
 import javax.inject.Inject
 
 class GetTodayScreenTimeHoursAndMinutesUseCase @Inject constructor(
     private val unlockEventsRepository: UnlockEventsRepository,
     private val lockEventsRepository: LockEventsRepository,
+    private val counterPausedEventsRepository: CounterPausedEventsRepository,
+    private val counterUnpausedEventsRepository: CounterUnpausedEventsRepository,
     private val timeRepository: TimeRepository
 ) {
     suspend operator fun invoke(): Pair<Int, Int> {
@@ -22,7 +22,22 @@ class GetTodayScreenTimeHoursAndMinutesUseCase @Inject constructor(
         val lockEvents = lockEventsRepository.getLockEventsSinceTime(
             sinceTimeInMillis = todayBeginningTimeInMillis
         )
-        val screenEvents = (unlockEvents + lockEvents).sortedBy { it.timeInMillis }
+
+        // Counter pauses and unpauses can be treated as fake locks and unlocks since pausing also
+        // should affect the screen time like normal unlock and lock events.
+        val fakeUnlockEvents = counterUnpausedEventsRepository.getCounterUnpausedEventsSinceTime(
+            sinceTimeInMillis = todayBeginningTimeInMillis
+        ).map {
+            UnlockEvent(unlockTimeInMillis = it.counterUnpausedTimeInMillis)
+        }
+        val fakeLockEvents = counterPausedEventsRepository.getCounterPausedEventsSinceTime(
+            sinceTimeInMillis = todayBeginningTimeInMillis
+        ).map {
+            LockEvent(lockTimeInMillis = it.counterPausedTimeInMillis)
+        }
+
+        val screenEvents = (unlockEvents + lockEvents + fakeUnlockEvents + fakeLockEvents)
+            .sortedBy { it.timeInMillis }
 
         if (screenEvents.isEmpty()) {
             return Pair(0, 0)

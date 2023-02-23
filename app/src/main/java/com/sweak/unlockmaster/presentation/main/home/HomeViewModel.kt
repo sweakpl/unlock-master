@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sweak.unlockmaster.domain.use_case.IsUnlockCounterPausedUseCase
-import com.sweak.unlockmaster.domain.use_case.SetUnlockCounterPauseUseCase
+import com.sweak.unlockmaster.domain.use_case.counter_pause.IsUnlockCounterPausedUseCase
+import com.sweak.unlockmaster.domain.use_case.counter_pause.SetUnlockCounterPauseUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_time.GetTodayScreenTimeHoursAndMinutesUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetTodayUnlockEventsCountUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
