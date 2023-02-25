@@ -25,7 +25,7 @@ class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepos
             preferences[IS_INTRODUCTION_FINISHED] ?: false
         }.first()
 
-    override suspend fun setIsUnlockCounterPaused(isPaused: Boolean) {
+    override suspend fun setUnlockCounterPaused(isPaused: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[IS_UNLOCK_COUNTER_PAUSED] = isPaused
         }

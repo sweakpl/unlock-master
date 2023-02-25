@@ -11,7 +11,8 @@ class GetTodayScreenTimeHoursAndMinutesUseCase @Inject constructor(
     private val lockEventsRepository: LockEventsRepository,
     private val counterPausedEventsRepository: CounterPausedEventsRepository,
     private val counterUnpausedEventsRepository: CounterUnpausedEventsRepository,
-    private val timeRepository: TimeRepository
+    private val timeRepository: TimeRepository,
+    private val userSessionRepository: UserSessionRepository
 ) {
     suspend operator fun invoke(): Pair<Int, Int> {
         val todayBeginningTimeInMillis = timeRepository.getTodayBeginningTimeInMillis()
@@ -41,9 +42,13 @@ class GetTodayScreenTimeHoursAndMinutesUseCase @Inject constructor(
             .sortedBy { it.timeInMillis }
 
         if (screenEvents.isEmpty()) {
-            return getHoursAndMinutesDurationPair(
-                durationTimeInMillis = currentTimeInMillis - todayBeginningTimeInMillis
-            )
+            return if (userSessionRepository.isUnlockCounterPaused()) {
+                Pair(0, 0)
+            } else {
+                getHoursAndMinutesDurationPair(
+                    durationTimeInMillis = currentTimeInMillis - todayBeginningTimeInMillis
+                )
+            }
         }
 
         var screenTimeDuration = 0L

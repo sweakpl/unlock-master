@@ -1,6 +1,8 @@
 package com.sweak.unlockmaster.domain.use_case.screen_time
 
 import com.sweak.unlockmaster.data.repository.*
+import com.sweak.unlockmaster.domain.model.CounterPausedEvent
+import com.sweak.unlockmaster.domain.model.CounterUnpausedEvent
 import com.sweak.unlockmaster.domain.model.LockEvent
 import com.sweak.unlockmaster.domain.model.UnlockEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,6 +20,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
     private lateinit var counterPausedEventsRepository: CounterPausedEventsRepositoryFake
     private lateinit var counterUnpausedEventsRepository: CounterUnpausedEventsRepositoryFake
     private lateinit var timeRepository: TimeRepositoryFake
+    private lateinit var userSessionRepository: UserSessionRepositoryFake
 
     @Before
     fun setUp() {
@@ -26,19 +29,19 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         counterPausedEventsRepository = CounterPausedEventsRepositoryFake()
         counterUnpausedEventsRepository = CounterUnpausedEventsRepositoryFake()
         timeRepository = TimeRepositoryFake()
+        userSessionRepository = UserSessionRepositoryFake()
         getTodayScreenTimeHoursAndMinutesUseCase = GetTodayScreenTimeHoursAndMinutesUseCase(
             unlockEventsRepository,
             lockEventsRepository,
             counterPausedEventsRepository,
             counterUnpausedEventsRepository,
-            timeRepository
+            timeRepository,
+            userSessionRepository
         )
     }
 
     @Test
     fun `If there are no screen events, then returns 2 hours and 45 minutes`() = runTest {
-        unlockEventsRepository.unlockEventsSinceTimeToBeReturned = emptyList()
-        lockEventsRepository.lockEventsSinceTimeToBeReturned = emptyList()
         timeRepository.currentTimeInMillisToBeReturned = 1676771100000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
@@ -49,11 +52,22 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
     }
 
     @Test
+    fun `If there are no screen events and unlock counter is paused, then returns 0 hours and 0 minutes`() = runTest {
+        timeRepository.currentTimeInMillisToBeReturned = 1676771100000
+        timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
+        userSessionRepository.isUnlockCounterPausedToBeReturned = true
+
+        getTodayScreenTimeHoursAndMinutesUseCase().apply {
+            Assert.assertEquals(0, first)
+            Assert.assertEquals(0, second)
+        }
+    }
+
+    @Test
     fun `If there is only one UnlockEvent, then returns 0 hours and 30 minutes`() = runTest {
         unlockEventsRepository.unlockEventsSinceTimeToBeReturned = listOf(
             UnlockEvent(unlockTimeInMillis = 1676835000000)
         )
-        lockEventsRepository.lockEventsSinceTimeToBeReturned = emptyList()
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
@@ -65,7 +79,6 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
 
     @Test
     fun `If there is only one LockEvent, then returns 0 hours and 20 minutes`() = runTest {
-        unlockEventsRepository.unlockEventsSinceTimeToBeReturned = emptyList()
         lockEventsRepository.lockEventsSinceTimeToBeReturned = listOf(
             LockEvent(lockTimeInMillis = 1676762400000)
         )
@@ -85,7 +98,6 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
             UnlockEvent(unlockTimeInMillis = 1676835600000),
             UnlockEvent(unlockTimeInMillis = 1676835900000)
         )
-        lockEventsRepository.lockEventsSinceTimeToBeReturned = emptyList()
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
@@ -97,7 +109,6 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
 
     @Test
     fun `If there are only three LockEvents, then returns 0 hours and 10 minutes`() = runTest {
-        unlockEventsRepository.unlockEventsSinceTimeToBeReturned = emptyList()
         lockEventsRepository.lockEventsSinceTimeToBeReturned = listOf(
             LockEvent(lockTimeInMillis = 1676761800000),
             LockEvent(lockTimeInMillis = 1676763000000),
@@ -232,6 +243,86 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         getTodayScreenTimeHoursAndMinutesUseCase().apply {
             Assert.assertEquals(0, first)
             Assert.assertEquals(55, second)
+        }
+    }
+
+    @Test
+    fun `If there is only one CounterPausedEvent, then returns 3 hours and 15 minutes`() = runTest {
+        counterPausedEventsRepository.counterPausedEventsSinceTimeToBeReturned = listOf(
+            CounterPausedEvent(counterPausedTimeInMillis = 1676772900000)
+        )
+        timeRepository.currentTimeInMillisToBeReturned = 1676836800000
+        timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
+
+        getTodayScreenTimeHoursAndMinutesUseCase().apply {
+            Assert.assertEquals(3, first)
+            Assert.assertEquals(15, second)
+        }
+    }
+
+    @Test
+    fun `If there is only one CounterUnpausedEvent, then returns 1 hours and 15 minutes`() = runTest {
+        counterUnpausedEventsRepository.counterUnpausedEventsSinceTimeToBeReturned = listOf(
+            CounterUnpausedEvent(counterUnpausedTimeInMillis = 1676832300000)
+        )
+        timeRepository.currentTimeInMillisToBeReturned = 1676836800000
+        timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
+
+        getTodayScreenTimeHoursAndMinutesUseCase().apply {
+            Assert.assertEquals(1, first)
+            Assert.assertEquals(15, second)
+        }
+    }
+
+    @Test
+    fun `If there is specific sequence - ULULU(CP)(CU)LUL, then returns 1 hour and 15 minutes`() = runTest {
+        unlockEventsRepository.unlockEventsSinceTimeToBeReturned = listOf(
+            UnlockEvent(unlockTimeInMillis = 1676790000000),
+            UnlockEvent(unlockTimeInMillis = 1676799300000),
+            UnlockEvent(unlockTimeInMillis = 1676811000000),
+            UnlockEvent(unlockTimeInMillis = 1676824200000)
+        )
+        lockEventsRepository.lockEventsSinceTimeToBeReturned = listOf(
+            LockEvent(lockTimeInMillis = 1676791200000),
+            LockEvent(lockTimeInMillis = 1676801100000),
+            LockEvent(lockTimeInMillis = 1676814300000),
+            LockEvent(lockTimeInMillis = 1676824800000)
+        )
+        counterPausedEventsRepository.counterPausedEventsSinceTimeToBeReturned = listOf(
+            CounterPausedEvent(counterPausedTimeInMillis = 1676811600000)
+        )
+        counterUnpausedEventsRepository.counterUnpausedEventsSinceTimeToBeReturned = listOf(
+            CounterUnpausedEvent(counterUnpausedTimeInMillis = 1676814000000)
+        )
+        timeRepository.currentTimeInMillisToBeReturned = 1676836800000
+        timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
+
+        getTodayScreenTimeHoursAndMinutesUseCase().apply {
+            Assert.assertEquals(1, first)
+            Assert.assertEquals(15, second)
+        }
+    }
+
+    @Test
+    fun `If there is specific sequence - U(CP)(CU)L, then returns 0 hours and 20 minutes`() = runTest {
+        unlockEventsRepository.unlockEventsSinceTimeToBeReturned = listOf(
+            UnlockEvent(unlockTimeInMillis = 1676795400000)
+        )
+        lockEventsRepository.lockEventsSinceTimeToBeReturned = listOf(
+            LockEvent(lockTimeInMillis = 1676831400000)
+        )
+        counterPausedEventsRepository.counterPausedEventsSinceTimeToBeReturned = listOf(
+            CounterPausedEvent(counterPausedTimeInMillis = 1676796000000)
+        )
+        counterUnpausedEventsRepository.counterUnpausedEventsSinceTimeToBeReturned = listOf(
+            CounterUnpausedEvent(counterUnpausedTimeInMillis = 1676830800000)
+        )
+        timeRepository.currentTimeInMillisToBeReturned = 1676836800000
+        timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
+
+        getTodayScreenTimeHoursAndMinutesUseCase().apply {
+            Assert.assertEquals(0, first)
+            Assert.assertEquals(20, second)
         }
     }
 }

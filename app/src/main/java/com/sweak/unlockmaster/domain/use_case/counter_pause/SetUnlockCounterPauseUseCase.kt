@@ -7,6 +7,6 @@ class SetUnlockCounterPauseUseCase @Inject constructor(
     private val userSessionRepository: UserSessionRepository
 ) {
     suspend operator fun invoke(isPaused: Boolean) {
-        userSessionRepository.setIsUnlockCounterPaused(isPaused = isPaused)
+        userSessionRepository.setUnlockCounterPaused(isPaused = isPaused)
     }
 }
