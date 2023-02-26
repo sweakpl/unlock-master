@@ -86,6 +86,9 @@ dependencies {
     // noinspection GradleDependency
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
 
+    // View components
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
     // Test
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'

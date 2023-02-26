@@ -14,4 +14,8 @@ class TimeRepositoryFake : TimeRepository {
     override fun getTomorrowBeginningTimeInMillis(): Long {
         TODO("Not yet implemented")
     }
+
+    override fun getSixDaysBeforeDayBeginningTimeInMillis(): Long {
+        TODO("Not yet implemented")
+    }
 }

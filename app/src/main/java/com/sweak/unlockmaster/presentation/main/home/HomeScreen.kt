@@ -6,6 +6,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pause
@@ -28,6 +29,7 @@ import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
+import com.sweak.unlockmaster.presentation.main.home.components.WeeklyUnlocksChart
 import com.sweak.unlockmaster.presentation.unlock_counter_service.EXTRA_IS_UNLOCK_COUNTER_PAUSED
 import com.sweak.unlockmaster.presentation.unlock_counter_service.UNLOCK_COUNTER_PAUSE_CHANGED
 
@@ -272,7 +274,8 @@ fun HomeScreen(
 
                                         Text(
                                             text =
-                                            homeScreenState.unlockLimitForTomorrow?.toString() ?: "",
+                                            homeScreenState.unlockLimitForTomorrow?.toString()
+                                                ?: "",
                                             style = MaterialTheme.typography.h2
                                         )
                                     }
@@ -322,6 +325,72 @@ fun HomeScreen(
                                 ) {
                                     Text(
                                         text = stringResource(R.string.details),
+                                        style = MaterialTheme.typography.subtitle1,
+                                        modifier = Modifier
+                                            .padding(end = MaterialTheme.space.small)
+                                    )
+
+                                    Icon(
+                                        imageVector = Icons.Outlined.NavigateNext,
+                                        contentDescription = stringResource(
+                                            R.string.content_description_next_icon
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    Card(
+                        elevation = MaterialTheme.space.xSmall,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                start = MaterialTheme.space.medium,
+                                end = MaterialTheme.space.medium,
+                                bottom = MaterialTheme.space.large
+                            )
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.Start,
+                            modifier = Modifier
+                                .padding(all = MaterialTheme.space.medium)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.statistics_colon),
+                                style = MaterialTheme.typography.h3,
+                                modifier = Modifier.padding(bottom = MaterialTheme.space.xSmall)
+                            )
+
+                            Text(
+                                text = stringResource(R.string.how_unlock_count_looked),
+                                style = MaterialTheme.typography.subtitle1,
+                                modifier = Modifier.padding(bottom = MaterialTheme.space.small)
+                            )
+
+                            WeeklyUnlocksChart(
+                                lastWeekUnlockEventCountsEntries =
+                                homeScreenState.lastWeekUnlockEventCounts,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(MaterialTheme.space.xxxLarge)
+                                    .background(
+                                        MaterialTheme.colors.background,
+                                        shape = RoundedCornerShape(size = MaterialTheme.space.small)
+                                    )
+                            )
+
+                            Button(
+                                onClick = { /* TODO: redirect */ },
+                                modifier = Modifier
+                                    .padding(top = MaterialTheme.space.medium)
+                                    .align(Alignment.End)
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.get_more_insights),
                                         style = MaterialTheme.typography.subtitle1,
                                         modifier = Modifier
                                             .padding(end = MaterialTheme.space.small)

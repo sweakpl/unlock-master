@@ -83,4 +83,7 @@
     <string name="todays_screen_time">Today\'s screen time:</string>
     <string name="details">Details</string>
     <string name="hours_and_minutes_amount">%1$dh %2$dmin</string>
+    <string name="statistics_colon">Statistics:</string>
+    <string name="how_unlock_count_looked">This is how your daily unlock count looked like over the last week:</string>
+    <string name="get_more_insights">Get more insights</string>
 </resources>
