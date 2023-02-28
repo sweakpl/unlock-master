@@ -16,9 +16,9 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.domain.toTimeInMillis
 import com.sweak.unlockmaster.presentation.common.util.RoundedBarChartRenderer
 import com.sweak.unlockmaster.presentation.common.util.getShortDayString
-import com.sweak.unlockmaster.presentation.common.util.toTimeInMillis
 import java.time.ZonedDateTime
 
 @Composable

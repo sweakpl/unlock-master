@@ -1,6 +1,9 @@
 package com.sweak.unlockmaster.data.repository
 
 import com.sweak.unlockmaster.domain.repository.TimeRepository
+import com.sweak.unlockmaster.domain.toTimeInMillis
+import java.time.Instant
+import java.time.ZoneId
 import java.time.ZonedDateTime
 
 class TimeRepositoryImpl : TimeRepository {
@@ -13,8 +16,7 @@ class TimeRepositoryImpl : TimeRepository {
             .withMinute(0)
             .withSecond(0)
             .withNano(0)
-            .toInstant()
-            .toEpochMilli()
+            .toTimeInMillis()
 
     override fun getTomorrowBeginningTimeInMillis(): Long =
         ZonedDateTime.now()
@@ -23,8 +25,7 @@ class TimeRepositoryImpl : TimeRepository {
             .withMinute(0)
             .withSecond(0)
             .withNano(0)
-            .toInstant()
-            .toEpochMilli()
+            .toTimeInMillis()
 
     override fun getSixDaysBeforeDayBeginningTimeInMillis(): Long =
         ZonedDateTime.now()
@@ -33,6 +34,16 @@ class TimeRepositoryImpl : TimeRepository {
             .withMinute(0)
             .withSecond(0)
             .withNano(0)
-            .toInstant()
-            .toEpochMilli()
+            .toTimeInMillis()
+
+    override fun getBeginningOfGivenDayTimeInMillis(timeInMillis: Long): Long =
+        ZonedDateTime.ofInstant(
+            Instant.ofEpochMilli(timeInMillis),
+            ZoneId.systemDefault()
+        )
+            .withHour(0)
+            .withMinute(0)
+            .withSecond(0)
+            .withNano(0)
+            .toTimeInMillis()
 }
