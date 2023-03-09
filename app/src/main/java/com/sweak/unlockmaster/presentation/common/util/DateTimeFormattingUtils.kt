@@ -9,3 +9,14 @@ fun getShortDayString(timeInMillis: Long): String {
         Locale.getDefault()
     ).format(timeInMillis)
 }
+
+fun getTimeString(timeInMillis: Long, timeFormat: TimeFormat): String {
+    return SimpleDateFormat(
+        if (timeFormat == TimeFormat.MILITARY) "HH:mm" else "hh:mm a",
+        Locale.getDefault()
+    ).format(timeInMillis)
+}
+
+enum class TimeFormat {
+    MILITARY, AMPM
+}

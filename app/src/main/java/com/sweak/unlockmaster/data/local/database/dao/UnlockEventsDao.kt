@@ -14,7 +14,7 @@ interface UnlockEventsDao {
     @Query("SELECT COUNT(*) FROM unlock_event WHERE timeInMillis >= :sinceTimeInMillis")
     suspend fun getUnlockEventsCountSinceTime(sinceTimeInMillis: Long): Int
 
-    @Query("SELECT * FROM unlock_event WHERE timeInMillis >= :sinceTimeInMillis ORDER BY timeInMillis")
+    @Query("SELECT * FROM unlock_event WHERE timeInMillis >= :sinceTimeInMillis")
     suspend fun getUnlockEventsSinceTime(sinceTimeInMillis: Long): List<UnlockEventEntity>
 
     @Query("SELECT * FROM unlock_event ORDER BY timeInMillis DESC LIMIT 1")

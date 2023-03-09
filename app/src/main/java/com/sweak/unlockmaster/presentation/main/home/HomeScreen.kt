@@ -318,7 +318,9 @@ fun HomeScreen(
                             }
 
                             Button(
-                                onClick = { /* TODO: redirect */ }
+                                onClick = {
+                                    navController.navigate(Screen.ScreenTimeScreen.route)
+                                }
                             ) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically
@@ -375,7 +377,7 @@ fun HomeScreen(
                                     .fillMaxWidth()
                                     .height(MaterialTheme.space.xxxLarge)
                                     .background(
-                                        MaterialTheme.colors.background,
+                                        color = MaterialTheme.colors.background,
                                         shape = RoundedCornerShape(size = MaterialTheme.space.small)
                                     )
                             )
