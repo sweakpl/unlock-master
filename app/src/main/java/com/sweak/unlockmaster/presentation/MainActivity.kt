@@ -23,7 +23,7 @@ import com.sweak.unlockmaster.presentation.introduction.setup_complete.SetupComp
 import com.sweak.unlockmaster.presentation.introduction.welcome.WelcomeScreen
 import com.sweak.unlockmaster.presentation.main.home.HomeScreen
 import com.sweak.unlockmaster.presentation.main.screen_time.ScreenTimeScreen
-import com.sweak.unlockmaster.presentation.unlock_counter_service.UnlockMasterService
+import com.sweak.unlockmaster.presentation.unlock_counting.UnlockMasterService
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking

@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.unlock_counter_service
+package com.sweak.unlockmaster.presentation.unlock_counting
 
 import android.app.Notification
 import android.app.PendingIntent
@@ -22,6 +22,9 @@ import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCas
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetTodayUnlockEventsCountUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
 import com.sweak.unlockmaster.presentation.MainActivity
+import com.sweak.unlockmaster.presentation.unlock_counting.screen_event_receivers.ScreenLockReceiver
+import com.sweak.unlockmaster.presentation.unlock_counting.screen_event_receivers.ScreenOnReceiver
+import com.sweak.unlockmaster.presentation.unlock_counting.screen_event_receivers.ScreenUnlockReceiver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject

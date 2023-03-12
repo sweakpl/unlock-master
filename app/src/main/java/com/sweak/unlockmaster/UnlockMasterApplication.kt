@@ -7,8 +7,8 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
-import com.sweak.unlockmaster.presentation.unlock_counter_service.FOREGROUND_SERVICE_NOTIFICATION_CHANNEL_ID
-import com.sweak.unlockmaster.presentation.unlock_counter_service.UnlockMasterService
+import com.sweak.unlockmaster.presentation.unlock_counting.FOREGROUND_SERVICE_NOTIFICATION_CHANNEL_ID
+import com.sweak.unlockmaster.presentation.unlock_counting.UnlockMasterService
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject

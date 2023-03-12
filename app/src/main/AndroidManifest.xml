@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.UnlockMaster"
-        tools:targetApi="31">
+        tools:targetApi="33">
 
         <activity
             android:name=".presentation.MainActivity"
@@ -31,13 +31,13 @@
         </activity>
 
         <service
-            android:name=".presentation.unlock_counter_service.UnlockMasterService"
+            android:name=".presentation.unlock_counting.UnlockMasterService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />
 
         <receiver
-            android:name=".presentation.unlock_counter_service.ScreenUnlockReceiver"
+            android:name=".presentation.unlock_counting.screen_event_receivers.ScreenUnlockReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -45,7 +45,7 @@
         </receiver>
 
         <receiver
-            android:name=".presentation.unlock_counter_service.BootReceiver"
+            android:name=".presentation.unlock_counting.app_lifecycle_receivers.BootReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -58,12 +58,21 @@
         </receiver>
 
         <receiver
-            android:name=".presentation.unlock_counter_service.ShutdownReceiver"
+            android:name=".presentation.unlock_counting.app_lifecycle_receivers.ShutdownReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
                 <action android:name="android.intent.action.QUICKBOOT_POWEROFF" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".presentation.unlock_counting.app_lifecycle_receivers.ApplicationUpdatedReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
 

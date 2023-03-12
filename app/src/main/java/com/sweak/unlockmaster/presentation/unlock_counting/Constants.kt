@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.unlock_counter_service
+package com.sweak.unlockmaster.presentation.unlock_counting
 
 const val FOREGROUND_SERVICE_ID = 300
 const val FOREGROUND_SERVICE_NOTIFICATION_ID = 300

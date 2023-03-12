@@ -30,8 +30,8 @@ import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.main.home.components.WeeklyUnlocksChart
-import com.sweak.unlockmaster.presentation.unlock_counter_service.EXTRA_IS_UNLOCK_COUNTER_PAUSED
-import com.sweak.unlockmaster.presentation.unlock_counter_service.UNLOCK_COUNTER_PAUSE_CHANGED
+import com.sweak.unlockmaster.presentation.unlock_counting.EXTRA_IS_UNLOCK_COUNTER_PAUSED
+import com.sweak.unlockmaster.presentation.unlock_counting.UNLOCK_COUNTER_PAUSE_CHANGED
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable

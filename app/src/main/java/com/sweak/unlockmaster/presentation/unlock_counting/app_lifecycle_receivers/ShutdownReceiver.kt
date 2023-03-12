@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.unlock_counter_service
+package com.sweak.unlockmaster.presentation.unlock_counting.app_lifecycle_receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
