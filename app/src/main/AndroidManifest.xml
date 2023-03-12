@@ -57,6 +57,16 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".presentation.unlock_counter_service.ShutdownReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
+                <action android:name="android.intent.action.QUICKBOOT_POWEROFF" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
