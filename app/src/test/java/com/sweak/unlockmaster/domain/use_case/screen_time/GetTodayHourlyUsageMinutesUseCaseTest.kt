@@ -40,6 +40,7 @@ class GetTodayHourlyUsageMinutesUseCaseTest {
     @Test
     fun `No screen events and it is 4 30 AM`() = runTest {
         timeRepository.currentTimeInMillisToBeReturned = 1678764600000
+        timeRepository.todayBeginningTimeInMillisToBeReturned = 1678748400000
 
         Assert.assertEquals(
             listOf(60, 60, 60, 60, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -56,7 +57,7 @@ class GetTodayHourlyUsageMinutesUseCaseTest {
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
         Assert.assertEquals(
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0, 0),
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0),
             getTodayHourlyUsageMinutesUseCase()
         )
     }
@@ -86,7 +87,7 @@ class GetTodayHourlyUsageMinutesUseCaseTest {
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
         Assert.assertEquals(
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 0),
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0),
             getTodayHourlyUsageMinutesUseCase()
         )
     }
@@ -146,7 +147,7 @@ class GetTodayHourlyUsageMinutesUseCaseTest {
             LockEvent(lockTimeInMillis = 1676811900000),
             LockEvent(lockTimeInMillis = 1676824800000)
         )
-        timeRepository.currentTimeInMillisToBeReturned = 1676790000000
+        timeRepository.currentTimeInMillisToBeReturned = 1678820400000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
         Assert.assertEquals(
@@ -225,7 +226,7 @@ class GetTodayHourlyUsageMinutesUseCaseTest {
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
         Assert.assertEquals(
-            listOf(0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 25, 60, 30, 5, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0),
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 25, 5, 0, 5, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0),
             getTodayHourlyUsageMinutesUseCase()
         )
     }
