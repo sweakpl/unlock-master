@@ -19,7 +19,7 @@
     <string name="unlock_limit">Unlock limit</string>
     <string name="set_up_unlock_limit">Set up your unlock limit</string>
     <string name="set_up_unlock_limit_description">Before you start using UnlockMaster you have to set up your unlock limit:</string>
-    <string name="unlock_limit_purposes">" Unlock limit serves these purposes:"</string>
+    <string name="unlock_limit_purposes">Unlock limit serves these purposes:</string>
     <string name="confirm">Confirm</string>
     <string name="reference">Reference</string>
     <string name="reference_description">Unlock limit is a number of unlocks that you don’t want to exceed during the day.</string>
@@ -55,7 +55,7 @@
     <string name="todays_unlock_limit">Today\'s unlock limit:</string>
     <string name="set_new">Set new</string>
     <string name="update_your_unlock_limit">Update your unlock limit</string>
-    <string name="update_your_unlock_limit_description">"You can change your unlock limit to better suit your smartphone usage style. The new unlock limit will take  effect tomorrow: "</string>
+    <string name="update_your_unlock_limit_description">You can change your unlock limit to better suit your smartphone usage style. The new unlock limit will take effect tomorrow:</string>
     <string name="new_unlock_limit_set_for_tomorrow">New unlock limit is already set for tomorrow:</string>
     <string name="remove_tomorrow_unlock_limit">Remove tomorrow’s new unlock limit?</string>
     <string name="remove_tomorrow_unlock_limit_description">Are you sure you want to cancel the new unlock limit that would take effect tomorrow?</string>
@@ -73,6 +73,10 @@
     <string name="minutes_amount">%1$dm</string>
     <string name="seconds_amount">%1$ds</string>
     <string name="counter_paused_colon">Counter paused:</string>
+    <string name="pause_counter">Pause the counter?</string>
+    <string name="pause_counter_description">Are you sure you want to pause the counter? Phone unlocks, screen time etc. won’t be recorded when the counter is paused.</string>
+    <string name="pause">Pause</string>
+    <string name="cancel">Cancel</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>

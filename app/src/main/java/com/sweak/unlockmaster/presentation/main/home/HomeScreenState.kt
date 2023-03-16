@@ -7,6 +7,7 @@ data class HomeScreenState(
     val unlockCount: Int = -1,
     val unlockLimit: Int = -1,
     val isUnlockCounterPaused: Boolean = false,
+    val isUnlockCounterPauseConfirmationDialogVisible: Boolean = false,
     val unlockLimitForTomorrow: Int? = null,
     val todayHoursAndMinutesScreenTimePair: Pair<Int, Int> = Pair(0, 0),
     val lastWeekUnlockEventCounts: List<BarEntry> = emptyList()

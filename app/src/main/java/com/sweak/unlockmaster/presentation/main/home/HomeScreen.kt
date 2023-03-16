@@ -27,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.Screen
+import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.main.home.components.WeeklyUnlocksChart
@@ -141,11 +142,9 @@ fun HomeScreen(
                         IconButton(
                             onClick = {
                                 homeViewModel.onEvent(
-                                    HomeScreenEvent.UnlockCounterPauseChanged {
+                                    HomeScreenEvent.TryPauseOrUnpauseUnlockCounter {
                                         context.sendBroadcast(
-                                            Intent(
-                                                UNLOCK_COUNTER_PAUSE_CHANGED
-                                            ).apply {
+                                            Intent(UNLOCK_COUNTER_PAUSE_CHANGED).apply {
                                                 putExtra(EXTRA_IS_UNLOCK_COUNTER_PAUSED, it)
                                             }
                                         )
@@ -420,5 +419,34 @@ fun HomeScreen(
                 }
             }
         }
+    }
+
+    val context = LocalContext.current
+
+    if (homeScreenState.isUnlockCounterPauseConfirmationDialogVisible) {
+        Dialog(
+            title = stringResource(R.string.pause_counter),
+            message = stringResource(R.string.pause_counter_description),
+            onDismissRequest = {
+                homeViewModel.onEvent(
+                    HomeScreenEvent.UnlockCounterPauseConfirmationDialogVisibilityChanged(
+                        isVisible = false
+                    )
+                )
+            },
+            onPositiveClick = {
+                homeViewModel.onEvent(
+                    HomeScreenEvent.PauseUnlockCounter {
+                        context.sendBroadcast(
+                            Intent(UNLOCK_COUNTER_PAUSE_CHANGED).apply {
+                                putExtra(EXTRA_IS_UNLOCK_COUNTER_PAUSED, it)
+                            }
+                        )
+                    }
+                )
+            },
+            positiveButtonText = stringResource(R.string.pause),
+            negativeButtonText = stringResource(R.string.cancel)
+        )
     }
 }

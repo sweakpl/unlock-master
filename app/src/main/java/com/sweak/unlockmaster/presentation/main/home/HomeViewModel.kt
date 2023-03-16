@@ -56,12 +56,30 @@ class HomeViewModel @Inject constructor(
 
     fun onEvent(event: HomeScreenEvent) {
         when (event) {
-            is HomeScreenEvent.UnlockCounterPauseChanged -> viewModelScope.launch {
+            is HomeScreenEvent.TryPauseOrUnpauseUnlockCounter -> viewModelScope.launch {
                 val isUnlockCounterPaused = isUnlockCounterPausedUseCase()
 
-                setUnlockCounterPauseUseCase(isPaused = !isUnlockCounterPaused)
-                state = state.copy(isUnlockCounterPaused = !isUnlockCounterPaused)
-                event.pauseChangedCallback(!isUnlockCounterPaused)
+                if (isUnlockCounterPaused) {
+                    setUnlockCounterPauseUseCase(isPaused = false)
+                    state = state.copy(
+                        isUnlockCounterPaused = false,
+                        isUnlockCounterPauseConfirmationDialogVisible = false
+                    )
+                    event.pauseChangedCallback(false)
+                } else {
+                    state = state.copy(isUnlockCounterPauseConfirmationDialogVisible = true)
+                }
+            }
+            is HomeScreenEvent.PauseUnlockCounter -> viewModelScope.launch {
+                setUnlockCounterPauseUseCase(isPaused = true)
+                state = state.copy(
+                    isUnlockCounterPaused = true,
+                    isUnlockCounterPauseConfirmationDialogVisible = false
+                )
+                event.pauseChangedCallback(true)
+            }
+            is HomeScreenEvent.UnlockCounterPauseConfirmationDialogVisibilityChanged -> {
+                state = state.copy(isUnlockCounterPauseConfirmationDialogVisible = event.isVisible)
             }
         }
     }
