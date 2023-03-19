@@ -123,11 +123,11 @@ fun ScreenTimeScreen(
                             if (DateFormat.is24HourFormat(LocalContext.current)) TimeFormat.MILITARY
                             else TimeFormat.AMPM
 
-                        screenTimeScreenState.sessionEvents.forEach {
-                            if (it is ScreenTimeScreenState.SessionEvent.ScreenTimeSessionEvent) {
+                        screenTimeScreenState.UIReadySessionEvents.forEach {
+                            if (it is ScreenTimeScreenState.UIReadySessionEvent.ScreenTime) {
                                 SingleScreenTimeSessionCard(
                                     screenSessionStartAndEndTimesInMillis =
-                                    it.screenSessionStartAndEndTimesInMillis,
+                                    it.startAndEndTimesInMillis,
                                     screenSessionHoursMinutesAndSecondsDurationTriple =
                                     it.screenSessionHoursMinutesAndSecondsDurationTriple,
                                     timeFormat = timeFormat,
@@ -135,10 +135,10 @@ fun ScreenTimeScreen(
                                         .fillMaxWidth()
                                         .padding(bottom = MaterialTheme.space.medium)
                                 )
-                            } else if (it is ScreenTimeScreenState.SessionEvent.CounterPausedSessionEvent) {
+                            } else if (it is ScreenTimeScreenState.UIReadySessionEvent.CounterPaused) {
                                 CounterPauseSeparator(
                                     counterPauseSessionStartAndEndTimesInMillis =
-                                    it.counterPauseSessionStartAndEndTimesInMillis,
+                                    it.startAndEndTimesInMillis,
                                     timeFormat = timeFormat,
                                     modifier = Modifier
                                         .fillMaxWidth()

@@ -6,15 +6,16 @@ data class ScreenTimeScreenState(
     val isInitializing: Boolean = true,
     val screenTimeMinutesPerHourEntries: List<Entry> = emptyList(),
     val todayHoursAndMinutesScreenTimePair: Pair<Int, Int> = Pair(0, 0),
-    val sessionEvents: List<SessionEvent> = emptyList()
+    val UIReadySessionEvents: List<UIReadySessionEvent> = emptyList()
 ) {
-    sealed class SessionEvent {
-        data class ScreenTimeSessionEvent(
-            val screenSessionStartAndEndTimesInMillis: Pair<Long, Long>,
+    sealed class UIReadySessionEvent(val startAndEndTimesInMillis: Pair<Long, Long>) {
+        class ScreenTime(
+            screenSessionStartAndEndTimesInMillis: Pair<Long, Long>,
             val screenSessionHoursMinutesAndSecondsDurationTriple: Triple<Int, Int, Int>
-        ) : SessionEvent()
-        data class CounterPausedSessionEvent(
-            val counterPauseSessionStartAndEndTimesInMillis: Pair<Long, Long>
-        ) : SessionEvent()
+        ) : UIReadySessionEvent(screenSessionStartAndEndTimesInMillis)
+
+        class CounterPaused(
+            counterPauseSessionStartAndEndTimesInMillis: Pair<Long, Long>
+        ) : UIReadySessionEvent(counterPauseSessionStartAndEndTimesInMillis)
     }
 }
