@@ -1,6 +1,6 @@
 package com.sweak.unlockmaster.data.repository
 
-import com.sweak.unlockmaster.domain.model.CounterPausedEvent
+import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.CounterPausedEvent
 import com.sweak.unlockmaster.domain.repository.CounterPausedEventsRepository
 
 class CounterPausedEventsRepositoryFake : CounterPausedEventsRepository {

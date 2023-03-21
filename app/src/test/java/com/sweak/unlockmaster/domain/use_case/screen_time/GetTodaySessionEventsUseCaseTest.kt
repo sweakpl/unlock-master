@@ -3,6 +3,7 @@ package com.sweak.unlockmaster.domain.use_case.screen_time
 import com.sweak.unlockmaster.data.repository.*
 import com.sweak.unlockmaster.domain.model.*
 import com.sweak.unlockmaster.domain.model.SessionEvent.*
+import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert

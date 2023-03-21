@@ -1,6 +1,6 @@
 package com.sweak.unlockmaster.data.repository
 
-import com.sweak.unlockmaster.domain.model.UnlockEvent
+import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.UnlockEvent
 import com.sweak.unlockmaster.domain.repository.UnlockEventsRepository
 
 class UnlockEventsRepositoryFake : UnlockEventsRepository {

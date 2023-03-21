@@ -1,8 +1,7 @@
 package com.sweak.unlockmaster.domain.use_case.screen_time
 
-import com.sweak.unlockmaster.domain.model.LockEvent
-import com.sweak.unlockmaster.domain.model.ScreenEvent
-import com.sweak.unlockmaster.domain.model.UnlockEvent
+import com.sweak.unlockmaster.domain.model.*
+import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.*
 import com.sweak.unlockmaster.domain.repository.*
 import javax.inject.Inject
 
@@ -18,27 +17,16 @@ class GetTodayScreenTimeHoursAndMinutesUseCase @Inject constructor(
         val todayBeginningTimeInMillis = timeRepository.getTodayBeginningTimeInMillis()
         val currentTimeInMillis = timeRepository.getCurrentTimeInMillis()
 
-        val unlockEvents = unlockEventsRepository.getUnlockEventsSinceTime(
-            sinceTimeInMillis = todayBeginningTimeInMillis
-        )
-        val lockEvents = lockEventsRepository.getLockEventsSinceTime(
-            sinceTimeInMillis = todayBeginningTimeInMillis
-        )
+        val unlockEvents = unlockEventsRepository
+            .getUnlockEventsSinceTime(sinceTimeInMillis = todayBeginningTimeInMillis)
+        val lockEvents = lockEventsRepository
+            .getLockEventsSinceTime(sinceTimeInMillis = todayBeginningTimeInMillis)
+        val counterUnpausedEvents = counterUnpausedEventsRepository
+            .getCounterUnpausedEventsSinceTime(sinceTimeInMillis = todayBeginningTimeInMillis)
+        val counterPausedEvents = counterPausedEventsRepository
+            .getCounterPausedEventsSinceTime(sinceTimeInMillis = todayBeginningTimeInMillis)
 
-        // Counter pauses and unpauses can be treated as fake locks and unlocks since pausing also
-        // should affect the screen time like normal unlock and lock events.
-        val fakeUnlockEvents = counterUnpausedEventsRepository.getCounterUnpausedEventsSinceTime(
-            sinceTimeInMillis = todayBeginningTimeInMillis
-        ).map {
-            UnlockEvent(unlockTimeInMillis = it.counterUnpausedTimeInMillis)
-        }
-        val fakeLockEvents = counterPausedEventsRepository.getCounterPausedEventsSinceTime(
-            sinceTimeInMillis = todayBeginningTimeInMillis
-        ).map {
-            LockEvent(lockTimeInMillis = it.counterPausedTimeInMillis)
-        }
-
-        val screenEvents = (unlockEvents + lockEvents + fakeUnlockEvents + fakeLockEvents)
+        val screenEvents = (unlockEvents + lockEvents + counterUnpausedEvents + counterPausedEvents)
             .sortedBy { it.timeInMillis }
 
         if (screenEvents.isEmpty()) {
@@ -52,29 +40,32 @@ class GetTodayScreenTimeHoursAndMinutesUseCase @Inject constructor(
         }
 
         var screenTimeDuration = 0L
-        var previousScreenEvent: ScreenEvent = screenEvents[0]
+        var previousUnlockMasterEvent: UnlockMasterEvent = screenEvents[0]
 
-        if (previousScreenEvent is LockEvent) {
-            screenTimeDuration += previousScreenEvent.timeInMillis - todayBeginningTimeInMillis
+        if (previousUnlockMasterEvent.run { this is LockEvent || this is CounterPausedEvent }) {
+            screenTimeDuration += previousUnlockMasterEvent.timeInMillis - todayBeginningTimeInMillis
         }
 
         var previousSinceTime: Long =
-            if (previousScreenEvent is UnlockEvent) previousScreenEvent.timeInMillis
-            else todayBeginningTimeInMillis
+            if (previousUnlockMasterEvent.run { this is UnlockEvent || this is CounterUnpausedEvent }) {
+                previousUnlockMasterEvent.timeInMillis
+            } else {
+                todayBeginningTimeInMillis
+            }
 
         screenEvents.subList(1, screenEvents.size).forEach {
-            if (it is UnlockEvent) {
+            if (it is UnlockEvent || it is CounterUnpausedEvent) {
                 previousSinceTime = it.timeInMillis
-            } else if (it is LockEvent) {
-                if (previousScreenEvent !is LockEvent) {
+            } else if (it.run { this is LockEvent || this is CounterPausedEvent }) {
+                if (previousUnlockMasterEvent.run { this is UnlockEvent || this is CounterUnpausedEvent }) {
                     screenTimeDuration += it.timeInMillis - previousSinceTime
                 }
             }
 
-            previousScreenEvent = it
+            previousUnlockMasterEvent = it
         }
 
-        if (previousScreenEvent is UnlockEvent) {
+        if (previousUnlockMasterEvent.run { this is UnlockEvent || this is CounterUnpausedEvent }) {
             screenTimeDuration += currentTimeInMillis - previousSinceTime
         }
 

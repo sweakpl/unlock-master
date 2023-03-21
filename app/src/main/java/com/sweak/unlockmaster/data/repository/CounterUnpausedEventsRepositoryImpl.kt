@@ -2,7 +2,7 @@ package com.sweak.unlockmaster.data.repository
 
 import com.sweak.unlockmaster.data.local.database.dao.CounterUnpausedEventsDao
 import com.sweak.unlockmaster.data.local.database.entities.CounterUnpausedEventEntity
-import com.sweak.unlockmaster.domain.model.CounterUnpausedEvent
+import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.CounterUnpausedEvent
 import com.sweak.unlockmaster.domain.repository.CounterUnpausedEventsRepository
 
 class CounterUnpausedEventsRepositoryImpl(

@@ -1,7 +1,6 @@
 package com.sweak.unlockmaster.domain.use_case.screen_time
 
-import com.sweak.unlockmaster.domain.model.LockEvent
-import com.sweak.unlockmaster.domain.model.UnlockEvent
+import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.*
 import com.sweak.unlockmaster.domain.repository.*
 import com.sweak.unlockmaster.domain.toTimeInMillis
 import java.time.Instant
@@ -16,34 +15,21 @@ class GetTodayHourlyUsageMinutesUseCase @Inject constructor(
     private val counterUnpausedEventsRepository: CounterUnpausedEventsRepository,
     private val timeRepository: TimeRepository
 ) {
-
     suspend operator fun invoke(): List<Int> {
         val todayBeginningTimeInMillis = timeRepository.getTodayBeginningTimeInMillis()
         val currentTimeInMillis = timeRepository.getCurrentTimeInMillis()
 
-        val unlockEvents = unlockEventsRepository.getUnlockEventsSinceTime(
-            sinceTimeInMillis = todayBeginningTimeInMillis
-        )
-        val lockEvents = lockEventsRepository.getLockEventsSinceTime(
-            sinceTimeInMillis = todayBeginningTimeInMillis
-        )
-
-        // Counter pauses and unpauses can be treated as fake locks and unlocks since pausing also
-        // should affect the screen time like normal unlock and lock events.
-        val fakeUnlockEvents = counterUnpausedEventsRepository.getCounterUnpausedEventsSinceTime(
-            sinceTimeInMillis = todayBeginningTimeInMillis
-        ).map {
-            UnlockEvent(unlockTimeInMillis = it.counterUnpausedTimeInMillis)
-        }
-        val fakeLockEvents = counterPausedEventsRepository.getCounterPausedEventsSinceTime(
-            sinceTimeInMillis = todayBeginningTimeInMillis
-        ).map {
-            LockEvent(lockTimeInMillis = it.counterPausedTimeInMillis)
-        }
+        val unlockEvents = unlockEventsRepository
+            .getUnlockEventsSinceTime(sinceTimeInMillis = todayBeginningTimeInMillis)
+        val lockEvents = lockEventsRepository
+            .getLockEventsSinceTime(sinceTimeInMillis = todayBeginningTimeInMillis)
+        val counterUnpausedEvents = counterUnpausedEventsRepository
+            .getCounterUnpausedEventsSinceTime(sinceTimeInMillis = todayBeginningTimeInMillis)
+        val counterPausedEvents = counterPausedEventsRepository
+            .getCounterPausedEventsSinceTime(sinceTimeInMillis = todayBeginningTimeInMillis)
 
         val screenEvents = (
-                unlockEvents + lockEvents +
-                        fakeUnlockEvents + fakeLockEvents +
+                unlockEvents + lockEvents + counterUnpausedEvents + counterPausedEvents +
                         LockEvent(currentTimeInMillis) // current time can be treated as lock event
                 )
 
@@ -53,7 +39,8 @@ class GetTodayHourlyUsageMinutesUseCase @Inject constructor(
         )
         var hourIntervalEnd = hourIntervalStart.plusHours(1)
 
-        var shouldAddToCurrentHourlyDuration = screenEvents.first() is LockEvent
+        var shouldAddToCurrentHourlyDuration =
+            screenEvents.first().run { this is LockEvent || this is CounterPausedEvent }
         var currentHourlyDuration = 0L
         val hourlyDurationsInMillis = mutableListOf<Long>()
 
@@ -76,10 +63,12 @@ class GetTodayHourlyUsageMinutesUseCase @Inject constructor(
             var durationCountingStartTimeInMillis = hourIntervalStart.toTimeInMillis()
 
             currentIntervalScreenEvents.forEach {
-                if (it is LockEvent && shouldAddToCurrentHourlyDuration) {
+                if (it.run { this is LockEvent || this is CounterPausedEvent } &&
+                    shouldAddToCurrentHourlyDuration
+                ) {
                     currentHourlyDuration += it.timeInMillis - durationCountingStartTimeInMillis
                     shouldAddToCurrentHourlyDuration = false
-                } else if (it is UnlockEvent) {
+                } else if (it.run { this is UnlockEvent || this is CounterUnpausedEvent }) {
                     durationCountingStartTimeInMillis = it.timeInMillis
                     shouldAddToCurrentHourlyDuration = true
                 }

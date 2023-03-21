@@ -2,7 +2,7 @@ package com.sweak.unlockmaster.domain.use_case.unlock_events
 
 import com.sweak.unlockmaster.data.repository.TimeRepositoryFake
 import com.sweak.unlockmaster.data.repository.UnlockEventsRepositoryFake
-import com.sweak.unlockmaster.domain.model.UnlockEvent
+import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert

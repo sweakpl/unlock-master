@@ -2,7 +2,7 @@ package com.sweak.unlockmaster.data.repository
 
 import com.sweak.unlockmaster.data.local.database.dao.UnlockEventsDao
 import com.sweak.unlockmaster.data.local.database.entities.UnlockEventEntity
-import com.sweak.unlockmaster.domain.model.UnlockEvent
+import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.UnlockEvent
 import com.sweak.unlockmaster.domain.repository.UnlockEventsRepository
 
 class UnlockEventsRepositoryImpl(
