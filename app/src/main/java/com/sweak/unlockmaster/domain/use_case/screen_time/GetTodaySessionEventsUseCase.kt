@@ -1,10 +1,16 @@
 package com.sweak.unlockmaster.domain.use_case.screen_time
 
 import com.sweak.unlockmaster.domain.model.SessionEvent
+import com.sweak.unlockmaster.domain.repository.*
 import javax.inject.Inject
 
-class GetTodaySessionEventsUseCase @Inject constructor() {
-
+class GetTodaySessionEventsUseCase @Inject constructor(
+    private val unlockEventsRepository: UnlockEventsRepository,
+    private val lockEventsRepository: LockEventsRepository,
+    private val counterPausedEventsRepository: CounterPausedEventsRepository,
+    private val counterUnpausedEventsRepository: CounterUnpausedEventsRepository,
+    private val timeRepository: TimeRepository
+) {
     suspend operator fun invoke(): List<SessionEvent> {
         return listOf(
             SessionEvent.ScreenTime(

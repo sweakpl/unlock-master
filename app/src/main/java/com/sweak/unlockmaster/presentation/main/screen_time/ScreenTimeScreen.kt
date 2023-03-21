@@ -55,7 +55,7 @@ fun ScreenTimeScreen(
             if (!isInitializing) {
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxSize()
                         .verticalScroll(rememberScrollState())
                 ) {
                     DailyScreenTimeChart(
