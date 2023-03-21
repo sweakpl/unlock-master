@@ -19,6 +19,7 @@ class GetTodaySessionEventsUseCaseTest {
     private lateinit var counterPausedEventsRepository: CounterPausedEventsRepositoryFake
     private lateinit var counterUnpausedEventsRepository: CounterUnpausedEventsRepositoryFake
     private lateinit var timeRepository: TimeRepositoryFake
+    private lateinit var userSessionRepository: UserSessionRepositoryFake
 
     @Before
     fun setUp() {
@@ -27,12 +28,14 @@ class GetTodaySessionEventsUseCaseTest {
         counterPausedEventsRepository = CounterPausedEventsRepositoryFake()
         counterUnpausedEventsRepository = CounterUnpausedEventsRepositoryFake()
         timeRepository = TimeRepositoryFake()
+        userSessionRepository = UserSessionRepositoryFake()
         getTodaySessionEventsUseCase = GetTodaySessionEventsUseCase(
             unlockEventsRepository,
             lockEventsRepository,
             counterPausedEventsRepository,
             counterUnpausedEventsRepository,
-            timeRepository
+            timeRepository,
+            userSessionRepository
         )
     }
 
@@ -43,6 +46,18 @@ class GetTodaySessionEventsUseCaseTest {
 
         Assert.assertEquals(
             listOf(ScreenTime(1676761200000, 1676774710000, 13510000)),
+            getTodaySessionEventsUseCase()
+        )
+    }
+
+    @Test
+    fun `No screen events, counter is paused and it is 3 45 10 AM`() = runTest {
+        timeRepository.currentTimeInMillisToBeReturned = 1676774710000
+        timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
+        userSessionRepository.isUnlockCounterPausedToBeReturned = true
+
+        Assert.assertEquals(
+            listOf(CounterPaused(1676761200000, 1676774710000)),
             getTodaySessionEventsUseCase()
         )
     }
@@ -163,6 +178,55 @@ class GetTodaySessionEventsUseCaseTest {
                 ScreenTime(1676782923000, 1676782946000, 23000),
                 CounterPaused(1676782946000, 1676785601000),
                 ScreenTime(1676785601000, 1676785619000, 18000)
+            ),
+            getTodaySessionEventsUseCase()
+        )
+    }
+
+    @Test
+    fun `There specific sequence - ULU(CP) and it is 2 30 30 AM`() = runTest {
+        unlockEventsRepository.unlockEventsSinceTimeToBeReturned = listOf(
+            UnlockEvent(unlockTimeInMillis = 1676762423000),
+            UnlockEvent(unlockTimeInMillis = 1676768362000)
+        )
+        lockEventsRepository.lockEventsSinceTimeToBeReturned = listOf(
+            LockEvent(lockTimeInMillis = 1676763362000)
+        )
+        counterPausedEventsRepository.counterPausedEventsSinceTimeToBeReturned = listOf(
+            CounterPausedEvent(counterPausedTimeInMillis = 1676769172000)
+        )
+        timeRepository.currentTimeInMillisToBeReturned = 1676770230000
+        timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
+
+        Assert.assertEquals(
+            listOf(
+                ScreenTime(1676762423000, 1676763362000, 939000),
+                ScreenTime(1676768362000, 1676769172000, 810000),
+                CounterPaused(1676769172000, 1676770230000)
+            ),
+            getTodaySessionEventsUseCase()
+        )
+    }
+
+    @Test
+    fun `There is specific sequence - (CU)LU and it is 3 10 15 AM`() = runTest {
+        unlockEventsRepository.unlockEventsSinceTimeToBeReturned = listOf(
+            UnlockEvent(unlockTimeInMillis = 1676771919000)
+        )
+        lockEventsRepository.lockEventsSinceTimeToBeReturned = listOf(
+            LockEvent(lockTimeInMillis = 1676767341000)
+        )
+        counterUnpausedEventsRepository.counterUnpausedEventsSinceTimeToBeReturned = listOf(
+            CounterUnpausedEvent(counterUnpausedTimeInMillis = 1676766602000)
+        )
+        timeRepository.currentTimeInMillisToBeReturned = 1676772615000
+        timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
+
+        Assert.assertEquals(
+            listOf(
+                CounterPaused(1676761200000, 1676766602000),
+                ScreenTime(1676766602000, 1676767341000, 739000),
+                ScreenTime(1676771919000, 1676772615000, 696000)
             ),
             getTodaySessionEventsUseCase()
         )

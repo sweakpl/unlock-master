@@ -40,7 +40,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCase @Inject constructor(
         }
 
         var screenTimeDuration = 0L
-        var previousUnlockMasterEvent: UnlockMasterEvent = screenEvents[0]
+        var previousUnlockMasterEvent: UnlockMasterEvent = screenEvents.first()
 
         if (previousUnlockMasterEvent.run { this is LockEvent || this is CounterPausedEvent }) {
             screenTimeDuration += previousUnlockMasterEvent.timeInMillis - todayBeginningTimeInMillis

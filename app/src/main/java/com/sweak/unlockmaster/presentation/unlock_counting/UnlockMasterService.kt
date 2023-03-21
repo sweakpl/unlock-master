@@ -47,7 +47,7 @@ class UnlockMasterService : Service() {
     lateinit var shouldAddLockEventUseCase: ShouldAddLockEventUseCase
 
     @Inject
-    lateinit var addScreenEventUseCase: AddScreenOnEventUseCase
+    lateinit var addScreenOnEventUseCase: AddScreenOnEventUseCase
 
     @Inject
     lateinit var getTodayUnlockEventsCountUseCase: GetTodayUnlockEventsCountUseCase
@@ -129,7 +129,7 @@ class UnlockMasterService : Service() {
     private val screenOnReceiver = ScreenOnReceiver().apply {
         onScreenOn = {
             serviceScope.launch {
-                addScreenEventUseCase()
+                addScreenOnEventUseCase()
             }
         }
     }
