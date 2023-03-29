@@ -8,6 +8,7 @@ sealed class Screen(val route: String) {
     object SetupCompleteScreen: Screen("setup_complete_screen")
     object HomeScreen: Screen("home_screen")
     object ScreenTimeScreen : Screen("screen_time_screen")
+    object StatisticsScreen : Screen("statistics_screen")
 
     fun withArguments(vararg arguments: String): String {
         return buildString {

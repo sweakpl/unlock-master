@@ -23,8 +23,10 @@ fun Dialog(
     onPositiveClick: () -> Unit,
     positiveButtonText: String,
     onNegativeClick: (() -> Unit)? = null,
-    negativeButtonText: String
+    negativeButtonText: String? = null
 ) {
+    val onlyPositiveButton = negativeButtonText == null
+
     Dialog(
         onDismissRequest = onDismissRequest,
         properties = DialogProperties(
@@ -69,23 +71,25 @@ fun Dialog(
                         bottom = MaterialTheme.space.medium
                     )
             ) {
-                Button(
-                    onClick = onNegativeClick ?: onDismissRequest,
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Transparent
-                    ),
-                    elevation = ButtonDefaults.elevation(
-                        defaultElevation = MaterialTheme.space.default
-                    ),
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(
-                        text = negativeButtonText,
-                        modifier = Modifier.padding(all = MaterialTheme.space.xSmall)
-                    )
-                }
+                if (!onlyPositiveButton) {
+                    Button(
+                        onClick = onNegativeClick ?: onDismissRequest,
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color.Transparent
+                        ),
+                        elevation = ButtonDefaults.elevation(
+                            defaultElevation = MaterialTheme.space.default
+                        ),
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(
+                            text = negativeButtonText!!,
+                            modifier = Modifier.padding(all = MaterialTheme.space.xSmall)
+                        )
+                    }
 
-                Spacer(modifier = Modifier.width(MaterialTheme.space.medium))
+                    Spacer(modifier = Modifier.width(MaterialTheme.space.medium))
+                }
 
                 Button(
                     onClick = onPositiveClick,

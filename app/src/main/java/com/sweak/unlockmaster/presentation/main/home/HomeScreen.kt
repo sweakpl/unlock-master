@@ -382,7 +382,9 @@ fun HomeScreen(
                             )
 
                             Button(
-                                onClick = { /* TODO: redirect */ },
+                                onClick = {
+                                    navController.navigate(Screen.StatisticsScreen.route)
+                                },
                                 modifier = Modifier
                                     .padding(top = MaterialTheme.space.medium)
                                     .align(Alignment.End)

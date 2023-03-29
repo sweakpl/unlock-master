@@ -23,6 +23,7 @@ import com.sweak.unlockmaster.presentation.introduction.setup_complete.SetupComp
 import com.sweak.unlockmaster.presentation.introduction.welcome.WelcomeScreen
 import com.sweak.unlockmaster.presentation.main.home.HomeScreen
 import com.sweak.unlockmaster.presentation.main.screen_time.ScreenTimeScreen
+import com.sweak.unlockmaster.presentation.main.statistics.StatisticsScreen
 import com.sweak.unlockmaster.presentation.unlock_counting.UnlockMasterService
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -105,6 +106,10 @@ class MainActivity : ComponentActivity() {
 
                     composable(route = Screen.ScreenTimeScreen.route) {
                         ScreenTimeScreen(navController = navController)
+                    }
+
+                    composable(route = Screen.StatisticsScreen.route) {
+                        StatisticsScreen(navController = navController)
                     }
                 }
             }
