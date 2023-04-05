@@ -2,7 +2,6 @@ package com.sweak.unlockmaster.presentation.main.screen_time
 
 import android.text.format.DateFormat
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -27,7 +26,6 @@ import com.sweak.unlockmaster.presentation.main.screen_time.components.CounterPa
 import com.sweak.unlockmaster.presentation.main.screen_time.components.DailyScreenTimeChart
 import com.sweak.unlockmaster.presentation.main.screen_time.components.SingleScreenTimeSessionCard
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ScreenTimeScreen(
     navController: NavController,
@@ -40,7 +38,9 @@ fun ScreenTimeScreen(
     val screenTimeScreenState = screenTimeViewModel.state
 
     Column(
-        modifier = Modifier.background(color = MaterialTheme.colors.background)
+        modifier = Modifier
+            .background(color = MaterialTheme.colors.background)
+            .fillMaxSize()
     ) {
         NavigationBar(
             title = stringResource(R.string.screen_time),
@@ -54,9 +54,7 @@ fun ScreenTimeScreen(
         ) { isInitializing ->
             if (!isInitializing) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
+                    modifier = Modifier.verticalScroll(rememberScrollState())
                 ) {
                     DailyScreenTimeChart(
                         screenTimeMinutesPerHourEntries =

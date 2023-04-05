@@ -185,7 +185,7 @@ fun UnlockLimitSetupScreen(
                     description = stringResource(R.string.reference_description),
                     icon = Icons.Filled.MyLocation,
                     iconContentDescription = stringResource(
-                        R.string.content_description_statistics_icon
+                        R.string.content_description_crosshair_icon
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -201,7 +201,7 @@ fun UnlockLimitSetupScreen(
                     description = stringResource(R.string.adjustability_description),
                     icon = Icons.Filled.ModeEdit,
                     iconContentDescription = stringResource(
-                        R.string.content_description_wellness_icon
+                        R.string.content_description_edit_icon
                     ),
                     modifier = Modifier
                         .fillMaxWidth()

@@ -3,7 +3,6 @@ package com.sweak.unlockmaster.presentation.main.home
 import android.content.Intent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,7 +33,6 @@ import com.sweak.unlockmaster.presentation.main.home.components.WeeklyUnlocksCha
 import com.sweak.unlockmaster.presentation.unlock_counting.EXTRA_IS_UNLOCK_COUNTER_PAUSED
 import com.sweak.unlockmaster.presentation.unlock_counting.UNLOCK_COUNTER_PAUSE_CHANGED
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),

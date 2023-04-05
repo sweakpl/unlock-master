@@ -38,9 +38,7 @@ fun SingleScreenTimeSessionCard(
         ) {
             Icon(
                 imageVector = Icons.Outlined.AccessTime,
-                contentDescription = stringResource(
-                    R.string.content_description_clock
-                ),
+                contentDescription = stringResource(R.string.content_description_clock_icon),
                 modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
             )
 

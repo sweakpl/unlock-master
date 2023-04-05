@@ -56,7 +56,7 @@ dependencies {
 
     // Jetpack Compose
     implementation 'androidx.activity:activity-compose:1.7.0'
-    implementation 'androidx.compose.ui:ui:1.4.0'
+    implementation 'androidx.compose.ui:ui:1.5.0-alpha01'
     implementation 'androidx.compose.ui:ui-tooling-preview:1.4.0'
     implementation 'androidx.navigation:navigation-compose:2.5.3'
     implementation 'androidx.compose.material:material:1.4.0'
@@ -67,8 +67,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
 
     // Dagger Hilt
-    implementation 'com.google.dagger:hilt-android:2.44'
-    kapt 'com.google.dagger:hilt-compiler:2.44'
+    implementation 'com.google.dagger:hilt-android:2.45'
+    kapt 'com.google.dagger:hilt-compiler:2.45'
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
     // Room
@@ -80,11 +80,11 @@ dependencies {
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
 
     // Permission handling
-    implementation 'com.google.accompanist:accompanist-permissions:0.28.0'
+    implementation 'com.google.accompanist:accompanist-permissions:0.30.0'
 
     // Api >= 21 support for DateTime API
     // noinspection GradleDependency
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.2'
 
     // View components
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'

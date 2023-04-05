@@ -77,6 +77,10 @@
     <string name="pause_counter_description">Are you sure you want to pause the counter? Phone unlocks, screen time etc. won’t be recorded when the counter is paused.</string>
     <string name="pause">Pause</string>
     <string name="cancel">Cancel</string>
+    <string name="screen_time_details">Screen time details</string>
+    <string name="screen_unlocks">Screen unlocks</string>
+    <string name="screen_on_events">Screen On events</string>
+    <string name="screen_on_event_description">Screen On event is a situation when the screen of your smartphone is lit up (turned on). It can happen e.g. after a notification is received or power button is pressed. This event does not necessarily mean that the phone was unlocked.</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>
@@ -95,6 +99,13 @@
     <string name="content_description_menu_icon">Menu icon</string>
     <string name="content_description_play_icon">Play icon</string>
     <string name="content_description_pause_icon">Pause icon</string>
-    <string name="content_description_clock">Clock icon</string>
+    <string name="content_description_clock_icon">Clock icon</string>
     <string name="content_description_delete_icon">Trash can icon indicating deleting</string>
+    <string name="content_description_calendar_icon">Calendar icon</string>
+    <string name="content_description_open_padlock_icon">Open padlock icon</string>
+    <string name="content_description_edit_icon">Pen icon indicating edition</string>
+    <string name="content_description_crosshair_icon">Crosshair icon</string>
+    <string name="content_description_light_icon">Light icon</string>
+    <string name="content_description_help_icon">Help icon</string>
+    <string name="ok">OK</string>
 </resources>
