@@ -11,20 +11,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.github.mikephil.charting.data.BarEntry
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
+import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.main.statistics.components.AllTimeUnlocksChart
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun StatisticsScreen(
-    navController: NavController
+    navController: NavController,
+    statisticsViewModel: StatisticsViewModel = hiltViewModel()
 ) {
-    var isScreenOnEventsInformationDialogVisible by remember { mutableStateOf(false) }
+    OnResume {
+        statisticsViewModel.reload()
+    }
+
+    val statisticsScreenState = statisticsViewModel.state
 
     Column(
         modifier = Modifier
@@ -171,7 +178,13 @@ fun StatisticsScreen(
                         LocalMinimumInteractiveComponentEnforcement provides false
                     ) {
                         IconButton(
-                            onClick = { isScreenOnEventsInformationDialogVisible = true },
+                            onClick = {
+                                statisticsViewModel.onEvent(
+                                    StatisticsScreenEvent.ScreenOnEventsInformationDialogVisible(
+                                        isVisible = true
+                                    )
+                                )
+                            },
                             modifier = Modifier.padding(
                                 start = MaterialTheme.space.xSmall,
                                 end = MaterialTheme.space.smallMedium
@@ -249,15 +262,19 @@ fun StatisticsScreen(
         }
     }
 
-    if (isScreenOnEventsInformationDialogVisible) {
+    if (statisticsScreenState.isScreenOnEventsInformationDialogVisible) {
         Dialog(
             title = stringResource(R.string.screen_on_events),
             message = stringResource(R.string.screen_on_event_description),
             onDismissRequest = {
-                isScreenOnEventsInformationDialogVisible = false
+                statisticsViewModel.onEvent(
+                    StatisticsScreenEvent.ScreenOnEventsInformationDialogVisible(isVisible = false)
+                )
             },
             onPositiveClick = {
-                isScreenOnEventsInformationDialogVisible = false
+                statisticsViewModel.onEvent(
+                    StatisticsScreenEvent.ScreenOnEventsInformationDialogVisible(isVisible = false)
+                )
             },
             positiveButtonText = stringResource(R.string.ok)
         )

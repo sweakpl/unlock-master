@@ -19,4 +19,7 @@ interface UnlockEventsDao {
 
     @Query("SELECT * FROM unlock_event ORDER BY timeInMillis DESC LIMIT 1")
     suspend fun getLatestUnlockEvent(): UnlockEventEntity?
+
+    @Query("SELECT * FROM unlock_event ORDER BY timeInMillis ASC LIMIT 1")
+    suspend fun getFirstUnlockEvent(): UnlockEventEntity?
 }

@@ -7,4 +7,5 @@ interface UnlockEventsRepository {
     suspend fun getUnlockEventsCountSinceTime(sinceTimeInMillis: Long): Int
     suspend fun getUnlockEventsSinceTime(sinceTimeInMillis: Long): List<UnlockEvent>
     suspend fun getLatestUnlockEvent(): UnlockEvent?
+    suspend fun getFirstUnlockEvent(): UnlockEvent?
 }

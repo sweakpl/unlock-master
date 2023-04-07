@@ -29,4 +29,11 @@ class UnlockEventsRepositoryImpl(
                 unlockTimeInMillis = it.timeInMillis
             )
         }
+
+    override suspend fun getFirstUnlockEvent(): UnlockEvent? =
+        unlockEventsDao.getFirstUnlockEvent()?.let {
+            UnlockEvent(
+                unlockTimeInMillis = it.timeInMillis
+            )
+        }
 }
