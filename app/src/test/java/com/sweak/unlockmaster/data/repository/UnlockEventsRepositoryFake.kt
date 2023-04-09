@@ -6,6 +6,7 @@ import com.sweak.unlockmaster.domain.repository.UnlockEventsRepository
 class UnlockEventsRepositoryFake : UnlockEventsRepository {
 
     var unlockEventsSinceTimeToBeReturned: List<UnlockEvent> = emptyList()
+    var firstUnlockEventToBeReturned: UnlockEvent? = null
 
     override suspend fun addUnlockEvent(unlockEventTimeInMillis: Long) {
         TODO("Not yet implemented")
@@ -22,7 +23,5 @@ class UnlockEventsRepositoryFake : UnlockEventsRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getFirstUnlockEvent(): UnlockEvent? {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getFirstUnlockEvent(): UnlockEvent? = firstUnlockEventToBeReturned
 }

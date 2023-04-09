@@ -117,10 +117,12 @@ class GetLastWeekUnlockEventCountsUseCaseTest {
     }
 
     @Test
-    fun `If there are specific UnlockEvents sequence, then returns 1, 2, 9, 1, 6, 14, 8`() = runTest {
+    fun `If there are specific UnlockEvents sequence, then returns 2, 1, 2, 9, 1, 6, 14`() = runTest {
         timeRepository.tomorrowBeginningTimeInMillisToBeReturned = 1677538800000
-        timeRepository.sixDaysBeforeDayBeginningTimeInMillisToBeReturned = 1677020400000
+        timeRepository.sixDaysBeforeDayBeginningTimeInMillisToBeReturned = 1676934000000
         unlockEventsRepository.unlockEventsSinceTimeToBeReturned = listOf(
+            UnlockEvent(1677011456000),
+            UnlockEvent(1677020180000),
             UnlockEvent(1677063983000),
             UnlockEvent(1677180463944),
             UnlockEvent(1677180670524),
@@ -153,26 +155,18 @@ class GetLastWeekUnlockEventCountsUseCaseTest {
             UnlockEvent(1677504667585),
             UnlockEvent(1677506178672),
             UnlockEvent(1677506788517),
-            UnlockEvent(1677509641754),
-            UnlockEvent(1677580527878),
-            UnlockEvent(1677584222702),
-            UnlockEvent(1677584829618),
-            UnlockEvent(1677586248462),
-            UnlockEvent(1677590096315),
-            UnlockEvent(1677593560626),
-            UnlockEvent(1677620245933),
-            UnlockEvent(1677623680353)
+            UnlockEvent(1677509641754)
         )
 
         getLastWeekUnlockEventCountsUseCase().apply {
-            Assert.assertEquals(listOf(1, 2, 9, 1, 6, 14, 8), this)
+            Assert.assertEquals(listOf(2, 1, 2, 9, 1, 6, 14), this)
         }
     }
 
     @Test
-    fun `If there are specific UnlockEvents sequence, then returns 0, 0, 22, 28, 29, 26, 19`() = runTest {
+    fun `If there are specific UnlockEvents sequence, then returns 0, 0, 0, 22, 28, 29, 26`() = runTest {
         timeRepository.tomorrowBeginningTimeInMillisToBeReturned = 1677538800000
-        timeRepository.sixDaysBeforeDayBeginningTimeInMillisToBeReturned = 1677020400000
+        timeRepository.sixDaysBeforeDayBeginningTimeInMillisToBeReturned = 1676934000000
         unlockEventsRepository.unlockEventsSinceTimeToBeReturned = listOf(
             UnlockEvent(1677222647231),
             UnlockEvent(1677226525087),
@@ -278,30 +272,11 @@ class GetLastWeekUnlockEventCountsUseCaseTest {
             UnlockEvent(1677526386987),
             UnlockEvent(1677526516517),
             UnlockEvent(1677526540999),
-            UnlockEvent(1677536260481),
-            UnlockEvent(1677541938094),
-            UnlockEvent(1677570987005),
-            UnlockEvent(1677576555834),
-            UnlockEvent(1677576695671),
-            UnlockEvent(1677576916273),
-            UnlockEvent(1677579213880),
-            UnlockEvent(1677583271436),
-            UnlockEvent(1677589693052),
-            UnlockEvent(1677595812579),
-            UnlockEvent(1677596736837),
-            UnlockEvent(1677598291714),
-            UnlockEvent(1677599305998),
-            UnlockEvent(1677599664751),
-            UnlockEvent(1677613541725),
-            UnlockEvent(1677616481370),
-            UnlockEvent(1677619373790),
-            UnlockEvent(1677619649549),
-            UnlockEvent(1677620398521),
-            UnlockEvent(1677623956144)
+            UnlockEvent(1677536260481)
         )
 
         getLastWeekUnlockEventCountsUseCase().apply {
-            Assert.assertEquals(listOf(0, 0, 22, 28, 29, 26, 19), this)
+            Assert.assertEquals(listOf(0, 0, 0, 22, 28, 29, 26), this)
         }
     }
 }

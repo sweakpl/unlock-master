@@ -13,7 +13,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.github.mikephil.charting.data.BarEntry
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
@@ -44,22 +43,7 @@ fun StatisticsScreen(
         )
 
         AllTimeUnlocksChart(
-            allTimeUnlockEventCountsEntries = listOf(
-                BarEntry(0f, 37f),
-                BarEntry(1f, 38f),
-                BarEntry(2f, 36f),
-                BarEntry(3f, 35f),
-                BarEntry(4f, 35f),
-                BarEntry(5f, 37f),
-                BarEntry(6f, 34f),
-                BarEntry(7f, 35f),
-                BarEntry(8f, 36f),
-                BarEntry(9f, 35f),
-                BarEntry(10f, 33f),
-                BarEntry(11f, 30f),
-                BarEntry(12f, 31f),
-                BarEntry(13f, 30f)
-            ),
+            allTimeUnlockEventCountsEntries = statisticsScreenState.allTimeUnlockEventCounts,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(164.dp)

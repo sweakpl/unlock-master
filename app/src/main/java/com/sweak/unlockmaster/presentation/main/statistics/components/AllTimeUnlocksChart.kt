@@ -1,15 +1,11 @@
 package com.sweak.unlockmaster.presentation.main.statistics.components
 
 import android.graphics.Color
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.res.ResourcesCompat
 import com.github.mikephil.charting.charts.BarChart
@@ -26,7 +22,6 @@ import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.domain.toTimeInMillis
-import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
 import com.sweak.unlockmaster.presentation.common.util.RoundedBarChartRenderer
 import com.sweak.unlockmaster.presentation.common.util.getShortDayString
 import com.sweak.unlockmaster.presentation.main.home.components.SemiTransparentBlueRectangleMarkerView
@@ -46,6 +41,7 @@ fun AllTimeUnlocksChart(
                 renderer = RoundedBarChartRenderer(this, this.animator, this.viewPortHandler)
                 setScaleEnabled(false)
                 setDrawMarkers(true)
+                setNoDataText("")
                 isAutoScaleMinMaxEnabled = true
                 description.isEnabled = false
                 axisRight.isEnabled = false
@@ -103,6 +99,10 @@ fun AllTimeUnlocksChart(
             }
         },
         update = {
+            if (allTimeUnlockEventCountsEntries.isEmpty()) {
+                return@AndroidView
+            }
+
             val xMax: Float
 
             val barData =
