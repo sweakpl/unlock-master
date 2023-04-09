@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.BarEntry
 import com.sweak.unlockmaster.domain.use_case.counter_pause.IsUnlockCounterPausedUseCase
 import com.sweak.unlockmaster.domain.use_case.counter_pause.SetUnlockCounterPauseUseCase
-import com.sweak.unlockmaster.domain.use_case.screen_time.GetTodayScreenTimeHoursAndMinutesUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_time.GetTodayScreenTimeDurationUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetLastWeekUnlockEventCountsUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetTodayUnlockEventsCountUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
@@ -25,7 +25,7 @@ class HomeViewModel @Inject constructor(
     private val getUnlockLimitAmountForTomorrowUseCase: GetUnlockLimitAmountForTomorrowUseCase,
     private val setUnlockCounterPauseUseCase: SetUnlockCounterPauseUseCase,
     private val isUnlockCounterPausedUseCase: IsUnlockCounterPausedUseCase,
-    private val getTodayScreenTimeHoursAndMinutesUseCase: GetTodayScreenTimeHoursAndMinutesUseCase,
+    private val getTodayScreenTimeDurationUseCase: GetTodayScreenTimeDurationUseCase,
     private val getLastWeekUnlockEventCountsUseCase: GetLastWeekUnlockEventCountsUseCase
 ) : ViewModel() {
 
@@ -47,7 +47,9 @@ class HomeViewModel @Inject constructor(
             isUnlockCounterPaused = isUnlockCounterPausedUseCase(),
             unlockLimitForTomorrow =
             if (unlockLimitForTomorrow != unlockLimitForToday) unlockLimitForTomorrow else null,
-            todayHoursAndMinutesScreenTimePair = getTodayScreenTimeHoursAndMinutesUseCase(),
+            todayHoursAndMinutesScreenTimePair = getHoursAndMinutesDurationPair(
+                getTodayScreenTimeDurationUseCase()
+            ),
             lastWeekUnlockEventCounts = getLastWeekUnlockEventCountsUseCase().mapIndexed { x, y ->
                 BarEntry(x.toFloat(), y.toFloat())
             }
@@ -82,5 +84,12 @@ class HomeViewModel @Inject constructor(
                 state = state.copy(isUnlockCounterPauseConfirmationDialogVisible = event.isVisible)
             }
         }
+    }
+
+    private fun getHoursAndMinutesDurationPair(durationTimeInMillis: Long): Pair<Int, Int> {
+        val hours = durationTimeInMillis / 3600000
+        val minutes = (durationTimeInMillis % 3600000) / 60000
+
+        return Pair(hours.toInt(), minutes.toInt())
     }
 }

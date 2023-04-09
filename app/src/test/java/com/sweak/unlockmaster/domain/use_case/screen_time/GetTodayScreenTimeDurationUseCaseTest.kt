@@ -9,9 +9,14 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
+class GetTodayScreenTimeDurationUseCaseTest {
 
-    private lateinit var getTodayScreenTimeHoursAndMinutesUseCase: GetTodayScreenTimeHoursAndMinutesUseCase
+    // All times in milliseconds should be referenced with the context of the timezone UTC +1.
+    // E.g. when talking about todayBeginningTimeInMillis = 1676761200000 it means it is
+    // Sun Feb 19 2023 00:00:00 which actually is the beginning of the day in the time zone UTC +1
+    // while in the UTC +0 it is Sat Feb 18 2023 23:00:00.
+
+    private lateinit var getTodayScreenTimeDurationUseCase: GetTodayScreenTimeDurationUseCase
     private lateinit var unlockEventsRepository: UnlockEventsRepositoryFake
     private lateinit var lockEventsRepository: LockEventsRepositoryFake
     private lateinit var counterPausedEventsRepository: CounterPausedEventsRepositoryFake
@@ -27,7 +32,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         counterUnpausedEventsRepository = CounterUnpausedEventsRepositoryFake()
         timeRepository = TimeRepositoryFake()
         userSessionRepository = UserSessionRepositoryFake()
-        getTodayScreenTimeHoursAndMinutesUseCase = GetTodayScreenTimeHoursAndMinutesUseCase(
+        getTodayScreenTimeDurationUseCase = GetTodayScreenTimeDurationUseCase(
             unlockEventsRepository,
             lockEventsRepository,
             counterPausedEventsRepository,
@@ -42,10 +47,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676771100000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
-        getTodayScreenTimeHoursAndMinutesUseCase().apply {
-            Assert.assertEquals(2, first)
-            Assert.assertEquals(45, second)
-        }
+        Assert.assertEquals(9900000, getTodayScreenTimeDurationUseCase())
     }
 
     @Test
@@ -54,10 +56,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
         userSessionRepository.isUnlockCounterPausedToBeReturned = true
 
-        getTodayScreenTimeHoursAndMinutesUseCase().apply {
-            Assert.assertEquals(0, first)
-            Assert.assertEquals(0, second)
-        }
+        Assert.assertEquals(0L, getTodayScreenTimeDurationUseCase())
     }
 
     @Test
@@ -68,10 +67,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
-        getTodayScreenTimeHoursAndMinutesUseCase().apply {
-            Assert.assertEquals(0, first)
-            Assert.assertEquals(30, second)
-        }
+        Assert.assertEquals(1800000, getTodayScreenTimeDurationUseCase())
     }
 
     @Test
@@ -82,10 +78,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
-        getTodayScreenTimeHoursAndMinutesUseCase().apply {
-            Assert.assertEquals(0, first)
-            Assert.assertEquals(20, second)
-        }
+        Assert.assertEquals(1200000, getTodayScreenTimeDurationUseCase())
     }
 
     @Test
@@ -98,10 +91,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
-        getTodayScreenTimeHoursAndMinutesUseCase().apply {
-            Assert.assertEquals(0, first)
-            Assert.assertEquals(15, second)
-        }
+        Assert.assertEquals(900000, getTodayScreenTimeDurationUseCase())
     }
 
     @Test
@@ -114,10 +104,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
-        getTodayScreenTimeHoursAndMinutesUseCase().apply {
-            Assert.assertEquals(0, first)
-            Assert.assertEquals(10, second)
-        }
+        Assert.assertEquals(600000, getTodayScreenTimeDurationUseCase())
     }
 
     @Test
@@ -137,10 +124,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
-        getTodayScreenTimeHoursAndMinutesUseCase().apply {
-            Assert.assertEquals(1, first)
-            Assert.assertEquals(15, second)
-        }
+        Assert.assertEquals(4500000, getTodayScreenTimeDurationUseCase())
     }
 
     @Test
@@ -162,10 +146,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
-        getTodayScreenTimeHoursAndMinutesUseCase().apply {
-            Assert.assertEquals(1, first)
-            Assert.assertEquals(15, second)
-        }
+        Assert.assertEquals(4500000, getTodayScreenTimeDurationUseCase())
     }
 
     @Test
@@ -187,10 +168,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
-        getTodayScreenTimeHoursAndMinutesUseCase().apply {
-            Assert.assertEquals(1, first)
-            Assert.assertEquals(15, second)
-        }
+        Assert.assertEquals(4500000, getTodayScreenTimeDurationUseCase())
     }
 
     @Test
@@ -212,10 +190,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
-        getTodayScreenTimeHoursAndMinutesUseCase().apply {
-            Assert.assertEquals(1, first)
-            Assert.assertEquals(30, second)
-        }
+        Assert.assertEquals(5400000, getTodayScreenTimeDurationUseCase())
     }
 
     @Test
@@ -237,10 +212,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
-        getTodayScreenTimeHoursAndMinutesUseCase().apply {
-            Assert.assertEquals(0, first)
-            Assert.assertEquals(55, second)
-        }
+        Assert.assertEquals(3300000, getTodayScreenTimeDurationUseCase())
     }
 
     @Test
@@ -251,10 +223,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
-        getTodayScreenTimeHoursAndMinutesUseCase().apply {
-            Assert.assertEquals(3, first)
-            Assert.assertEquals(15, second)
-        }
+        Assert.assertEquals(11700000, getTodayScreenTimeDurationUseCase())
     }
 
     @Test
@@ -265,10 +234,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
-        getTodayScreenTimeHoursAndMinutesUseCase().apply {
-            Assert.assertEquals(1, first)
-            Assert.assertEquals(15, second)
-        }
+        Assert.assertEquals(4500000, getTodayScreenTimeDurationUseCase())
     }
 
     @Test
@@ -294,10 +260,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
-        getTodayScreenTimeHoursAndMinutesUseCase().apply {
-            Assert.assertEquals(1, first)
-            Assert.assertEquals(15, second)
-        }
+        Assert.assertEquals(4500000, getTodayScreenTimeDurationUseCase())
     }
 
     @Test
@@ -317,9 +280,6 @@ class GetTodayScreenTimeHoursAndMinutesUseCaseTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
         timeRepository.todayBeginningTimeInMillisToBeReturned = 1676761200000
 
-        getTodayScreenTimeHoursAndMinutesUseCase().apply {
-            Assert.assertEquals(0, first)
-            Assert.assertEquals(20, second)
-        }
+        Assert.assertEquals(1200000, getTodayScreenTimeDurationUseCase())
     }
 }

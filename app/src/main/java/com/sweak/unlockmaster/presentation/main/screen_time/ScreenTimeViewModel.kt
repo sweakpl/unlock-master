@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.Entry
 import com.sweak.unlockmaster.domain.model.SessionEvent.*
 import com.sweak.unlockmaster.domain.use_case.screen_time.GetTodayHourlyUsageMinutesUseCase
-import com.sweak.unlockmaster.domain.use_case.screen_time.GetTodayScreenTimeHoursAndMinutesUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_time.GetTodayScreenTimeDurationUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_time.GetTodaySessionEventsUseCase
 import com.sweak.unlockmaster.presentation.main.screen_time.ScreenTimeScreenState.UIReadySessionEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ScreenTimeViewModel @Inject constructor(
     private val getTodayHourlyUsageMinutesUseCase: GetTodayHourlyUsageMinutesUseCase,
-    private val getTodayScreenTimeHoursAndMinutesUseCase: GetTodayScreenTimeHoursAndMinutesUseCase,
+    private val getTodayScreenTimeDurationUseCase: GetTodayScreenTimeDurationUseCase,
     private val getTodaySessionEventsUseCase: GetTodaySessionEventsUseCase
 ) : ViewModel() {
 
@@ -29,7 +29,9 @@ class ScreenTimeViewModel @Inject constructor(
             isInitializing = false,
             screenTimeMinutesPerHourEntries = getTodayHourlyUsageMinutesUseCase()
                 .mapIndexed { index, minutes -> Entry(index.toFloat(), minutes.toFloat()) },
-            todayHoursAndMinutesScreenTimePair = getTodayScreenTimeHoursAndMinutesUseCase(),
+            todayHoursAndMinutesScreenTimePair = getHoursAndMinutesDurationPair(
+                getTodayScreenTimeDurationUseCase()
+            ),
             UIReadySessionEvents = getTodaySessionEventsUseCase().map {
                 when (it) {
                     is ScreenTime -> {
@@ -49,6 +51,13 @@ class ScreenTimeViewModel @Inject constructor(
                 }
             }
         )
+    }
+
+    private fun getHoursAndMinutesDurationPair(durationTimeInMillis: Long): Pair<Int, Int> {
+        val hours = durationTimeInMillis / 3600000
+        val minutes = (durationTimeInMillis % 3600000) / 60000
+
+        return Pair(hours.toInt(), minutes.toInt())
     }
 
     private fun getHoursMinutesAndSecondsDurationTriple(durationTimeInMillis: Long):

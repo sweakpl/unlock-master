@@ -5,7 +5,7 @@ import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.*
 import com.sweak.unlockmaster.domain.repository.*
 import javax.inject.Inject
 
-class GetTodayScreenTimeHoursAndMinutesUseCase @Inject constructor(
+class GetTodayScreenTimeDurationUseCase @Inject constructor(
     private val unlockEventsRepository: UnlockEventsRepository,
     private val lockEventsRepository: LockEventsRepository,
     private val counterPausedEventsRepository: CounterPausedEventsRepository,
@@ -13,7 +13,7 @@ class GetTodayScreenTimeHoursAndMinutesUseCase @Inject constructor(
     private val timeRepository: TimeRepository,
     private val userSessionRepository: UserSessionRepository
 ) {
-    suspend operator fun invoke(): Pair<Int, Int> {
+    suspend operator fun invoke(): Long {
         val todayBeginningTimeInMillis = timeRepository.getTodayBeginningTimeInMillis()
         val currentTimeInMillis = timeRepository.getCurrentTimeInMillis()
 
@@ -30,13 +30,8 @@ class GetTodayScreenTimeHoursAndMinutesUseCase @Inject constructor(
             .sortedBy { it.timeInMillis }
 
         if (screenEvents.isEmpty()) {
-            return if (userSessionRepository.isUnlockCounterPaused()) {
-                Pair(0, 0)
-            } else {
-                getHoursAndMinutesDurationPair(
-                    durationTimeInMillis = currentTimeInMillis - todayBeginningTimeInMillis
-                )
-            }
+            return if (userSessionRepository.isUnlockCounterPaused()) 0L
+            else currentTimeInMillis - todayBeginningTimeInMillis
         }
 
         var screenTimeDuration = 0L
@@ -69,15 +64,6 @@ class GetTodayScreenTimeHoursAndMinutesUseCase @Inject constructor(
             screenTimeDuration += currentTimeInMillis - previousSinceTime
         }
 
-        return getHoursAndMinutesDurationPair(
-            durationTimeInMillis = screenTimeDuration
-        )
-    }
-
-    private fun getHoursAndMinutesDurationPair(durationTimeInMillis: Long): Pair<Int, Int> {
-        val hours = durationTimeInMillis / 3600000
-        val minutes = (durationTimeInMillis % 3600000) / 60000
-
-        return Pair(hours.toInt(), minutes.toInt())
+        return screenTimeDuration
     }
 }

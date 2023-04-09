@@ -13,6 +13,11 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class GetTodaySessionEventsUseCaseTest {
 
+    // All times in milliseconds should be referenced with the context of the timezone UTC +1.
+    // E.g. when talking about todayBeginningTimeInMillis = 1676761200000 it means it is
+    // Sun Feb 19 2023 00:00:00 which actually is the beginning of the day in the time zone UTC +1
+    // while in the UTC +0 it is Sat Feb 18 2023 23:00:00.
+
     private lateinit var getTodaySessionEventsUseCase: GetTodaySessionEventsUseCase
     private lateinit var unlockEventsRepository: UnlockEventsRepositoryFake
     private lateinit var lockEventsRepository: LockEventsRepositoryFake
