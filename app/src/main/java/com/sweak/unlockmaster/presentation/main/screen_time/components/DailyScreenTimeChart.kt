@@ -1,6 +1,7 @@
 package com.sweak.unlockmaster.presentation.main.screen_time.components
 
 import android.graphics.Color
+import android.text.format.DateFormat
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -55,8 +56,12 @@ fun DailyScreenTimeChart(
                     valueFormatter = object : IndexAxisValueFormatter() {
                         override fun getAxisLabel(value: Float, axis: AxisBase): String =
                             value.roundToInt().run {
+                                val is24HoursFormat = DateFormat.is24HourFormat(context)
+
                                 when (this) {
-                                    6, 12, 18 -> "$this:00"
+                                    6 -> if (is24HoursFormat) "6:00" else "6:00 AM"
+                                    12 -> if (is24HoursFormat) "12:00" else "12:00 PM"
+                                    18 -> if (is24HoursFormat) "18:00" else "6:00 PM"
                                     else -> ""
                                 }
                             }
