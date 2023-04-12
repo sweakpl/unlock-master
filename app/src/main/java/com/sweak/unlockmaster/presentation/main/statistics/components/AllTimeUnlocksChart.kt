@@ -3,6 +3,7 @@ package com.sweak.unlockmaster.presentation.main.statistics.components
 import android.graphics.Color
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
@@ -30,8 +31,12 @@ import java.time.ZonedDateTime
 @Composable
 fun AllTimeUnlocksChart(
     allTimeUnlockEventCountsEntries: List<BarEntry>,
+    onValueSelected: (entryIndex: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val chartEntries = remember(allTimeUnlockEventCountsEntries) {
+        mutableStateOf(allTimeUnlockEventCountsEntries)
+    }
     var currentlyHighlightedXValue = remember { 0f }
     val barArgbColor: Int = MaterialTheme.colors.primaryVariant.toArgb()
 
@@ -67,14 +72,6 @@ fun AllTimeUnlocksChart(
                     textSize = 10f
                     textColor = Color.BLACK
                     typeface = ResourcesCompat.getFont(context, R.font.amiko_regular)
-                    valueFormatter = object : IndexAxisValueFormatter() {
-                        override fun getAxisLabel(value: Float, axis: AxisBase): String =
-                            getShortDayString(
-                                ZonedDateTime.now()
-                                    .plusDays(value.toLong() + 1)
-                                    .toTimeInMillis()
-                            )
-                    }
                 }
 
                 setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
@@ -87,8 +84,7 @@ fun AllTimeUnlocksChart(
                             }
 
                             currentlyHighlightedXValue = xValueToBeHighlighted
-
-                            // TODO call highlight callback here
+                            onValueSelected(currentlyHighlightedXValue.toInt())
                         }
                     }
 
@@ -99,7 +95,7 @@ fun AllTimeUnlocksChart(
             }
         },
         update = {
-            if (allTimeUnlockEventCountsEntries.isEmpty()) {
+            if (chartEntries.value.isEmpty()) {
                 return@AndroidView
             }
 
@@ -107,10 +103,7 @@ fun AllTimeUnlocksChart(
 
             val barData =
                 BarData(
-                    BarDataSet(
-                        allTimeUnlockEventCountsEntries,
-                        "allTimeUnlockEventCounts"
-                    ).apply {
+                    BarDataSet(chartEntries.value, "allTimeUnlockEventCounts").apply {
                         color = barArgbColor
                     }
                 ).apply {
@@ -131,6 +124,15 @@ fun AllTimeUnlocksChart(
                         }
                     })
                 }
+
+            it.xAxis.valueFormatter = object : IndexAxisValueFormatter() {
+                override fun getAxisLabel(value: Float, axis: AxisBase): String =
+                    getShortDayString(
+                        ZonedDateTime.now()
+                            .minusDays((xMax - value).toLong())
+                            .toTimeInMillis()
+                    )
+            }
 
             it.data = barData
             it.setVisibleXRange(7f, 7f)

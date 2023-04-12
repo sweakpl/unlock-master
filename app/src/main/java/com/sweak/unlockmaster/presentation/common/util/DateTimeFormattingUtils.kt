@@ -17,6 +17,13 @@ fun getTimeString(timeInMillis: Long, timeFormat: TimeFormat): String {
     ).format(timeInMillis)
 }
 
+fun getFullDateString(timeInMillis: Long): String {
+    return SimpleDateFormat(
+        "d LLL yyyy, EEEE",
+        Locale.getDefault()
+    ).format(timeInMillis)
+}
+
 enum class TimeFormat {
     MILITARY, AMPM
 }

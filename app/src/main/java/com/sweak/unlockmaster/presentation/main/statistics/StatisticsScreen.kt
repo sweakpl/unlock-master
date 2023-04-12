@@ -18,6 +18,7 @@ import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
+import com.sweak.unlockmaster.presentation.common.util.getFullDateString
 import com.sweak.unlockmaster.presentation.main.statistics.components.AllTimeUnlocksChart
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -44,6 +45,11 @@ fun StatisticsScreen(
 
         AllTimeUnlocksChart(
             allTimeUnlockEventCountsEntries = statisticsScreenState.allTimeUnlockEventCounts,
+            onValueSelected = {
+                statisticsViewModel.onEvent(
+                    StatisticsScreenEvent.ChartValueSelected(selectedEntryIndex = it)
+                )
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(164.dp)
@@ -64,7 +70,7 @@ fun StatisticsScreen(
             )
 
             Text(
-                text = "25 February 2023, Saturday",
+                text = getFullDateString(statisticsScreenState.currentlyHighlightedDayTimeInMillis),
                 style = MaterialTheme.typography.h4,
                 modifier = Modifier.padding(start = MaterialTheme.space.medium)
             )

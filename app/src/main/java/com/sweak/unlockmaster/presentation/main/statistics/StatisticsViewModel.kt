@@ -6,9 +6,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.BarEntry
+import com.sweak.unlockmaster.domain.toTimeInMillis
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetAllTimeDaysToUnlockEventCountsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.ZonedDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,10 +33,18 @@ class StatisticsViewModel @Inject constructor(
     }
 
     fun onEvent(event: StatisticsScreenEvent) {
-        when (event) {
+        state = when (event) {
             is StatisticsScreenEvent.ScreenOnEventsInformationDialogVisible -> {
-                state = state.copy(isScreenOnEventsInformationDialogVisible = event.isVisible)
+                state.copy(isScreenOnEventsInformationDialogVisible = event.isVisible)
             }
-         }
+            is StatisticsScreenEvent.ChartValueSelected -> {
+                val chartEntriesSize = state.allTimeUnlockEventCounts.size
+                val highlightedDayTimeInMillis = ZonedDateTime.now()
+                    .minusDays((chartEntriesSize - event.selectedEntryIndex - 1).toLong())
+                    .toTimeInMillis()
+
+                state.copy(currentlyHighlightedDayTimeInMillis = highlightedDayTimeInMillis)
+            }
+        }
     }
 }
