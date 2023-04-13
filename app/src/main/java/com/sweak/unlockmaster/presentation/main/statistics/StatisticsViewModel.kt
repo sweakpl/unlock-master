@@ -9,6 +9,7 @@ import com.github.mikephil.charting.data.BarEntry
 import com.sweak.unlockmaster.domain.toTimeInMillis
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.GetScreenOnEventsCountOfGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetAllTimeDaysToUnlockEventCountsUseCase
+import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForGivenDayUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.ZonedDateTime
@@ -17,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
     private val getAllTimeDaysToUnlockEventCountsUseCase: GetAllTimeDaysToUnlockEventCountsUseCase,
+    private val getUnlockLimitAmountForGivenDayUseCase: GetUnlockLimitAmountForGivenDayUseCase,
     private val getScreenOnEventsCountOfGivenDayUseCase: GetScreenOnEventsCountOfGivenDayUseCase
 ) : ViewModel() {
 
@@ -47,6 +49,9 @@ class StatisticsViewModel @Inject constructor(
 
                 state = state.copy(
                     currentlyHighlightedDayTimeInMillis = highlightedDayTimeInMillis,
+                    unlockLimitAmount = getUnlockLimitAmountForGivenDayUseCase(
+                        dayTimeInMillis = highlightedDayTimeInMillis
+                    ),
                     screenOnEventsCount = getScreenOnEventsCountOfGivenDayUseCase(
                         dayTimeInMillis = highlightedDayTimeInMillis
                     )

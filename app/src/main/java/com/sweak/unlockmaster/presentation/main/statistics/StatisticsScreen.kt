@@ -141,7 +141,7 @@ fun StatisticsScreen(
                     )
 
                     Text(
-                        text = "30",
+                        text = statisticsScreenState.unlockLimitAmount.toString(),
                         style = MaterialTheme.typography.h1
                     )
                 }

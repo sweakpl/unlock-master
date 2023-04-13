@@ -18,9 +18,9 @@ interface UnlockLimitsDao {
     @Query(
         "SELECT * FROM unlock_limit WHERE limitApplianceDayTimeInMillis = " +
                 "(SELECT MAX(limitApplianceDayTimeInMillis) FROM unlock_limit " +
-                "WHERE limitApplianceDayTimeInMillis < :currentTimeInMillis)"
+                "WHERE limitApplianceDayTimeInMillis < :timeInMillis)"
     )
-    suspend fun getCurrentUnlockLimit(currentTimeInMillis: Long): UnlockLimitEntity?
+    suspend fun getUnlockLimitFromTime(timeInMillis: Long): UnlockLimitEntity?
 
     @Query(
         "SELECT * FROM unlock_limit " +

@@ -9,7 +9,7 @@ class AddOrUpdateUnlockLimitForTodayUseCase @Inject constructor(
     private val timeRepository: TimeRepository
 ) {
     suspend operator fun invoke(limitAmount: Int) {
-        val latestUnlockLimit = unlockLimitsRepository.getCurrentUnlockLimit(
+        val latestUnlockLimit = unlockLimitsRepository.getUnlockLimitFromTime(
             currentTimeInMillis = timeRepository.getCurrentTimeInMillis()
         )
         val todayBeginningTimeInMillis = timeRepository.getTodayBeginningTimeInMillis()
