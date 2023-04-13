@@ -191,7 +191,7 @@ fun StatisticsScreen(
                     }
 
                     Text(
-                        text = "49",
+                        text = statisticsScreenState.screenOnEventsCount.toString(),
                         style = MaterialTheme.typography.h1,
                         textAlign = TextAlign.End,
                         modifier = Modifier.weight(1f)

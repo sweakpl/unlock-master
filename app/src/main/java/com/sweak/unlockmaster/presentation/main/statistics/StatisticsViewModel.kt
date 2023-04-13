@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.BarEntry
 import com.sweak.unlockmaster.domain.toTimeInMillis
+import com.sweak.unlockmaster.domain.use_case.screen_on_events.GetScreenOnEventsCountOfGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetAllTimeDaysToUnlockEventCountsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
-    private val getAllTimeDaysToUnlockEventCountsUseCase: GetAllTimeDaysToUnlockEventCountsUseCase
+    private val getAllTimeDaysToUnlockEventCountsUseCase: GetAllTimeDaysToUnlockEventCountsUseCase,
+    private val getScreenOnEventsCountOfGivenDayUseCase: GetScreenOnEventsCountOfGivenDayUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf(StatisticsScreenState())
@@ -33,17 +35,22 @@ class StatisticsViewModel @Inject constructor(
     }
 
     fun onEvent(event: StatisticsScreenEvent) {
-        state = when (event) {
+         when (event) {
             is StatisticsScreenEvent.ScreenOnEventsInformationDialogVisible -> {
-                state.copy(isScreenOnEventsInformationDialogVisible = event.isVisible)
+                state = state.copy(isScreenOnEventsInformationDialogVisible = event.isVisible)
             }
-            is StatisticsScreenEvent.ChartValueSelected -> {
+            is StatisticsScreenEvent.ChartValueSelected -> viewModelScope.launch {
                 val chartEntriesSize = state.allTimeUnlockEventCounts.size
                 val highlightedDayTimeInMillis = ZonedDateTime.now()
                     .minusDays((chartEntriesSize - event.selectedEntryIndex - 1).toLong())
                     .toTimeInMillis()
 
-                state.copy(currentlyHighlightedDayTimeInMillis = highlightedDayTimeInMillis)
+                state = state.copy(
+                    currentlyHighlightedDayTimeInMillis = highlightedDayTimeInMillis,
+                    screenOnEventsCount = getScreenOnEventsCountOfGivenDayUseCase(
+                        dayTimeInMillis = highlightedDayTimeInMillis
+                    )
+                )
             }
         }
     }

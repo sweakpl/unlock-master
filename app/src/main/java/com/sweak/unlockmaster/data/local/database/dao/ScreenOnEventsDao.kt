@@ -13,4 +13,13 @@ interface ScreenOnEventsDao {
 
     @Query("SELECT * FROM screen_on_event ORDER BY timeInMillis DESC LIMIT 1")
     suspend fun getLatestScreenOnEvent(): ScreenOnEventEntity?
+
+    @Query(
+        "SELECT * FROM screen_on_event " +
+                "WHERE timeInMillis >= :sinceTimeInMillis AND timeInMillis < :untilTimeInMillis"
+    )
+    suspend fun getScreenOnEventsSinceTimeUntilTime(
+        sinceTimeInMillis: Long,
+        untilTimeInMillis: Long
+    ): List<ScreenOnEventEntity>
 }

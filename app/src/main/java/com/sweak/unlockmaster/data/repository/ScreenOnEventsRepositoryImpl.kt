@@ -22,4 +22,15 @@ class ScreenOnEventsRepositoryImpl @Inject constructor(
                 screenOnTimeInMillis = it.timeInMillis
             )
         }
+
+    override suspend fun getScreenOnEventsSinceTimeAndUntilTime(
+        sinceTimeInMillis: Long,
+        untilTimeInMillis: Long
+    ): List<ScreenOnEvent> =
+        screenOnEventsDao.getScreenOnEventsSinceTimeUntilTime(
+            sinceTimeInMillis = sinceTimeInMillis,
+            untilTimeInMillis = untilTimeInMillis
+        ).map {
+            ScreenOnEvent(screenOnTimeInMillis = it.timeInMillis)
+        }
 }

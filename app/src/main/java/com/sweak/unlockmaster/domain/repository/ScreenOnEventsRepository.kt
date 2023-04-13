@@ -6,4 +6,9 @@ interface ScreenOnEventsRepository {
     suspend fun addScreenOnEvent(screenOnEventTimeInMillis: Long)
 
     suspend fun getLatestScreenOnEvent(): ScreenOnEvent?
+
+    suspend fun getScreenOnEventsSinceTimeAndUntilTime(
+        sinceTimeInMillis: Long,
+        untilTimeInMillis: Long
+    ): List<ScreenOnEvent>
 }
