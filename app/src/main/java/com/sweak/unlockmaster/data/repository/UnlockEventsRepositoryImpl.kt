@@ -15,11 +15,19 @@ class UnlockEventsRepositoryImpl(
         )
     }
 
-    override suspend fun getUnlockEventsCountSinceTime(sinceTimeInMillis: Long): Int =
-        unlockEventsDao.getUnlockEventsCountSinceTime(sinceTimeInMillis = sinceTimeInMillis)
-
     override suspend fun getUnlockEventsSinceTime(sinceTimeInMillis: Long): List<UnlockEvent> =
         unlockEventsDao.getUnlockEventsSinceTime(sinceTimeInMillis = sinceTimeInMillis).map {
+            UnlockEvent(unlockTimeInMillis = it.timeInMillis)
+        }
+
+    override suspend fun getUnlockEventsSinceTimeAndUntilTime(
+        sinceTimeInMillis: Long,
+        untilTimeInMillis: Long
+    ): List<UnlockEvent> =
+        unlockEventsDao.getUnlockEventsSinceTimeAndUntilTime(
+            sinceTimeInMillis = sinceTimeInMillis,
+            untilTimeInMillis = untilTimeInMillis
+        ).map {
             UnlockEvent(unlockTimeInMillis = it.timeInMillis)
         }
 

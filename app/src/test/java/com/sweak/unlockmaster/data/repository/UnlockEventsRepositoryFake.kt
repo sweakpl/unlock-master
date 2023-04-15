@@ -12,12 +12,15 @@ class UnlockEventsRepositoryFake : UnlockEventsRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getUnlockEventsCountSinceTime(sinceTimeInMillis: Long): Int {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun getUnlockEventsSinceTime(sinceTimeInMillis: Long): List<UnlockEvent> =
         unlockEventsSinceTimeToBeReturned
+
+    override suspend fun getUnlockEventsSinceTimeAndUntilTime(
+        sinceTimeInMillis: Long,
+        untilTimeInMillis: Long
+    ): List<UnlockEvent> {
+        TODO("Not yet implemented")
+    }
 
     override suspend fun getLatestUnlockEvent(): UnlockEvent? {
         TODO("Not yet implemented")

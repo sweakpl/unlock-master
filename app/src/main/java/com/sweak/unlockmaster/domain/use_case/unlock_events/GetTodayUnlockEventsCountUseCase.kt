@@ -9,10 +9,8 @@ class GetTodayUnlockEventsCountUseCase @Inject constructor(
     private val timeRepository: TimeRepository
 ) {
     suspend operator fun invoke(): Int {
-        val unlockEventsCount = unlockEventsRepository.getUnlockEventsCountSinceTime(
+        return unlockEventsRepository.getUnlockEventsSinceTime(
             sinceTimeInMillis = timeRepository.getTodayBeginningTimeInMillis()
-        )
-
-        return if (unlockEventsCount < 0) 0 else unlockEventsCount
+        ).size
     }
 }

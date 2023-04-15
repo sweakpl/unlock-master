@@ -115,7 +115,7 @@ fun StatisticsScreen(
                     )
 
                     Text(
-                        text = "21",
+                        text = statisticsScreenState.unlockEventsCount.toString(),
                         style = MaterialTheme.typography.h1
                     )
                 }
