@@ -11,7 +11,7 @@ class AddOrUpdateUnlockLimitForTomorrowUseCase @Inject constructor(
     suspend operator fun invoke(limitAmount: Int) {
         val tomorrowBeginningTimeInMillis = timeRepository.getTomorrowBeginningTimeInMillis()
         val currentUnlockLimit = unlockLimitsRepository.getUnlockLimitFromTime(
-            currentTimeInMillis = timeRepository.getCurrentTimeInMillis()
+            timeInMillis = timeRepository.getCurrentTimeInMillis()
         )
         val unlockLimitForTomorrow = unlockLimitsRepository.getUnlockLimitWithApplianceDay(
             limitApplianceDayTimeInMillis = tomorrowBeginningTimeInMillis

@@ -11,7 +11,7 @@ class GetUnlockLimitAmountForTodayUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(): Int {
         return unlockLimitsRepository.getUnlockLimitFromTime(
-            currentTimeInMillis = timeRepository.getCurrentTimeInMillis()
+            timeInMillis = timeRepository.getCurrentTimeInMillis()
         )?.limitAmount ?: DEFAULT_UNLOCK_LIMIT
     }
 }
