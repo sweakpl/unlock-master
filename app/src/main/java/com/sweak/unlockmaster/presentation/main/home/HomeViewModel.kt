@@ -13,6 +13,7 @@ import com.sweak.unlockmaster.domain.use_case.unlock_events.GetLastWeekUnlockEve
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetTodayUnlockEventsCountUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTomorrowUseCase
+import com.sweak.unlockmaster.presentation.common.util.getHoursAndMinutesDurationPair
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -84,12 +85,5 @@ class HomeViewModel @Inject constructor(
                 state = state.copy(isUnlockCounterPauseConfirmationDialogVisible = event.isVisible)
             }
         }
-    }
-
-    private fun getHoursAndMinutesDurationPair(durationTimeInMillis: Long): Pair<Int, Int> {
-        val hours = durationTimeInMillis / 3600000
-        val minutes = (durationTimeInMillis % 3600000) / 60000
-
-        return Pair(hours.toInt(), minutes.toInt())
     }
 }

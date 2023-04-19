@@ -219,7 +219,11 @@ fun StatisticsScreen(
                     )
 
                     Text(
-                        text = "1h 15min",
+                        text = stringResource(
+                            R.string.hours_and_minutes_amount,
+                            statisticsScreenState.hoursAndMinutesScreenTimePair.first,
+                            statisticsScreenState.hoursAndMinutesScreenTimePair.second
+                        ),
                         style = MaterialTheme.typography.h1
                     )
                 }

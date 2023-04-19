@@ -8,5 +8,6 @@ data class StatisticsScreenState(
     val unlockEventsCount: Int = 0,
     val unlockLimitAmount: Int = 0,
     val screenOnEventsCount: Int = 0,
+    val hoursAndMinutesScreenTimePair: Pair<Int, Int> = Pair(0, 0),
     val isScreenOnEventsInformationDialogVisible: Boolean = false
 )

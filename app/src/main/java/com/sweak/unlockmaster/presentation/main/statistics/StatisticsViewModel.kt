@@ -7,10 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.BarEntry
 import com.sweak.unlockmaster.domain.toTimeInMillis
-import com.sweak.unlockmaster.domain.use_case.screen_on_events.GetScreenOnEventsCountOfGivenDayUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_on_events.GetScreenOnEventsCountForGivenDayUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_time.GetScreenTimeDurationForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetAllTimeDaysToUnlockEventCountsUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForGivenDayUseCase
+import com.sweak.unlockmaster.presentation.common.util.getHoursAndMinutesDurationPair
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.ZonedDateTime
@@ -21,7 +23,8 @@ class StatisticsViewModel @Inject constructor(
     private val getAllTimeDaysToUnlockEventCountsUseCase: GetAllTimeDaysToUnlockEventCountsUseCase,
     private val getUnlockEventsCountForGivenDayUseCase: GetUnlockEventsCountForGivenDayUseCase,
     private val getUnlockLimitAmountForGivenDayUseCase: GetUnlockLimitAmountForGivenDayUseCase,
-    private val getScreenOnEventsCountOfGivenDayUseCase: GetScreenOnEventsCountOfGivenDayUseCase
+    private val getScreenOnEventsCountForGivenDayUseCase: GetScreenOnEventsCountForGivenDayUseCase,
+    private val getScreenTimeDurationForGivenDayUseCase: GetScreenTimeDurationForGivenDayUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf(StatisticsScreenState())
@@ -57,8 +60,13 @@ class StatisticsViewModel @Inject constructor(
                     unlockLimitAmount = getUnlockLimitAmountForGivenDayUseCase(
                         dayTimeInMillis = highlightedDayTimeInMillis
                     ),
-                    screenOnEventsCount = getScreenOnEventsCountOfGivenDayUseCase(
+                    screenOnEventsCount = getScreenOnEventsCountForGivenDayUseCase(
                         dayTimeInMillis = highlightedDayTimeInMillis
+                    ),
+                    hoursAndMinutesScreenTimePair = getHoursAndMinutesDurationPair(
+                        durationTimeInMillis = getScreenTimeDurationForGivenDayUseCase(
+                            dayTimeInMillis = highlightedDayTimeInMillis
+                        )
                     )
                 )
             }

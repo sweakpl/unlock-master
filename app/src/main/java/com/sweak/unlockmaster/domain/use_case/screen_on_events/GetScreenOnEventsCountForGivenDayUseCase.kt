@@ -8,7 +8,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import javax.inject.Inject
 
-class GetScreenOnEventsCountOfGivenDayUseCase @Inject constructor(
+class GetScreenOnEventsCountForGivenDayUseCase @Inject constructor(
     private val screenOnEventsRepository: ScreenOnEventsRepository,
     private val timeRepository: TimeRepository
 ) {
