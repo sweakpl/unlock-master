@@ -9,14 +9,18 @@ class LockEventsRepositoryImpl(
     private val lockEventsDao: LockEventsDao
 ) : LockEventsRepository {
 
-    override suspend fun addLockEvent(lockEventTimeInMillis: Long) {
+    override suspend fun addLockEvent(lockEvent: LockEvent) {
         lockEventsDao.insert(
-            LockEventEntity(timeInMillis = lockEventTimeInMillis)
+            LockEventEntity(timeInMillis = lockEvent.timeInMillis)
         )
     }
 
     override suspend fun getLockEventsSinceTime(sinceTimeInMillis: Long): List<LockEvent> =
-        lockEventsDao.getLockEventsSinceTime(sinceTimeInMillis = sinceTimeInMillis).map {
-            LockEvent(lockTimeInMillis = it.timeInMillis)
-        }
+        lockEventsDao.getAllLockEvents()
+            .filter {
+                it.timeInMillis >= sinceTimeInMillis
+            }
+            .map {
+                LockEvent(lockTimeInMillis = it.timeInMillis)
+            }
 }

@@ -9,8 +9,8 @@ class GetUnlockLimitAmountForTomorrowUseCase @Inject constructor(
     private val timeRepository: TimeRepository
 ) {
     suspend operator fun invoke(): Int? {
-        return unlockLimitsRepository.getUnlockLimitWithApplianceDay(
-            limitApplianceDayTimeInMillis = timeRepository.getTomorrowBeginningTimeInMillis()
+        return unlockLimitsRepository.getUnlockLimitWithApplianceTime(
+            limitApplianceTimeInMillis = timeRepository.getTomorrowBeginningTimeInMillis()
         )?.limitAmount
     }
 }

@@ -2,45 +2,65 @@ package com.sweak.unlockmaster.data.repository
 
 import com.sweak.unlockmaster.data.local.database.dao.UnlockLimitsDao
 import com.sweak.unlockmaster.data.local.database.entities.UnlockLimitEntity
+import com.sweak.unlockmaster.domain.model.UnlockLimit
 import com.sweak.unlockmaster.domain.repository.UnlockLimitsRepository
 
 class UnlockLimitsRepositoryImpl(
     private val unlockLimitsDao: UnlockLimitsDao
 ) : UnlockLimitsRepository {
 
-    override suspend fun addUnlockLimit(limitApplianceDayTimeInMillis: Long, limitAmount: Int) {
+    override suspend fun addUnlockLimit(unlockLimit: UnlockLimit) {
         unlockLimitsDao.insert(
             UnlockLimitEntity(
-                limitApplianceDayTimeInMillis = limitApplianceDayTimeInMillis,
-                limitAmount = limitAmount
+                limitApplianceDayTimeInMillis = unlockLimit.limitApplianceTimeInMillis,
+                limitAmount = unlockLimit.limitAmount
             )
         )
     }
 
-    override suspend fun updateUnlockLimit(limitApplianceDayTimeInMillis: Long, limitAmount: Int) {
+    override suspend fun updateUnlockLimit(unlockLimit: UnlockLimit) {
         unlockLimitsDao.update(
             UnlockLimitEntity(
-                limitApplianceDayTimeInMillis = limitApplianceDayTimeInMillis,
-                limitAmount = limitAmount
+                limitApplianceDayTimeInMillis = unlockLimit.limitApplianceTimeInMillis,
+                limitAmount = unlockLimit.limitAmount
             )
         )
     }
 
-    override suspend fun getUnlockLimitFromTime(timeInMillis: Long): UnlockLimitEntity? =
-        unlockLimitsDao.getUnlockLimitFromTime(timeInMillis = timeInMillis)
+    override suspend fun getUnlockLimitActiveAtTime(timeInMillis: Long): UnlockLimit? {
+        val allUnlockLimits = unlockLimitsDao.getAllUnlockLimits()
+        val applianceTime = allUnlockLimits
+            .filter {
+                it.limitApplianceDayTimeInMillis <= timeInMillis
+            }
+            .maxOf {
+                it.limitApplianceDayTimeInMillis
+            }
 
-    override suspend fun getUnlockLimitWithApplianceDay(
-        limitApplianceDayTimeInMillis: Long
-    ): UnlockLimitEntity? =
-        unlockLimitsDao.getUnlockLimitWithApplianceDay(
-            limitApplianceDayTimeInMillis = limitApplianceDayTimeInMillis
-        )
+        return getUnlockLimitWithApplianceTime(applianceTime)
+    }
 
-    override suspend fun deleteUnlockLimitWithApplianceDay(limitApplianceDayTimeInMillis: Long) {
-        unlockLimitsDao.getUnlockLimitWithApplianceDay(
-            limitApplianceDayTimeInMillis = limitApplianceDayTimeInMillis
-        )?.let {
-            unlockLimitsDao.delete(it)
+    override suspend fun getUnlockLimitWithApplianceTime(
+        limitApplianceTimeInMillis: Long
+    ): UnlockLimit? =
+        unlockLimitsDao.getAllUnlockLimits()
+            .firstOrNull {
+                it.limitApplianceDayTimeInMillis == limitApplianceTimeInMillis
+            }?.let {
+                UnlockLimit(
+                    limitApplianceTimeInMillis = it.limitApplianceDayTimeInMillis,
+                    limitAmount = it.limitAmount
+                )
+            }
+
+    override suspend fun deleteUnlockLimitWithApplianceTime(limitApplianceTimeInMillis: Long) {
+        getUnlockLimitWithApplianceTime(limitApplianceTimeInMillis)?.let {
+            unlockLimitsDao.delete(
+                UnlockLimitEntity(
+                    limitApplianceDayTimeInMillis = it.limitApplianceTimeInMillis,
+                    limitAmount = it.limitAmount
+                )
+            )
         }
     }
 }

@@ -9,39 +9,49 @@ class UnlockEventsRepositoryImpl(
     private val unlockEventsDao: UnlockEventsDao
 ) : UnlockEventsRepository {
 
-    override suspend fun addUnlockEvent(unlockEventTimeInMillis: Long) {
+    override suspend fun addUnlockEvent(unlockEvent: UnlockEvent) {
         unlockEventsDao.insert(
-            UnlockEventEntity(timeInMillis = unlockEventTimeInMillis)
+            UnlockEventEntity(timeInMillis = unlockEvent.timeInMillis)
         )
     }
 
     override suspend fun getUnlockEventsSinceTime(sinceTimeInMillis: Long): List<UnlockEvent> =
-        unlockEventsDao.getUnlockEventsSinceTime(sinceTimeInMillis = sinceTimeInMillis).map {
-            UnlockEvent(unlockTimeInMillis = it.timeInMillis)
-        }
+        unlockEventsDao.getAllUnlockEvents()
+            .filter {
+                it.timeInMillis >= sinceTimeInMillis
+            }
+            .map {
+                UnlockEvent(unlockTimeInMillis = it.timeInMillis)
+            }
 
     override suspend fun getUnlockEventsSinceTimeAndUntilTime(
         sinceTimeInMillis: Long,
         untilTimeInMillis: Long
     ): List<UnlockEvent> =
-        unlockEventsDao.getUnlockEventsSinceTimeAndUntilTime(
-            sinceTimeInMillis = sinceTimeInMillis,
-            untilTimeInMillis = untilTimeInMillis
-        ).map {
-            UnlockEvent(unlockTimeInMillis = it.timeInMillis)
-        }
+        unlockEventsDao.getAllUnlockEvents()
+            .filter {
+                it.timeInMillis in sinceTimeInMillis until untilTimeInMillis
+            }.map {
+                UnlockEvent(unlockTimeInMillis = it.timeInMillis)
+            }
 
     override suspend fun getLatestUnlockEvent(): UnlockEvent? =
-        unlockEventsDao.getLatestUnlockEvent()?.let {
-            UnlockEvent(
-                unlockTimeInMillis = it.timeInMillis
-            )
-        }
+        unlockEventsDao.getAllUnlockEvents()
+            .maxByOrNull {
+                it.timeInMillis
+            }?.let {
+                UnlockEvent(
+                    unlockTimeInMillis = it.timeInMillis
+                )
+            }
 
     override suspend fun getFirstUnlockEvent(): UnlockEvent? =
-        unlockEventsDao.getFirstUnlockEvent()?.let {
-            UnlockEvent(
-                unlockTimeInMillis = it.timeInMillis
-            )
-        }
+        unlockEventsDao.getAllUnlockEvents()
+            .minByOrNull {
+                it.timeInMillis
+            }?.let {
+                UnlockEvent(
+                    unlockTimeInMillis = it.timeInMillis
+                )
+            }
 }

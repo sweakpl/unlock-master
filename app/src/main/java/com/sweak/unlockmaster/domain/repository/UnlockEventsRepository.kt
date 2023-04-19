@@ -3,7 +3,7 @@ package com.sweak.unlockmaster.domain.repository
 import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.UnlockEvent
 
 interface UnlockEventsRepository {
-    suspend fun addUnlockEvent(unlockEventTimeInMillis: Long)
+    suspend fun addUnlockEvent(unlockEvent: UnlockEvent)
     suspend fun getUnlockEventsSinceTime(sinceTimeInMillis: Long): List<UnlockEvent>
 
     suspend fun getUnlockEventsSinceTimeAndUntilTime(

@@ -1,5 +1,6 @@
 package com.sweak.unlockmaster.domain.use_case.unlock_limits
 
+import com.sweak.unlockmaster.domain.model.UnlockLimit
 import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.repository.UnlockLimitsRepository
 import javax.inject.Inject
@@ -10,11 +11,11 @@ class AddOrUpdateUnlockLimitForTomorrowUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(limitAmount: Int) {
         val tomorrowBeginningTimeInMillis = timeRepository.getTomorrowBeginningTimeInMillis()
-        val currentUnlockLimit = unlockLimitsRepository.getUnlockLimitFromTime(
+        val currentUnlockLimit = unlockLimitsRepository.getUnlockLimitActiveAtTime(
             timeInMillis = timeRepository.getCurrentTimeInMillis()
         )
-        val unlockLimitForTomorrow = unlockLimitsRepository.getUnlockLimitWithApplianceDay(
-            limitApplianceDayTimeInMillis = tomorrowBeginningTimeInMillis
+        val unlockLimitForTomorrow = unlockLimitsRepository.getUnlockLimitWithApplianceTime(
+            limitApplianceTimeInMillis = tomorrowBeginningTimeInMillis
         )
 
         if (unlockLimitForTomorrow == null) {
@@ -23,20 +24,24 @@ class AddOrUpdateUnlockLimitForTomorrowUseCase @Inject constructor(
             }
 
             unlockLimitsRepository.addUnlockLimit(
-                limitApplianceDayTimeInMillis = tomorrowBeginningTimeInMillis,
-                limitAmount = limitAmount
+                unlockLimit = UnlockLimit(
+                    limitApplianceTimeInMillis = tomorrowBeginningTimeInMillis,
+                    limitAmount = limitAmount
+                )
             )
         } else {
             if (currentUnlockLimit?.limitAmount == limitAmount) {
-                unlockLimitsRepository.deleteUnlockLimitWithApplianceDay(
-                    limitApplianceDayTimeInMillis = tomorrowBeginningTimeInMillis
+                unlockLimitsRepository.deleteUnlockLimitWithApplianceTime(
+                    limitApplianceTimeInMillis = tomorrowBeginningTimeInMillis
                 )
                 return
             }
 
             unlockLimitsRepository.updateUnlockLimit(
-                limitApplianceDayTimeInMillis = tomorrowBeginningTimeInMillis,
-                limitAmount = limitAmount
+                unlockLimit = UnlockLimit(
+                    limitApplianceTimeInMillis = tomorrowBeginningTimeInMillis,
+                    limitAmount = limitAmount
+                )
             )
         }
     }

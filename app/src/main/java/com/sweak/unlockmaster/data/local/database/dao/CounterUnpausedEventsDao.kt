@@ -11,8 +11,6 @@ interface CounterUnpausedEventsDao {
     @Insert
     suspend fun insert(counterUnpausedEventEntity: CounterUnpausedEventEntity)
 
-    @Query("SELECT * FROM counter_unpaused_event WHERE timeInMillis >= :sinceTimeInMillis")
-    suspend fun getCounterUnpausedEventsSinceTime(
-        sinceTimeInMillis: Long
-    ): List<CounterUnpausedEventEntity>
+    @Query("SELECT * FROM counter_unpaused_event")
+    suspend fun getAllCounterUnpausedEvents(): List<CounterUnpausedEventEntity>
 }

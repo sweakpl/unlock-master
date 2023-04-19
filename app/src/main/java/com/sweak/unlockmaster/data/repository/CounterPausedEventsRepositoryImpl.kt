@@ -9,18 +9,20 @@ class CounterPausedEventsRepositoryImpl(
     private val counterPausedEventsDao: CounterPausedEventsDao
 ) : CounterPausedEventsRepository {
 
-    override suspend fun addCounterPausedEvent(counterPausedEventTimeInMillis: Long) {
+    override suspend fun addCounterPausedEvent(counterPausedEvent: CounterPausedEvent) {
         counterPausedEventsDao.insert(
-            CounterPausedEventEntity(timeInMillis = counterPausedEventTimeInMillis)
+            CounterPausedEventEntity(timeInMillis = counterPausedEvent.timeInMillis)
         )
     }
 
     override suspend fun getCounterPausedEventsSinceTime(
         sinceTimeInMillis: Long
     ): List<CounterPausedEvent> =
-        counterPausedEventsDao.getCounterPausedEventsSinceTime(
-            sinceTimeInMillis = sinceTimeInMillis
-        ).map {
-            CounterPausedEvent(counterPausedTimeInMillis = it.timeInMillis)
-        }
+        counterPausedEventsDao.getAllCounterPausedEvents()
+            .filter {
+                it.timeInMillis >= sinceTimeInMillis
+            }
+            .map {
+                CounterPausedEvent(counterPausedTimeInMillis = it.timeInMillis)
+            }
 }

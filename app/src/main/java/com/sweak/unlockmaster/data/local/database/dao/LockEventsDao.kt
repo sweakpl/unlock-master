@@ -12,6 +12,6 @@ interface LockEventsDao {
     @Insert
     suspend fun insert(lockEventEntity: LockEventEntity)
 
-    @Query("SELECT * FROM lock_event WHERE timeInMillis >= :sinceTimeInMillis")
-    suspend fun getLockEventsSinceTime(sinceTimeInMillis: Long): List<UnlockEventEntity>
+    @Query("SELECT * FROM lock_event")
+    suspend fun getAllLockEvents(): List<UnlockEventEntity>
 }

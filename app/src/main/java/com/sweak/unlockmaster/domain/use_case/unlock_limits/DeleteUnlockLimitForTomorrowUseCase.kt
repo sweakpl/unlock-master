@@ -9,8 +9,8 @@ class DeleteUnlockLimitForTomorrowUseCase @Inject constructor(
     private val timeRepository: TimeRepository
 ) {
     suspend operator fun invoke() {
-        unlockLimitsRepository.deleteUnlockLimitWithApplianceDay(
-            limitApplianceDayTimeInMillis = timeRepository.getTomorrowBeginningTimeInMillis()
+        unlockLimitsRepository.deleteUnlockLimitWithApplianceTime(
+            limitApplianceTimeInMillis = timeRepository.getTomorrowBeginningTimeInMillis()
         )
     }
 }

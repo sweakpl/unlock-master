@@ -8,7 +8,7 @@ class GetUnlockLimitAmountForGivenDayUseCase @Inject constructor(
     private val unlockLimitsRepository: UnlockLimitsRepository
 ) {
     suspend operator fun invoke(dayTimeInMillis: Long): Int {
-        return unlockLimitsRepository.getUnlockLimitFromTime(
+        return unlockLimitsRepository.getUnlockLimitActiveAtTime(
             timeInMillis = dayTimeInMillis
         )?.limitAmount ?: DEFAULT_UNLOCK_LIMIT
     }

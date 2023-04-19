@@ -11,21 +11,6 @@ interface UnlockEventsDao {
     @Insert
     suspend fun insert(unlockEventEntity: UnlockEventEntity)
 
-    @Query("SELECT * FROM unlock_event WHERE timeInMillis >= :sinceTimeInMillis")
-    suspend fun getUnlockEventsSinceTime(sinceTimeInMillis: Long): List<UnlockEventEntity>
-
-    @Query(
-        "SELECT * FROM unlock_event " +
-                "WHERE timeInMillis >= :sinceTimeInMillis AND timeInMillis < :untilTimeInMillis"
-    )
-    suspend fun getUnlockEventsSinceTimeAndUntilTime(
-        sinceTimeInMillis: Long,
-        untilTimeInMillis: Long
-    ): List<UnlockEventEntity>
-
-    @Query("SELECT * FROM unlock_event ORDER BY timeInMillis DESC LIMIT 1")
-    suspend fun getLatestUnlockEvent(): UnlockEventEntity?
-
-    @Query("SELECT * FROM unlock_event ORDER BY timeInMillis ASC LIMIT 1")
-    suspend fun getFirstUnlockEvent(): UnlockEventEntity?
+    @Query("SELECT * FROM unlock_event")
+    suspend fun getAllUnlockEvents(): List<UnlockEventEntity>
 }
