@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.sweak.unlockmaster.domain.use_case.counter_pause.IsUnlockCounterPausedUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_on_events.AddScreenOnEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
@@ -15,6 +16,9 @@ class BootReceiver : BroadcastReceiver() {
 
     @Inject
     lateinit var addUnlockEventUseCase: AddUnlockEventUseCase
+
+    @Inject
+    lateinit var addScreenOnEventUseCase: AddScreenOnEventUseCase
 
     @Inject
     lateinit var isUnlockCounterPausedUSeCase: IsUnlockCounterPausedUseCase
@@ -35,6 +39,7 @@ class BootReceiver : BroadcastReceiver() {
             runBlocking {
                 if (!keyguardManager.isKeyguardLocked && !isUnlockCounterPausedUSeCase()) {
                     addUnlockEventUseCase()
+                    addScreenOnEventUseCase()
                 }
             }
         }

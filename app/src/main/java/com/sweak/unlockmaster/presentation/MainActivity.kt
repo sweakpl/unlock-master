@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
+import com.sweak.unlockmaster.domain.use_case.screen_on_events.AddScreenOnEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_IS_UPDATING_EXISTING_UNLOCK_LIMIT
@@ -38,6 +39,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var addUnlockEventUseCase: AddUnlockEventUseCase
+
+    @Inject
+    lateinit var addScreenOnEventUseCase: AddScreenOnEventUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +92,7 @@ class MainActivity : ComponentActivity() {
                                     // the next lock event that will be caught has to have
                                     // a corresponding unlock event:
                                     addUnlockEventUseCase()
+                                    addScreenOnEventUseCase()
 
                                     userSessionRepository.setIntroductionFinished()
                                     startUnlockMasterService()
