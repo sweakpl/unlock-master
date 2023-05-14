@@ -8,7 +8,7 @@ class UnlockEventsRepositoryFake : UnlockEventsRepository {
     var unlockEventsSinceTimeToBeReturned: List<UnlockEvent> = emptyList()
     var firstUnlockEventToBeReturned: UnlockEvent? = null
 
-    override suspend fun addUnlockEvent(unlockEventTimeInMillis: Long) {
+    override suspend fun addUnlockEvent(unlockEvent: UnlockEvent) {
         TODO("Not yet implemented")
     }
 

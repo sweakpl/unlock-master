@@ -7,7 +7,7 @@ class CounterPausedEventsRepositoryFake : CounterPausedEventsRepository {
 
     var counterPausedEventsSinceTimeToBeReturned: List<CounterPausedEvent> = emptyList()
 
-    override suspend fun addCounterPausedEvent(counterPausedEventTimeInMillis: Long) {
+    override suspend fun addCounterPausedEvent(counterPausedEvent: CounterPausedEvent) {
         TODO("Not yet implemented")
     }
 

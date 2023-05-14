@@ -51,7 +51,7 @@ class GetTodayScreenTimeDurationUseCase @Inject constructor(
         screenEvents.subList(1, screenEvents.size).forEach {
             if (it is UnlockEvent || it is CounterUnpausedEvent) {
                 previousSinceTime = it.timeInMillis
-            } else if (it.run { this is LockEvent || this is CounterPausedEvent }) {
+            } else if (it is LockEvent || it is CounterPausedEvent) {
                 if (previousUnlockMasterEvent.run { this is UnlockEvent || this is CounterUnpausedEvent }) {
                     screenTimeDuration += it.timeInMillis - previousSinceTime
                 }

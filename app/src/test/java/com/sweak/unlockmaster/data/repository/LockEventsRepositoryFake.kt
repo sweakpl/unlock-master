@@ -7,7 +7,7 @@ class LockEventsRepositoryFake : LockEventsRepository {
 
     var lockEventsSinceTimeToBeReturned: List<LockEvent> = emptyList()
 
-    override suspend fun addLockEvent(lockEventTimeInMillis: Long) {
+    override suspend fun addLockEvent(lockEvent: LockEvent) {
         TODO("Not yet implemented")
     }
 
