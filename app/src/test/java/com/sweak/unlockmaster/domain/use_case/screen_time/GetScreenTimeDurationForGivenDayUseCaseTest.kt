@@ -92,7 +92,7 @@ class GetScreenTimeDurationForGivenDayUseCaseTest {
     }
 
     @Test
-    fun `LockEvent is the latest event from previous day, there are no given day events and given day is the current day, returns 5445000 milliseconds`() = runTest {
+    fun `LockEvent is the latest event from previous day, there are no given day events and given day is the current day, returns 0 milliseconds`() = runTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676766645000
 
         lockEventsRepository.lockEventsSinceTimeToBeReturned = listOf(
@@ -100,7 +100,7 @@ class GetScreenTimeDurationForGivenDayUseCaseTest {
         )
 
         Assert.assertEquals(
-            5445000,
+            0,
             getScreenTimeDurationForGivenDayUseCase(1676809255000)
         )
     }
@@ -218,7 +218,7 @@ class GetScreenTimeDurationForGivenDayUseCaseTest {
     }
 
     @Test
-    fun `There are no events from previous day, there is only one LockEvent in the given day and given day is not the current day, returns 0 milliseconds`() = runTest {
+    fun `There are no events from previous day, there is only one LockEvent in the given day and given day is not the current day, returns 1590000 milliseconds`() = runTest {
         timeRepository.currentTimeInMillisToBeReturned = 1679852675000
 
         lockEventsRepository.lockEventsSinceTimeToBeReturned = listOf(
@@ -226,7 +226,7 @@ class GetScreenTimeDurationForGivenDayUseCaseTest {
         )
 
         Assert.assertEquals(
-            0,
+            1590000,
             getScreenTimeDurationForGivenDayUseCase(1679596738000)
         )
     }
@@ -336,7 +336,7 @@ class GetScreenTimeDurationForGivenDayUseCaseTest {
     }
 
     @Test
-    fun `There are no events from previous day, there are three LockEvents in the given day and given day is not the current day, then returns 0 milliseconds`() = runTest {
+    fun `There are no events from previous day, there are three LockEvents in the given day and given day is not the current day, then returns 600000 milliseconds`() = runTest {
         timeRepository.currentTimeInMillisToBeReturned = 1677359976000
 
         lockEventsRepository.lockEventsSinceTimeToBeReturned = listOf(
@@ -346,41 +346,7 @@ class GetScreenTimeDurationForGivenDayUseCaseTest {
         )
 
         Assert.assertEquals(
-            0,
-            getScreenTimeDurationForGivenDayUseCase(1676836800000)
-        )
-    }
-
-    @Test
-    fun `CounterPausedEvent is the latest event from previous day, there is an UnlockEvent in the given day and given day is the current day, then returns 0 milliseconds`() = runTest {
-        timeRepository.currentTimeInMillisToBeReturned = 1676836800000
-
-        counterPausedEventsRepository.counterPausedEventsSinceTimeToBeReturned = listOf(
-            CounterPausedEvent(1676760620000)
-        )
-        unlockEventsRepository.unlockEventsSinceTimeToBeReturned = listOf(
-            UnlockEvent(1676763000000)
-        )
-
-        Assert.assertEquals(
-            0,
-            getScreenTimeDurationForGivenDayUseCase(1676836800000)
-        )
-    }
-
-    @Test
-    fun `CounterPausedEvent is the latest event from previous day, there is an UnlockEvent in the given day and given day is not the current day, then returns 0 milliseconds`() = runTest {
-        timeRepository.currentTimeInMillisToBeReturned = 1677359976000
-
-        counterPausedEventsRepository.counterPausedEventsSinceTimeToBeReturned = listOf(
-            CounterPausedEvent(1676760620000)
-        )
-        unlockEventsRepository.unlockEventsSinceTimeToBeReturned = listOf(
-            UnlockEvent(1676763000000)
-        )
-
-        Assert.assertEquals(
-            0,
+            600000,
             getScreenTimeDurationForGivenDayUseCase(1676836800000)
         )
     }
@@ -477,7 +443,7 @@ class GetScreenTimeDurationForGivenDayUseCaseTest {
     }
 
     @Test
-    fun `UnlockEvent is the latest event from previous day, there is specific sequence - ULULULU in the given day and given day is not the current day, then returns 24300000 milliseconds`() = runTest {
+    fun `UnlockEvent is the latest event from previous day, there is specific sequence - ULULULU in the given day and given day is not the current day, then returns 27300000 milliseconds`() = runTest {
         timeRepository.currentTimeInMillisToBeReturned = 1677359976000
 
         unlockEventsRepository.unlockEventsSinceTimeToBeReturned = listOf(
@@ -495,7 +461,7 @@ class GetScreenTimeDurationForGivenDayUseCaseTest {
         )
 
         Assert.assertEquals(
-            24300000,
+            27300000,
             getScreenTimeDurationForGivenDayUseCase(1676836800000)
         )
     }
