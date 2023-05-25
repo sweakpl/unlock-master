@@ -19,14 +19,18 @@ import com.sweak.unlockmaster.domain.use_case.lock_events.AddLockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.lock_events.ShouldAddLockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.AddScreenOnEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
-import com.sweak.unlockmaster.domain.use_case.unlock_events.GetTodayUnlockEventsCountUseCase
+import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
 import com.sweak.unlockmaster.presentation.MainActivity
 import com.sweak.unlockmaster.presentation.unlock_counting.screen_event_receivers.ScreenLockReceiver
 import com.sweak.unlockmaster.presentation.unlock_counting.screen_event_receivers.ScreenOnReceiver
 import com.sweak.unlockmaster.presentation.unlock_counting.screen_event_receivers.ScreenUnlockReceiver
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -50,7 +54,7 @@ class UnlockMasterService : Service() {
     lateinit var addScreenOnEventUseCase: AddScreenOnEventUseCase
 
     @Inject
-    lateinit var getTodayUnlockEventsCountUseCase: GetTodayUnlockEventsCountUseCase
+    lateinit var getUnlockEventsCountForGivenDayUseCase: GetUnlockEventsCountForGivenDayUseCase
 
     @Inject
     lateinit var getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase
@@ -85,7 +89,7 @@ class UnlockMasterService : Service() {
                                     FOREGROUND_SERVICE_ID
                                 else FOREGROUND_SERVICE_NOTIFICATION_ID,
                                 createNewServiceNotification(
-                                    getTodayUnlockEventsCountUseCase(),
+                                    getUnlockEventsCountForGivenDayUseCase(),
                                     getUnlockLimitAmountForTodayUseCase(),
                                     isUnlockCounterPaused
                                 )
@@ -107,7 +111,7 @@ class UnlockMasterService : Service() {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) FOREGROUND_SERVICE_ID
                         else FOREGROUND_SERVICE_NOTIFICATION_ID,
                         createNewServiceNotification(
-                            getTodayUnlockEventsCountUseCase(),
+                            getUnlockEventsCountForGivenDayUseCase(),
                             getUnlockLimitAmountForTodayUseCase()
                         )
                     )
@@ -143,7 +147,7 @@ class UnlockMasterService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         serviceScope.launch {
-            val todayUnlockEventsCount = getTodayUnlockEventsCountUseCase()
+            val todayUnlockEventsCount = getUnlockEventsCountForGivenDayUseCase()
             val todayUnlockLimit = getUnlockLimitAmountForTodayUseCase()
 
             when {

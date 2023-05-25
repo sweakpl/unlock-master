@@ -10,7 +10,7 @@ import com.sweak.unlockmaster.domain.use_case.counter_pause.IsUnlockCounterPause
 import com.sweak.unlockmaster.domain.use_case.counter_pause.SetUnlockCounterPauseUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_time.GetScreenTimeDurationForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetLastWeekUnlockEventCountsUseCase
-import com.sweak.unlockmaster.domain.use_case.unlock_events.GetTodayUnlockEventsCountUseCase
+import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTomorrowUseCase
 import com.sweak.unlockmaster.presentation.common.util.getHoursAndMinutesDurationPair
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getTodayUnlockEventsCountUseCase: GetTodayUnlockEventsCountUseCase,
+    private val getUnlockEventsCountForGivenDayUseCase: GetUnlockEventsCountForGivenDayUseCase,
     private val getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase,
     private val getUnlockLimitAmountForTomorrowUseCase: GetUnlockLimitAmountForTomorrowUseCase,
     private val setUnlockCounterPauseUseCase: SetUnlockCounterPauseUseCase,
@@ -43,7 +43,7 @@ class HomeViewModel @Inject constructor(
 
         state = state.copy(
             isInitializing = false,
-            unlockCount = getTodayUnlockEventsCountUseCase(),
+            unlockCount = getUnlockEventsCountForGivenDayUseCase(),
             unlockLimit = unlockLimitForToday,
             isUnlockCounterPaused = isUnlockCounterPausedUseCase(),
             unlockLimitForTomorrow =

@@ -12,9 +12,13 @@ class GetUnlockEventsCountForGivenDayUseCase @Inject constructor(
     private val unlockEventsRepository: UnlockEventsRepository,
     private val timeRepository: TimeRepository
 ) {
-    suspend operator fun invoke(dayTimeInMillis: Long): Int {
+    suspend operator fun invoke(
+        dayTimeInMillis: Long = timeRepository.getCurrentTimeInMillis()
+    ): Int {
         val dayBeginningDateTime = ZonedDateTime.ofInstant(
-            Instant.ofEpochMilli(timeRepository.getBeginningOfGivenDayTimeInMillis(dayTimeInMillis)),
+            Instant.ofEpochMilli(
+                timeRepository.getBeginningOfGivenDayTimeInMillis(dayTimeInMillis)
+            ),
             ZoneId.systemDefault()
         )
         val dayEndingDateTime = dayBeginningDateTime.plusDays(1)
