@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.BarEntry
 import com.sweak.unlockmaster.domain.use_case.counter_pause.IsUnlockCounterPausedUseCase
 import com.sweak.unlockmaster.domain.use_case.counter_pause.SetUnlockCounterPauseUseCase
-import com.sweak.unlockmaster.domain.use_case.screen_time.GetTodayScreenTimeDurationUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_time.GetScreenTimeDurationForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetLastWeekUnlockEventCountsUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetTodayUnlockEventsCountUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
@@ -26,7 +26,7 @@ class HomeViewModel @Inject constructor(
     private val getUnlockLimitAmountForTomorrowUseCase: GetUnlockLimitAmountForTomorrowUseCase,
     private val setUnlockCounterPauseUseCase: SetUnlockCounterPauseUseCase,
     private val isUnlockCounterPausedUseCase: IsUnlockCounterPausedUseCase,
-    private val getTodayScreenTimeDurationUseCase: GetTodayScreenTimeDurationUseCase,
+    private val getScreenTimeDurationForGivenDayUseCase: GetScreenTimeDurationForGivenDayUseCase,
     private val getLastWeekUnlockEventCountsUseCase: GetLastWeekUnlockEventCountsUseCase
 ) : ViewModel() {
 
@@ -49,7 +49,7 @@ class HomeViewModel @Inject constructor(
             unlockLimitForTomorrow =
             if (unlockLimitForTomorrow != unlockLimitForToday) unlockLimitForTomorrow else null,
             todayHoursAndMinutesScreenTimePair = getHoursAndMinutesDurationPair(
-                getTodayScreenTimeDurationUseCase()
+                getScreenTimeDurationForGivenDayUseCase()
             ),
             lastWeekUnlockEventCounts = getLastWeekUnlockEventCountsUseCase().mapIndexed { x, y ->
                 BarEntry(x.toFloat(), y.toFloat())

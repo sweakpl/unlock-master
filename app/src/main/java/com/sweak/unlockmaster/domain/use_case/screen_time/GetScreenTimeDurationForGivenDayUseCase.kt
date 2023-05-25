@@ -1,7 +1,10 @@
 package com.sweak.unlockmaster.domain.use_case.screen_time
 
 import com.sweak.unlockmaster.domain.model.UnlockMasterEvent
-import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.*
+import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.CounterPausedEvent
+import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.CounterUnpausedEvent
+import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.LockEvent
+import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.UnlockEvent
 import com.sweak.unlockmaster.domain.repository.CounterPausedEventsRepository
 import com.sweak.unlockmaster.domain.repository.CounterUnpausedEventsRepository
 import com.sweak.unlockmaster.domain.repository.LockEventsRepository
@@ -16,7 +19,9 @@ class GetScreenTimeDurationForGivenDayUseCase @Inject constructor(
     private val counterUnpausedEventsRepository: CounterUnpausedEventsRepository,
     private val timeRepository: TimeRepository
 ) {
-    suspend operator fun invoke(dayTimeInMillis: Long): Long {
+    suspend operator fun invoke(
+        dayTimeInMillis: Long = timeRepository.getCurrentTimeInMillis()
+    ): Long {
         val givenDayBeginningTimeInMillis = timeRepository
             .getBeginningOfGivenDayTimeInMillis(dayTimeInMillis)
         val previousDayBeginningTimeInMillis = givenDayBeginningTimeInMillis - 86400000
