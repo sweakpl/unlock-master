@@ -33,6 +33,7 @@ class GetTodaySessionEventsUseCase @Inject constructor(
             .sortedBy { it.timeInMillis }
 
         if (screenEvents.isEmpty()) {
+            // TODO: In the test for the varying day: additional check for isGivenDayCurrentDay
             return if (userSessionRepository.isUnlockCounterPaused()) {
                 listOf(CounterPaused(todayBeginningTimeInMillis, currentTimeInMillis))
             } else {
