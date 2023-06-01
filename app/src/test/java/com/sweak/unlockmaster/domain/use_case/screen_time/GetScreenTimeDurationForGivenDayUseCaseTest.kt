@@ -379,6 +379,8 @@ class GetScreenTimeDurationForGivenDayUseCaseTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
 
         unlockEventsRepository.unlockEventsSinceTimeToBeReturned = listOf(
+            UnlockEvent(1676759445000),
+
             UnlockEvent(1676799300000),
             UnlockEvent(1676811000000),
             UnlockEvent(1676824200000)
@@ -421,7 +423,7 @@ class GetScreenTimeDurationForGivenDayUseCaseTest {
     }
 
     @Test
-    fun `There are no events from previous day, there is specific sequence - ULULULU in the given day and given day is the current day, then returns 16500000 milliseconds`() = runTest {
+    fun `LockEvent is the latest event from previous day, there is specific sequence - ULULULU in the given day and given day is the current day, then returns 16500000 milliseconds`() = runTest {
         timeRepository.currentTimeInMillisToBeReturned = 1676836800000
 
         unlockEventsRepository.unlockEventsSinceTimeToBeReturned = listOf(
@@ -431,6 +433,8 @@ class GetScreenTimeDurationForGivenDayUseCaseTest {
             UnlockEvent(1676824200000)
         )
         lockEventsRepository.lockEventsSinceTimeToBeReturned = listOf(
+            LockEvent(1676759445000),
+
             LockEvent(1676791200000),
             LockEvent(1676801100000),
             LockEvent(1676811900000)
