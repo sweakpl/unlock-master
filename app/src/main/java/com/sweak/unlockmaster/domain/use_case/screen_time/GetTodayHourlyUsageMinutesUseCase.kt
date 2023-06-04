@@ -56,7 +56,6 @@ class GetTodayHourlyUsageMinutesUseCase @Inject constructor(
             var hasAlreadyAddedDuration = false
 
             if (currentIntervalScreenEvents.isEmpty() && shouldAddToCurrentHourlyDuration) {
-                // TODO: In the test for the varying day: add(isCurrentDayGivenDay ? 360000 : 0)
                 hourlyDurationsInMillis.add(3600000) // 60 minutes
                 hasAlreadyAddedDuration = true
             }

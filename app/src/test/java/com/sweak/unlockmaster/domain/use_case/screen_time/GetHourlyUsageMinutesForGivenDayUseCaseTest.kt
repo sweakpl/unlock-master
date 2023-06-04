@@ -100,7 +100,7 @@ class GetHourlyUsageMinutesForGivenDayUseCaseTest {
         )
 
         Assert.assertEquals(
-            listOf(45, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
             getHourlyUsageMinutesForGivenDayUseCase(1678751100000)
         )
     }
@@ -399,18 +399,18 @@ class GetHourlyUsageMinutesForGivenDayUseCaseTest {
     }
 
     @Test
-    fun `UnlockEvent is the latest event from previous day, there is specific sequence - ULULULU in the given day and given day is not the current day`() = runTest {
+    fun `LockEvent is the latest event from previous day, there is specific sequence - ULULULU in the given day and given day is not the current day`() = runTest {
         timeRepository.currentTimeInMillisToBeReturned = 1678975800000
 
         unlockEventsRepository.unlockEventsSinceTimeToBeReturned = listOf(
-            UnlockEvent(1676760300000),
-
             UnlockEvent(1676790000000),
             UnlockEvent(1676799300000),
             UnlockEvent(1676811000000),
             UnlockEvent(1676843700000)
         )
         lockEventsRepository.lockEventsSinceTimeToBeReturned = listOf(
+            LockEvent(1676760300000),
+
             LockEvent(1676791200000),
             LockEvent(1676801100000),
             LockEvent(1676811900000),
@@ -447,17 +447,17 @@ class GetHourlyUsageMinutesForGivenDayUseCaseTest {
     }
 
     @Test
-    fun `LockEvent is the latest event from previous day, there is specific sequence - LULULUL in the given day and given day is not the current day`() = runTest {
+    fun `UnlockEvent is the latest event from previous day, there is specific sequence - LULULUL in the given day and given day is not the current day`() = runTest {
         timeRepository.currentTimeInMillisToBeReturned = 1678975800000
 
         unlockEventsRepository.unlockEventsSinceTimeToBeReturned = listOf(
+            UnlockEvent(1676760300000),
+
             UnlockEvent(1676799300000),
             UnlockEvent(1676811000000),
             UnlockEvent(1676824200000)
         )
         lockEventsRepository.lockEventsSinceTimeToBeReturned = listOf(
-            LockEvent(1676760300000),
-
             LockEvent(1676762100000),
             LockEvent(1676801100000),
             LockEvent(1676811900000),
