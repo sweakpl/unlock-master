@@ -82,7 +82,7 @@ dependencies {
     // Permission handling
     implementation 'com.google.accompanist:accompanist-permissions:0.30.0'
 
-    // Api >= 21 support for DateTime API
+    // API < 26 support for DateTime API
     // noinspection GradleDependency
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.2'
 

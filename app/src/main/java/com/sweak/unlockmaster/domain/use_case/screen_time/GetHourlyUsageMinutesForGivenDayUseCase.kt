@@ -17,6 +17,7 @@ class GetHourlyUsageMinutesForGivenDayUseCase @Inject constructor(
     suspend operator fun invoke(
         dayTimeInMillis: Long = timeRepository.getCurrentTimeInMillis()
     ): List<Int> {
+        // TODO: tests ready - provide implementation
         return listOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
     }
 }
