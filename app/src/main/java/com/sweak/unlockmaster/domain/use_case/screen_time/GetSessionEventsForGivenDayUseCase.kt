@@ -6,7 +6,6 @@ import com.sweak.unlockmaster.domain.repository.CounterUnpausedEventsRepository
 import com.sweak.unlockmaster.domain.repository.LockEventsRepository
 import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.repository.UnlockEventsRepository
-import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import javax.inject.Inject
 
 class GetSessionEventsForGivenDayUseCase @Inject constructor(
@@ -14,8 +13,7 @@ class GetSessionEventsForGivenDayUseCase @Inject constructor(
     private val lockEventsRepository: LockEventsRepository,
     private val counterPausedEventsRepository: CounterPausedEventsRepository,
     private val counterUnpausedEventsRepository: CounterUnpausedEventsRepository,
-    private val timeRepository: TimeRepository,
-    private val userSessionRepository: UserSessionRepository
+    private val timeRepository: TimeRepository
 ) {
     suspend operator fun invoke(
         dayTimeInMillis: Long = timeRepository.getCurrentTimeInMillis()
