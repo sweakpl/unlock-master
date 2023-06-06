@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.components.OnResume
@@ -238,7 +239,11 @@ fun StatisticsScreen(
 
                     Button(
                         onClick = {
-                            // TODO navigate to screen time details
+                            navController.navigate(
+                                Screen.ScreenTimeScreen.withArguments(
+                                    statisticsScreenState.currentlyHighlightedDayTimeInMillis.toString()
+                                )
+                            )
                         },
                         modifier = Modifier.align(Alignment.End)
                     ) {

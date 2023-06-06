@@ -21,5 +21,6 @@ sealed class Screen(val route: String) {
 
     companion object {
         const val KEY_IS_UPDATING_EXISTING_UNLOCK_LIMIT = "isUpdatingExistingUnlockLimit"
+        const val KEY_DISPLAYED_SCREEN_TIME_DAY_MILLIS = "displayedScreenTimeDayMillis"
     }
 }

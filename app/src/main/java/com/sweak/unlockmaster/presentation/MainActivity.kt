@@ -15,6 +15,7 @@ import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.AddScreenOnEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
 import com.sweak.unlockmaster.presentation.common.Screen
+import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_DISPLAYED_SCREEN_TIME_DAY_MILLIS
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_IS_UPDATING_EXISTING_UNLOCK_LIMIT
 import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
 import com.sweak.unlockmaster.presentation.introduction.background_work.WorkInBackgroundScreen
@@ -109,8 +110,22 @@ class MainActivity : ComponentActivity() {
                         HomeScreen(navController = navController)
                     }
 
-                    composable(route = Screen.ScreenTimeScreen.route) {
-                        ScreenTimeScreen(navController = navController)
+                    composable(
+                        route = Screen.ScreenTimeScreen.route
+                                + "/{$KEY_DISPLAYED_SCREEN_TIME_DAY_MILLIS}",
+                        arguments = listOf(
+                            navArgument(KEY_DISPLAYED_SCREEN_TIME_DAY_MILLIS) {
+                                type = NavType.LongType
+                                nullable = false
+                            }
+                        )
+                    ) {
+                        ScreenTimeScreen(
+                            navController = navController,
+                            displayedScreenTimeDayTimeInMillis =
+                            it.arguments?.getLong(KEY_DISPLAYED_SCREEN_TIME_DAY_MILLIS)
+                                ?: System.currentTimeMillis()
+                        )
                     }
 
                     composable(route = Screen.StatisticsScreen.route) {

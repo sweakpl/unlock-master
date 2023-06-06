@@ -3,7 +3,16 @@ package com.sweak.unlockmaster.presentation.main.screen_time
 import android.text.format.DateFormat
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
@@ -22,17 +31,19 @@ import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.common.util.TimeFormat
+import com.sweak.unlockmaster.presentation.common.util.getFullDateString
 import com.sweak.unlockmaster.presentation.main.screen_time.components.CounterPauseSeparator
 import com.sweak.unlockmaster.presentation.main.screen_time.components.DailyScreenTimeChart
 import com.sweak.unlockmaster.presentation.main.screen_time.components.SingleScreenTimeSessionCard
 
 @Composable
 fun ScreenTimeScreen(
+    screenTimeViewModel: ScreenTimeViewModel = hiltViewModel(),
     navController: NavController,
-    screenTimeViewModel: ScreenTimeViewModel = hiltViewModel()
+    displayedScreenTimeDayTimeInMillis: Long
 ) {
     OnResume {
-        screenTimeViewModel.refresh()
+        screenTimeViewModel.refresh(displayedScreenTimeDayTimeInMillis)
     }
 
     val screenTimeScreenState = screenTimeViewModel.state
@@ -43,7 +54,7 @@ fun ScreenTimeScreen(
             .fillMaxSize()
     ) {
         NavigationBar(
-            title = stringResource(R.string.screen_time),
+            title = getFullDateString(displayedScreenTimeDayTimeInMillis),
             onBackClick = { navController.popBackStack() }
         )
 
@@ -83,7 +94,7 @@ fun ScreenTimeScreen(
                                 .padding(all = MaterialTheme.space.medium)
                         ) {
                             Text(
-                                text = stringResource(R.string.todays_screen_time),
+                                text = stringResource(R.string.screen_time_colon),
                                 style = MaterialTheme.typography.h4
                             )
 
@@ -108,40 +119,66 @@ fun ScreenTimeScreen(
                         )
                     )
 
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                start = MaterialTheme.space.medium,
-                                end = MaterialTheme.space.medium,
-                                bottom = MaterialTheme.space.medium,
-                            )
-                    ) {
-                        val timeFormat =
-                            if (DateFormat.is24HourFormat(LocalContext.current)) TimeFormat.MILITARY
-                            else TimeFormat.AMPM
+                    if (screenTimeScreenState.UIReadySessionEvents.isEmpty()) {
+                        Card(
+                            elevation = MaterialTheme.space.xSmall,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    start = MaterialTheme.space.medium,
+                                    end = MaterialTheme.space.medium,
+                                    bottom = MaterialTheme.space.large,
+                                )
+                        ) {
+                            Row(
+                                horizontalArrangement = Arrangement.Center,
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(all = MaterialTheme.space.medium)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.history_empty_for_that_day),
+                                    style = MaterialTheme.typography.h4
+                                )
+                            }
+                        }
+                    } else {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    start = MaterialTheme.space.medium,
+                                    end = MaterialTheme.space.medium,
+                                    bottom = MaterialTheme.space.medium,
+                                )
+                        ) {
+                            val timeFormat =
+                                if (DateFormat.is24HourFormat(LocalContext.current)) TimeFormat.MILITARY
+                                else TimeFormat.AMPM
 
-                        screenTimeScreenState.UIReadySessionEvents.forEach {
-                            if (it is ScreenTimeScreenState.UIReadySessionEvent.ScreenTime) {
-                                SingleScreenTimeSessionCard(
-                                    screenSessionStartAndEndTimesInMillis =
-                                    it.startAndEndTimesInMillis,
-                                    screenSessionHoursMinutesAndSecondsDurationTriple =
-                                    it.screenSessionHoursMinutesAndSecondsDurationTriple,
-                                    timeFormat = timeFormat,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(bottom = MaterialTheme.space.medium)
-                                )
-                            } else if (it is ScreenTimeScreenState.UIReadySessionEvent.CounterPaused) {
-                                CounterPauseSeparator(
-                                    counterPauseSessionStartAndEndTimesInMillis =
-                                    it.startAndEndTimesInMillis,
-                                    timeFormat = timeFormat,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(bottom = MaterialTheme.space.medium)
-                                )
+                            screenTimeScreenState.UIReadySessionEvents.forEach {
+                                if (it is ScreenTimeScreenState.UIReadySessionEvent.ScreenTime) {
+                                    SingleScreenTimeSessionCard(
+                                        screenSessionStartAndEndTimesInMillis =
+                                        it.startAndEndTimesInMillis,
+                                        screenSessionHoursMinutesAndSecondsDurationTriple =
+                                        it.screenSessionHoursMinutesAndSecondsDurationTriple,
+                                        timeFormat = timeFormat,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(bottom = MaterialTheme.space.medium)
+                                    )
+                                } else if (it is ScreenTimeScreenState.UIReadySessionEvent.CounterPaused) {
+                                    CounterPauseSeparator(
+                                        counterPauseSessionStartAndEndTimesInMillis =
+                                        it.startAndEndTimesInMillis,
+                                        timeFormat = timeFormat,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(bottom = MaterialTheme.space.medium)
+                                    )
+                                }
                             }
                         }
                     }

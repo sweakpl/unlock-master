@@ -316,7 +316,11 @@ fun HomeScreen(
 
                             Button(
                                 onClick = {
-                                    navController.navigate(Screen.ScreenTimeScreen.route)
+                                    navController.navigate(
+                                        Screen.ScreenTimeScreen.withArguments(
+                                            System.currentTimeMillis().toString()
+                                        )
+                                    )
                                 }
                             ) {
                                 Row(

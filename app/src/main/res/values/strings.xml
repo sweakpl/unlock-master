@@ -68,6 +68,7 @@
     <string name="how_unlock_count_looked">This is how your daily unlock count looked like over the last week:</string>
     <string name="get_more_insights">Get more insights</string>
     <string name="screen_time">Screen time</string>
+    <string name="screen_time_colon">Screen time:</string>
     <string name="screen_time_history">Screen time history:</string>
     <string name="hours_amount">%1$dh</string>
     <string name="minutes_amount">%1$dm</string>
@@ -108,4 +109,5 @@
     <string name="content_description_light_icon">Light icon</string>
     <string name="content_description_help_icon">Help icon</string>
     <string name="ok">OK</string>
+    <string name="history_empty_for_that_day">History is empty for that day</string>
 </resources>
