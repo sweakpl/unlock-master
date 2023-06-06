@@ -144,7 +144,7 @@ class GetSessionEventsForGivenDayUseCaseTest {
         )
 
         Assert.assertEquals(
-            listOf(CounterPaused(1676761200000, 1676774710000)),
+            listOf(CounterPaused(1676761200000, 1676847600000)),
             getSessionEventsForGivenDayUseCase(1676774710000)
         )
     }
