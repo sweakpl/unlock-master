@@ -24,7 +24,10 @@ import com.sweak.unlockmaster.presentation.introduction.components.InformationCa
 import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
 
 @Composable
-fun IntroductionScreen(navController: NavController) {
+fun IntroductionScreen(
+    navController: NavController,
+    isLaunchedFromSettings: Boolean
+) {
     Column(
         modifier = Modifier.background(color = MaterialTheme.colors.background)
     ) {
@@ -115,9 +118,13 @@ fun IntroductionScreen(navController: NavController) {
             ProceedButton(
                 text = stringResource(R.string.got_it),
                 onClick = {
-                    navController.navigate(
-                        Screen.UnlockLimitSetupScreen.withArguments(false.toString())
-                    )
+                    if (isLaunchedFromSettings) {
+                        navController.popBackStack()
+                    } else {
+                        navController.navigate(
+                            Screen.UnlockLimitSetupScreen.withArguments(false.toString())
+                        )
+                    }
                 },
                 modifier = Modifier.padding(all = MaterialTheme.space.medium)
             )

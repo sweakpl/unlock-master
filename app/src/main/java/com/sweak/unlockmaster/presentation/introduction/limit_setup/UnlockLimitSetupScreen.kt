@@ -44,7 +44,9 @@ fun UnlockLimitSetupScreen(
             if (isUpdatingExistingUnlockLimit) {
                 navController.popBackStack()
             } else {
-                navController.navigate(Screen.WorkInBackgroundScreen.route)
+                navController.navigate(
+                    Screen.WorkInBackgroundScreen.withArguments(false.toString())
+                )
             }
         }
     }

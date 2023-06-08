@@ -33,11 +33,11 @@ class UnlockLimitsRepositoryImpl(
             .filter {
                 it.limitApplianceDayTimeInMillis <= timeInMillis
             }
-            .maxOf {
+            .maxOfOrNull {
                 it.limitApplianceDayTimeInMillis
             }
 
-        return getUnlockLimitWithApplianceTime(applianceTime)
+        return applianceTime?.let { getUnlockLimitWithApplianceTime(it) }
     }
 
     override suspend fun getUnlockLimitWithApplianceTime(

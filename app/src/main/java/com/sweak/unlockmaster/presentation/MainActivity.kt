@@ -16,6 +16,7 @@ import com.sweak.unlockmaster.domain.use_case.screen_on_events.AddScreenOnEventU
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_DISPLAYED_SCREEN_TIME_DAY_MILLIS
+import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_IS_LAUNCHED_FROM_SETTINGS
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_IS_UPDATING_EXISTING_UNLOCK_LIMIT
 import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
 import com.sweak.unlockmaster.presentation.introduction.background_work.WorkInBackgroundScreen
@@ -26,6 +27,7 @@ import com.sweak.unlockmaster.presentation.introduction.welcome.WelcomeScreen
 import com.sweak.unlockmaster.presentation.main.home.HomeScreen
 import com.sweak.unlockmaster.presentation.main.screen_time.ScreenTimeScreen
 import com.sweak.unlockmaster.presentation.main.statistics.StatisticsScreen
+import com.sweak.unlockmaster.presentation.settings.SettingsScreen
 import com.sweak.unlockmaster.presentation.unlock_counting.UnlockMasterService
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -62,8 +64,21 @@ class MainActivity : ComponentActivity() {
                         WelcomeScreen(navController = navController)
                     }
 
-                    composable(route = Screen.IntroductionScreen.route) {
-                        IntroductionScreen(navController = navController)
+                    composable(
+                        route = Screen.IntroductionScreen.route
+                                + "/{$KEY_IS_LAUNCHED_FROM_SETTINGS}",
+                        arguments = listOf(
+                            navArgument(KEY_IS_LAUNCHED_FROM_SETTINGS) {
+                                type = NavType.BoolType
+                                nullable = false
+                            }
+                        )
+                    ) {
+                        IntroductionScreen(
+                            navController = navController,
+                            isLaunchedFromSettings =
+                            it.arguments?.getBoolean(KEY_IS_LAUNCHED_FROM_SETTINGS) ?: true
+                        )
                     }
 
                     composable(
@@ -72,7 +87,6 @@ class MainActivity : ComponentActivity() {
                         arguments = listOf(
                             navArgument(KEY_IS_UPDATING_EXISTING_UNLOCK_LIMIT) {
                                 type = NavType.BoolType
-                                defaultValue = true
                                 nullable = false
                             }
                         )
@@ -84,7 +98,16 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    composable(route = Screen.WorkInBackgroundScreen.route) {
+                    composable(
+                        route = Screen.WorkInBackgroundScreen.route
+                                + "/{$KEY_IS_LAUNCHED_FROM_SETTINGS}",
+                        arguments = listOf(
+                            navArgument(KEY_IS_LAUNCHED_FROM_SETTINGS) {
+                                type = NavType.BoolType
+                                nullable = false
+                            }
+                        )
+                    ) {
                         WorkInBackgroundScreen(
                             navController = navController,
                             onWorkInBackgroundAllowed = {
@@ -98,7 +121,9 @@ class MainActivity : ComponentActivity() {
                                     userSessionRepository.setIntroductionFinished()
                                     startUnlockMasterService()
                                 }
-                            }
+                            },
+                            isLaunchedFromSettings =
+                            it.arguments?.getBoolean(KEY_IS_LAUNCHED_FROM_SETTINGS) ?: true
                         )
                     }
 
@@ -108,6 +133,10 @@ class MainActivity : ComponentActivity() {
 
                     composable(route = Screen.HomeScreen.route) {
                         HomeScreen(navController = navController)
+                    }
+
+                    composable(route = Screen.SettingsScreen.route) {
+                        SettingsScreen(navController = navController)
                     }
 
                     composable(

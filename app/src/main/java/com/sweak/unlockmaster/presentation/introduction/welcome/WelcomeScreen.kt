@@ -63,7 +63,9 @@ fun WelcomeScreen(navController: NavController) {
         )
 
         Button(
-            onClick = { navController.navigate(Screen.IntroductionScreen.route) },
+            onClick = {
+                navController.navigate(Screen.IntroductionScreen.withArguments(false.toString()))
+            },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = MaterialTheme.colors.surface
             ),

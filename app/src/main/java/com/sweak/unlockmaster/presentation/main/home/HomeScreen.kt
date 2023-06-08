@@ -57,7 +57,7 @@ fun HomeScreen(
                 .height(MaterialTheme.space.xxLarge)
                 .background(color = MaterialTheme.colors.primary)
         ) {
-            IconButton(onClick = { /* TODO: redirect */ }) {
+            IconButton(onClick = { navController.navigate(Screen.SettingsScreen.route) }) {
                 Icon(
                     imageVector = Icons.Outlined.Menu,
                     contentDescription = stringResource(R.string.content_description_menu_icon)

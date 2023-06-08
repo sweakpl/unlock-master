@@ -43,7 +43,8 @@ import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
 @Composable
 fun WorkInBackgroundScreen(
     navController: NavController,
-    onWorkInBackgroundAllowed: () -> Unit
+    onWorkInBackgroundAllowed: () -> Unit,
+    isLaunchedFromSettings: Boolean
 ) {
     val uriHandler = LocalUriHandler.current
     val backgroundWorkImprovementWebsite = stringResource(R.string.dontkilmyapp_com_full_uri)
@@ -261,8 +262,12 @@ fun WorkInBackgroundScreen(
             ProceedButton(
                 text = stringResource(R.string._continue),
                 onClick = {
-                    onWorkInBackgroundAllowed()
-                    navController.navigate(Screen.SetupCompleteScreen.route)
+                    if (isLaunchedFromSettings) {
+                        navController.popBackStack()
+                    } else {
+                        onWorkInBackgroundAllowed()
+                        navController.navigate(Screen.SetupCompleteScreen.route)
+                    }
                 },
                 enabled = notificationsPermissionState.status is PermissionStatus.Granted,
                 modifier = Modifier.padding(all = MaterialTheme.space.medium)
