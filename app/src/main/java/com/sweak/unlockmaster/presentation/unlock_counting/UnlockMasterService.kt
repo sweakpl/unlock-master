@@ -10,6 +10,7 @@ import android.content.IntentFilter
 import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
+import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.R
@@ -32,6 +33,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class UnlockMasterService : Service() {
@@ -106,14 +108,21 @@ class UnlockMasterService : Service() {
             serviceScope.launch {
                 addUnlockEventUseCase()
 
+                val currentUnlockCount = getUnlockEventsCountForGivenDayUseCase()
+                val currentUnlockLimit = getUnlockLimitAmountForTodayUseCase()
+                val mobilizingNotificationFrequencyPercentage = 25 // TODO: get real number
+
                 try {
                     notificationManager.notify(
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) FOREGROUND_SERVICE_ID
                         else FOREGROUND_SERVICE_NOTIFICATION_ID,
-                        createNewServiceNotification(
-                            getUnlockEventsCountForGivenDayUseCase(),
-                            getUnlockLimitAmountForTodayUseCase()
-                        )
+                        createNewServiceNotification(currentUnlockCount, currentUnlockLimit)
+                    )
+
+                    showMobilizingNotificationIfNeeded(
+                        currentUnlockCount,
+                        currentUnlockLimit,
+                        mobilizingNotificationFrequencyPercentage
                     )
                 } catch (_: SecurityException) { /* no-op */ }
             }
@@ -208,6 +217,59 @@ class UnlockMasterService : Service() {
             setContentText(
                 getString(R.string.your_unlock_count_is, todayUnlockEventsCount, todayUnlockLimit)
             )
+            setContentIntent(notificationPendingIntent)
+            return build()
+        }
+    }
+
+    private fun showMobilizingNotificationIfNeeded(
+        unlockCount: Int,
+        unlockLimit: Int,
+        percentage: Int
+    ) {
+        val multiple = unlockLimit * percentage / 100f
+        val multiples = (percentage..100 step percentage).mapIndexed { index, _ ->
+            ((index + 1) * multiple).roundToInt()
+        }
+
+        if (unlockCount in multiples) {
+            try {
+                notificationManager.notify(
+                    MOBILIZING_NOTIFICATION_ID,
+                    createNewMobilizingNotification(
+                        (multiples.indexOf(unlockCount) + 1) * percentage,
+                        unlockCount,
+                        unlockLimit
+                    )
+                )
+            } catch (_: SecurityException) { /* no-op */ }
+        }
+    }
+
+    private fun createNewMobilizingNotification(
+        limitPercentageReached: Int,
+        unlockCount: Int,
+        unlockLimit: Int
+    ): Notification {
+        val notificationPendingIntent = PendingIntent.getActivity(
+            applicationContext,
+            MOBILIZING_NOTIFICATION_REQUEST_CODE,
+            Intent(applicationContext, MainActivity::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT or
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                        PendingIntent.FLAG_IMMUTABLE
+                    else 0
+        )
+
+        NotificationCompat.Builder(
+            applicationContext,
+            MOBILIZING_NOTIFICATION_CHANNEL_ID
+        ).apply {
+            priority = NotificationCompat.PRIORITY_HIGH
+            setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+            setSmallIcon(R.drawable.ic_notification_icon)
+            setContentTitle(getString(R.string.percent_of_limit_reached, limitPercentageReached))
+            setContentText(getString(R.string.thats_your_unlock_number, unlockCount, unlockLimit))
             setContentIntent(notificationPendingIntent)
             return build()
         }

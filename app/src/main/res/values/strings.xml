@@ -110,4 +110,8 @@
     <string name="content_description_help_icon">Help icon</string>
     <string name="ok">OK</string>
     <string name="history_empty_for_that_day">History is empty for that day</string>
+    <string name="percent_of_limit_reached">%1$d%% of limit reached!</string>
+    <string name="thats_your_unlock_number">That’s your unlock number %1$d out of %2$d</string>
+    <string name="mobilizing_notifications_channel_title">Mobilizing reminders</string>
+    <string name="mobilizing_notifications_channel_description">Display notifications reminding about smartphone usage goals</string>
 </resources>
