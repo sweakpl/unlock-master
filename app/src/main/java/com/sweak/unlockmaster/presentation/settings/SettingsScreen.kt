@@ -35,7 +35,7 @@ fun SettingsScreen(navController: NavController) {
             SettingsEntry(
                 settingsEntryTitle = stringResource(R.string.mobilizing_notifications),
                 onEntryClick = {
-                    // TODO: navigate to mobilizing notifications screen
+                    navController.navigate(Screen.MobilizingNotificationsScreen.route)
                 },
                 modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
             )
