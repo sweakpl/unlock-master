@@ -18,6 +18,7 @@ import com.sweak.unlockmaster.domain.use_case.counter_pause.AddCounterPausedEven
 import com.sweak.unlockmaster.domain.use_case.counter_pause.AddCounterUnpausedEventUseCase
 import com.sweak.unlockmaster.domain.use_case.lock_events.AddLockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.lock_events.ShouldAddLockEventUseCase
+import com.sweak.unlockmaster.domain.use_case.mobilizing_notifications.GetMobilizingNotificationsFrequencyPercentage
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.AddScreenOnEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
@@ -67,6 +68,9 @@ class UnlockMasterService : Service() {
     @Inject
     lateinit var addCounterUnpausedEventUseCase: AddCounterUnpausedEventUseCase
 
+    @Inject
+    lateinit var getMobilizingNotificationsFrequencyPercentage: GetMobilizingNotificationsFrequencyPercentage
+
     private val unlockCounterPauseReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             intent?.let {
@@ -110,7 +114,8 @@ class UnlockMasterService : Service() {
 
                 val currentUnlockCount = getUnlockEventsCountForGivenDayUseCase()
                 val currentUnlockLimit = getUnlockLimitAmountForTodayUseCase()
-                val mobilizingNotificationFrequencyPercentage = 25 // TODO: get real number
+                val mobilizingNotificationsFrequencyPercentage =
+                    getMobilizingNotificationsFrequencyPercentage()
 
                 try {
                     notificationManager.notify(
@@ -122,7 +127,7 @@ class UnlockMasterService : Service() {
                     showMobilizingNotificationIfNeeded(
                         currentUnlockCount,
                         currentUnlockLimit,
-                        mobilizingNotificationFrequencyPercentage
+                        mobilizingNotificationsFrequencyPercentage
                     )
                 } catch (_: SecurityException) { /* no-op */ }
             }

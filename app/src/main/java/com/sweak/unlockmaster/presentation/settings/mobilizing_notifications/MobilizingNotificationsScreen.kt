@@ -15,16 +15,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.times
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
@@ -33,9 +32,19 @@ import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
 import com.sweak.unlockmaster.presentation.settings.mobilizing_notifications.components.ComboBox
 
 @Composable
-fun MobilizingNotificationsScreen(navController: NavController) {
-    val availableMobilizingNotificationsFrequencyPercentages = listOf(10, 25, 50)
-    var selectedFrequencyPercentageIndex by remember { mutableIntStateOf(1) }
+fun MobilizingNotificationsScreen(
+    mobilizingNotificationsViewModel: MobilizingNotificationsViewModel = hiltViewModel(),
+    navController: NavController
+) {
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = context) {
+        mobilizingNotificationsViewModel.frequencyPercentageSubmittedEvents.collect {
+            navController.popBackStack()
+        }
+    }
+
+    val mobilizingNotificationsScreenState = mobilizingNotificationsViewModel.state
 
     Column(
         modifier = Modifier.background(color = MaterialTheme.colors.background)
@@ -103,19 +112,29 @@ fun MobilizingNotificationsScreen(navController: NavController) {
                         )
                 )
 
-                ComboBox(
-                    menuItems = availableMobilizingNotificationsFrequencyPercentages.map {
-                        stringResource(R.string.every_x_percent, it)
-                    },
-                    selectedIndex = selectedFrequencyPercentageIndex,
-                    onMenuItemClick = { selectedFrequencyPercentageIndex = it },
-                    modifier = Modifier
-                        .padding(
-                            start = MaterialTheme.space.medium,
-                            end = MaterialTheme.space.medium,
-                            bottom = MaterialTheme.space.mediumLarge
-                        )
-                )
+                if (mobilizingNotificationsScreenState.availableMobilizingNotificationsFrequencyPercentages != null &&
+                    mobilizingNotificationsScreenState.selectedMobilizingNotificationsFrequencyPercentageIndex != null
+                ) {
+                    ComboBox(
+                        menuItems = mobilizingNotificationsScreenState.availableMobilizingNotificationsFrequencyPercentages.map {
+                            stringResource(R.string.every_x_percent, it)
+                        },
+                        selectedIndex = mobilizingNotificationsScreenState.selectedMobilizingNotificationsFrequencyPercentageIndex,
+                        onMenuItemClick = {
+                            mobilizingNotificationsViewModel.onEvent(
+                                MobilizingNotificationsScreenEvent.SelectNewFrequencyPercentageIndex(
+                                    newPercentageIndex = it
+                                )
+                            )
+                        },
+                        modifier = Modifier
+                            .padding(
+                                start = MaterialTheme.space.medium,
+                                end = MaterialTheme.space.medium,
+                                bottom = MaterialTheme.space.mediumLarge
+                            )
+                    )
+                }
 
                 Text(
                     text = stringResource(R.string.example),
@@ -140,8 +159,9 @@ fun MobilizingNotificationsScreen(navController: NavController) {
             ProceedButton(
                 text = stringResource(R.string.confirm),
                 onClick = {
-                    // TODO: save the selection
-                    navController.popBackStack()
+                    mobilizingNotificationsViewModel.onEvent(
+                        MobilizingNotificationsScreenEvent.ConfirmNewSelectedFrequencyPercentage
+                    )
                 },
                 modifier = Modifier.padding(all = MaterialTheme.space.medium)
             )

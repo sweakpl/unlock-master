@@ -5,9 +5,11 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 
 class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepository {
@@ -36,8 +38,21 @@ class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepos
             preferences[IS_UNLOCK_COUNTER_PAUSED] ?: false
         }.first()
 
+    override suspend fun setMobilizingNotificationsFrequencyPercentage(percentage: Int) {
+        context.dataStore.edit { preferences ->
+            preferences[MOBILIZING_NOTIFICATIONS_FREQUENCY_PERCENTAGE] = percentage
+        }
+    }
+
+    override suspend fun getMobilizingNotificationsFrequencyPercentage(): Int? =
+        context.dataStore.data.map { preferences ->
+            preferences[MOBILIZING_NOTIFICATIONS_FREQUENCY_PERCENTAGE]
+        }.firstOrNull()
+
     companion object {
         val IS_INTRODUCTION_FINISHED = booleanPreferencesKey("isIntroductionFinished")
         val IS_UNLOCK_COUNTER_PAUSED = booleanPreferencesKey("isUnlockCounterPaused")
+        val MOBILIZING_NOTIFICATIONS_FREQUENCY_PERCENTAGE =
+            intPreferencesKey("mobilizingNotificationsFrequencyPercentage")
     }
 }

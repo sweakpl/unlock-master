@@ -5,4 +5,6 @@ interface UserSessionRepository {
     suspend fun isIntroductionFinished(): Boolean
     suspend fun setUnlockCounterPaused(isPaused: Boolean)
     suspend fun isUnlockCounterPaused(): Boolean
+    suspend fun setMobilizingNotificationsFrequencyPercentage(percentage: Int)
+    suspend fun getMobilizingNotificationsFrequencyPercentage(): Int?
 }
