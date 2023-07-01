@@ -276,6 +276,7 @@ class UnlockMasterService : Service() {
             setContentTitle(getString(R.string.percent_of_limit_reached, limitPercentageReached))
             setContentText(getString(R.string.thats_your_unlock_number, unlockCount, unlockLimit))
             setContentIntent(notificationPendingIntent)
+            setAutoCancel(true)
             return build()
         }
     }
