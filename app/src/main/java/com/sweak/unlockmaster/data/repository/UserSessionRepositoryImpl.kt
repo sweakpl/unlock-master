@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.sweak.unlockmaster.domain.DEFAULT_MOBILIZING_NOTIFICATIONS_FREQUENCY_PERCENTAGE
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
@@ -44,10 +45,11 @@ class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepos
         }
     }
 
-    override suspend fun getMobilizingNotificationsFrequencyPercentage(): Int? =
+    override suspend fun getMobilizingNotificationsFrequencyPercentage(): Int =
         context.dataStore.data.map { preferences ->
             preferences[MOBILIZING_NOTIFICATIONS_FREQUENCY_PERCENTAGE]
-        }.firstOrNull()
+                ?: DEFAULT_MOBILIZING_NOTIFICATIONS_FREQUENCY_PERCENTAGE
+        }.first()
 
     companion object {
         val IS_INTRODUCTION_FINISHED = booleanPreferencesKey("isIntroductionFinished")

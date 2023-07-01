@@ -6,5 +6,5 @@ interface UserSessionRepository {
     suspend fun setUnlockCounterPaused(isPaused: Boolean)
     suspend fun isUnlockCounterPaused(): Boolean
     suspend fun setMobilizingNotificationsFrequencyPercentage(percentage: Int)
-    suspend fun getMobilizingNotificationsFrequencyPercentage(): Int?
+    suspend fun getMobilizingNotificationsFrequencyPercentage(): Int
 }

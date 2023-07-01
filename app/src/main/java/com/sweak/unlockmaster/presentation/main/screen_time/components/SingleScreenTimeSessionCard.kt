@@ -64,7 +64,7 @@ fun SingleScreenTimeSessionCard(
                             stringResource(R.string.minutes_amount, minutesAmount)
                 )
 
-                if (secondsAmount != 0) append(
+                if (secondsAmount != 0 || isBlank()) append(
                     (if (hoursAmount != 0 || minutesAmount != 0) " " else "") +
                             stringResource(R.string.seconds_amount, secondsAmount)
                 )
