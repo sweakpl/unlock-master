@@ -53,7 +53,7 @@ fun StatisticsScreen(
                 allTimeUnlockEventCountsEntries = statisticsScreenState.allTimeUnlockEventCounts,
                 onValueSelected = {
                     statisticsViewModel.onEvent(
-                        StatisticsScreenEvent.ChartValueSelected(selectedEntryIndex = it)
+                        StatisticsScreenEvent.SelectChartValue(selectedEntryIndex = it)
                     )
                 },
                 modifier = Modifier

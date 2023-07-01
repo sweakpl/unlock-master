@@ -46,7 +46,7 @@ class StatisticsViewModel @Inject constructor(
             is StatisticsScreenEvent.ScreenOnEventsInformationDialogVisible -> {
                 state = state.copy(isScreenOnEventsInformationDialogVisible = event.isVisible)
             }
-            is StatisticsScreenEvent.ChartValueSelected -> viewModelScope.launch {
+            is StatisticsScreenEvent.SelectChartValue -> viewModelScope.launch {
                 val chartEntriesSize = state.allTimeUnlockEventCounts.size
                 val highlightedDayTimeInMillis = ZonedDateTime.now()
                     .minusDays((chartEntriesSize - event.selectedEntryIndex - 1).toLong())

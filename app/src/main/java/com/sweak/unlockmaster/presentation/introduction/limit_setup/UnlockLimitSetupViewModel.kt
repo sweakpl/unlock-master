@@ -24,7 +24,7 @@ class UnlockLimitSetupViewModel @Inject constructor(
     var state by mutableStateOf(UnlockLimitSetupScreenState())
 
     private val unlockLimitSubmittedEventsChannel = Channel<UnlockLimitSubmittedEvent>()
-    val unlockEventsSubmittedEvents = unlockLimitSubmittedEventsChannel.receiveAsFlow()
+    val unlockLimitSubmittedEvents = unlockLimitSubmittedEventsChannel.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -43,10 +43,10 @@ class UnlockLimitSetupViewModel @Inject constructor(
 
     fun onEvent(event: UnlockLimitSetupScreenEvent) {
         when (event) {
-            is UnlockLimitSetupScreenEvent.NewUnlockLimitPicked -> {
+            is UnlockLimitSetupScreenEvent.PickNewUnlockLimit -> {
                 state = state.copy(pickedUnlockLimit = event.newUnlockLimit)
             }
-            is UnlockLimitSetupScreenEvent.SelectedUnlockLimitSubmitted -> {
+            is UnlockLimitSetupScreenEvent.SubmitSelectedUnlockLimit -> {
                 state.pickedUnlockLimit?.let {
                     viewModelScope.launch {
                         if (event.isUpdating) {

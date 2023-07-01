@@ -40,7 +40,7 @@ fun UnlockLimitSetupScreen(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = context) {
-        unlockLimitSetupViewModel.unlockEventsSubmittedEvents.collect {
+        unlockLimitSetupViewModel.unlockLimitSubmittedEvents.collect {
             if (isUpdatingExistingUnlockLimit) {
                 navController.popBackStack()
             } else {
@@ -105,7 +105,7 @@ fun UnlockLimitSetupScreen(
                     numbersRange = IntRange(start = 10, endInclusive = 70),
                     onNewNumberPicked = { newUnlockLimit ->
                         unlockLimitSetupViewModel.onEvent(
-                            UnlockLimitSetupScreenEvent.NewUnlockLimitPicked(newUnlockLimit)
+                            UnlockLimitSetupScreenEvent.PickNewUnlockLimit(newUnlockLimit)
                         )
                     },
                     modifier = Modifier
@@ -255,7 +255,7 @@ fun UnlockLimitSetupScreen(
                 text = stringResource(R.string.confirm),
                 onClick = {
                     unlockLimitSetupViewModel.onEvent(
-                        UnlockLimitSetupScreenEvent.SelectedUnlockLimitSubmitted(
+                        UnlockLimitSetupScreenEvent.SubmitSelectedUnlockLimit(
                             isUpdating = isUpdatingExistingUnlockLimit
                         )
                     )
