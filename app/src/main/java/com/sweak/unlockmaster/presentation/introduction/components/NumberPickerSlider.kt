@@ -18,7 +18,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun NumberPickerSlider(
-    pickedNumber: Int?,
+    pickedNumber: Int,
     numbersRange: IntRange,
     onNewNumberPicked: (Int) -> Unit,
     modifier: Modifier = Modifier
@@ -28,7 +28,7 @@ fun NumberPickerSlider(
         modifier = modifier
     ) {
         Text(
-            text = pickedNumber?.toString() ?: "-",
+            text = pickedNumber.toString(),
             style = MaterialTheme.typography.h1.copy(fontSize = 48.sp),
             modifier = Modifier.padding(bottom = MaterialTheme.space.small)
         )
@@ -38,7 +38,7 @@ fun NumberPickerSlider(
         ) {
             IconButton(
                 onClick = {
-                    if (pickedNumber != null && pickedNumber > numbersRange.first) {
+                    if (pickedNumber > numbersRange.first) {
                         onNewNumberPicked(pickedNumber - 1)
                     }
                 }
@@ -51,7 +51,7 @@ fun NumberPickerSlider(
             }
 
             Slider(
-                value = pickedNumber?.toFloat() ?: numbersRange.run { (last + first) / 2f },
+                value = pickedNumber.toFloat(),
                 onValueChange = {
                     onNewNumberPicked(it.roundToInt())
                 },
@@ -61,7 +61,7 @@ fun NumberPickerSlider(
 
             IconButton(
                 onClick = {
-                    if (pickedNumber != null && pickedNumber < numbersRange.last) {
+                    if (pickedNumber < numbersRange.last) {
                         onNewNumberPicked(pickedNumber + 1)
                     }
                 }

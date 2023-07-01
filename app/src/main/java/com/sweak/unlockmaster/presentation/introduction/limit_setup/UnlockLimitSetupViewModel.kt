@@ -18,6 +18,7 @@ class UnlockLimitSetupViewModel @Inject constructor(
     private val addOrUpdateUnlockLimitForTomorrowUseCase: AddOrUpdateUnlockLimitForTomorrowUseCase,
     private val getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase,
     private val getUnlockLimitAmountForTomorrowUseCase: GetUnlockLimitAmountForTomorrowUseCase,
+    private val getAvailableUnlockLimitRangeUseCase: GetAvailableUnlockLimitRangeUseCase,
     private val deleteUnlockLimitForTomorrowUseCase: DeleteUnlockLimitForTomorrowUseCase
 ) : ViewModel() {
 
@@ -29,10 +30,12 @@ class UnlockLimitSetupViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val unlockLimitForToday = getUnlockLimitAmountForTodayUseCase()
+            val availableUnlockLimitRangeUseCase = getAvailableUnlockLimitRangeUseCase()
             val unlockLimitForTomorrow = getUnlockLimitAmountForTomorrowUseCase()
 
             state = state.copy(
                 pickedUnlockLimit = unlockLimitForTomorrow ?: unlockLimitForToday,
+                availableUnlockLimitRange = availableUnlockLimitRangeUseCase,
                 unlockLimitForTomorrow =
                 if (unlockLimitForTomorrow != null && unlockLimitForToday != unlockLimitForTomorrow)
                     unlockLimitForTomorrow

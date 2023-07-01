@@ -100,21 +100,25 @@ fun UnlockLimitSetupScreen(
                         )
                 )
 
-                NumberPickerSlider(
-                    pickedNumber = unlockLimitSetupScreenState.pickedUnlockLimit,
-                    numbersRange = IntRange(start = 10, endInclusive = 70),
-                    onNewNumberPicked = { newUnlockLimit ->
-                        unlockLimitSetupViewModel.onEvent(
-                            UnlockLimitSetupScreenEvent.PickNewUnlockLimit(newUnlockLimit)
-                        )
-                    },
-                    modifier = Modifier
-                        .padding(
-                            start = MaterialTheme.space.medium,
-                            end = MaterialTheme.space.medium,
-                            bottom = MaterialTheme.space.large,
-                        )
-                )
+                if (unlockLimitSetupScreenState.pickedUnlockLimit != null &&
+                        unlockLimitSetupScreenState.availableUnlockLimitRange != null
+                ) {
+                    NumberPickerSlider(
+                        pickedNumber = unlockLimitSetupScreenState.pickedUnlockLimit,
+                        numbersRange = unlockLimitSetupScreenState.availableUnlockLimitRange,
+                        onNewNumberPicked = { newUnlockLimit ->
+                            unlockLimitSetupViewModel.onEvent(
+                                UnlockLimitSetupScreenEvent.PickNewUnlockLimit(newUnlockLimit)
+                            )
+                        },
+                        modifier = Modifier
+                            .padding(
+                                start = MaterialTheme.space.medium,
+                                end = MaterialTheme.space.medium,
+                                bottom = MaterialTheme.space.large,
+                            )
+                    )
+                }
 
                 if (unlockLimitSetupScreenState.unlockLimitForTomorrow != null) {
                     Card(
