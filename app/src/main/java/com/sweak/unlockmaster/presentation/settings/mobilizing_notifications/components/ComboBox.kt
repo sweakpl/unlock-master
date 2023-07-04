@@ -40,7 +40,7 @@ fun ComboBox(
     Column(modifier = modifier) {
         var expanded by remember { mutableStateOf(false) }
 
-        Card {
+        Card(elevation = MaterialTheme.space.xSmall) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier

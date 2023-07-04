@@ -143,9 +143,9 @@ fun SetupCompleteScreen(navController: NavController) {
                 )
 
                 Image(
-                    painter = painterResource(R.drawable.img_wrapup_notification),
+                    painter = painterResource(R.drawable.img_daily_wrapup_notification),
                     contentDescription = stringResource(
-                        R.string.content_description_wrapup_notification_image
+                        R.string.content_description_daily_wrapup_notification_image
                     ),
                     contentScale = ContentScale.FillWidth,
                     modifier = Modifier

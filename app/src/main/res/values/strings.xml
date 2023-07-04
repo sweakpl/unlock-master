@@ -92,6 +92,7 @@
     <string name="mobilizing_notifications_setting_example">Your unlock limit is 40 and you’ve selected notifications every 25% of your unlock limit.\nIn that case, mobilizing notifications will come when you reach 10, 20, 30 and 40 unlocks.</string>
     <string name="every_x_percent">Every %1$d%%</string>
     <string name="example">Example:</string>
+    <string name="daily_wrapups_notifications_setting_description">As per your preference, these notifications will be displayed everyday at the time specified here (rather opt for evening hours):</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>
@@ -106,7 +107,7 @@
     <string name="content_description_next_icon">Arrow indicating further navigation icon</string>
     <string name="content_description_service_notification_image">Notification indicating working background service image</string>
     <string name="content_description_mobilizing_notification_image">Mobilizing notification image</string>
-    <string name="content_description_wrapup_notification_image">Notification reminding about daily wrap-up image</string>
+    <string name="content_description_daily_wrapup_notification_image">Notification reminding about daily wrap-up image</string>
     <string name="content_description_menu_icon">Menu icon</string>
     <string name="content_description_play_icon">Play icon</string>
     <string name="content_description_pause_icon">Pause icon</string>

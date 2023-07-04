@@ -43,7 +43,7 @@ fun SettingsScreen(navController: NavController) {
             SettingsEntry(
                 settingsEntryTitle = stringResource(R.string.daily_wrapups),
                 onEntryClick = {
-                    // TODO: navigate to daily wrap-ups screen
+                    navController.navigate(Screen.DailyWrapUpsScreen.route)
                 },
                 modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
             )
