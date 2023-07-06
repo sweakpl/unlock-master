@@ -29,7 +29,7 @@ import com.sweak.unlockmaster.presentation.main.home.HomeScreen
 import com.sweak.unlockmaster.presentation.main.screen_time.ScreenTimeScreen
 import com.sweak.unlockmaster.presentation.main.statistics.StatisticsScreen
 import com.sweak.unlockmaster.presentation.settings.SettingsScreen
-import com.sweak.unlockmaster.presentation.settings.daily_wrap_ups.DailyWrapUpsScreen
+import com.sweak.unlockmaster.presentation.settings.daily_wrap_ups_setting.DailyWrapUpsSettingScreen
 import com.sweak.unlockmaster.presentation.settings.mobilizing_notifications.MobilizingNotificationsScreen
 import com.sweak.unlockmaster.presentation.unlock_counting.UnlockMasterService
 import dagger.hilt.android.AndroidEntryPoint
@@ -172,8 +172,8 @@ class MainActivity : ComponentActivity() {
                         MobilizingNotificationsScreen(navController = navController)
                     }
 
-                    composable(route = Screen.DailyWrapUpsScreen.route) {
-                        DailyWrapUpsScreen(navController = navController)
+                    composable(route = Screen.DailyWrapUpsSettingScreen.route) {
+                        DailyWrapUpsSettingScreen(navController = navController)
                     }
                 }
             }

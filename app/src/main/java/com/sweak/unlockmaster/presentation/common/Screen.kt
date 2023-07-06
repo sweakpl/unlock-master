@@ -11,7 +11,7 @@ sealed class Screen(val route: String) {
     object ScreenTimeScreen : Screen("screen_time_screen")
     object StatisticsScreen : Screen("statistics_screen")
     object MobilizingNotificationsScreen : Screen("mobilizing_notifications_screen")
-    object DailyWrapUpsScreen : Screen("daily_wrap_ups_screen")
+    object DailyWrapUpsSettingScreen : Screen("daily_wrap_ups_setting_screen")
 
     fun withArguments(vararg arguments: String): String {
         return buildString {

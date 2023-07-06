@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.settings.daily_wrap_ups
+package com.sweak.unlockmaster.presentation.settings.daily_wrap_ups_setting
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,13 +16,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DailyWrapUpsViewModel @Inject constructor(
+class DailyWrapUpsSettingViewModel @Inject constructor(
     private val getDailyWrapUpsNotificationsTimeUseCase: GetDailyWrapUpsNotificationsTimeUseCase,
     private val setDailyWrapUpsNotificationsTimeUseCase: SetDailyWrapUpsNotificationsTimeUseCase,
     private val scheduleDailyWrapUpsNotificationsUseCase: ScheduleDailyWrapUpsNotificationsUseCase
 ) : ViewModel() {
 
-    var state by mutableStateOf(DailyWrapUpsScreenState())
+    var state by mutableStateOf(DailyWrapUpsSettingScreenState())
 
     private val notificationTimeSubmittedEventsChannel =
         Channel<NotificationTimeSubmittedEvent>()
@@ -40,15 +40,15 @@ class DailyWrapUpsViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: DailyWrapUpsScreenEvent) {
+    fun onEvent(event: DailyWrapUpsSettingScreenEvent) {
         when (event) {
-            is DailyWrapUpsScreenEvent.SelectNewDailyWrapUpsNotificationsTime -> {
+            is DailyWrapUpsSettingScreenEvent.SelectNewDailyWrapUpsSettingNotificationsTime -> {
                 state = state.copy(
                     notificationHourOfDay = event.newNotificationHourOfDay,
                     notificationMinute = event.newNotificationMinute,
                 )
             }
-            is DailyWrapUpsScreenEvent.ConfirmNewSelectedDailyWrapUpsNotificationsTime -> {
+            is DailyWrapUpsSettingScreenEvent.ConfirmNewSelectedDailyWrapUpsNotificationsTimeSetting -> {
                 viewModelScope.launch {
                     val notificationHourOfDay = state.notificationHourOfDay
                     val notificationMinute = state.notificationMinute
