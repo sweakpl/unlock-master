@@ -27,24 +27,32 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
-import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
 
 @SuppressLint("InflateParams")
 @Composable
-fun DailyWrapUpsScreen(navController: NavController) {
+fun DailyWrapUpsScreen(
+    dailyWrapUpsViewModel: DailyWrapUpsViewModel = hiltViewModel(),
+    navController: NavController
+) {
     val context = LocalContext.current
-    val is24HourFormat = DateFormat.is24HourFormat(context)
 
-    var notificationHourOfDay by remember { mutableIntStateOf(21) }
-    var notificationMinute by remember { mutableIntStateOf(0) }
+    LaunchedEffect(key1 = context) {
+        dailyWrapUpsViewModel.notificationTimeSubmittedEvents.collect {
+            navController.popBackStack()
+        }
+    }
+
+    val dailyWrapUpsScreenState = dailyWrapUpsViewModel.state
+
+    val is24HourFormat = DateFormat.is24HourFormat(context)
 
     Column(
         modifier = Modifier.background(color = MaterialTheme.colors.background)
@@ -112,50 +120,58 @@ fun DailyWrapUpsScreen(navController: NavController) {
                         )
                 )
 
-                Card(
-                    elevation = MaterialTheme.space.xSmall,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            start = MaterialTheme.space.medium,
-                            end = MaterialTheme.space.medium,
-                            bottom = MaterialTheme.space.mediumLarge
-                        )
+                if (dailyWrapUpsScreenState.notificationHourOfDay != null &&
+                    dailyWrapUpsScreenState.notificationMinute != null
                 ) {
-                    AndroidView(
-                        factory = {
-                            (LayoutInflater.from(it)
-                                .inflate(R.layout.spinner_time_picker, null) as TimePicker)
-                                .apply {
-                                    // Right after composing the TimePicker it calls the
-                                    // timeChangedListener with the current time which breaks the
-                                    // uiState - we have to prevent the uiState update after this
-                                    // initial timeChangedListener call:
-                                    var isInitialUpdate = true
+                    Card(
+                        elevation = MaterialTheme.space.xSmall,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                start = MaterialTheme.space.medium,
+                                end = MaterialTheme.space.medium,
+                                bottom = MaterialTheme.space.mediumLarge
+                            )
+                    ) {
+                        AndroidView(
+                            factory = {
+                                (LayoutInflater.from(it)
+                                    .inflate(R.layout.spinner_time_picker, null) as TimePicker)
+                                    .apply {
+                                        // Right after composing the TimePicker it calls the
+                                        // timeChangedListener with the current time which breaks the
+                                        // uiState - we have to prevent the uiState update after this
+                                        // initial timeChangedListener call:
+                                        var isInitialUpdate = true
 
-                                    setOnTimeChangedListener { _, hourOfDay, minute ->
-                                        if (!isInitialUpdate) {
-                                            notificationHourOfDay = hourOfDay
-                                            notificationMinute = minute
-                                        } else {
-                                            isInitialUpdate = false
+                                        setOnTimeChangedListener { _, hourOfDay, minute ->
+                                            if (!isInitialUpdate) {
+                                                dailyWrapUpsViewModel.onEvent(
+                                                    DailyWrapUpsScreenEvent.SelectNewDailyWrapUpsNotificationsTime(
+                                                        newNotificationHourOfDay = hourOfDay,
+                                                        newNotificationMinute = minute
+                                                    )
+                                                )
+                                            } else {
+                                                isInitialUpdate = false
+                                            }
                                         }
                                     }
-                                }
-                        },
-                        update = {
-                            it.setIs24HourView(is24HourFormat)
+                            },
+                            update = {
+                                it.setIs24HourView(is24HourFormat)
 
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                it.hour = notificationHourOfDay
-                                it.minute = notificationMinute
-                            } else {
-                                it.currentHour = notificationHourOfDay
-                                it.currentMinute = notificationMinute
-                            }
-                        },
-                        modifier = Modifier.padding(all = MaterialTheme.space.medium)
-                    )
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    it.hour = dailyWrapUpsScreenState.notificationHourOfDay
+                                    it.minute = dailyWrapUpsScreenState.notificationMinute
+                                } else {
+                                    it.currentHour = dailyWrapUpsScreenState.notificationHourOfDay
+                                    it.currentMinute = dailyWrapUpsScreenState.notificationMinute
+                                }
+                            },
+                            modifier = Modifier.padding(all = MaterialTheme.space.medium)
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(MaterialTheme.space.run { xLarge + 2 * medium }))
@@ -164,8 +180,9 @@ fun DailyWrapUpsScreen(navController: NavController) {
             ProceedButton(
                 text = stringResource(R.string.confirm),
                 onClick = {
-                    // TODO: Confirm time selection
-                    navController.popBackStack()
+                    dailyWrapUpsViewModel.onEvent(
+                        DailyWrapUpsScreenEvent.ConfirmNewSelectedDailyWrapUpsNotificationsTime
+                    )
                 },
                 modifier = Modifier.padding(all = MaterialTheme.space.medium)
             )

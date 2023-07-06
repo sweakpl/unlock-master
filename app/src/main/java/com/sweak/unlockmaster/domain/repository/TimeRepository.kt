@@ -6,4 +6,5 @@ interface TimeRepository {
     fun getTomorrowBeginningTimeInMillis(): Long
     fun getSixDaysBeforeDayBeginningTimeInMillis(): Long
     fun getBeginningOfGivenDayTimeInMillis(timeInMillis: Long): Long
+    fun getFutureTimeInMillisOfSpecifiedHourOfDayAndMinute(hourOfDay: Int, minute: Int): Long
 }

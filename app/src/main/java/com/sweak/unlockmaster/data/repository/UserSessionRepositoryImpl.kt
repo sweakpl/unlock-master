@@ -7,10 +7,10 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.sweak.unlockmaster.domain.DEFAULT_DAILY_WRAP_UPS_NOTIFICATIONS_TIME_IN_MINUTES_PAST_MIDNIGHT
 import com.sweak.unlockmaster.domain.DEFAULT_MOBILIZING_NOTIFICATIONS_FREQUENCY_PERCENTAGE
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 
 class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepository {
@@ -51,10 +51,24 @@ class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepos
                 ?: DEFAULT_MOBILIZING_NOTIFICATIONS_FREQUENCY_PERCENTAGE
         }.first()
 
+    override suspend fun setDailyWrapUpsNotificationsTimeInMinutesAfterMidnight(minutes: Int) {
+        context.dataStore.edit { preferences ->
+            preferences[DAILY_WRAP_UP_NOTIFICATIONS_TIME_IN_MINUTES_PAST_MIDNIGHT] = minutes
+        }
+    }
+
+    override suspend fun getDailyWrapUpsNotificationsTimeInMinutesAfterMidnight(): Int =
+        context.dataStore.data.map { preferences ->
+            preferences[DAILY_WRAP_UP_NOTIFICATIONS_TIME_IN_MINUTES_PAST_MIDNIGHT]
+                ?: DEFAULT_DAILY_WRAP_UPS_NOTIFICATIONS_TIME_IN_MINUTES_PAST_MIDNIGHT
+        }.first()
+
     companion object {
         val IS_INTRODUCTION_FINISHED = booleanPreferencesKey("isIntroductionFinished")
         val IS_UNLOCK_COUNTER_PAUSED = booleanPreferencesKey("isUnlockCounterPaused")
         val MOBILIZING_NOTIFICATIONS_FREQUENCY_PERCENTAGE =
             intPreferencesKey("mobilizingNotificationsFrequencyPercentage")
+        val DAILY_WRAP_UP_NOTIFICATIONS_TIME_IN_MINUTES_PAST_MIDNIGHT =
+            intPreferencesKey("dailyWrapUpNotificationsTimeInMinutesPastMidnight")
     }
 }

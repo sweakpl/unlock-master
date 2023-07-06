@@ -1,5 +1,6 @@
 package com.sweak.unlockmaster.di
 
+import android.app.AlarmManager
 import android.app.Application
 import android.app.KeyguardManager
 import android.content.Context
@@ -7,7 +8,9 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.room.Room
 import com.sweak.unlockmaster.data.local.database.UnlockMasterDatabase
 import com.sweak.unlockmaster.data.local.database.dao.*
+import com.sweak.unlockmaster.data.management.UnlockMasterAlarmManagerImpl
 import com.sweak.unlockmaster.data.repository.*
+import com.sweak.unlockmaster.domain.management.UnlockMasterAlarmManager
 import com.sweak.unlockmaster.domain.repository.*
 import dagger.Module
 import dagger.Provides
@@ -22,6 +25,18 @@ object ApplicationModule {
     @Provides
     fun provideNotificationManager(app: Application): NotificationManagerCompat =
         NotificationManagerCompat.from(app)
+
+    @Provides
+    fun provideAlarmManger(app: Application): AlarmManager =
+        app.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+    @Provides
+    fun provideUnlockMasterAlarmManager(
+        alarmManager: AlarmManager,
+        timeRepository: TimeRepository,
+        app: Application
+    ): UnlockMasterAlarmManager =
+        UnlockMasterAlarmManagerImpl(alarmManager, timeRepository, app)
 
     @Provides
     fun provideKeyguardManager(app: Application): KeyguardManager =

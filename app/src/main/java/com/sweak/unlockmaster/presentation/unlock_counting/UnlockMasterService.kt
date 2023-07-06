@@ -207,10 +207,10 @@ class UnlockMasterService : Service() {
                     else 0
         )
 
-        NotificationCompat.Builder(
+        return NotificationCompat.Builder(
             applicationContext,
             FOREGROUND_SERVICE_NOTIFICATION_CHANNEL_ID
-        ).apply {
+        ).run {
             priority = NotificationCompat.PRIORITY_LOW
             setOngoing(true)
             setSmallIcon(R.drawable.ic_notification_icon)
@@ -223,7 +223,7 @@ class UnlockMasterService : Service() {
                 getString(R.string.your_unlock_count_is, todayUnlockEventsCount, todayUnlockLimit)
             )
             setContentIntent(notificationPendingIntent)
-            return build()
+            build()
         }
     }
 
@@ -266,10 +266,10 @@ class UnlockMasterService : Service() {
                     else 0
         )
 
-        NotificationCompat.Builder(
+        return NotificationCompat.Builder(
             applicationContext,
             MOBILIZING_NOTIFICATION_CHANNEL_ID
-        ).apply {
+        ).run {
             priority = NotificationCompat.PRIORITY_HIGH
             setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
             setSmallIcon(R.drawable.ic_notification_icon)
@@ -277,7 +277,7 @@ class UnlockMasterService : Service() {
             setContentText(getString(R.string.thats_your_unlock_number, unlockCount, unlockLimit))
             setContentIntent(notificationPendingIntent)
             setAutoCancel(true)
-            return build()
+            build()
         }
     }
 

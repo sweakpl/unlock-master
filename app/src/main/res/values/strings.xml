@@ -93,6 +93,10 @@
     <string name="every_x_percent">Every %1$d%%</string>
     <string name="example">Example:</string>
     <string name="daily_wrapups_notifications_setting_description">As per your preference, these notifications will be displayed everyday at the time specified here (rather opt for evening hours):</string>
+    <string name="daily_wrapup">Daily wrap-up</string>
+    <string name="click_to_check_progress">Click to check your progress and set new goals with UnlockMaster!</string>
+    <string name="daily_wrapups_notifications_channel_title">Daily wrap-ups reminders</string>
+    <string name="daily_wrapups_notifications_channel_description">Display notifications reminding about daily wrap-up sessions</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>

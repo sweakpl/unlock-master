@@ -33,4 +33,11 @@ class TimeRepositoryFake : TimeRepository {
             .withSecond(0)
             .withNano(0)
             .toTimeInMillis()
+
+    override fun getFutureTimeInMillisOfSpecifiedHourOfDayAndMinute(
+        hourOfDay: Int,
+        minute: Int
+    ): Long {
+        TODO("Not yet implemented")
+    }
 }

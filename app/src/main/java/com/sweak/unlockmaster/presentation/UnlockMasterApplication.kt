@@ -4,12 +4,15 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
+import android.graphics.Color
 import android.media.AudioAttributes
 import android.os.Build
 import android.provider.Settings
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.data.management.DAILY_WRAP_UPS_NOTIFICATIONS_CHANNEL_ID
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_ups.ScheduleDailyWrapUpsNotificationsUseCase
 import com.sweak.unlockmaster.presentation.unlock_counting.FOREGROUND_SERVICE_NOTIFICATION_CHANNEL_ID
 import com.sweak.unlockmaster.presentation.unlock_counting.MOBILIZING_NOTIFICATION_CHANNEL_ID
 import com.sweak.unlockmaster.presentation.unlock_counting.UnlockMasterService
@@ -26,11 +29,14 @@ class UnlockMasterApplication : Application() {
     @Inject
     lateinit var userSessionRepository: UserSessionRepository
 
+    @Inject
+    lateinit var scheduleDailyWrapUpsNotificationsUseCase: ScheduleDailyWrapUpsNotificationsUseCase
+
     override fun onCreate() {
         super.onCreate()
 
         createNotificationChannelsIfVersionRequires()
-        startUnlockMasterServiceIfUserHasFinishedIntroduction()
+        setUpUnlockMasterServiceAndDailyWrapUpsIfUserHasFinishedIntroduction()
     }
 
     private fun createNotificationChannelsIfVersionRequires() {
@@ -59,21 +65,44 @@ class UnlockMasterApplication : Application() {
                 description = getString(R.string.mobilizing_notifications_channel_description)
             }
 
+            val dailyWrapUpsNotificationsChannel = NotificationChannel(
+                DAILY_WRAP_UPS_NOTIFICATIONS_CHANNEL_ID,
+                getString(R.string.daily_wrapups_notifications_channel_title),
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                setSound(
+                    Settings.System.DEFAULT_NOTIFICATION_URI,
+                    AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build()
+                )
+                description = getString(R.string.daily_wrapups_notifications_channel_description)
+                enableLights(true)
+                lightColor = Color.GREEN
+            }
+
             notificationManager.apply {
                 createNotificationChannel(foregroundServiceNotificationChannel)
                 createNotificationChannel(mobilizingNotificationsChannel)
+                createNotificationChannel(dailyWrapUpsNotificationsChannel)
             }
         }
     }
 
-    private fun startUnlockMasterServiceIfUserHasFinishedIntroduction() {
-        if (runBlocking { userSessionRepository.isIntroductionFinished() }) {
-            val serviceIntent = Intent(this, UnlockMasterService::class.java)
+    private fun setUpUnlockMasterServiceAndDailyWrapUpsIfUserHasFinishedIntroduction() {
+        runBlocking {
+            if (userSessionRepository.isIntroductionFinished()) {
+                val serviceIntent =
+                    Intent(this@UnlockMasterApplication, UnlockMasterService::class.java)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(serviceIntent)
-            } else {
-                startService(serviceIntent)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(serviceIntent)
+                } else {
+                    startService(serviceIntent)
+                }
+
+                scheduleDailyWrapUpsNotificationsUseCase()
             }
         }
     }

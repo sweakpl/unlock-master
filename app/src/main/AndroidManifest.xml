@@ -44,8 +44,10 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".presentation.receivers.DailyWrapUpAlarmReceiver" />
+
         <receiver
-            android:name=".presentation.unlock_counting.app_lifecycle_receivers.BootReceiver"
+            android:name=".presentation.receivers.app_lifecycle_receivers.BootReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -58,7 +60,7 @@
         </receiver>
 
         <receiver
-            android:name=".presentation.unlock_counting.app_lifecycle_receivers.ShutdownReceiver"
+            android:name=".presentation.receivers.app_lifecycle_receivers.ShutdownReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -68,7 +70,7 @@
         </receiver>
 
         <receiver
-            android:name=".presentation.unlock_counting.app_lifecycle_receivers.ApplicationUpdatedReceiver"
+            android:name=".presentation.receivers.app_lifecycle_receivers.ApplicationUpdatedReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

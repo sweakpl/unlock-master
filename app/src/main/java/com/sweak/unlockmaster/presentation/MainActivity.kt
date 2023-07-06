@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_ups.ScheduleDailyWrapUpsNotificationsUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.AddScreenOnEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
 import com.sweak.unlockmaster.presentation.common.Screen
@@ -47,6 +48,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var addScreenOnEventUseCase: AddScreenOnEventUseCase
+
+    @Inject
+    lateinit var scheduleDailyWrapUpsNotificationsUseCase: ScheduleDailyWrapUpsNotificationsUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -122,6 +126,7 @@ class MainActivity : ComponentActivity() {
 
                                     userSessionRepository.setIntroductionFinished()
                                     startUnlockMasterService()
+                                    scheduleDailyWrapUpsNotificationsUseCase()
                                 }
                             },
                             isLaunchedFromSettings =
