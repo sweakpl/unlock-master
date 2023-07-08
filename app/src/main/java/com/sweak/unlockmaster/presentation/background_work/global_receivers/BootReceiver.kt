@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.receivers.app_lifecycle_receivers
+package com.sweak.unlockmaster.presentation.background_work.global_receivers
 
 import android.app.KeyguardManager
 import android.content.BroadcastReceiver

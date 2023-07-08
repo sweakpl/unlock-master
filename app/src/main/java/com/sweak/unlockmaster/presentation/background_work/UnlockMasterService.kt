@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.unlock_counting
+package com.sweak.unlockmaster.presentation.background_work
 
 import android.app.Notification
 import android.app.PendingIntent
@@ -24,9 +24,9 @@ import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCas
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
 import com.sweak.unlockmaster.presentation.MainActivity
-import com.sweak.unlockmaster.presentation.unlock_counting.screen_event_receivers.ScreenLockReceiver
-import com.sweak.unlockmaster.presentation.unlock_counting.screen_event_receivers.ScreenOnReceiver
-import com.sweak.unlockmaster.presentation.unlock_counting.screen_event_receivers.ScreenUnlockReceiver
+import com.sweak.unlockmaster.presentation.background_work.global_receivers.screen_event_receivers.ScreenLockReceiver
+import com.sweak.unlockmaster.presentation.background_work.global_receivers.screen_event_receivers.ScreenOnReceiver
+import com.sweak.unlockmaster.presentation.background_work.global_receivers.screen_event_receivers.ScreenUnlockReceiver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -74,7 +74,7 @@ class UnlockMasterService : Service() {
     private val unlockCounterPauseReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             intent?.let {
-                if (intent.action == UNLOCK_COUNTER_PAUSE_CHANGED) {
+                if (intent.action == ACTION_UNLOCK_COUNTER_PAUSE_CHANGED) {
                     serviceScope.launch {
                         val isUnlockCounterPaused = intent.getBooleanExtra(
                             EXTRA_IS_UNLOCK_COUNTER_PAUSED,
@@ -156,7 +156,7 @@ class UnlockMasterService : Service() {
         super.onCreate()
 
         registerScreenEventReceivers()
-        registerReceiver(unlockCounterPauseReceiver, IntentFilter(UNLOCK_COUNTER_PAUSE_CHANGED))
+        registerReceiver(unlockCounterPauseReceiver, IntentFilter(ACTION_UNLOCK_COUNTER_PAUSE_CHANGED))
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

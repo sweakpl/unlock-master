@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.unlock_counting.screen_event_receivers
+package com.sweak.unlockmaster.presentation.background_work.global_receivers.screen_event_receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context

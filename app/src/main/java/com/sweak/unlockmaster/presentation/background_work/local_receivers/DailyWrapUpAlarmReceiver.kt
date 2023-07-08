@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.receivers
+package com.sweak.unlockmaster.presentation.background_work.local_receivers
 
 import android.app.Notification
 import android.app.PendingIntent
@@ -11,10 +11,11 @@ import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.R
-import com.sweak.unlockmaster.data.management.DAILY_WRAP_UPS_NOTIFICATIONS_CHANNEL_ID
-import com.sweak.unlockmaster.data.management.DAILY_WRAP_UP_NOTIFICATION_ID
-import com.sweak.unlockmaster.data.management.DAILY_WRAP_UP_NOTIFICATION_REQUEST_CODE
 import com.sweak.unlockmaster.presentation.MainActivity
+import com.sweak.unlockmaster.presentation.background_work.ACTION_SHOW_DAILY_WRAP_UP_NOTIFICATION
+import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UPS_NOTIFICATIONS_CHANNEL_ID
+import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UP_NOTIFICATION_ID
+import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UP_NOTIFICATION_REQUEST_CODE
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -25,12 +26,13 @@ class DailyWrapUpAlarmReceiver : BroadcastReceiver() {
     lateinit var notificationManager: NotificationManagerCompat
 
     override fun onReceive(context: Context, intent: Intent) {
-        try {
-            notificationManager.notify(
-                DAILY_WRAP_UP_NOTIFICATION_ID,
-                getDailyWrapUpNotification(context)
-            )
-        } catch (_: SecurityException) { /* no-op */
+        if (intent.action == ACTION_SHOW_DAILY_WRAP_UP_NOTIFICATION) {
+            try {
+                notificationManager.notify(
+                    DAILY_WRAP_UP_NOTIFICATION_ID,
+                    getDailyWrapUpNotification(context)
+                )
+            } catch (_: SecurityException) { /* no-op */ }
         }
     }
 

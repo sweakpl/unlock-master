@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.receivers
+package com.sweak.unlockmaster.presentation.background_work.global_receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context

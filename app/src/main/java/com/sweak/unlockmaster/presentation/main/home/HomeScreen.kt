@@ -53,8 +53,8 @@ import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.main.home.components.WeeklyUnlocksChart
-import com.sweak.unlockmaster.presentation.unlock_counting.EXTRA_IS_UNLOCK_COUNTER_PAUSED
-import com.sweak.unlockmaster.presentation.unlock_counting.UNLOCK_COUNTER_PAUSE_CHANGED
+import com.sweak.unlockmaster.presentation.background_work.EXTRA_IS_UNLOCK_COUNTER_PAUSED
+import com.sweak.unlockmaster.presentation.background_work.ACTION_UNLOCK_COUNTER_PAUSE_CHANGED
 
 @Composable
 fun HomeScreen(
@@ -169,7 +169,7 @@ fun HomeScreen(
                                 homeViewModel.onEvent(
                                     HomeScreenEvent.TryPauseOrUnpauseUnlockCounter {
                                         context.sendBroadcast(
-                                            Intent(UNLOCK_COUNTER_PAUSE_CHANGED).apply {
+                                            Intent(ACTION_UNLOCK_COUNTER_PAUSE_CHANGED).apply {
                                                 putExtra(EXTRA_IS_UNLOCK_COUNTER_PAUSED, it)
                                             }
                                         )
@@ -469,7 +469,7 @@ fun HomeScreen(
                 homeViewModel.onEvent(
                     HomeScreenEvent.PauseUnlockCounter {
                         context.sendBroadcast(
-                            Intent(UNLOCK_COUNTER_PAUSE_CHANGED).apply {
+                            Intent(ACTION_UNLOCK_COUNTER_PAUSE_CHANGED).apply {
                                 putExtra(EXTRA_IS_UNLOCK_COUNTER_PAUSED, it)
                             }
                         )

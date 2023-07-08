@@ -31,7 +31,7 @@ import com.sweak.unlockmaster.presentation.main.statistics.StatisticsScreen
 import com.sweak.unlockmaster.presentation.settings.SettingsScreen
 import com.sweak.unlockmaster.presentation.settings.daily_wrap_ups_setting.DailyWrapUpsSettingScreen
 import com.sweak.unlockmaster.presentation.settings.mobilizing_notifications.MobilizingNotificationsScreen
-import com.sweak.unlockmaster.presentation.unlock_counting.UnlockMasterService
+import com.sweak.unlockmaster.presentation.background_work.UnlockMasterService
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking

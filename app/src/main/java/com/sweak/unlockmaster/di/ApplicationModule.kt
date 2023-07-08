@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.Application
 import android.app.KeyguardManager
 import android.content.Context
+import android.content.Intent
 import androidx.core.app.NotificationManagerCompat
 import androidx.room.Room
 import com.sweak.unlockmaster.data.local.database.UnlockMasterDatabase
@@ -12,10 +13,12 @@ import com.sweak.unlockmaster.data.management.UnlockMasterAlarmManagerImpl
 import com.sweak.unlockmaster.data.repository.*
 import com.sweak.unlockmaster.domain.management.UnlockMasterAlarmManager
 import com.sweak.unlockmaster.domain.repository.*
+import com.sweak.unlockmaster.presentation.background_work.ACTION_SHOW_DAILY_WRAP_UP_NOTIFICATION
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -34,9 +37,17 @@ object ApplicationModule {
     fun provideUnlockMasterAlarmManager(
         alarmManager: AlarmManager,
         timeRepository: TimeRepository,
+        @Named("DailyWrapUpAlarmIntent") dailyWrapUpAlarmIntent: Intent,
         app: Application
     ): UnlockMasterAlarmManager =
-        UnlockMasterAlarmManagerImpl(alarmManager, timeRepository, app)
+        UnlockMasterAlarmManagerImpl(alarmManager, timeRepository, dailyWrapUpAlarmIntent, app)
+
+    @Provides
+    @Named("DailyWrapUpAlarmIntent")
+    fun provideDailyWrapUpAlarmIntent(): Intent =
+        Intent().apply {
+            action = ACTION_SHOW_DAILY_WRAP_UP_NOTIFICATION
+        }
 
     @Provides
     fun provideKeyguardManager(app: Application): KeyguardManager =

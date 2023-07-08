@@ -8,12 +8,13 @@ import android.os.Build
 import com.sweak.unlockmaster.domain.management.UnlockMasterAlarmManager
 import com.sweak.unlockmaster.domain.model.DailyWrapUpsNotificationsTime
 import com.sweak.unlockmaster.domain.repository.TimeRepository
-import com.sweak.unlockmaster.presentation.receivers.DailyWrapUpAlarmReceiver
 import javax.inject.Inject
+import javax.inject.Named
 
 class UnlockMasterAlarmManagerImpl @Inject constructor(
     private val alarmManager: AlarmManager,
     private val timeRepository: TimeRepository,
+    @Named("DailyWrapUpAlarmIntent") private val dailyWrapUpAlarmIntent: Intent,
     private val application: Application
 ) : UnlockMasterAlarmManager {
 
@@ -23,7 +24,7 @@ class UnlockMasterAlarmManagerImpl @Inject constructor(
         val alarmPendingIntent = PendingIntent.getBroadcast(
             application.applicationContext,
             DAILY_WRAP_UP_ALARM_REQUEST_CODE,
-            Intent(application.applicationContext, DailyWrapUpAlarmReceiver::class.java),
+            dailyWrapUpAlarmIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                         PendingIntent.FLAG_IMMUTABLE
@@ -39,5 +40,9 @@ class UnlockMasterAlarmManagerImpl @Inject constructor(
             AlarmManager.INTERVAL_DAY,
             alarmPendingIntent
         )
+    }
+
+    companion object {
+        const val DAILY_WRAP_UP_ALARM_REQUEST_CODE = 100
     }
 }

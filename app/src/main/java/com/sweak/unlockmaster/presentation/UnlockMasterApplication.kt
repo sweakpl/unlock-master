@@ -10,12 +10,12 @@ import android.os.Build
 import android.provider.Settings
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.R
-import com.sweak.unlockmaster.data.management.DAILY_WRAP_UPS_NOTIFICATIONS_CHANNEL_ID
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.use_case.daily_wrap_ups.ScheduleDailyWrapUpsNotificationsUseCase
-import com.sweak.unlockmaster.presentation.unlock_counting.FOREGROUND_SERVICE_NOTIFICATION_CHANNEL_ID
-import com.sweak.unlockmaster.presentation.unlock_counting.MOBILIZING_NOTIFICATION_CHANNEL_ID
-import com.sweak.unlockmaster.presentation.unlock_counting.UnlockMasterService
+import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UPS_NOTIFICATIONS_CHANNEL_ID
+import com.sweak.unlockmaster.presentation.background_work.FOREGROUND_SERVICE_NOTIFICATION_CHANNEL_ID
+import com.sweak.unlockmaster.presentation.background_work.MOBILIZING_NOTIFICATION_CHANNEL_ID
+import com.sweak.unlockmaster.presentation.background_work.UnlockMasterService
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject

@@ -1,10 +1,10 @@
-package com.sweak.unlockmaster.presentation.receivers.app_lifecycle_receivers
+package com.sweak.unlockmaster.presentation.background_work.global_receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.sweak.unlockmaster.presentation.unlock_counting.UnlockMasterService
+import com.sweak.unlockmaster.presentation.background_work.UnlockMasterService
 
 class ApplicationUpdatedReceiver : BroadcastReceiver() {
 

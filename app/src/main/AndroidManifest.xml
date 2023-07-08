@@ -31,23 +31,29 @@
         </activity>
 
         <service
-            android:name=".presentation.unlock_counting.UnlockMasterService"
+            android:name=".presentation.background_work.UnlockMasterService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />
 
         <receiver
-            android:name=".presentation.unlock_counting.screen_event_receivers.ScreenUnlockReceiver"
+            android:name=".presentation.background_work.global_receivers.screen_event_receivers.ScreenUnlockReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".presentation.receivers.DailyWrapUpAlarmReceiver" />
+        <receiver
+            android:name=".presentation.background_work.local_receivers.DailyWrapUpAlarmReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.sweak.unlockmaster.SHOW_DAILY_WRAP_UP_NOTIFICATION" />
+            </intent-filter>
+        </receiver>
 
         <receiver
-            android:name=".presentation.receivers.TimePreferencesChangeReceiver"
+            android:name=".presentation.background_work.global_receivers.TimePreferencesChangeReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.TIME_SET" />
@@ -57,7 +63,7 @@
         </receiver>
 
         <receiver
-            android:name=".presentation.receivers.app_lifecycle_receivers.BootReceiver"
+            android:name=".presentation.background_work.global_receivers.BootReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -70,7 +76,7 @@
         </receiver>
 
         <receiver
-            android:name=".presentation.receivers.app_lifecycle_receivers.ShutdownReceiver"
+            android:name=".presentation.background_work.global_receivers.ShutdownReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -80,7 +86,7 @@
         </receiver>
 
         <receiver
-            android:name=".presentation.receivers.app_lifecycle_receivers.ApplicationUpdatedReceiver"
+            android:name=".presentation.background_work.global_receivers.ApplicationUpdatedReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
