@@ -44,13 +44,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver
-            android:name=".presentation.background_work.local_receivers.DailyWrapUpAlarmReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.sweak.unlockmaster.SHOW_DAILY_WRAP_UP_NOTIFICATION" />
-            </intent-filter>
-        </receiver>
+        <receiver android:name=".presentation.background_work.local_receivers.DailyWrapUpAlarmReceiver" />
 
         <receiver
             android:name=".presentation.background_work.global_receivers.TimePreferencesChangeReceiver"

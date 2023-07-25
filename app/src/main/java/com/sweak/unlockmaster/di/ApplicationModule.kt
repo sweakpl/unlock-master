@@ -13,7 +13,7 @@ import com.sweak.unlockmaster.data.management.UnlockMasterAlarmManagerImpl
 import com.sweak.unlockmaster.data.repository.*
 import com.sweak.unlockmaster.domain.management.UnlockMasterAlarmManager
 import com.sweak.unlockmaster.domain.repository.*
-import com.sweak.unlockmaster.presentation.background_work.ACTION_SHOW_DAILY_WRAP_UP_NOTIFICATION
+import com.sweak.unlockmaster.presentation.background_work.local_receivers.DailyWrapUpAlarmReceiver
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,10 +44,8 @@ object ApplicationModule {
 
     @Provides
     @Named("DailyWrapUpAlarmIntent")
-    fun provideDailyWrapUpAlarmIntent(): Intent =
-        Intent().apply {
-            action = ACTION_SHOW_DAILY_WRAP_UP_NOTIFICATION
-        }
+    fun provideDailyWrapUpAlarmIntent(app: Application): Intent =
+        Intent(app, DailyWrapUpAlarmReceiver::class.java)
 
     @Provides
     fun provideKeyguardManager(app: Application): KeyguardManager =
