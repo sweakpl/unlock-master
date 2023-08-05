@@ -17,3 +17,5 @@ const val DAILY_WRAP_UPS_NOTIFICATIONS_CHANNEL_ID = "dailyWrapUpNotificationChan
 const val ACTION_UNLOCK_COUNTER_PAUSE_CHANGED =
     "com.sweak.unlockmaster.UNLOCK_COUNTER_PAUSE_CHANGED"
 const val EXTRA_IS_UNLOCK_COUNTER_PAUSED = "com.sweak.unlockmaster.EXTRA_IS_UNLOCK_COUNTER_PAUSED"
+
+const val EXTRA_SHOW_DAILY_WRAP_UP_SCREEN = "com.sweak.unlockmaster.EXTRA_SHOW_DAILY_WRAP_UP_SCREEN"

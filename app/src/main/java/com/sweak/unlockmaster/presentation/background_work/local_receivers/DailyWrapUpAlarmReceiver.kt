@@ -12,10 +12,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.MainActivity
-import com.sweak.unlockmaster.presentation.background_work.ACTION_SHOW_DAILY_WRAP_UP_NOTIFICATION
 import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UPS_NOTIFICATIONS_CHANNEL_ID
 import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UP_NOTIFICATION_ID
 import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UP_NOTIFICATION_REQUEST_CODE
+import com.sweak.unlockmaster.presentation.background_work.EXTRA_SHOW_DAILY_WRAP_UP_SCREEN
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -26,14 +26,12 @@ class DailyWrapUpAlarmReceiver : BroadcastReceiver() {
     lateinit var notificationManager: NotificationManagerCompat
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action == ACTION_SHOW_DAILY_WRAP_UP_NOTIFICATION) {
-            try {
-                notificationManager.notify(
-                    DAILY_WRAP_UP_NOTIFICATION_ID,
-                    getDailyWrapUpNotification(context)
-                )
-            } catch (_: SecurityException) { /* no-op */ }
-        }
+        try {
+            notificationManager.notify(
+                DAILY_WRAP_UP_NOTIFICATION_ID,
+                getDailyWrapUpNotification(context)
+            )
+        } catch (_: SecurityException) { /* no-op */ }
     }
 
     private fun getDailyWrapUpNotification(context: Context): Notification {
@@ -41,7 +39,7 @@ class DailyWrapUpAlarmReceiver : BroadcastReceiver() {
             context,
             DAILY_WRAP_UP_NOTIFICATION_REQUEST_CODE,
             Intent(context, MainActivity::class.java).apply {
-                // TODO: flags = indicationOfDailyWrapUp
+                putExtra(EXTRA_SHOW_DAILY_WRAP_UP_SCREEN, true)
             },
             PendingIntent.FLAG_UPDATE_CURRENT or
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)

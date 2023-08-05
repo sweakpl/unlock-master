@@ -15,6 +15,7 @@ import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.use_case.daily_wrap_ups.ScheduleDailyWrapUpsNotificationsUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.AddScreenOnEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
+import com.sweak.unlockmaster.presentation.background_work.EXTRA_SHOW_DAILY_WRAP_UP_SCREEN
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_DISPLAYED_SCREEN_TIME_DAY_MILLIS
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_IS_LAUNCHED_FROM_SETTINGS
@@ -32,6 +33,8 @@ import com.sweak.unlockmaster.presentation.settings.SettingsScreen
 import com.sweak.unlockmaster.presentation.settings.daily_wrap_ups_setting.DailyWrapUpsSettingScreen
 import com.sweak.unlockmaster.presentation.settings.mobilizing_notifications.MobilizingNotificationsScreen
 import com.sweak.unlockmaster.presentation.background_work.UnlockMasterService
+import com.sweak.unlockmaster.presentation.common.components.OnResume
+import com.sweak.unlockmaster.presentation.daily_wrap_up.DailyWrapUpScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -58,6 +61,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             UnlockMasterTheme {
                 val navController = rememberNavController()
+
+                OnResume {
+                    if (intent.getBooleanExtra(EXTRA_SHOW_DAILY_WRAP_UP_SCREEN, false)) {
+                        navController.navigate(Screen.DailyWrapUpScreen.route)
+                    }
+                }
 
                 NavHost(
                     navController = navController,
@@ -175,6 +184,10 @@ class MainActivity : ComponentActivity() {
                     composable(route = Screen.DailyWrapUpsSettingScreen.route) {
                         DailyWrapUpsSettingScreen(navController = navController)
                     }
+
+                    composable(route = Screen.DailyWrapUpScreen.route) {
+                        DailyWrapUpScreen(navController = navController)
+                    }
                 }
             }
         }
@@ -188,5 +201,10 @@ class MainActivity : ComponentActivity() {
         } else {
             startService(serviceIntent)
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent)
     }
 }
