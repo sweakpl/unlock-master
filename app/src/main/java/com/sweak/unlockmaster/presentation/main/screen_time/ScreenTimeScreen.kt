@@ -31,6 +31,7 @@ import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.common.util.TimeFormat
+import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
 import com.sweak.unlockmaster.presentation.common.util.getFullDateString
 import com.sweak.unlockmaster.presentation.main.screen_time.components.CounterPauseSeparator
 import com.sweak.unlockmaster.presentation.main.screen_time.components.DailyScreenTimeChart
@@ -98,14 +99,12 @@ fun ScreenTimeScreen(
                                 style = MaterialTheme.typography.h4
                             )
 
-                            Text(
-                                text = stringResource(
-                                    R.string.hours_and_minutes_amount,
-                                    screenTimeScreenState.todayHoursAndMinutesScreenTimePair.first,
-                                    screenTimeScreenState.todayHoursAndMinutesScreenTimePair.second
-                                ),
-                                style = MaterialTheme.typography.h1
-                            )
+                            screenTimeScreenState.todayScreenTimeDuration?.let {
+                                Text(
+                                    text = getCompactDurationString(it),
+                                    style = MaterialTheme.typography.h1
+                                )
+                            }
                         }
                     }
 
@@ -162,8 +161,7 @@ fun ScreenTimeScreen(
                                     SingleScreenTimeSessionCard(
                                         screenSessionStartAndEndTimesInMillis =
                                         it.startAndEndTimesInMillis,
-                                        screenSessionHoursMinutesAndSecondsDurationTriple =
-                                        it.screenSessionHoursMinutesAndSecondsDurationTriple,
+                                        screenSessionDuration = it.screenSessionDuration,
                                         timeFormat = timeFormat,
                                         modifier = Modifier
                                             .fillMaxWidth()

@@ -16,13 +16,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
+import com.sweak.unlockmaster.presentation.common.util.Duration
 import com.sweak.unlockmaster.presentation.common.util.TimeFormat
+import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
 import com.sweak.unlockmaster.presentation.common.util.getTimeString
 
 @Composable
 fun SingleScreenTimeSessionCard(
     screenSessionStartAndEndTimesInMillis: Pair<Long, Long>,
-    screenSessionHoursMinutesAndSecondsDurationTriple: Triple<Int, Int, Int>,
+    screenSessionDuration: Duration,
     timeFormat: TimeFormat,
     modifier: Modifier = Modifier
 ) {
@@ -52,28 +54,8 @@ fun SingleScreenTimeSessionCard(
                     .weight(1f)
             )
 
-            val screenTimeSessionDurationString = StringBuilder("").run {
-                val hoursAmount = screenSessionHoursMinutesAndSecondsDurationTriple.first
-                val minutesAmount = screenSessionHoursMinutesAndSecondsDurationTriple.second
-                val secondsAmount = screenSessionHoursMinutesAndSecondsDurationTriple.third
-
-                if (hoursAmount != 0) append(stringResource(R.string.hours_amount, hoursAmount))
-
-                if (minutesAmount != 0) append(
-                    (if (hoursAmount != 0) " " else "") +
-                            stringResource(R.string.minutes_amount, minutesAmount)
-                )
-
-                if (secondsAmount != 0 || isBlank()) append(
-                    (if (hoursAmount != 0 || minutesAmount != 0) " " else "") +
-                            stringResource(R.string.seconds_amount, secondsAmount)
-                )
-
-                toString()
-            }
-
             Text(
-                text = screenTimeSessionDurationString,
+                text = getCompactDurationString(screenSessionDuration),
                 style = MaterialTheme.typography.h2
             )
         }

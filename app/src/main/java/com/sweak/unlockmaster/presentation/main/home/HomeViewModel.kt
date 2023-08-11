@@ -13,7 +13,7 @@ import com.sweak.unlockmaster.domain.use_case.unlock_events.GetLastWeekUnlockEve
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTomorrowUseCase
-import com.sweak.unlockmaster.presentation.common.util.getHoursAndMinutesDurationPair
+import com.sweak.unlockmaster.presentation.common.util.Duration
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -48,8 +48,9 @@ class HomeViewModel @Inject constructor(
             isUnlockCounterPaused = isUnlockCounterPausedUseCase(),
             unlockLimitForTomorrow =
             if (unlockLimitForTomorrow != unlockLimitForToday) unlockLimitForTomorrow else null,
-            todayHoursAndMinutesScreenTimePair = getHoursAndMinutesDurationPair(
-                getScreenTimeDurationForGivenDayUseCase()
+            todayScreenTimeDuration = Duration(
+                durationMillis = getScreenTimeDurationForGivenDayUseCase(),
+                precision = Duration.DisplayPrecision.MINUTES
             ),
             lastWeekUnlockEventCounts = getLastWeekUnlockEventCountsUseCase().mapIndexed { x, y ->
                 BarEntry(x.toFloat(), y.toFloat())

@@ -1,17 +1,18 @@
 package com.sweak.unlockmaster.presentation.main.screen_time
 
 import com.github.mikephil.charting.data.Entry
+import com.sweak.unlockmaster.presentation.common.util.Duration
 
 data class ScreenTimeScreenState(
     val isInitializing: Boolean = true,
     val screenTimeMinutesPerHourEntries: List<Entry> = emptyList(),
-    val todayHoursAndMinutesScreenTimePair: Pair<Int, Int> = Pair(0, 0),
+    val todayScreenTimeDuration: Duration? = null,
     val UIReadySessionEvents: List<UIReadySessionEvent> = emptyList()
 ) {
     sealed class UIReadySessionEvent(val startAndEndTimesInMillis: Pair<Long, Long>) {
         class ScreenTime(
             screenSessionStartAndEndTimesInMillis: Pair<Long, Long>,
-            val screenSessionHoursMinutesAndSecondsDurationTriple: Triple<Int, Int, Int>
+            val screenSessionDuration: Duration
         ) : UIReadySessionEvent(screenSessionStartAndEndTimesInMillis)
 
         class CounterPaused(

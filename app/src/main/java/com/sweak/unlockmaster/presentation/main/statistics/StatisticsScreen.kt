@@ -21,6 +21,7 @@ import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
+import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
 import com.sweak.unlockmaster.presentation.common.util.getFullDateString
 import com.sweak.unlockmaster.presentation.main.statistics.components.AllTimeUnlocksChart
 
@@ -227,14 +228,12 @@ fun StatisticsScreen(
                                 .weight(1f)
                         )
 
-                        Text(
-                            text = stringResource(
-                                R.string.hours_and_minutes_amount,
-                                statisticsScreenState.hoursAndMinutesScreenTimePair.first,
-                                statisticsScreenState.hoursAndMinutesScreenTimePair.second
-                            ),
-                            style = MaterialTheme.typography.h1
-                        )
+                        statisticsScreenState.screenTimeDuration?.let {
+                            Text(
+                                text = getCompactDurationString(it),
+                                style = MaterialTheme.typography.h1
+                            )
+                        }
                     }
 
                     Button(

@@ -63,7 +63,6 @@
     <string name="no">No</string>
     <string name="todays_screen_time">Today\'s screen time:</string>
     <string name="details">Details</string>
-    <string name="hours_and_minutes_amount">%1$dh %2$dmin</string>
     <string name="statistics_colon">Statistics:</string>
     <string name="how_unlock_count_looked">This is how your daily unlock count looked like over the last week:</string>
     <string name="get_more_insights">Get more insights</string>
@@ -102,6 +101,23 @@
     <string name="more_than_yesterday_and">more than yesterday and</string>
     <string name="less_than_a_week_before">less than a week before.</string>
     <string name="compare_with_other_days">You can compare with other days:</string>
+    <string name="of_screen_time_which_is">of screen time which is</string>
+    <string name="less_than_yesterday_and">less than yesterday and</string>
+    <string name="more_than_a_week_before">more than a week before.</string>
+    <string name="see_your_screen_time_breakdown">You can see your screen time breakdown:</string>
+    <string name="was_your_unlock_limit">was your unlock limit.</string>
+    <string name="recommended_to_update">It is recommended that you update it to</string>
+    <string name="for_more_improvements">for even more improvements!</string>
+    <string name="apply_suggested_unlock_limit">Apply the suggested unlock limit now:</string>
+    <string name="update">Update</string>
+    <string name="screen_turn_ons_which_is">screen turn-ons which is</string>
+    <string name="as_much_as_yesterday_and">as much as yesterday and</string>
+    <string name="screen_unlocks_today">screen unlocks today.</string>
+    <string name="less_than_yesterday">less than yesterday.</string>
+    <string name="more_than_yesterday">more than yesterday.</string>
+    <string name="as_much_as_yesterday">as much as yesterday.</string>
+    <string name="as_much_as_a_week_before">as much as a week before.</string>
+    <string name="of_screen_today">of screen time today.</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>
@@ -135,15 +151,4 @@
     <string name="content_description_regress_icon">Red arrow pointing upwards icon</string>
     <string name="content_description_auto_change_icon">Magic wand icon indicating automatic change</string>
     <string name="content_description_tips">Light bulb with sparks icon indicating tips</string>
-    <string name="of_screen_time_which_is">of screen time which is</string>
-    <string name="less_than_yesterday_and">less than yesterday and</string>
-    <string name="more_than_a_week_before">more than a week before.</string>
-    <string name="see_your_screen_time_breakdown">You can see your screen time breakdown:</string>
-    <string name="was_your_unlock_limit">was your unlock limit.</string>
-    <string name="recommended_to_update">It is recommended that you update it to</string>
-    <string name="for_more_improvements">for even more improvements!</string>
-    <string name="apply_suggested_unlock_limit">Apply the suggested unlock limit now:</string>
-    <string name="update">Update</string>
-    <string name="screen_turn_ons_which_is">screen turn-ons which is</string>
-    <string name="as_much_as_yesterday_and">as much as yesterday and</string>
 </resources>

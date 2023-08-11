@@ -41,17 +41,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
+import com.sweak.unlockmaster.presentation.common.util.Duration
 import com.sweak.unlockmaster.presentation.common.util.getFullDateString
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewCard
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenOnEventsDetailsCard
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenTimeDetailsCard
+import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenTimeDetailsData
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenUnlocksDetailsCard
+import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenUnlocksDetailsData
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpUnlockLimitDetailsCard
 import kotlinx.coroutines.launch
-import kotlin.math.roundToInt
 
 @Composable
 fun DailyWrapUpScreen(navController: NavController) {
@@ -175,7 +178,7 @@ fun DailyWrapUpScreen(navController: NavController) {
                             DailyWrapUpCriterionPreviewCard(
                                 dailyWrapUpCriterionPreviewType =
                                 DailyWrapUpCriterionPreviewType.ScreenTime(
-                                    4500000,
+                                    Duration(4500000, Duration.DisplayPrecision.MINUTES),
                                     DailyWrapUpCriterionPreviewType.Progress.IMPROVEMENT
                                 ),
                                 onClick = {
@@ -224,6 +227,14 @@ fun DailyWrapUpScreen(navController: NavController) {
                     }
 
                     DailyWrapUpScreenUnlocksDetailsCard(
+                        detailsData = DailyWrapUpScreenUnlocksDetailsData(
+                            screenUnlocksCount = 21,
+                            yesterdayDifference = 3,
+                            weekBeforeDifference = -1
+                        ),
+                        onInteraction = {
+                            navController.navigate(Screen.StatisticsScreen.route)
+                        },
                         modifier = Modifier
                             .padding(
                                 start = MaterialTheme.space.medium,
@@ -237,6 +248,12 @@ fun DailyWrapUpScreen(navController: NavController) {
                     )
 
                     DailyWrapUpScreenTimeDetailsCard(
+                        detailsData = DailyWrapUpScreenTimeDetailsData(
+                            screenTimeDuration = Duration(4500000, Duration.DisplayPrecision.MINUTES),
+                            yesterdayDifference = Duration(780000, Duration.DisplayPrecision.MINUTES),
+                            weekBeforeDifference = Duration(420000, Duration.DisplayPrecision.MINUTES)
+                        ),
+                        onInteraction = { /* TODO: navigate to screen time screen */ },
                         modifier = Modifier
                             .padding(
                                 start = MaterialTheme.space.medium,

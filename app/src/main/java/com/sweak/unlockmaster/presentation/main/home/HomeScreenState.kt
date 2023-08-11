@@ -1,6 +1,7 @@
 package com.sweak.unlockmaster.presentation.main.home
 
 import com.github.mikephil.charting.data.BarEntry
+import com.sweak.unlockmaster.presentation.common.util.Duration
 
 data class HomeScreenState(
     val isInitializing: Boolean = true,
@@ -9,6 +10,6 @@ data class HomeScreenState(
     val isUnlockCounterPaused: Boolean? = null,
     val isUnlockCounterPauseConfirmationDialogVisible: Boolean = false,
     val unlockLimitForTomorrow: Int? = null,
-    val todayHoursAndMinutesScreenTimePair: Pair<Int, Int> = Pair(0, 0),
+    val todayScreenTimeDuration: Duration? = null,
     val lastWeekUnlockEventCounts: List<BarEntry> = emptyList()
 )

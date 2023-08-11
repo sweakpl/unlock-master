@@ -11,8 +11,7 @@ import com.sweak.unlockmaster.domain.model.SessionEvent.ScreenTime
 import com.sweak.unlockmaster.domain.use_case.screen_time.GetHourlyUsageMinutesForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_time.GetScreenTimeDurationForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_time.GetSessionEventsForGivenDayUseCase
-import com.sweak.unlockmaster.presentation.common.util.getHoursAndMinutesDurationPair
-import com.sweak.unlockmaster.presentation.common.util.getHoursMinutesAndSecondsDurationTriple
+import com.sweak.unlockmaster.presentation.common.util.Duration
 import com.sweak.unlockmaster.presentation.main.screen_time.ScreenTimeScreenState.UIReadySessionEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -33,8 +32,9 @@ class ScreenTimeViewModel @Inject constructor(
             screenTimeMinutesPerHourEntries =
             getHourlyUsageMinutesForGivenDayUseCase(displayedDayTimeInMillis)
                 .mapIndexed { index, minutes -> Entry(index.toFloat(), minutes.toFloat()) },
-            todayHoursAndMinutesScreenTimePair = getHoursAndMinutesDurationPair(
-                getScreenTimeDurationForGivenDayUseCase(displayedDayTimeInMillis)
+            todayScreenTimeDuration = Duration(
+                durationMillis = getScreenTimeDurationForGivenDayUseCase(displayedDayTimeInMillis),
+                precision = Duration.DisplayPrecision.MINUTES
             ),
             UIReadySessionEvents =
             getSessionEventsForGivenDayUseCase(displayedDayTimeInMillis)
@@ -44,8 +44,7 @@ class ScreenTimeViewModel @Inject constructor(
                             UIReadySessionEvent.ScreenTime(
                                 screenSessionStartAndEndTimesInMillis =
                                 Pair(it.sessionStartTime, it.sessionEndTime),
-                                screenSessionHoursMinutesAndSecondsDurationTriple =
-                                getHoursMinutesAndSecondsDurationTriple(it.sessionDuration)
+                                screenSessionDuration = Duration(it.sessionDuration)
                             )
                         }
                         is CounterPaused -> {

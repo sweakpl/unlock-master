@@ -32,7 +32,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
-import com.sweak.unlockmaster.presentation.common.util.getHoursAndMinutesDurationPair
+import com.sweak.unlockmaster.presentation.common.util.Duration
+import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType.*
 
 @Composable
@@ -69,10 +70,9 @@ fun DailyWrapUpCriterionPreviewCard(
             criterionIconContentDescription =
                 stringResource(R.string.content_description_clock_icon)
             progress = dailyWrapUpCriterionPreviewType.progress
-            criterionValueText =
-                with(getHoursAndMinutesDurationPair(dailyWrapUpCriterionPreviewType.screenTimeInMillis)) {
-                    stringResource(R.string.hours_and_minutes_amount, first, second)
-                }
+            criterionValueText = getCompactDurationString(
+                dailyWrapUpCriterionPreviewType.screenTimeDuration
+            )
             criterionText = stringResource(R.string.screen_time)
         }
         is UnlockLimit -> {
@@ -185,7 +185,7 @@ sealed class DailyWrapUpCriterionPreviewType {
     ) : DailyWrapUpCriterionPreviewType()
 
     data class ScreenTime(
-        val screenTimeInMillis: Long,
+        val screenTimeDuration: Duration,
         val progress: Progress
     ) : DailyWrapUpCriterionPreviewType()
 
@@ -210,12 +210,14 @@ fun DailyWrapUpCriteriaPreviewCardPreview() {
     UnlockMasterTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.space.medium),
-            modifier = Modifier.padding(
-                start = MaterialTheme.space.medium,
-                top = MaterialTheme.space.medium,
-                end = MaterialTheme.space.medium,
-                bottom = MaterialTheme.space.large
-            ).fillMaxWidth()
+            modifier = Modifier
+                .padding(
+                    start = MaterialTheme.space.medium,
+                    top = MaterialTheme.space.medium,
+                    end = MaterialTheme.space.medium,
+                    bottom = MaterialTheme.space.large
+                )
+                .fillMaxWidth()
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(MaterialTheme.space.medium)
@@ -227,7 +229,10 @@ fun DailyWrapUpCriteriaPreviewCardPreview() {
                 )
 
                 DailyWrapUpCriterionPreviewCard(
-                    ScreenTime(4500000, Progress.IMPROVEMENT),
+                    ScreenTime(
+                        Duration(4500000, Duration.DisplayPrecision.MINUTES),
+                        Progress.IMPROVEMENT
+                    ),
                     {},
                     Modifier.weight(1f)
                 )

@@ -48,13 +48,14 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.presentation.background_work.ACTION_UNLOCK_COUNTER_PAUSE_CHANGED
+import com.sweak.unlockmaster.presentation.background_work.EXTRA_IS_UNLOCK_COUNTER_PAUSED
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
+import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
 import com.sweak.unlockmaster.presentation.main.home.components.WeeklyUnlocksChart
-import com.sweak.unlockmaster.presentation.background_work.EXTRA_IS_UNLOCK_COUNTER_PAUSED
-import com.sweak.unlockmaster.presentation.background_work.ACTION_UNLOCK_COUNTER_PAUSE_CHANGED
 
 @Composable
 fun HomeScreen(
@@ -331,14 +332,12 @@ fun HomeScreen(
                                     style = MaterialTheme.typography.h4
                                 )
 
-                                Text(
-                                    text = stringResource(
-                                        R.string.hours_and_minutes_amount,
-                                        homeScreenState.todayHoursAndMinutesScreenTimePair.first,
-                                        homeScreenState.todayHoursAndMinutesScreenTimePair.second
-                                    ),
-                                    style = MaterialTheme.typography.h2
-                                )
+                                homeScreenState.todayScreenTimeDuration?.let {
+                                    Text(
+                                        text = getCompactDurationString(it),
+                                        style = MaterialTheme.typography.h2
+                                    )
+                                }
                             }
 
                             Button(
