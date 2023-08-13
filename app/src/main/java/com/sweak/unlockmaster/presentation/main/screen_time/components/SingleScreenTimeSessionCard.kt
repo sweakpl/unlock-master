@@ -58,7 +58,8 @@ fun SingleScreenTimeSessionCard(
             Text(
                 text = getCompactDurationString(screenSessionDuration),
                 style = MaterialTheme.typography.h2,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1
             )
         }
     }

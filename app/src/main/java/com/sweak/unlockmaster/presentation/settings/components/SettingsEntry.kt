@@ -42,8 +42,8 @@ fun SettingsEntry(
             Text(
                 text = settingsEntryTitle,
                 style = MaterialTheme.typography.h4,
-                maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
                 modifier = Modifier.padding(end = MaterialTheme.space.large)
             )
 

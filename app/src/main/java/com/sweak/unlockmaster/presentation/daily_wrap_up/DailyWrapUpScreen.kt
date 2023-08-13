@@ -37,14 +37,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.Screen
-import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
+import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.common.util.Duration
 import com.sweak.unlockmaster.presentation.common.util.getFullDateString
@@ -61,8 +59,12 @@ import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpU
 import kotlinx.coroutines.launch
 
 @Composable
-fun DailyWrapUpScreen(navController: NavController) {
+fun DailyWrapUpScreen(
+    navController: NavController,
+    dailyWrapUpDayTimeInMillis: Long
+) {
     val isInitializing by remember { mutableStateOf(false) }
+    var isScreenOnEventsInformationDialogVisible by remember { mutableStateOf(false) }
     val hasUserDiscoveredAllDailyWrapUpFeatures = false
 
     Column(
@@ -146,7 +148,7 @@ fun DailyWrapUpScreen(navController: NavController) {
                         )
 
                         Text(
-                            text = getFullDateString(0),
+                            text = getFullDateString(dailyWrapUpDayTimeInMillis),
                             style = MaterialTheme.typography.h4,
                             modifier = Modifier.padding(start = MaterialTheme.space.medium)
                         )
@@ -254,11 +256,26 @@ fun DailyWrapUpScreen(navController: NavController) {
 
                     DailyWrapUpScreenTimeDetailsCard(
                         detailsData = DailyWrapUpScreenTimeDetailsData(
-                            screenTimeDuration = Duration(4500000, Duration.DisplayPrecision.MINUTES),
-                            yesterdayDifference = Duration(-780000, Duration.DisplayPrecision.MINUTES),
-                            weekBeforeDifference = Duration(420000, Duration.DisplayPrecision.MINUTES)
+                            screenTimeDuration = Duration(
+                                4500000,
+                                Duration.DisplayPrecision.MINUTES
+                            ),
+                            yesterdayDifference = Duration(
+                                -780000,
+                                Duration.DisplayPrecision.MINUTES
+                            ),
+                            weekBeforeDifference = Duration(
+                                420000,
+                                Duration.DisplayPrecision.MINUTES
+                            )
                         ),
-                        onInteraction = { /* TODO: navigate to screen time screen */ },
+                        onInteraction = {
+                            navController.navigate(
+                                Screen.ScreenTimeScreen.withArguments(
+                                    dailyWrapUpDayTimeInMillis.toString()
+                                )
+                            )
+                        },
                         modifier = Modifier
                             .padding(
                                 start = MaterialTheme.space.medium,
@@ -297,7 +314,7 @@ fun DailyWrapUpScreen(navController: NavController) {
                             weekBeforeDifference = -3,
                             isManyMoreScreenOnEventsThanUnlocks = false
                         ),
-                        onInteraction = { /* TODO: show information dialog */ },
+                        onInteraction = { isScreenOnEventsInformationDialogVisible = true },
                         modifier = Modifier
                             .padding(
                                 start = MaterialTheme.space.medium,
@@ -358,12 +375,14 @@ fun DailyWrapUpScreen(navController: NavController) {
             }
         }
     }
-}
 
-@Preview
-@Composable
-fun DailyWrapUpScreenPreview() {
-    UnlockMasterTheme {
-        DailyWrapUpScreen(navController = NavController(LocalContext.current))
+    if (isScreenOnEventsInformationDialogVisible) {
+        Dialog(
+            title = stringResource(R.string.screen_on_events),
+            message = stringResource(R.string.screen_on_event_description),
+            onDismissRequest = { isScreenOnEventsInformationDialogVisible = false },
+            onPositiveClick = { isScreenOnEventsInformationDialogVisible = false },
+            positiveButtonText = stringResource(R.string.ok)
+        )
     }
 }

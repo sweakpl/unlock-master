@@ -27,5 +27,6 @@ sealed class Screen(val route: String) {
         const val KEY_IS_UPDATING_EXISTING_UNLOCK_LIMIT = "isUpdatingExistingUnlockLimit"
         const val KEY_DISPLAYED_SCREEN_TIME_DAY_MILLIS = "displayedScreenTimeDayMillis"
         const val KEY_IS_LAUNCHED_FROM_SETTINGS = "isLaunchedFromSettings"
+        const val KEY_DAILY_WRAP_UP_DAY_MILLIS = "dailyWrapUpDayMillis"
     }
 }

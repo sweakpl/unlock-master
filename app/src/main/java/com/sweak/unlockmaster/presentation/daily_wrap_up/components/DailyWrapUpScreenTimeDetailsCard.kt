@@ -60,6 +60,7 @@ fun DailyWrapUpScreenTimeDetailsCard(
                     ),
                     style = MaterialTheme.typography.h4,
                     overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
                     modifier = Modifier.alignByBaseline()
                 )
             }

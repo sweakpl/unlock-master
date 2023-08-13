@@ -11,10 +11,12 @@ import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.presentation.MainActivity
 import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UPS_NOTIFICATIONS_CHANNEL_ID
 import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UP_NOTIFICATION_ID
 import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UP_NOTIFICATION_REQUEST_CODE
+import com.sweak.unlockmaster.presentation.background_work.EXTRA_DAILY_WRAP_UP_DAY_MILLIS
 import com.sweak.unlockmaster.presentation.background_work.EXTRA_SHOW_DAILY_WRAP_UP_SCREEN
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -24,6 +26,9 @@ class DailyWrapUpAlarmReceiver : BroadcastReceiver() {
 
     @Inject
     lateinit var notificationManager: NotificationManagerCompat
+
+    @Inject
+    lateinit var timeRepository: TimeRepository
 
     override fun onReceive(context: Context, intent: Intent) {
         try {
@@ -40,6 +45,10 @@ class DailyWrapUpAlarmReceiver : BroadcastReceiver() {
             DAILY_WRAP_UP_NOTIFICATION_REQUEST_CODE,
             Intent(context, MainActivity::class.java).apply {
                 putExtra(EXTRA_SHOW_DAILY_WRAP_UP_SCREEN, true)
+                putExtra(
+                    EXTRA_DAILY_WRAP_UP_DAY_MILLIS,
+                    timeRepository.getCurrentTimeInMillis()
+                )
             },
             PendingIntent.FLAG_UPDATE_CURRENT or
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)

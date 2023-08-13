@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.domain.use_case.daily_wrap_ups
+package com.sweak.unlockmaster.domain.use_case.daily_wrap_up
 
 import com.sweak.unlockmaster.domain.management.UnlockMasterAlarmManager
 import javax.inject.Inject

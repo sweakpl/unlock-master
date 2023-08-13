@@ -3,7 +3,7 @@ package com.sweak.unlockmaster.presentation.background_work.global_receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.sweak.unlockmaster.domain.use_case.daily_wrap_ups.ScheduleDailyWrapUpsNotificationsUseCase
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpsNotificationsUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject

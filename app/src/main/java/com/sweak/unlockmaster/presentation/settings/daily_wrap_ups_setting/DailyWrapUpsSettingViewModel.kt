@@ -6,9 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sweak.unlockmaster.domain.model.DailyWrapUpsNotificationsTime
-import com.sweak.unlockmaster.domain.use_case.daily_wrap_ups.GetDailyWrapUpsNotificationsTimeUseCase
-import com.sweak.unlockmaster.domain.use_case.daily_wrap_ups.ScheduleDailyWrapUpsNotificationsUseCase
-import com.sweak.unlockmaster.domain.use_case.daily_wrap_ups.SetDailyWrapUpsNotificationsTimeUseCase
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.GetDailyWrapUpsNotificationsTimeUseCase
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpsNotificationsUseCase
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.SetDailyWrapUpsNotificationsTimeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
