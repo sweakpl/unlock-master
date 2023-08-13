@@ -86,7 +86,7 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.TipsAndUpdates,
-                            contentDescription = stringResource(R.string.content_description_tips),
+                            contentDescription = stringResource(R.string.content_description_tips_icon),
                             modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
                         )
 
@@ -128,7 +128,7 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                         Icon(
                             imageVector = Icons.Outlined.WarningAmber,
                             contentDescription = stringResource(
-                                R.string.content_description_warning
+                                R.string.content_description_warning_icon
                             ),
                             modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
                         )
@@ -162,7 +162,7 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.TipsAndUpdates,
-                            contentDescription = stringResource(R.string.content_description_tips),
+                            contentDescription = stringResource(R.string.content_description_tips_icon),
                             modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
                         )
 

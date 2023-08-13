@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
@@ -58,6 +59,7 @@ fun DailyWrapUpScreenTimeDetailsCard(
                         else R.string.of_screen_today
                     ),
                     style = MaterialTheme.typography.h4,
+                    overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.alignByBaseline()
                 )
             }
@@ -137,7 +139,7 @@ fun DailyWrapUpScreenTimeDetailsCard(
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.TipsAndUpdates,
-                        contentDescription = stringResource(R.string.content_description_tips),
+                        contentDescription = stringResource(R.string.content_description_tips_icon),
                         modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
                     )
 

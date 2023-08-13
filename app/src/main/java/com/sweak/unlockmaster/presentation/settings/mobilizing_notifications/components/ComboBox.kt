@@ -59,7 +59,9 @@ fun ComboBox(
                     imageVector =
                     if (expanded) Icons.Outlined.ArrowDropUp
                     else Icons.Outlined.ArrowDropDown,
-                    contentDescription = stringResource(R.string.content_description_drop_down_arrow),
+                    contentDescription = stringResource(
+                        R.string.content_description_drop_down_arrow_icon
+                    ),
                     modifier = Modifier.padding(all = MaterialTheme.space.medium)
                 )
             }

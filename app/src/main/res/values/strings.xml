@@ -147,12 +147,12 @@
     <string name="content_description_crosshair_icon">Crosshair icon</string>
     <string name="content_description_light_icon">Light icon</string>
     <string name="content_description_help_icon">Help icon</string>
-    <string name="content_description_drop_down_arrow">Drop down arrow icon</string>
+    <string name="content_description_drop_down_arrow_icon">Drop down arrow icon</string>
     <string name="content_description_close_icon">Close icon</string>
     <string name="content_description_horizontal_rule_icon">Horizontal rule icon indicating stability</string>
     <string name="content_description_improvement_icon">Green arrow pointing downwards icon</string>
     <string name="content_description_regress_icon">Red arrow pointing upwards icon</string>
     <string name="content_description_auto_change_icon">Magic wand icon indicating automatic change</string>
-    <string name="content_description_tips">Light bulb with sparks icon indicating tips</string>
-    <string name="content_description_warning">Warning triangle icon</string>
+    <string name="content_description_tips_icon">Light bulb with sparks icon indicating tips</string>
+    <string name="content_description_warning_icon">Warning triangle icon</string>
 </resources>

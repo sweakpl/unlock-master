@@ -127,7 +127,7 @@ fun DailyWrapUpScreenUnlocksDetailsCard(
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.TipsAndUpdates,
-                        contentDescription = stringResource(R.string.content_description_tips),
+                        contentDescription = stringResource(R.string.content_description_tips_icon),
                         modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
                     )
 

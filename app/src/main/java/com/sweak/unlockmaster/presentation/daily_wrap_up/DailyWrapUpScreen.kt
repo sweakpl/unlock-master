@@ -49,6 +49,7 @@ import com.sweak.unlockmaster.presentation.common.util.getFullDateString
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewCard
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenOnEventsDetailsCard
+import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenOnEventsDetailsData
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenTimeDetailsCard
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenTimeDetailsData
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenUnlocksDetailsCard
@@ -287,6 +288,12 @@ fun DailyWrapUpScreen(navController: NavController) {
                     )
 
                     DailyWrapUpScreenOnEventsDetailsCard(
+                        detailsData = DailyWrapUpScreenOnEventsDetailsData(
+                            screenOnEventsCount = 49,
+                            yesterdayDifference = 0,
+                            weekBeforeDifference = -3
+                        ),
+                        onInteraction = { /* TODO: show information dialog */ },
                         modifier = Modifier
                             .padding(
                                 start = MaterialTheme.space.medium,
