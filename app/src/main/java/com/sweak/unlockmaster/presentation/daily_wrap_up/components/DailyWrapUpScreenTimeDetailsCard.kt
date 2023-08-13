@@ -23,6 +23,7 @@ import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.common.util.Duration
 import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
+import kotlin.math.abs
 
 @Composable
 fun DailyWrapUpScreenTimeDetailsCard(
@@ -67,7 +68,9 @@ fun DailyWrapUpScreenTimeDetailsCard(
                 Row {
                     Text(
                         text = if (it.durationMillis in -minuteInMillis..minuteInMillis) "—"
-                        else getCompactDurationString(it),
+                        else getCompactDurationString(
+                            it.copy(durationMillis = abs(it.durationMillis))
+                        ),
                         style = MaterialTheme.typography.h1,
                         fontSize = 32.sp,
                         color = if (it.durationMillis < -minuteInMillis) MaterialTheme.colors.primaryVariant
@@ -100,7 +103,9 @@ fun DailyWrapUpScreenTimeDetailsCard(
                 Row {
                     Text(
                         text = if (it.durationMillis in -minuteInMillis..minuteInMillis) "—"
-                        else getCompactDurationString(it),
+                        else getCompactDurationString(
+                            it.copy(durationMillis = abs(it.durationMillis))
+                        ),
                         style = MaterialTheme.typography.h1,
                         fontSize = 32.sp,
                         color = if (it.durationMillis < -minuteInMillis) MaterialTheme.colors.primaryVariant

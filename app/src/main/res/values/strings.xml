@@ -70,7 +70,7 @@
     <string name="screen_time_colon">Screen time:</string>
     <string name="screen_time_history">Screen time history:</string>
     <string name="hours_amount">%1$dh</string>
-    <string name="minutes_amount">%1$dm</string>
+    <string name="minutes_amount">%1$dmin</string>
     <string name="seconds_amount">%1$ds</string>
     <string name="counter_paused_colon">Counter paused:</string>
     <string name="pause_counter">Pause the counter?</string>

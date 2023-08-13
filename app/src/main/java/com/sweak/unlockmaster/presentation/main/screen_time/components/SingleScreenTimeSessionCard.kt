@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.common.util.Duration
@@ -56,7 +57,8 @@ fun SingleScreenTimeSessionCard(
 
             Text(
                 text = getCompactDurationString(screenSessionDuration),
-                style = MaterialTheme.typography.h2
+                style = MaterialTheme.typography.h2,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }

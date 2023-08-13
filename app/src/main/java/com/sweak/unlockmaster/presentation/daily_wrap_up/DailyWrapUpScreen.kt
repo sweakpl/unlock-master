@@ -251,7 +251,7 @@ fun DailyWrapUpScreen(navController: NavController) {
                     DailyWrapUpScreenTimeDetailsCard(
                         detailsData = DailyWrapUpScreenTimeDetailsData(
                             screenTimeDuration = Duration(4500000, Duration.DisplayPrecision.MINUTES),
-                            yesterdayDifference = Duration(780000, Duration.DisplayPrecision.MINUTES),
+                            yesterdayDifference = Duration(-780000, Duration.DisplayPrecision.MINUTES),
                             weekBeforeDifference = Duration(420000, Duration.DisplayPrecision.MINUTES)
                         ),
                         onInteraction = { /* TODO: navigate to screen time screen */ },

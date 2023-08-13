@@ -11,10 +11,10 @@ class GetCompactDurationStringTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun secondsPrecision_1h15m45s() {
+    fun secondsPrecision_1h15min45s() {
         composeTestRule.setContent {
             Assert.assertEquals(
-                "1h 15m 45s",
+                "1h 15min 45s",
                 getCompactDurationString(
                     Duration(4545000, Duration.DisplayPrecision.SECONDS)
                 )
@@ -23,10 +23,10 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun secondsPrecision_0h55m32s() {
+    fun secondsPrecision_0h55min32s() {
         composeTestRule.setContent {
             Assert.assertEquals(
-                "55m 32s",
+                "55min 32s",
                 getCompactDurationString(
                     Duration(3332000, Duration.DisplayPrecision.SECONDS)
                 )
@@ -35,7 +35,7 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun secondsPrecision_0h0m56s() {
+    fun secondsPrecision_0h0min56s() {
         composeTestRule.setContent {
             Assert.assertEquals(
                 "56s",
@@ -47,10 +47,10 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun secondsPrecision_2h0m27s() {
+    fun secondsPrecision_2h0min27s() {
         composeTestRule.setContent {
             Assert.assertEquals(
-                "2h 0m 27s",
+                "2h 0min 27s",
                 getCompactDurationString(
                     Duration(7227000, Duration.DisplayPrecision.SECONDS)
                 )
@@ -59,10 +59,10 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun secondsPrecision_3h12m0s() {
+    fun secondsPrecision_3h12min0s() {
         composeTestRule.setContent {
             Assert.assertEquals(
-                "3h 12m",
+                "3h 12min",
                 getCompactDurationString(
                     Duration(11520000, Duration.DisplayPrecision.SECONDS)
                 )
@@ -71,7 +71,7 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun secondsPrecision_4h0m0s() {
+    fun secondsPrecision_4h0min0s() {
         composeTestRule.setContent {
             Assert.assertEquals(
                 "4h",
@@ -83,10 +83,10 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun secondsPrecision_0h30m0s() {
+    fun secondsPrecision_0h30min0s() {
         composeTestRule.setContent {
             Assert.assertEquals(
-                "30m",
+                "30min",
                 getCompactDurationString(
                     Duration(1800000, Duration.DisplayPrecision.SECONDS)
                 )
@@ -95,7 +95,7 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun secondsPrecision_0h0m0s() {
+    fun secondsPrecision_0h0min0s() {
         composeTestRule.setContent {
             Assert.assertEquals(
                 "0s",
@@ -107,10 +107,10 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun minutesPrecision_1h15m45s() {
+    fun minutesPrecision_1h15min45s() {
         composeTestRule.setContent {
             Assert.assertEquals(
-                "1h 15m",
+                "1h 15min",
                 getCompactDurationString(
                     Duration(4545000, Duration.DisplayPrecision.MINUTES)
                 )
@@ -119,10 +119,10 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun minutesPrecision_0h55m32s() {
+    fun minutesPrecision_0h55min32s() {
         composeTestRule.setContent {
             Assert.assertEquals(
-                "55m",
+                "55min",
                 getCompactDurationString(
                     Duration(3332000, Duration.DisplayPrecision.MINUTES)
                 )
@@ -131,10 +131,10 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun minutesPrecision_0h0m56s() {
+    fun minutesPrecision_0h0min56s() {
         composeTestRule.setContent {
             Assert.assertEquals(
-                "0m",
+                "0min",
                 getCompactDurationString(
                     Duration(56000, Duration.DisplayPrecision.MINUTES)
                 )
@@ -143,7 +143,7 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun minutesPrecision_2h0m27s() {
+    fun minutesPrecision_2h0min27s() {
         composeTestRule.setContent {
             Assert.assertEquals(
                 "2h",
@@ -155,7 +155,7 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun minutesPrecision_4h0m0s() {
+    fun minutesPrecision_4h0min0s() {
         composeTestRule.setContent {
             Assert.assertEquals(
                 "4h",
@@ -167,10 +167,10 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun minutesPrecision_3h12m0s() {
+    fun minutesPrecision_3h12min0s() {
         composeTestRule.setContent {
             Assert.assertEquals(
-                "3h 12m",
+                "3h 12min",
                 getCompactDurationString(
                     Duration(11520000, Duration.DisplayPrecision.MINUTES)
                 )
@@ -179,10 +179,10 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun minutesPrecision_0h30m0s() {
+    fun minutesPrecision_0h30min0s() {
         composeTestRule.setContent {
             Assert.assertEquals(
-                "30m",
+                "30min",
                 getCompactDurationString(
                     Duration(1800000, Duration.DisplayPrecision.MINUTES)
                 )
@@ -191,10 +191,10 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun minutesPrecision_0h0m0s() {
+    fun minutesPrecision_0h0min0s() {
         composeTestRule.setContent {
             Assert.assertEquals(
-                "0m",
+                "0min",
                 getCompactDurationString(
                     Duration(0, Duration.DisplayPrecision.MINUTES)
                 )
@@ -203,7 +203,7 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun hoursPrecision_1h15m45s() {
+    fun hoursPrecision_1h15min45s() {
         composeTestRule.setContent {
             Assert.assertEquals(
                 "1h",
@@ -215,7 +215,7 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun hoursPrecision_0h55m32s() {
+    fun hoursPrecision_0h55min32s() {
         composeTestRule.setContent {
             Assert.assertEquals(
                 "0h",
@@ -227,7 +227,7 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun hoursPrecision_0h0m56s() {
+    fun hoursPrecision_0h0min56s() {
         composeTestRule.setContent {
             Assert.assertEquals(
                 "0h",
@@ -239,7 +239,7 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun hoursPrecision_2h0m27s() {
+    fun hoursPrecision_2h0min27s() {
         composeTestRule.setContent {
             Assert.assertEquals(
                 "2h",
@@ -251,7 +251,7 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun hoursPrecision_4h0m0s() {
+    fun hoursPrecision_4h0min0s() {
         composeTestRule.setContent {
             Assert.assertEquals(
                 "4h",
@@ -263,7 +263,7 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun hoursPrecision_3h12m0s() {
+    fun hoursPrecision_3h12min0s() {
         composeTestRule.setContent {
             Assert.assertEquals(
                 "3h",
@@ -275,7 +275,7 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun hoursPrecision_0h30m0s() {
+    fun hoursPrecision_0h30min0s() {
         composeTestRule.setContent {
             Assert.assertEquals(
                 "0h",
@@ -287,7 +287,7 @@ class GetCompactDurationStringTest {
     }
 
     @Test
-    fun hoursPrecision_0h0m0s() {
+    fun hoursPrecision_0h0min0s() {
         composeTestRule.setContent {
             Assert.assertEquals(
                 "0h",
