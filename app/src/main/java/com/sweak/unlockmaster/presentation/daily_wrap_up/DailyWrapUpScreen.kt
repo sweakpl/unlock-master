@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -24,6 +25,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.TipsAndUpdates
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -61,6 +63,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun DailyWrapUpScreen(navController: NavController) {
     val isInitializing by remember { mutableStateOf(false) }
+    val hasUserDiscoveredAllDailyWrapUpFeatures = false
 
     Column(
         modifier = Modifier
@@ -291,7 +294,8 @@ fun DailyWrapUpScreen(navController: NavController) {
                         detailsData = DailyWrapUpScreenOnEventsDetailsData(
                             screenOnEventsCount = 49,
                             yesterdayDifference = 0,
-                            weekBeforeDifference = -3
+                            weekBeforeDifference = -3,
+                            isManyMoreScreenOnEventsThanUnlocks = false
                         ),
                         onInteraction = { /* TODO: show information dialog */ },
                         modifier = Modifier
@@ -305,6 +309,42 @@ fun DailyWrapUpScreen(navController: NavController) {
                                 screenOnEventsCardPosition = it.positionInRoot().y
                             }
                     )
+
+                    if (hasUserDiscoveredAllDailyWrapUpFeatures) {
+                        Card(
+                            elevation = MaterialTheme.space.xSmall,
+                            modifier = Modifier
+                                .padding(
+                                    start = MaterialTheme.space.medium,
+                                    end = MaterialTheme.space.medium,
+                                    bottom = MaterialTheme.space.large
+                                )
+                                .fillMaxWidth()
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.TipsAndUpdates,
+                                    contentDescription = stringResource(
+                                        R.string.content_description_tips_icon
+                                    ),
+                                    modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
+                                )
+
+                                Text(
+                                    text = stringResource(
+                                        R.string.you_ve_not_discovered_full_daily_wrap_up
+                                    ),
+                                    style = MaterialTheme.typography.subtitle1,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(start = MaterialTheme.space.smallMedium)
+                                )
+                            }
+                        }
+                    }
                 }
             } else {
                 Box(modifier = Modifier.fillMaxHeight()) {

@@ -121,6 +121,9 @@
     <string name="keep_improving_for_limit_recommendation">Keep improving to get unlock limit update recommendations!</string>
     <string name="limit_exceeded_significantly">Unlock limit exceeded significantly!</string>
     <string name="consdier_increasing_limit_or_pausing">Consider increasing your unlock limit or using the pause feature.</string>
+    <string name="many_more_screen_ons_than_unlocks">Many more screen-ons than unlocks!</string>
+    <string name="consider_limiting_auto_turn_on">Consider limiting automatic screen turn-on after receiving notifications or put the phone further away to prevent checking the phone unnecessarily too much.</string>
+    <string name="you_ve_not_discovered_full_daily_wrap_up">Hey, you’ve not discovered everything that daily wrap-up has to offer! Keep using UnlockMaster to get new insights!</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>

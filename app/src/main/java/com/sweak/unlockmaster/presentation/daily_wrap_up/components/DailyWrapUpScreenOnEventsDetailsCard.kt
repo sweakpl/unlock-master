@@ -13,6 +13,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.HelpOutline
+import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -145,6 +146,43 @@ fun DailyWrapUpScreenOnEventsDetailsCard(
                     )
                 }
             }
+
+            if (detailsData.isManyMoreScreenOnEventsThanUnlocks) {
+                Card(
+                    backgroundColor = MaterialTheme.colors.background,
+                    modifier = Modifier.padding(top = MaterialTheme.space.medium)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.WarningAmber,
+                            contentDescription = stringResource(
+                                R.string.content_description_warning_icon
+                            ),
+                            modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
+                        )
+
+                        Column(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(start = MaterialTheme.space.smallMedium)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.many_more_screen_ons_than_unlocks),
+                                style = MaterialTheme.typography.subtitle1,
+                                modifier = Modifier.padding(bottom = MaterialTheme.space.xSmall)
+                            )
+
+                            Text(
+                                text = stringResource(R.string.consider_limiting_auto_turn_on),
+                                style = MaterialTheme.typography.subtitle2,
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -152,5 +190,6 @@ fun DailyWrapUpScreenOnEventsDetailsCard(
 data class DailyWrapUpScreenOnEventsDetailsData(
     val screenOnEventsCount: Int,
     val yesterdayDifference: Int?,
-    val weekBeforeDifference: Int?
+    val weekBeforeDifference: Int?,
+    val isManyMoreScreenOnEventsThanUnlocks: Boolean
 )
