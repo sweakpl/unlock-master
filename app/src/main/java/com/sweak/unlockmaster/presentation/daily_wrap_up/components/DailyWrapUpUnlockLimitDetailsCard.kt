@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NavigateNext
 import androidx.compose.material.icons.outlined.TipsAndUpdates
+import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +23,8 @@ import com.sweak.unlockmaster.presentation.common.ui.theme.space
 
 @Composable
 fun DailyWrapUpUnlockLimitDetailsCard(
+    detailsData: DailyWrapUpUnlockLimitDetailsData,
+    onInteraction: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -37,7 +40,7 @@ fun DailyWrapUpUnlockLimitDetailsCard(
 
             Row {
                 Text(
-                    text = "30",
+                    text = detailsData.unlockLimit.toString(),
                     style = MaterialTheme.typography.h1,
                     fontSize = 32.sp,
                     modifier = Modifier
@@ -52,70 +55,133 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                 )
             }
 
-            Text(
-                text = stringResource(R.string.recommended_to_update),
-                style = MaterialTheme.typography.h4
-            )
-
-            Row(modifier = Modifier.padding(bottom = MaterialTheme.space.medium)) {
+            detailsData.suggestedUnlockLimit?.let { suggestedUnlockLimit ->
                 Text(
-                    text = "29",
-                    style = MaterialTheme.typography.h1,
-                    fontSize = 32.sp,
-                    color = MaterialTheme.colors.primaryVariant,
-                    modifier = Modifier
-                        .padding(end = MaterialTheme.space.xSmall)
-                        .alignByBaseline()
+                    text = stringResource(R.string.recommended_to_update),
+                    style = MaterialTheme.typography.h4
                 )
 
-                Text(
-                    text = stringResource(R.string.for_more_improvements),
-                    style = MaterialTheme.typography.h4,
-                    modifier = Modifier.alignByBaseline()
-                )
-            }
-
-            Card(backgroundColor = MaterialTheme.colors.background) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.TipsAndUpdates,
-                        contentDescription = stringResource(R.string.content_description_tips),
-                        modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
+                Row(modifier = Modifier.padding(bottom = MaterialTheme.space.medium)) {
+                    Text(
+                        text = suggestedUnlockLimit.toString(),
+                        style = MaterialTheme.typography.h1,
+                        fontSize = 32.sp,
+                        color = MaterialTheme.colors.primaryVariant,
+                        modifier = Modifier
+                            .padding(end = MaterialTheme.space.xSmall)
+                            .alignByBaseline()
                     )
 
                     Text(
-                        text = stringResource(R.string.apply_suggested_unlock_limit),
-                        style = MaterialTheme.typography.subtitle1,
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(horizontal = MaterialTheme.space.smallMedium)
+                        text = stringResource(R.string.for_more_improvements),
+                        style = MaterialTheme.typography.h4,
+                        modifier = Modifier.alignByBaseline()
                     )
+                }
 
-                    Button(
-                        onClick = {
-                            // TODO: update the unlock limit
-                        }
+                Card(backgroundColor = MaterialTheme.colors.background) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)
                     ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Outlined.TipsAndUpdates,
+                            contentDescription = stringResource(R.string.content_description_tips),
+                            modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
+                        )
+
+                        Text(
+                            text = stringResource(R.string.apply_suggested_unlock_limit),
+                            style = MaterialTheme.typography.subtitle1,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal = MaterialTheme.space.smallMedium)
+                        )
+
+                        Button(onClick = onInteraction) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    text = stringResource(R.string.update),
+                                    style = MaterialTheme.typography.subtitle1,
+                                    modifier = Modifier.padding(end = MaterialTheme.space.small)
+                                )
+
+                                Icon(
+                                    imageVector = Icons.Outlined.NavigateNext,
+                                    contentDescription = stringResource(
+                                        R.string.content_description_next_icon
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+            } ?: if (detailsData.isLimitSignificantlyExceeded) {
+                Card(
+                    backgroundColor = MaterialTheme.colors.background,
+                    modifier = Modifier.padding(top = MaterialTheme.space.medium)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.WarningAmber,
+                            contentDescription = stringResource(
+                                R.string.content_description_warning
+                            ),
+                            modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
+                        )
+
+                        Column(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(start = MaterialTheme.space.smallMedium)
+                        ) {
                             Text(
-                                text = stringResource(R.string.update),
+                                text = stringResource(R.string.limit_exceeded_significantly),
                                 style = MaterialTheme.typography.subtitle1,
-                                modifier = Modifier.padding(end = MaterialTheme.space.small)
+                                modifier = Modifier.padding(bottom = MaterialTheme.space.xSmall)
                             )
 
-                            Icon(
-                                imageVector = Icons.Outlined.NavigateNext,
-                                contentDescription = stringResource(
-                                    R.string.content_description_next_icon
-                                )
+                            Text(
+                                text = stringResource(R.string.consdier_increasing_limit_or_pausing),
+                                style = MaterialTheme.typography.subtitle2,
                             )
                         }
+                    }
+                }
+            } else {
+                Card(
+                    backgroundColor = MaterialTheme.colors.background,
+                    modifier = Modifier.padding(top = MaterialTheme.space.medium)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.TipsAndUpdates,
+                            contentDescription = stringResource(R.string.content_description_tips),
+                            modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
+                        )
+
+                        Text(
+                            text = stringResource(R.string.keep_improving_for_limit_recommendation),
+                            style = MaterialTheme.typography.subtitle1,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(start = MaterialTheme.space.smallMedium)
+                        )
                     }
                 }
             }
         }
     }
 }
+
+data class DailyWrapUpUnlockLimitDetailsData(
+    val unlockLimit: Int,
+    val suggestedUnlockLimit: Int?,
+    val isLimitSignificantlyExceeded: Boolean
+)

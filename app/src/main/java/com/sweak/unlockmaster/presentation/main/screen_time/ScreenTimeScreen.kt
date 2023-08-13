@@ -62,6 +62,7 @@ fun ScreenTimeScreen(
         AnimatedContent(
             targetState = screenTimeScreenState.isInitializing,
             contentAlignment = Alignment.Center,
+            label = "screenTimeScreenContentLoadingAnimation",
             modifier = Modifier.fillMaxWidth()
         ) { isInitializing ->
             if (!isInitializing) {

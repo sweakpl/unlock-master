@@ -105,6 +105,7 @@ fun HomeScreen(
         AnimatedContent(
             targetState = homeScreenState.isInitializing,
             contentAlignment = Alignment.Center,
+            label = "homeScreenContentLoadingAnimation",
             modifier = Modifier.fillMaxWidth()
         ) { isInitializing ->
             if (!isInitializing) {

@@ -54,6 +54,7 @@ import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpS
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenUnlocksDetailsCard
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenUnlocksDetailsData
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpUnlockLimitDetailsCard
+import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpUnlockLimitDetailsData
 import kotlinx.coroutines.launch
 
 @Composable
@@ -267,6 +268,12 @@ fun DailyWrapUpScreen(navController: NavController) {
                     )
 
                     DailyWrapUpUnlockLimitDetailsCard(
+                        detailsData = DailyWrapUpUnlockLimitDetailsData(
+                            unlockLimit = 30,
+                            suggestedUnlockLimit = 29,
+                            isLimitSignificantlyExceeded = false
+                        ),
+                        onInteraction = { /* TODO: update unlock limit */ },
                         modifier = Modifier
                             .padding(
                                 start = MaterialTheme.space.medium,
