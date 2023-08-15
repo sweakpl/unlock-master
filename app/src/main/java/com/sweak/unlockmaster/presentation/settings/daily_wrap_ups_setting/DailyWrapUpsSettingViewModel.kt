@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sweak.unlockmaster.domain.MINIMAL_DAILY_WRAP_UPS_NOTIFICATIONS_TIME_HOUR_OF_DAY
 import com.sweak.unlockmaster.domain.model.DailyWrapUpsNotificationsTime
 import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.GetDailyWrapUpsNotificationsTimeUseCase
 import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpsNotificationsUseCase
@@ -49,8 +50,16 @@ class DailyWrapUpsSettingViewModel @Inject constructor(
                 )
             }
             is DailyWrapUpsSettingScreenEvent.ConfirmNewSelectedDailyWrapUpsNotificationsTimeSetting -> {
+                val notificationHourOfDay = state.notificationHourOfDay
+
+                if (notificationHourOfDay != null &&
+                    notificationHourOfDay < MINIMAL_DAILY_WRAP_UPS_NOTIFICATIONS_TIME_HOUR_OF_DAY
+                ) {
+                    state = state.copy(isInvalidTimeSelectedDialogVisible = true)
+                    return
+                }
+
                 viewModelScope.launch {
-                    val notificationHourOfDay = state.notificationHourOfDay
                     val notificationMinute = state.notificationMinute
 
                     if (notificationHourOfDay != null && notificationMinute != null) {
@@ -64,6 +73,9 @@ class DailyWrapUpsSettingViewModel @Inject constructor(
                         notificationTimeSubmittedEventsChannel.send(NotificationTimeSubmittedEvent)
                     }
                 }
+            }
+            is DailyWrapUpsSettingScreenEvent.IsInvalidTimeSelectedDialogVisible -> {
+                state = state.copy(isInvalidTimeSelectedDialogVisible = event.isVisible)
             }
         }
     }

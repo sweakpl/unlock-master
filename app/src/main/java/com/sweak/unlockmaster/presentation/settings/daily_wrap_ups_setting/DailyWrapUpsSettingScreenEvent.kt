@@ -7,4 +7,7 @@ sealed class DailyWrapUpsSettingScreenEvent {
     ) : DailyWrapUpsSettingScreenEvent()
 
     object ConfirmNewSelectedDailyWrapUpsNotificationsTimeSetting : DailyWrapUpsSettingScreenEvent()
+
+    data class IsInvalidTimeSelectedDialogVisible(val isVisible: Boolean) :
+        DailyWrapUpsSettingScreenEvent()
 }
