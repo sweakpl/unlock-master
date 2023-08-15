@@ -11,7 +11,9 @@ import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.domain.MINIMAL_DAILY_WRAP_UPS_NOTIFICATIONS_TIME_HOUR_OF_DAY
 import com.sweak.unlockmaster.domain.repository.TimeRepository
+import com.sweak.unlockmaster.domain.toTimeInMillis
 import com.sweak.unlockmaster.presentation.MainActivity
 import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UPS_NOTIFICATIONS_CHANNEL_ID
 import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UP_NOTIFICATION_ID
@@ -19,6 +21,9 @@ import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UP_NOTIFIC
 import com.sweak.unlockmaster.presentation.background_work.EXTRA_DAILY_WRAP_UP_DAY_MILLIS
 import com.sweak.unlockmaster.presentation.background_work.EXTRA_SHOW_DAILY_WRAP_UP_SCREEN
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -40,15 +45,27 @@ class DailyWrapUpAlarmReceiver : BroadcastReceiver() {
     }
 
     private fun getDailyWrapUpNotification(context: Context): Notification {
+        val dailyWrapUpDateTime = ZonedDateTime.ofInstant(
+            Instant.ofEpochMilli(timeRepository.getCurrentTimeInMillis()),
+            ZoneId.systemDefault()
+        )
+
+        // We have to handle the case when the notification was e.g. scheduled for 23:50 and it was
+        // delayed until 0:05 - in this case we have to decrease the current time's day so that the
+        // time in millis passed as an intent extra is correctly interpreted in the daily wrap-up:
+        val dailyWrapUpDayTimeInMillis =
+            if (dailyWrapUpDateTime.hour < MINIMAL_DAILY_WRAP_UPS_NOTIFICATIONS_TIME_HOUR_OF_DAY) {
+                dailyWrapUpDateTime.minusDays(1).toTimeInMillis()
+            } else {
+                dailyWrapUpDateTime.toTimeInMillis()
+            }
+
         val dailyWrapUpNotificationPendingIntent = PendingIntent.getActivity(
             context,
             DAILY_WRAP_UP_NOTIFICATION_REQUEST_CODE,
             Intent(context, MainActivity::class.java).apply {
                 putExtra(EXTRA_SHOW_DAILY_WRAP_UP_SCREEN, true)
-                putExtra(
-                    EXTRA_DAILY_WRAP_UP_DAY_MILLIS,
-                    timeRepository.getCurrentTimeInMillis()
-                )
+                putExtra(EXTRA_DAILY_WRAP_UP_DAY_MILLIS, dailyWrapUpDayTimeInMillis)
             },
             PendingIntent.FLAG_UPDATE_CURRENT or
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
