@@ -94,8 +94,8 @@
     <string name="daily_wrapups_notifications_setting_description">As per your preference, these notifications will be displayed everyday at the time specified here:</string>
     <string name="daily_wrapup">Daily wrap-up</string>
     <string name="click_to_check_progress">Click to check your progress and set new goals with UnlockMaster!</string>
-    <string name="daily_wrapups_notifications_channel_title">Daily wrap-ups reminders</string>
-    <string name="daily_wrapups_notifications_channel_description">Display notifications reminding about daily wrap-up sessions</string>
+    <string name="daily_wrapup_notifications_channel_title">Daily wrap-up reminders</string>
+    <string name="daily_wrapup_notifications_channel_description">Display notifications reminding about daily wrap-up sessions</string>
     <string name="heres_how_you_did_today">Here\'s how you did today!</string>
     <string name="screen_unlocks_which_is">screen unlocks which is</string>
     <string name="more_than_yesterday_and">more than yesterday and</string>

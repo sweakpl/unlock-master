@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.settings.daily_wrap_ups_setting.components
+package com.sweak.unlockmaster.presentation.settings.daily_wrap_up_settings.components
 
 import android.annotation.SuppressLint
 import android.os.Build

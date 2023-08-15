@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.settings.daily_wrap_ups_setting
+package com.sweak.unlockmaster.presentation.settings.daily_wrap_up_settings
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -38,22 +38,22 @@ import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
-import com.sweak.unlockmaster.presentation.settings.daily_wrap_ups_setting.components.CardTimePicker
+import com.sweak.unlockmaster.presentation.settings.daily_wrap_up_settings.components.CardTimePicker
 
 @Composable
-fun DailyWrapUpsSettingScreen(
-    dailyWrapUpsSettingViewModel: DailyWrapUpsSettingViewModel = hiltViewModel(),
+fun DailyWrapUpSettingsScreen(
+    dailyWrapUpSettingsViewModel: DailyWrapUpSettingsViewModel = hiltViewModel(),
     navController: NavController
 ) {
     val context = LocalContext.current
 
     LaunchedEffect(key1 = context) {
-        dailyWrapUpsSettingViewModel.notificationTimeSubmittedEvents.collect {
+        dailyWrapUpSettingsViewModel.notificationTimeSubmittedEvents.collect {
             navController.popBackStack()
         }
     }
 
-    val dailyWrapUpsSettingScreenState = dailyWrapUpsSettingViewModel.state
+    val dailyWrapUpSettingsScreenState = dailyWrapUpSettingsViewModel.state
 
     Column(
         modifier = Modifier.background(color = MaterialTheme.colors.background)
@@ -121,15 +121,15 @@ fun DailyWrapUpsSettingScreen(
                         )
                 )
 
-                if (dailyWrapUpsSettingScreenState.notificationHourOfDay != null &&
-                    dailyWrapUpsSettingScreenState.notificationMinute != null
+                if (dailyWrapUpSettingsScreenState.notificationHourOfDay != null &&
+                    dailyWrapUpSettingsScreenState.notificationMinute != null
                 ) {
                     CardTimePicker(
-                        hourOfDay = dailyWrapUpsSettingScreenState.notificationHourOfDay,
-                        minute = dailyWrapUpsSettingScreenState.notificationMinute,
+                        hourOfDay = dailyWrapUpSettingsScreenState.notificationHourOfDay,
+                        minute = dailyWrapUpSettingsScreenState.notificationMinute,
                         onTimeChanged = { hourOfDay, minute ->
-                            dailyWrapUpsSettingViewModel.onEvent(
-                                DailyWrapUpsSettingScreenEvent.SelectNewDailyWrapUpsSettingNotificationsTime(
+                            dailyWrapUpSettingsViewModel.onEvent(
+                                DailyWrapUpSettingsScreenEvent.SelectNewDailyWrapUpSettingsNotificationsTime(
                                     newNotificationHourOfDay = hourOfDay,
                                     newNotificationMinute = minute
                                 )
@@ -185,8 +185,8 @@ fun DailyWrapUpsSettingScreen(
             ProceedButton(
                 text = stringResource(R.string.confirm),
                 onClick = {
-                    dailyWrapUpsSettingViewModel.onEvent(
-                        DailyWrapUpsSettingScreenEvent.ConfirmNewSelectedDailyWrapUpsNotificationsTimeSetting
+                    dailyWrapUpSettingsViewModel.onEvent(
+                        DailyWrapUpSettingsScreenEvent.ConfirmNewSelectedDailyWrapUpSettings
                     )
                 },
                 modifier = Modifier.padding(all = MaterialTheme.space.medium)
@@ -194,22 +194,22 @@ fun DailyWrapUpsSettingScreen(
         }
     }
 
-    if (dailyWrapUpsSettingScreenState.isInvalidTimeSelectedDialogVisible) {
+    if (dailyWrapUpSettingsScreenState.isInvalidTimeSelectedDialogVisible) {
         Dialog(
             title = stringResource(R.string.invalid_time_selected),
             message = stringResource(
                 R.string.daily_wrap_up_notifications_can_only_be_delivered_between
             ),
             onDismissRequest = {
-                dailyWrapUpsSettingViewModel.onEvent(
-                    DailyWrapUpsSettingScreenEvent.IsInvalidTimeSelectedDialogVisible(
+                dailyWrapUpSettingsViewModel.onEvent(
+                    DailyWrapUpSettingsScreenEvent.IsInvalidTimeSelectedDialogVisible(
                         isVisible = false
                     )
                 )
             },
             onPositiveClick = {
-                dailyWrapUpsSettingViewModel.onEvent(
-                    DailyWrapUpsSettingScreenEvent.IsInvalidTimeSelectedDialogVisible(
+                dailyWrapUpSettingsViewModel.onEvent(
+                    DailyWrapUpSettingsScreenEvent.IsInvalidTimeSelectedDialogVisible(
                         isVisible = false
                     )
                 )

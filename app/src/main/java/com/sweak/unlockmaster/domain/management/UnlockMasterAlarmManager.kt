@@ -1,9 +1,9 @@
 package com.sweak.unlockmaster.domain.management
 
-import com.sweak.unlockmaster.domain.model.DailyWrapUpsNotificationsTime
+import com.sweak.unlockmaster.domain.model.DailyWrapUpNotificationsTime
 
 interface UnlockMasterAlarmManager {
-    fun scheduleNewDailyWrapUpsNotifications(
-        dailyWrapUpsNotificationsTime: DailyWrapUpsNotificationsTime
+    fun scheduleNewDailyWrapUpNotifications(
+        dailyWrapUpNotificationsTime: DailyWrapUpNotificationsTime
     )
 }

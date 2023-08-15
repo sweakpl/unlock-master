@@ -51,13 +51,13 @@ class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepos
                 ?: DEFAULT_MOBILIZING_NOTIFICATIONS_FREQUENCY_PERCENTAGE
         }.first()
 
-    override suspend fun setDailyWrapUpsNotificationsTimeInMinutesAfterMidnight(minutes: Int) {
+    override suspend fun setDailyWrapUpNotificationsTimeInMinutesAfterMidnight(minutes: Int) {
         context.dataStore.edit { preferences ->
             preferences[DAILY_WRAP_UP_NOTIFICATIONS_TIME_IN_MINUTES_PAST_MIDNIGHT] = minutes
         }
     }
 
-    override suspend fun getDailyWrapUpsNotificationsTimeInMinutesAfterMidnight(): Int =
+    override suspend fun getDailyWrapUpNotificationsTimeInMinutesAfterMidnight(): Int =
         context.dataStore.data.map { preferences ->
             preferences[DAILY_WRAP_UP_NOTIFICATIONS_TIME_IN_MINUTES_PAST_MIDNIGHT]
                 ?: DEFAULT_DAILY_WRAP_UPS_NOTIFICATIONS_TIME_IN_MINUTES_PAST_MIDNIGHT

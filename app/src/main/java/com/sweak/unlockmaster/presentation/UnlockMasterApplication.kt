@@ -11,7 +11,7 @@ import android.provider.Settings
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
-import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpsNotificationsUseCase
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpNotificationsUseCase
 import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UPS_NOTIFICATIONS_CHANNEL_ID
 import com.sweak.unlockmaster.presentation.background_work.FOREGROUND_SERVICE_NOTIFICATION_CHANNEL_ID
 import com.sweak.unlockmaster.presentation.background_work.MOBILIZING_NOTIFICATION_CHANNEL_ID
@@ -30,7 +30,7 @@ class UnlockMasterApplication : Application() {
     lateinit var userSessionRepository: UserSessionRepository
 
     @Inject
-    lateinit var scheduleDailyWrapUpsNotificationsUseCase: ScheduleDailyWrapUpsNotificationsUseCase
+    lateinit var scheduleDailyWrapUpNotificationsUseCase: ScheduleDailyWrapUpNotificationsUseCase
 
     override fun onCreate() {
         super.onCreate()
@@ -65,9 +65,9 @@ class UnlockMasterApplication : Application() {
                 description = getString(R.string.mobilizing_notifications_channel_description)
             }
 
-            val dailyWrapUpsNotificationsChannel = NotificationChannel(
+            val dailyWrapUpNotificationsChannel = NotificationChannel(
                 DAILY_WRAP_UPS_NOTIFICATIONS_CHANNEL_ID,
-                getString(R.string.daily_wrapups_notifications_channel_title),
+                getString(R.string.daily_wrapup_notifications_channel_title),
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 setSound(
@@ -77,7 +77,7 @@ class UnlockMasterApplication : Application() {
                         .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                         .build()
                 )
-                description = getString(R.string.daily_wrapups_notifications_channel_description)
+                description = getString(R.string.daily_wrapup_notifications_channel_description)
                 enableLights(true)
                 lightColor = Color.GREEN
             }
@@ -85,7 +85,7 @@ class UnlockMasterApplication : Application() {
             notificationManager.apply {
                 createNotificationChannel(foregroundServiceNotificationChannel)
                 createNotificationChannel(mobilizingNotificationsChannel)
-                createNotificationChannel(dailyWrapUpsNotificationsChannel)
+                createNotificationChannel(dailyWrapUpNotificationsChannel)
             }
         }
     }
@@ -102,7 +102,7 @@ class UnlockMasterApplication : Application() {
                     startService(serviceIntent)
                 }
 
-                scheduleDailyWrapUpsNotificationsUseCase()
+                scheduleDailyWrapUpNotificationsUseCase()
             }
         }
     }

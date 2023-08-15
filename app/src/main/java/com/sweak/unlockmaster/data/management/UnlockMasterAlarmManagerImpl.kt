@@ -6,7 +6,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
 import com.sweak.unlockmaster.domain.management.UnlockMasterAlarmManager
-import com.sweak.unlockmaster.domain.model.DailyWrapUpsNotificationsTime
+import com.sweak.unlockmaster.domain.model.DailyWrapUpNotificationsTime
 import com.sweak.unlockmaster.domain.repository.TimeRepository
 import javax.inject.Inject
 import javax.inject.Named
@@ -18,8 +18,8 @@ class UnlockMasterAlarmManagerImpl @Inject constructor(
     private val application: Application
 ) : UnlockMasterAlarmManager {
 
-    override fun scheduleNewDailyWrapUpsNotifications(
-        dailyWrapUpsNotificationsTime: DailyWrapUpsNotificationsTime
+    override fun scheduleNewDailyWrapUpNotifications(
+        dailyWrapUpNotificationsTime: DailyWrapUpNotificationsTime
     ) {
         val alarmPendingIntent = PendingIntent.getBroadcast(
             application.applicationContext,
@@ -34,8 +34,8 @@ class UnlockMasterAlarmManagerImpl @Inject constructor(
         alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
             timeRepository.getFutureTimeInMillisOfSpecifiedHourOfDayAndMinute(
-                dailyWrapUpsNotificationsTime.hourOfDay,
-                dailyWrapUpsNotificationsTime.minute
+                dailyWrapUpNotificationsTime.hourOfDay,
+                dailyWrapUpNotificationsTime.minute
             ),
             AlarmManager.INTERVAL_DAY,
             alarmPendingIntent

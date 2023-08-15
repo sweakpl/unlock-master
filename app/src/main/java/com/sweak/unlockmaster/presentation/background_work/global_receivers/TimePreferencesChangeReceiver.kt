@@ -3,7 +3,7 @@ package com.sweak.unlockmaster.presentation.background_work.global_receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpsNotificationsUseCase
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpNotificationsUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -12,7 +12,7 @@ import javax.inject.Inject
 class TimePreferencesChangeReceiver : BroadcastReceiver() {
 
     @Inject
-    lateinit var scheduleDailyWrapUpsNotificationsUseCase: ScheduleDailyWrapUpsNotificationsUseCase
+    lateinit var scheduleDailyWrapUpNotificationsUseCase: ScheduleDailyWrapUpNotificationsUseCase
 
     private val intentActionsToFilter = listOf(
         Intent.ACTION_TIME_CHANGED,
@@ -23,7 +23,7 @@ class TimePreferencesChangeReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action in intentActionsToFilter) {
             runBlocking {
-                scheduleDailyWrapUpsNotificationsUseCase()
+                scheduleDailyWrapUpNotificationsUseCase()
             }
         }
     }

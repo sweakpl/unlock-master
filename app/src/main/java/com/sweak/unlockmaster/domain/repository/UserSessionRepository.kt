@@ -7,6 +7,6 @@ interface UserSessionRepository {
     suspend fun isUnlockCounterPaused(): Boolean
     suspend fun setMobilizingNotificationsFrequencyPercentage(percentage: Int)
     suspend fun getMobilizingNotificationsFrequencyPercentage(): Int
-    suspend fun setDailyWrapUpsNotificationsTimeInMinutesAfterMidnight(minutes: Int)
-    suspend fun getDailyWrapUpsNotificationsTimeInMinutesAfterMidnight(): Int
+    suspend fun setDailyWrapUpNotificationsTimeInMinutesAfterMidnight(minutes: Int)
+    suspend fun getDailyWrapUpNotificationsTimeInMinutesAfterMidnight(): Int
 }

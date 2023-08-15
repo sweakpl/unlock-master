@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.settings.daily_wrap_ups_setting
+package com.sweak.unlockmaster.presentation.settings.daily_wrap_up_settings
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -6,10 +6,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sweak.unlockmaster.domain.MINIMAL_DAILY_WRAP_UPS_NOTIFICATIONS_TIME_HOUR_OF_DAY
-import com.sweak.unlockmaster.domain.model.DailyWrapUpsNotificationsTime
-import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.GetDailyWrapUpsNotificationsTimeUseCase
-import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpsNotificationsUseCase
-import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.SetDailyWrapUpsNotificationsTimeUseCase
+import com.sweak.unlockmaster.domain.model.DailyWrapUpNotificationsTime
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.GetDailyWrapUpNotificationsTimeUseCase
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpNotificationsUseCase
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.SetDailyWrapUpNotificationsTimeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -17,13 +17,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DailyWrapUpsSettingViewModel @Inject constructor(
-    private val getDailyWrapUpsNotificationsTimeUseCase: GetDailyWrapUpsNotificationsTimeUseCase,
-    private val setDailyWrapUpsNotificationsTimeUseCase: SetDailyWrapUpsNotificationsTimeUseCase,
-    private val scheduleDailyWrapUpsNotificationsUseCase: ScheduleDailyWrapUpsNotificationsUseCase
+class DailyWrapUpSettingsViewModel @Inject constructor(
+    private val getDailyWrapUpNotificationsTimeUseCase: GetDailyWrapUpNotificationsTimeUseCase,
+    private val setDailyWrapUpNotificationsTimeUseCase: SetDailyWrapUpNotificationsTimeUseCase,
+    private val scheduleDailyWrapUpNotificationsUseCase: ScheduleDailyWrapUpNotificationsUseCase
 ) : ViewModel() {
 
-    var state by mutableStateOf(DailyWrapUpsSettingScreenState())
+    var state by mutableStateOf(DailyWrapUpSettingsScreenState())
 
     private val notificationTimeSubmittedEventsChannel =
         Channel<NotificationTimeSubmittedEvent>()
@@ -32,24 +32,24 @@ class DailyWrapUpsSettingViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val dailyWrapUpsNotificationsTime = getDailyWrapUpsNotificationsTimeUseCase()
+            val dailyWrapUpNotificationsTime = getDailyWrapUpNotificationsTimeUseCase()
 
             state = state.copy(
-                notificationHourOfDay = dailyWrapUpsNotificationsTime.hourOfDay,
-                notificationMinute = dailyWrapUpsNotificationsTime.minute
+                notificationHourOfDay = dailyWrapUpNotificationsTime.hourOfDay,
+                notificationMinute = dailyWrapUpNotificationsTime.minute
             )
         }
     }
 
-    fun onEvent(event: DailyWrapUpsSettingScreenEvent) {
+    fun onEvent(event: DailyWrapUpSettingsScreenEvent) {
         when (event) {
-            is DailyWrapUpsSettingScreenEvent.SelectNewDailyWrapUpsSettingNotificationsTime -> {
+            is DailyWrapUpSettingsScreenEvent.SelectNewDailyWrapUpSettingsNotificationsTime -> {
                 state = state.copy(
                     notificationHourOfDay = event.newNotificationHourOfDay,
                     notificationMinute = event.newNotificationMinute,
                 )
             }
-            is DailyWrapUpsSettingScreenEvent.ConfirmNewSelectedDailyWrapUpsNotificationsTimeSetting -> {
+            is DailyWrapUpSettingsScreenEvent.ConfirmNewSelectedDailyWrapUpSettings -> {
                 val notificationHourOfDay = state.notificationHourOfDay
 
                 if (notificationHourOfDay != null &&
@@ -63,18 +63,18 @@ class DailyWrapUpsSettingViewModel @Inject constructor(
                     val notificationMinute = state.notificationMinute
 
                     if (notificationHourOfDay != null && notificationMinute != null) {
-                        setDailyWrapUpsNotificationsTimeUseCase(
-                            DailyWrapUpsNotificationsTime(
+                        setDailyWrapUpNotificationsTimeUseCase(
+                            DailyWrapUpNotificationsTime(
                                 notificationHourOfDay,
                                 notificationMinute
                             )
                         )
-                        scheduleDailyWrapUpsNotificationsUseCase()
+                        scheduleDailyWrapUpNotificationsUseCase()
                         notificationTimeSubmittedEventsChannel.send(NotificationTimeSubmittedEvent)
                     }
                 }
             }
-            is DailyWrapUpsSettingScreenEvent.IsInvalidTimeSelectedDialogVisible -> {
+            is DailyWrapUpSettingsScreenEvent.IsInvalidTimeSelectedDialogVisible -> {
                 state = state.copy(isInvalidTimeSelectedDialogVisible = event.isVisible)
             }
         }

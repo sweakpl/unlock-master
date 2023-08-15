@@ -12,7 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
-import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpsNotificationsUseCase
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpNotificationsUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.AddScreenOnEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
 import com.sweak.unlockmaster.presentation.background_work.EXTRA_DAILY_WRAP_UP_DAY_MILLIS
@@ -31,7 +31,7 @@ import com.sweak.unlockmaster.presentation.main.home.HomeScreen
 import com.sweak.unlockmaster.presentation.main.screen_time.ScreenTimeScreen
 import com.sweak.unlockmaster.presentation.main.statistics.StatisticsScreen
 import com.sweak.unlockmaster.presentation.settings.SettingsScreen
-import com.sweak.unlockmaster.presentation.settings.daily_wrap_ups_setting.DailyWrapUpsSettingScreen
+import com.sweak.unlockmaster.presentation.settings.daily_wrap_up_settings.DailyWrapUpSettingsScreen
 import com.sweak.unlockmaster.presentation.settings.mobilizing_notifications.MobilizingNotificationsScreen
 import com.sweak.unlockmaster.presentation.background_work.UnlockMasterService
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_DAILY_WRAP_UP_DAY_MILLIS
@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
     lateinit var addScreenOnEventUseCase: AddScreenOnEventUseCase
 
     @Inject
-    lateinit var scheduleDailyWrapUpsNotificationsUseCase: ScheduleDailyWrapUpsNotificationsUseCase
+    lateinit var scheduleDailyWrapUpNotificationsUseCase: ScheduleDailyWrapUpNotificationsUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,7 +144,7 @@ class MainActivity : ComponentActivity() {
 
                                     userSessionRepository.setIntroductionFinished()
                                     startUnlockMasterService()
-                                    scheduleDailyWrapUpsNotificationsUseCase()
+                                    scheduleDailyWrapUpNotificationsUseCase()
                                 }
                             },
                             isLaunchedFromSettings =
@@ -190,8 +190,8 @@ class MainActivity : ComponentActivity() {
                         MobilizingNotificationsScreen(navController = navController)
                     }
 
-                    composable(route = Screen.DailyWrapUpsSettingScreen.route) {
-                        DailyWrapUpsSettingScreen(navController = navController)
+                    composable(route = Screen.DailyWrapUpSettingsScreen.route) {
+                        DailyWrapUpSettingsScreen(navController = navController)
                     }
 
                     composable(
