@@ -245,7 +245,9 @@ fun WorkInBackgroundScreen(
                                         Icons.Outlined.NavigateNext
                                     else Icons.Filled.Done,
                                     contentDescription = stringResource(
-                                        R.string.content_description_next_icon
+                                        if (notificationsPermissionState.status !is PermissionStatus.Granted)
+                                            R.string.content_description_next_icon
+                                        else R.string.content_description_done_icon
                                     ),
                                     modifier = Modifier.size(size = MaterialTheme.space.large)
                                 )

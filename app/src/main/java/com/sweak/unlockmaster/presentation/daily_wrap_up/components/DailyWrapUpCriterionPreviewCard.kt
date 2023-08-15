@@ -28,13 +28,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.sweak.unlockmaster.R
-import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.common.util.Duration
 import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
-import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType.*
+import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType.Progress
+import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType.ScreenOnEvents
+import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType.ScreenTime
+import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType.ScreenUnlocks
+import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType.UnlockLimit
 
 @Composable
 fun DailyWrapUpCriterionPreviewCard(
@@ -201,57 +203,5 @@ sealed class DailyWrapUpCriterionPreviewType {
 
     enum class Progress {
         IMPROVEMENT, REGRESS, STABLE
-    }
-}
-
-@Preview
-@Composable
-fun DailyWrapUpCriteriaPreviewCardPreview() {
-    UnlockMasterTheme {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(MaterialTheme.space.medium),
-            modifier = Modifier
-                .padding(
-                    start = MaterialTheme.space.medium,
-                    top = MaterialTheme.space.medium,
-                    end = MaterialTheme.space.medium,
-                    bottom = MaterialTheme.space.large
-                )
-                .fillMaxWidth()
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.space.medium)
-            ) {
-                DailyWrapUpCriterionPreviewCard(
-                    ScreenUnlocks(21, Progress.REGRESS),
-                    {},
-                    Modifier.weight(1f)
-                )
-
-                DailyWrapUpCriterionPreviewCard(
-                    ScreenTime(
-                        Duration(4500000, Duration.DisplayPrecision.MINUTES),
-                        Progress.IMPROVEMENT
-                    ),
-                    {},
-                    Modifier.weight(1f)
-                )
-            }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.space.medium)
-            ) {
-                DailyWrapUpCriterionPreviewCard(
-                    UnlockLimit(30, true),
-                    {},
-                    Modifier.weight(1f)
-                )
-
-                DailyWrapUpCriterionPreviewCard(
-                    ScreenOnEvents(49, Progress.STABLE),
-                    {},
-                    Modifier.weight(1f)
-                )
-            }
-        }
     }
 }

@@ -126,6 +126,7 @@
     <string name="you_ve_not_discovered_full_daily_wrap_up">Hey, you’ve not discovered everything that daily wrap-up has to offer! Keep using UnlockMaster to get new insights!</string>
     <string name="daily_wrap_up_notifications_can_only_be_delivered_between">Daily wrap-up notifications can only be delivered between 20:00 and 23:59 (8:00 PM and 11:59 PM).</string>
     <string name="invalid_time_selected">Invalid time selected</string>
+    <string name="done">Done</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>
@@ -160,4 +161,5 @@
     <string name="content_description_auto_change_icon">Magic wand icon indicating automatic change</string>
     <string name="content_description_tips_icon">Light bulb with sparks icon indicating tips</string>
     <string name="content_description_warning_icon">Warning triangle icon</string>
+    <string name="content_description_done_icon">Positive tick icon</string>
 </resources>

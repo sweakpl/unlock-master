@@ -29,7 +29,6 @@ import androidx.compose.material.icons.outlined.TipsAndUpdates
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -39,33 +38,27 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
-import com.sweak.unlockmaster.presentation.common.util.Duration
 import com.sweak.unlockmaster.presentation.common.util.getFullDateString
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewCard
-import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenOnEventsDetailsCard
-import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenOnEventsDetailsData
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenTimeDetailsCard
-import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenTimeDetailsData
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenUnlocksDetailsCard
-import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenUnlocksDetailsData
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpUnlockLimitDetailsCard
-import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpUnlockLimitDetailsData
 import kotlinx.coroutines.launch
 
 @Composable
 fun DailyWrapUpScreen(
     navController: NavController,
-    dailyWrapUpDayTimeInMillis: Long
+    dailyWrapUpDayTimeInMillis: Long,
+    dailyWrapUpViewModel: DailyWrapUpViewModel = hiltViewModel()
 ) {
-    val isInitializing by remember { mutableStateOf(false) }
-    var isScreenOnEventsInformationDialogVisible by remember { mutableStateOf(false) }
-    val hasUserDiscoveredAllDailyWrapUpFeatures = false
+    val dailyWrapUpScreenState = dailyWrapUpViewModel.state
 
     Column(
         modifier = Modifier
@@ -102,7 +95,7 @@ fun DailyWrapUpScreen(
         }
 
         AnimatedContent(
-            targetState = isInitializing,
+            targetState = dailyWrapUpScreenState.isInitializing,
             contentAlignment = Alignment.Center,
             label = "dailyWrapUpLoadingAnimation",
             modifier = Modifier.fillMaxWidth()
@@ -168,10 +161,7 @@ fun DailyWrapUpScreen(
                         ) {
                             DailyWrapUpCriterionPreviewCard(
                                 dailyWrapUpCriterionPreviewType =
-                                DailyWrapUpCriterionPreviewType.ScreenUnlocks(
-                                    21,
-                                    DailyWrapUpCriterionPreviewType.Progress.REGRESS
-                                ),
+                                dailyWrapUpScreenState.screenUnlocksPreviewData!!,
                                 onClick = {
                                     scrollScope.launch {
                                         scrollState.animateScrollBy(
@@ -184,10 +174,7 @@ fun DailyWrapUpScreen(
 
                             DailyWrapUpCriterionPreviewCard(
                                 dailyWrapUpCriterionPreviewType =
-                                DailyWrapUpCriterionPreviewType.ScreenTime(
-                                    Duration(4500000, Duration.DisplayPrecision.MINUTES),
-                                    DailyWrapUpCriterionPreviewType.Progress.IMPROVEMENT
-                                ),
+                                dailyWrapUpScreenState.screenTimePreviewData!!,
                                 onClick = {
                                     scrollScope.launch {
                                         scrollState.animateScrollBy(
@@ -204,7 +191,7 @@ fun DailyWrapUpScreen(
                         ) {
                             DailyWrapUpCriterionPreviewCard(
                                 dailyWrapUpCriterionPreviewType =
-                                DailyWrapUpCriterionPreviewType.UnlockLimit(30, true),
+                                dailyWrapUpScreenState.unlockLimitPreviewData!!,
                                 onClick = {
                                     scrollScope.launch {
                                         scrollState.animateScrollBy(
@@ -217,10 +204,7 @@ fun DailyWrapUpScreen(
 
                             DailyWrapUpCriterionPreviewCard(
                                 dailyWrapUpCriterionPreviewType =
-                                DailyWrapUpCriterionPreviewType.ScreenOnEvents(
-                                    49,
-                                    DailyWrapUpCriterionPreviewType.Progress.STABLE
-                                ),
+                                dailyWrapUpScreenState.screenOnEventsPreviewData!!,
                                 onClick = {
                                     scrollScope.launch {
                                         scrollState.animateScrollBy(
@@ -234,11 +218,7 @@ fun DailyWrapUpScreen(
                     }
 
                     DailyWrapUpScreenUnlocksDetailsCard(
-                        detailsData = DailyWrapUpScreenUnlocksDetailsData(
-                            screenUnlocksCount = 21,
-                            yesterdayDifference = 3,
-                            weekBeforeDifference = -1
-                        ),
+                        detailsData = dailyWrapUpScreenState.screenUnlocksDetailsData!!,
                         onInteraction = {
                             navController.navigate(Screen.StatisticsScreen.route)
                         },
@@ -255,20 +235,7 @@ fun DailyWrapUpScreen(
                     )
 
                     DailyWrapUpScreenTimeDetailsCard(
-                        detailsData = DailyWrapUpScreenTimeDetailsData(
-                            screenTimeDuration = Duration(
-                                4500000,
-                                Duration.DisplayPrecision.MINUTES
-                            ),
-                            yesterdayDifference = Duration(
-                                -780000,
-                                Duration.DisplayPrecision.MINUTES
-                            ),
-                            weekBeforeDifference = Duration(
-                                420000,
-                                Duration.DisplayPrecision.MINUTES
-                            )
-                        ),
+                        detailsData = dailyWrapUpScreenState.screenTimeDetailsData!!,
                         onInteraction = {
                             navController.navigate(
                                 Screen.ScreenTimeScreen.withArguments(
@@ -289,12 +256,12 @@ fun DailyWrapUpScreen(
                     )
 
                     DailyWrapUpUnlockLimitDetailsCard(
-                        detailsData = DailyWrapUpUnlockLimitDetailsData(
-                            unlockLimit = 30,
-                            suggestedUnlockLimit = 29,
-                            isLimitSignificantlyExceeded = false
-                        ),
-                        onInteraction = { /* TODO: update unlock limit */ },
+                        detailsData = dailyWrapUpScreenState.unlockLimitDetailsData!!,
+                        onInteraction = {
+                            dailyWrapUpViewModel.onEvent(
+                                DailyWrapUpScreenEvent.ApplySuggestedUnlockLimit
+                            )
+                        },
                         modifier = Modifier
                             .padding(
                                 start = MaterialTheme.space.medium,
@@ -308,13 +275,14 @@ fun DailyWrapUpScreen(
                     )
 
                     DailyWrapUpScreenOnEventsDetailsCard(
-                        detailsData = DailyWrapUpScreenOnEventsDetailsData(
-                            screenOnEventsCount = 49,
-                            yesterdayDifference = 0,
-                            weekBeforeDifference = -3,
-                            isManyMoreScreenOnEventsThanUnlocks = false
-                        ),
-                        onInteraction = { isScreenOnEventsInformationDialogVisible = true },
+                        detailsData = dailyWrapUpScreenState.screenOnEventsDetailsData!!,
+                        onInteraction = {
+                            dailyWrapUpViewModel.onEvent(
+                                DailyWrapUpScreenEvent.ScreenOnEventsInformationDialogVisible(
+                                    isVisible = true
+                                )
+                            )
+                        },
                         modifier = Modifier
                             .padding(
                                 start = MaterialTheme.space.medium,
@@ -327,7 +295,7 @@ fun DailyWrapUpScreen(
                             }
                     )
 
-                    if (hasUserDiscoveredAllDailyWrapUpFeatures) {
+                    if (dailyWrapUpScreenState.haveAllDailyWrapUpFeaturesBeenDiscovered) {
                         Card(
                             elevation = MaterialTheme.space.xSmall,
                             modifier = Modifier
@@ -376,12 +344,24 @@ fun DailyWrapUpScreen(
         }
     }
 
-    if (isScreenOnEventsInformationDialogVisible) {
+    if (dailyWrapUpScreenState.isScreenOnEventsInformationDialogVisible) {
         Dialog(
             title = stringResource(R.string.screen_on_events),
             message = stringResource(R.string.screen_on_event_description),
-            onDismissRequest = { isScreenOnEventsInformationDialogVisible = false },
-            onPositiveClick = { isScreenOnEventsInformationDialogVisible = false },
+            onDismissRequest = {
+                dailyWrapUpViewModel.onEvent(
+                    DailyWrapUpScreenEvent.ScreenOnEventsInformationDialogVisible(
+                        isVisible = false
+                    )
+                )
+            },
+            onPositiveClick = {
+                dailyWrapUpViewModel.onEvent(
+                    DailyWrapUpScreenEvent.ScreenOnEventsInformationDialogVisible(
+                        isVisible = false
+                    )
+                )
+            },
             positiveButtonText = stringResource(R.string.ok)
         )
     }

@@ -1,7 +1,9 @@
 package com.sweak.unlockmaster.presentation.daily_wrap_up.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
@@ -10,6 +12,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.NavigateNext
 import androidx.compose.material.icons.outlined.TipsAndUpdates
 import androidx.compose.material.icons.outlined.WarningAmber
@@ -98,20 +101,50 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                                 .padding(horizontal = MaterialTheme.space.smallMedium)
                         )
 
-                        Button(onClick = onInteraction) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text(
-                                    text = stringResource(R.string.update),
-                                    style = MaterialTheme.typography.subtitle1,
-                                    modifier = Modifier.padding(end = MaterialTheme.space.small)
-                                )
-
-                                Icon(
-                                    imageVector = Icons.Outlined.NavigateNext,
-                                    contentDescription = stringResource(
-                                        R.string.content_description_next_icon
+                        AnimatedContent(
+                            targetState = detailsData.isSuggestedUnlockLimitApplied,
+                            label = "applySuggestedUnlockLimitAnimation"
+                        ) {
+                            if (it) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier
+                                        .height(MaterialTheme.space.run { large + small })
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.done),
+                                        style = MaterialTheme.typography.subtitle1,
+                                        modifier = Modifier.padding(end = MaterialTheme.space.small)
                                     )
-                                )
+
+                                    Icon(
+                                        imageVector = Icons.Outlined.Done,
+                                        contentDescription = stringResource(
+                                            R.string.content_description_done_icon
+                                        )
+                                    )
+                                }
+                            } else {
+                                Button(
+                                    onClick = onInteraction,
+                                    modifier = Modifier
+                                        .height(MaterialTheme.space.run { large + small })
+                                ) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Text(
+                                            text = stringResource(R.string.update),
+                                            style = MaterialTheme.typography.subtitle1,
+                                            modifier = Modifier.padding(end = MaterialTheme.space.small)
+                                        )
+
+                                        Icon(
+                                            imageVector = Icons.Outlined.NavigateNext,
+                                            contentDescription = stringResource(
+                                                R.string.content_description_next_icon
+                                            )
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
@@ -183,5 +216,6 @@ fun DailyWrapUpUnlockLimitDetailsCard(
 data class DailyWrapUpUnlockLimitDetailsData(
     val unlockLimit: Int,
     val suggestedUnlockLimit: Int?,
+    val isSuggestedUnlockLimitApplied: Boolean,
     val isLimitSignificantlyExceeded: Boolean
 )
