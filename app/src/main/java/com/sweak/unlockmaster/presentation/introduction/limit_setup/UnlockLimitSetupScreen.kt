@@ -259,9 +259,7 @@ fun UnlockLimitSetupScreen(
                 text = stringResource(R.string.confirm),
                 onClick = {
                     unlockLimitSetupViewModel.onEvent(
-                        UnlockLimitSetupScreenEvent.SubmitSelectedUnlockLimit(
-                            isUpdating = isUpdatingExistingUnlockLimit
-                        )
+                        UnlockLimitSetupScreenEvent.SubmitSelectedUnlockLimit
                     )
                 },
                 modifier = Modifier.padding(all = MaterialTheme.space.medium)

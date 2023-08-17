@@ -146,8 +146,8 @@ fun DailyWrapUpCriterionPreviewCard(
                             .size(size = MaterialTheme.space.mediumLarge)
                             .rotate(
                                 when (progress) {
-                                    Progress.IMPROVEMENT -> -90f
-                                    Progress.REGRESS -> 90f
+                                    Progress.IMPROVEMENT -> 90f
+                                    Progress.REGRESS -> -90f
                                     else -> 0f
                                 }
                             )

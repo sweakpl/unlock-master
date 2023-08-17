@@ -64,10 +64,7 @@ class DailyWrapUpSettingsViewModel @Inject constructor(
 
                     if (notificationHourOfDay != null && notificationMinute != null) {
                         setDailyWrapUpNotificationsTimeUseCase(
-                            DailyWrapUpNotificationsTime(
-                                notificationHourOfDay,
-                                notificationMinute
-                            )
+                            DailyWrapUpNotificationsTime(notificationHourOfDay, notificationMinute)
                         )
                         scheduleDailyWrapUpNotificationsUseCase()
                         notificationTimeSubmittedEventsChannel.send(NotificationTimeSubmittedEvent)

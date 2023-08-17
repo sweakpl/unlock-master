@@ -44,7 +44,7 @@ fun ScreenTimeScreen(
     displayedScreenTimeDayTimeInMillis: Long
 ) {
     OnResume {
-        screenTimeViewModel.refresh(displayedScreenTimeDayTimeInMillis)
+        screenTimeViewModel.refresh()
     }
 
     val screenTimeScreenState = screenTimeViewModel.state

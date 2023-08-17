@@ -295,7 +295,7 @@ fun DailyWrapUpScreen(
                             }
                     )
 
-                    if (dailyWrapUpScreenState.haveAllDailyWrapUpFeaturesBeenDiscovered) {
+                    if (!dailyWrapUpScreenState.haveAllDailyWrapUpFeaturesBeenDiscovered) {
                         Card(
                             elevation = MaterialTheme.space.xSmall,
                             modifier = Modifier

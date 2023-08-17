@@ -3,9 +3,11 @@ package com.sweak.unlockmaster.presentation.introduction.limit_setup
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.*
+import com.sweak.unlockmaster.presentation.common.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -14,6 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UnlockLimitSetupViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val addOrUpdateUnlockLimitForTodayUseCase: AddOrUpdateUnlockLimitForTodayUseCase,
     private val addOrUpdateUnlockLimitForTomorrowUseCase: AddOrUpdateUnlockLimitForTomorrowUseCase,
     private val getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase,
@@ -21,6 +24,9 @@ class UnlockLimitSetupViewModel @Inject constructor(
     private val getAvailableUnlockLimitRangeUseCase: GetAvailableUnlockLimitRangeUseCase,
     private val deleteUnlockLimitForTomorrowUseCase: DeleteUnlockLimitForTomorrowUseCase
 ) : ViewModel() {
+
+    private val isUpdatingExistingUnlockLimit: Boolean =
+        checkNotNull(savedStateHandle[Screen.KEY_IS_UPDATING_EXISTING_UNLOCK_LIMIT])
 
     var state by mutableStateOf(UnlockLimitSetupScreenState())
 
@@ -52,7 +58,7 @@ class UnlockLimitSetupViewModel @Inject constructor(
             is UnlockLimitSetupScreenEvent.SubmitSelectedUnlockLimit -> {
                 state.pickedUnlockLimit?.let {
                     viewModelScope.launch {
-                        if (event.isUpdating) {
+                        if (isUpdatingExistingUnlockLimit) {
                             addOrUpdateUnlockLimitForTomorrowUseCase(limitAmount = it)
                             unlockLimitSubmittedEventsChannel.send(UnlockLimitSubmittedEvent)
                         } else {
