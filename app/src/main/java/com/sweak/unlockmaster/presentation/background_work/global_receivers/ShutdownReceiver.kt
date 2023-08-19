@@ -1,8 +1,10 @@
 package com.sweak.unlockmaster.presentation.background_work.global_receivers
 
+import android.app.KeyguardManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.sweak.unlockmaster.domain.use_case.counter_pause.IsUnlockCounterPausedUseCase
 import com.sweak.unlockmaster.domain.use_case.lock_events.AddLockEventUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
@@ -14,6 +16,12 @@ class ShutdownReceiver : BroadcastReceiver() {
     @Inject
     lateinit var addLockEventUseCase: AddLockEventUseCase
 
+    @Inject
+    lateinit var isUnlockCounterPausedUSeCase: IsUnlockCounterPausedUseCase
+
+    @Inject
+    lateinit var keyguardManager: KeyguardManager
+
     private val intentActionsToFilter = listOf(
         "android.intent.action.ACTION_SHUTDOWN",
         "android.intent.action.QUICKBOOT_POWEROFF"
@@ -21,7 +29,11 @@ class ShutdownReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action in intentActionsToFilter) {
-            runBlocking { addLockEventUseCase() }
+            runBlocking {
+                if (!keyguardManager.isKeyguardLocked && !isUnlockCounterPausedUSeCase()) {
+                    addLockEventUseCase()
+                }
+            }
         }
     }
 }
