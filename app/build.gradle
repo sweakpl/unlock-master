@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.devtools.ksp'
 }
 
 android {
@@ -72,9 +73,9 @@ dependencies {
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
     // Room
-    implementation 'androidx.room:room-ktx:2.5.1'
-    annotationProcessor 'androidx.room:room-compiler:2.5.1'
-    kapt 'androidx.room:room-compiler:2.5.1'
+    implementation 'androidx.room:room-ktx:2.5.2'
+    annotationProcessor 'androidx.room:room-compiler:2.5.2'
+    ksp 'androidx.room:room-compiler:2.5.2'
 
     // Preferences DataStore
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
