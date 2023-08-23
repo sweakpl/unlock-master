@@ -14,6 +14,7 @@ import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.domain.MINIMAL_DAILY_WRAP_UPS_NOTIFICATIONS_TIME_HOUR_OF_DAY
 import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.toTimeInMillis
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.IsGivenDayEligibleForDailyWrapUpUseCase
 import com.sweak.unlockmaster.presentation.MainActivity
 import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UPS_NOTIFICATIONS_CHANNEL_ID
 import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UP_NOTIFICATION_ID
@@ -21,6 +22,7 @@ import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UP_NOTIFIC
 import com.sweak.unlockmaster.presentation.background_work.EXTRA_DAILY_WRAP_UP_DAY_MILLIS
 import com.sweak.unlockmaster.presentation.background_work.EXTRA_SHOW_DAILY_WRAP_UP_SCREEN
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -35,16 +37,18 @@ class DailyWrapUpAlarmReceiver : BroadcastReceiver() {
     @Inject
     lateinit var timeRepository: TimeRepository
 
+    @Inject
+    lateinit var isGivenDayEligibleForDailyWrapUpUseCase: IsGivenDayEligibleForDailyWrapUpUseCase
+
     override fun onReceive(context: Context, intent: Intent) {
         try {
-            notificationManager.notify(
-                DAILY_WRAP_UP_NOTIFICATION_ID,
-                getDailyWrapUpNotification(context)
-            )
+            getDailyWrapUpNotification(context)?.let {
+                notificationManager.notify(DAILY_WRAP_UP_NOTIFICATION_ID, it)
+            }
         } catch (_: SecurityException) { /* no-op */ }
     }
 
-    private fun getDailyWrapUpNotification(context: Context): Notification {
+    private fun getDailyWrapUpNotification(context: Context): Notification? {
         val dailyWrapUpDateTime = ZonedDateTime.ofInstant(
             Instant.ofEpochMilli(timeRepository.getCurrentTimeInMillis()),
             ZoneId.systemDefault()
@@ -59,6 +63,10 @@ class DailyWrapUpAlarmReceiver : BroadcastReceiver() {
             } else {
                 dailyWrapUpDateTime.toTimeInMillis()
             }
+
+        if (!runBlocking { isGivenDayEligibleForDailyWrapUpUseCase(dailyWrapUpDayTimeInMillis) }) {
+            return null
+        }
 
         val dailyWrapUpNotificationPendingIntent = PendingIntent.getActivity(
             context,
