@@ -23,6 +23,7 @@ data class DailyWrapUpData(
 
     data class UnlockLimitData(
         val todayUnlockLimit: Int,
+        val tomorrowUnlockLimit: Int,
         val recommendedUnlockLimit: Int?,
         val isLimitSignificantlyExceeded: Boolean
     )

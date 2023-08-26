@@ -115,31 +115,36 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
             dailyWrapUpDateTime.plusDays(1).toTimeInMillis()
         )
 
-        val lastWeekAverageUnlockCount = (0..6).sumOf {
-            getUnlockEventsCountForGivenDayUseCase(
-                dailyWrapUpDateTime.minusDays(1).toTimeInMillis()
-            )
-        } / 7.0
-        val recommendedUnlockLimit =
-            if (!hasAppBeenUsedForAtLeastAWeek ||
-                tomorrowUnlockLimit != todayUnlockLimit ||
-                todayUnlockLimit == UNLOCK_LIMIT_LOWER_BOUND
-            ) {
-                null
-            } else {
-                val unlocksDifference = (todayUnlockLimit - lastWeekAverageUnlockCount).roundToInt()
+        val recommendedUnlockLimit: Int?
 
+        if (tomorrowUnlockLimit != todayUnlockLimit ||
+            !hasAppBeenUsedForAtLeastAWeek ||
+            todayUnlockLimit == UNLOCK_LIMIT_LOWER_BOUND
+        ) {
+            recommendedUnlockLimit = null
+        } else {
+            val lastWeekAverageUnlockCount = (0..6).sumOf {
+                getUnlockEventsCountForGivenDayUseCase(
+                    dailyWrapUpDateTime.minusDays(1).toTimeInMillis()
+                )
+            } / 7.0
+            val unlocksDifference =
+                (todayUnlockLimit - lastWeekAverageUnlockCount).roundToInt()
+
+            recommendedUnlockLimit =
                 if (unlocksDifference >= MINIMAL_UNLOCKS_IMPROVEMENT_AMOUNT_FOR_RECOMMENDATION)
-                    todayUnlockLimit -
-                            unlocksDifference / MINIMAL_UNLOCKS_IMPROVEMENT_AMOUNT_FOR_RECOMMENDATION
+                    (todayUnlockLimit -
+                            unlocksDifference / MINIMAL_UNLOCKS_IMPROVEMENT_AMOUNT_FOR_RECOMMENDATION)
+                        .coerceAtLeast(UNLOCK_LIMIT_LOWER_BOUND)
                 else null
-            }
+        }
 
         val isLimitSignificantlyExceeded =
             todayUnlocksCount >= todayUnlockLimit * UNLOCK_LIMIT_SIGNIFICANT_EXCEED_MULTIPLIER
 
         return DailyWrapUpData.UnlockLimitData(
             todayUnlockLimit = todayUnlockLimit,
+            tomorrowUnlockLimit = tomorrowUnlockLimit,
             recommendedUnlockLimit = recommendedUnlockLimit,
             isLimitSignificantlyExceeded = isLimitSignificantlyExceeded
         )

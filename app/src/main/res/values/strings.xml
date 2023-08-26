@@ -127,6 +127,9 @@
     <string name="daily_wrap_up_notifications_can_only_be_delivered_between">Daily wrap-up notifications can only be delivered between 20:00 and 23:59 (8:00 PM and 11:59 PM).</string>
     <string name="invalid_time_selected">Invalid time selected</string>
     <string name="done">Done</string>
+    <string name="you_have_reached_the_lowest_unlock_limit">You have reached the lowest unlock limit available. Good job!</string>
+    <string name="you_have_recently_set">You have recently set</string>
+    <string name="as_your_new_unlock_limit">as your new unlock limit.</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>

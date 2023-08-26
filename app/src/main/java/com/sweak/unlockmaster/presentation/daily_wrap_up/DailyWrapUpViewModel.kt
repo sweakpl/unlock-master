@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sweak.unlockmaster.domain.model.DailyWrapUpData
 import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.GetDailyWrapUpDataUseCase
+import com.sweak.unlockmaster.domain.use_case.unlock_limits.AddOrUpdateUnlockLimitForTomorrowUseCase
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.util.Duration
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DailyWrapUpViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getDailyWrapUpDataUseCase: GetDailyWrapUpDataUseCase
+    private val getDailyWrapUpDataUseCase: GetDailyWrapUpDataUseCase,
+    private val addOrUpdateUnlockLimitForTomorrowUseCase: AddOrUpdateUnlockLimitForTomorrowUseCase
 ) : ViewModel() {
 
     private val dailyWrapUpDayMillis: Long =
@@ -93,6 +95,7 @@ class DailyWrapUpViewModel @Inject constructor(
                 ),
                 unlockLimitDetailsData = DailyWrapUpUnlockLimitDetailsData(
                     unlockLimit = todayUnlockLimit,
+                    tomorrowUnlockLimit = dailyWrapUpData.unlockLimitData.tomorrowUnlockLimit,
                     suggestedUnlockLimit = dailyWrapUpData.unlockLimitData.recommendedUnlockLimit,
                     isSuggestedUnlockLimitApplied = false,
                     isLimitSignificantlyExceeded = dailyWrapUpData.unlockLimitData.isLimitSignificantlyExceeded
@@ -127,13 +130,18 @@ class DailyWrapUpViewModel @Inject constructor(
             is DailyWrapUpScreenEvent.ScreenOnEventsInformationDialogVisible -> {
                 state = state.copy(isScreenOnEventsInformationDialogVisible = event.isVisible)
             }
-            DailyWrapUpScreenEvent.ApplySuggestedUnlockLimit -> {
-                /* TODO: update unlock limit */
-                state = state.copy(
-                    unlockLimitDetailsData = state.unlockLimitDetailsData?.copy(
-                        isSuggestedUnlockLimitApplied = true
-                    )
-                )
+            is DailyWrapUpScreenEvent.ApplySuggestedUnlockLimit -> {
+                state.unlockLimitDetailsData?.suggestedUnlockLimit?.let {
+                    viewModelScope.launch {
+                        addOrUpdateUnlockLimitForTomorrowUseCase(limitAmount = it)
+
+                        state = state.copy(
+                            unlockLimitDetailsData = state.unlockLimitDetailsData?.copy(
+                                isSuggestedUnlockLimitApplied = true
+                            )
+                        )
+                    }
+                }
             }
         }
     }

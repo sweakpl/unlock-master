@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.domain.UNLOCK_LIMIT_LOWER_BOUND
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 
 @Composable
@@ -149,7 +150,29 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                         }
                     }
                 }
-            } ?: if (detailsData.isLimitSignificantlyExceeded) {
+            } ?: if (detailsData.unlockLimit != detailsData.tomorrowUnlockLimit) {
+                Text(
+                    text = stringResource(R.string.you_have_recently_set),
+                    style = MaterialTheme.typography.h4
+                )
+
+                Row {
+                    Text(
+                        text = detailsData.tomorrowUnlockLimit.toString(),
+                        style = MaterialTheme.typography.h1,
+                        fontSize = 32.sp,
+                        modifier = Modifier
+                            .padding(end = MaterialTheme.space.xSmall)
+                            .alignByBaseline()
+                    )
+
+                    Text(
+                        text = stringResource(R.string.as_your_new_unlock_limit),
+                        style = MaterialTheme.typography.h4,
+                        modifier = Modifier.alignByBaseline()
+                    )
+                }
+            } else if (detailsData.isLimitSignificantlyExceeded) {
                 Card(
                     backgroundColor = MaterialTheme.colors.background,
                     modifier = Modifier.padding(top = MaterialTheme.space.medium)
@@ -200,7 +223,11 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                         )
 
                         Text(
-                            text = stringResource(R.string.keep_improving_for_limit_recommendation),
+                            text = stringResource(
+                                if (detailsData.unlockLimit != UNLOCK_LIMIT_LOWER_BOUND)
+                                    R.string.keep_improving_for_limit_recommendation
+                                else R.string.you_have_reached_the_lowest_unlock_limit
+                            ),
                             style = MaterialTheme.typography.subtitle1,
                             modifier = Modifier
                                 .weight(1f)
@@ -215,6 +242,7 @@ fun DailyWrapUpUnlockLimitDetailsCard(
 
 data class DailyWrapUpUnlockLimitDetailsData(
     val unlockLimit: Int,
+    val tomorrowUnlockLimit: Int,
     val suggestedUnlockLimit: Int?,
     val isSuggestedUnlockLimitApplied: Boolean,
     val isLimitSignificantlyExceeded: Boolean
