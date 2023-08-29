@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -107,6 +108,7 @@ fun WorkInBackgroundScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = MaterialTheme.space.medium)
+                        .clickable { uriHandler.openUri(backgroundWorkImprovementWebsite) }
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically
@@ -143,17 +145,15 @@ fun WorkInBackgroundScreen(
                             )
                         }
 
-                        IconButton(
-                            onClick = { uriHandler.openUri(backgroundWorkImprovementWebsite) }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.NavigateNext,
-                                contentDescription = stringResource(
-                                    R.string.content_description_next_icon
-                                ),
-                                modifier = Modifier.size(size = MaterialTheme.space.large)
-                            )
-                        }
+                        Icon(
+                            imageVector = Icons.Outlined.NavigateNext,
+                            contentDescription = stringResource(
+                                R.string.content_description_next_icon
+                            ),
+                            modifier = Modifier
+                                .size(size = MaterialTheme.space.xLarge)
+                                .padding(all = MaterialTheme.space.small)
+                        )
 
                         Spacer(modifier = Modifier.width(MaterialTheme.space.small))
                     }
@@ -192,7 +192,25 @@ fun WorkInBackgroundScreen(
                             .padding(horizontal = MaterialTheme.space.medium)
                     ) {
                         Row(
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.clickable(
+                                enabled =
+                                notificationsPermissionState.status !is PermissionStatus.Granted,
+                                onClick = {
+                                    val permissionStatus = notificationsPermissionState.status
+
+                                    if (permissionStatus is PermissionStatus.Denied) {
+                                        if (hasUserTriedToGrantNotificationsPermission &&
+                                            !permissionStatus.shouldShowRationale
+                                        ) {
+                                            isNotificationsPermissionDialogVisible = true
+                                        } else {
+                                            notificationsPermissionState.launchPermissionRequest()
+                                            hasUserTriedToGrantNotificationsPermission = true
+                                        }
+                                    }
+                                }
+                            )
                         ) {
                             Spacer(modifier = Modifier.width(MaterialTheme.space.medium))
 
@@ -221,37 +239,20 @@ fun WorkInBackgroundScreen(
                                     .weight(1f)
                             )
 
-                            IconButton(
-                                onClick = {
-                                    val permissionStatus = notificationsPermissionState.status
-
-                                    if (permissionStatus is PermissionStatus.Denied) {
-                                        if (hasUserTriedToGrantNotificationsPermission &&
-                                            !permissionStatus.shouldShowRationale
-                                        ) {
-                                            isNotificationsPermissionDialogVisible = true
-                                        } else {
-                                            notificationsPermissionState.launchPermissionRequest()
-                                            hasUserTriedToGrantNotificationsPermission = true
-                                        }
-                                    }
-                                },
-                                enabled =
-                                notificationsPermissionState.status !is PermissionStatus.Granted
-                            ) {
-                                Icon(
-                                    imageVector =
+                            Icon(
+                                imageVector =
+                                if (notificationsPermissionState.status !is PermissionStatus.Granted)
+                                    Icons.Outlined.NavigateNext
+                                else Icons.Filled.Done,
+                                contentDescription = stringResource(
                                     if (notificationsPermissionState.status !is PermissionStatus.Granted)
-                                        Icons.Outlined.NavigateNext
-                                    else Icons.Filled.Done,
-                                    contentDescription = stringResource(
-                                        if (notificationsPermissionState.status !is PermissionStatus.Granted)
-                                            R.string.content_description_next_icon
-                                        else R.string.content_description_done_icon
-                                    ),
-                                    modifier = Modifier.size(size = MaterialTheme.space.large)
-                                )
-                            }
+                                        R.string.content_description_next_icon
+                                    else R.string.content_description_done_icon
+                                ),
+                                modifier = Modifier
+                                    .size(size = MaterialTheme.space.xLarge)
+                                    .padding(all = MaterialTheme.space.small)
+                            )
 
                             Spacer(modifier = Modifier.width(MaterialTheme.space.small))
                         }

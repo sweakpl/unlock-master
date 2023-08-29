@@ -81,8 +81,9 @@ fun DailyWrapUpScreenOnEventsDetailsCard(
 
                 Text(
                     text = stringResource(
-                        if (detailsData.yesterdayDifference != null) R.string.screen_unlocks_which_is
-                        else R.string.screen_unlocks_today
+                        if (detailsData.yesterdayDifference != null)
+                            R.string.screen_turn_ons_which_is
+                        else R.string.screen_turn_ons_today
                     ),
                     style = MaterialTheme.typography.h4,
                     modifier = Modifier.alignByBaseline()

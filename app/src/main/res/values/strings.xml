@@ -111,6 +111,7 @@
     <string name="apply_suggested_unlock_limit">Apply the suggested unlock limit now:</string>
     <string name="update">Update</string>
     <string name="screen_turn_ons_which_is">screen turn-ons which is</string>
+    <string name="screen_turn_ons_today">screen turn-ons today.</string>
     <string name="as_much_as_yesterday_and">as much as yesterday and</string>
     <string name="screen_unlocks_today">screen unlocks today.</string>
     <string name="less_than_yesterday">less than yesterday.</string>
