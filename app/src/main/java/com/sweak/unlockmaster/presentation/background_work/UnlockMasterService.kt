@@ -13,6 +13,7 @@ import android.os.IBinder
 import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.domain.use_case.counter_pause.AddCounterPausedEventUseCase
 import com.sweak.unlockmaster.domain.use_case.counter_pause.AddCounterUnpausedEventUseCase
@@ -156,7 +157,12 @@ class UnlockMasterService : Service() {
         super.onCreate()
 
         registerScreenEventReceivers()
-        registerReceiver(unlockCounterPauseReceiver, IntentFilter(ACTION_UNLOCK_COUNTER_PAUSE_CHANGED))
+        ContextCompat.registerReceiver(
+            this,
+            unlockCounterPauseReceiver,
+            IntentFilter(ACTION_UNLOCK_COUNTER_PAUSE_CHANGED),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
