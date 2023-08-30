@@ -47,6 +47,7 @@ fun DailyWrapUpCriterionPreviewCard(
     val criterionIcon: ImageVector
     val criterionIconContentDescription: String
     val progress: Progress?
+    val isUnlockLimitSuggestionAvailable: Boolean
     val criterionValueText: String
     val criterionText: String
 
@@ -56,6 +57,7 @@ fun DailyWrapUpCriterionPreviewCard(
             criterionIconContentDescription =
                 stringResource(R.string.content_description_open_padlock_icon)
             progress = dailyWrapUpCriterionPreviewType.progress
+            isUnlockLimitSuggestionAvailable = false
             criterionValueText = dailyWrapUpCriterionPreviewType.screenUnlocksCount.toString()
             criterionText = stringResource(R.string.screen_unlocks)
         }
@@ -64,6 +66,7 @@ fun DailyWrapUpCriterionPreviewCard(
             criterionIconContentDescription =
                 stringResource(R.string.content_description_light_icon)
             progress = dailyWrapUpCriterionPreviewType.progress
+            isUnlockLimitSuggestionAvailable = false
             criterionValueText = dailyWrapUpCriterionPreviewType.screenOnEventsCount.toString()
             criterionText = stringResource(R.string.screen_on_events)
         }
@@ -72,6 +75,7 @@ fun DailyWrapUpCriterionPreviewCard(
             criterionIconContentDescription =
                 stringResource(R.string.content_description_clock_icon)
             progress = dailyWrapUpCriterionPreviewType.progress
+            isUnlockLimitSuggestionAvailable = false
             criterionValueText = getCompactDurationString(
                 dailyWrapUpCriterionPreviewType.screenTimeDuration
             )
@@ -82,6 +86,7 @@ fun DailyWrapUpCriterionPreviewCard(
             criterionIconContentDescription =
                 stringResource(R.string.content_description_crosshair_icon)
             progress = null
+            isUnlockLimitSuggestionAvailable = dailyWrapUpCriterionPreviewType.isSuggestionAvailable
             criterionValueText = dailyWrapUpCriterionPreviewType.unlockLimitCount.toString()
             criterionText = stringResource(R.string.unlock_limit)
         }
@@ -159,7 +164,7 @@ fun DailyWrapUpCriterionPreviewCard(
                     style = MaterialTheme.typography.h1
                 )
 
-                if (progress == null) {
+                if (progress == null && isUnlockLimitSuggestionAvailable) {
                     Spacer(modifier = Modifier.width(MaterialTheme.space.xSmall))
 
                     Icon(
