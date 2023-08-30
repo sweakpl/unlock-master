@@ -71,6 +71,12 @@ class MainActivity : ComponentActivity() {
                     if (intent.getBooleanExtra(EXTRA_SHOW_DAILY_WRAP_UP_SCREEN, false) &&
                         dailyWrapUpDayMillis != 0L
                     ) {
+                        // Clear the intent to avoid duplicate daily wrap-up screens showing:
+                        intent = intent.apply {
+                            removeExtra(EXTRA_DAILY_WRAP_UP_DAY_MILLIS)
+                            removeExtra(EXTRA_SHOW_DAILY_WRAP_UP_SCREEN)
+                        }
+
                         navController.navigate(
                             Screen.DailyWrapUpScreen.withArguments(dailyWrapUpDayMillis.toString())
                         )
