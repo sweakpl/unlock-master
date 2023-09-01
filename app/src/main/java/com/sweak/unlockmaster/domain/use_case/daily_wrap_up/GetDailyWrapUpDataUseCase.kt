@@ -162,12 +162,12 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
         ).run { if (this == 0) null else this }
 
         val progress = yesterdayScreenOnsCount?.let {
-            if (it > todayUnlocksCount) DailyWrapUpData.Progress.IMPROVEMENT
-            else if (it < todayUnlocksCount) DailyWrapUpData.Progress.REGRESS
+            if (it > todayScreenOnsCount) DailyWrapUpData.Progress.IMPROVEMENT
+            else if (it < todayScreenOnsCount) DailyWrapUpData.Progress.REGRESS
             else DailyWrapUpData.Progress.STABLE
         } ?: lastWeekScreenOnsCount?.let {
-            if (it > todayUnlocksCount) DailyWrapUpData.Progress.IMPROVEMENT
-            else if (it < todayUnlocksCount) DailyWrapUpData.Progress.REGRESS
+            if (it > todayScreenOnsCount) DailyWrapUpData.Progress.IMPROVEMENT
+            else if (it < todayScreenOnsCount) DailyWrapUpData.Progress.REGRESS
             else DailyWrapUpData.Progress.STABLE
         } ?: DailyWrapUpData.Progress.STABLE
 
@@ -186,6 +186,6 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
     private companion object {
         const val MINIMAL_UNLOCKS_IMPROVEMENT_AMOUNT_FOR_RECOMMENDATION = 3
         const val UNLOCK_LIMIT_SIGNIFICANT_EXCEED_MULTIPLIER = 1.5
-        const val MANY_MORE_SCREEN_ONS_THAN_UNLOCKS_MULTIPLIER = 2
+        const val MANY_MORE_SCREEN_ONS_THAN_UNLOCKS_MULTIPLIER = 3
     }
 }
