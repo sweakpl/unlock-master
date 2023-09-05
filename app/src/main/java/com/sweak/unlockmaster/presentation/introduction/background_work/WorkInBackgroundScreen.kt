@@ -37,6 +37,7 @@ import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
+import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
 
@@ -47,6 +48,17 @@ fun WorkInBackgroundScreen(
     onWorkInBackgroundAllowed: () -> Unit,
     isLaunchedFromSettings: Boolean
 ) {
+    var hasUserNavigatedToBackgroundWorkWebsite by remember { mutableStateOf(false) }
+    var hasUserFinishedBackgroundWorkInstructions by remember { mutableStateOf(false) }
+    var hasUserTriedToGrantNotificationsPermission by remember { mutableStateOf(false) }
+    var isNotificationsPermissionDialogVisible by remember { mutableStateOf(false) }
+
+    OnResume {
+        if (hasUserNavigatedToBackgroundWorkWebsite) {
+            hasUserFinishedBackgroundWorkInstructions = true
+        }
+    }
+
     val uriHandler = LocalUriHandler.current
     val backgroundWorkImprovementWebsite = stringResource(R.string.dontkilmyapp_com_full_uri)
 
@@ -59,9 +71,6 @@ fun WorkInBackgroundScreen(
             override fun launchPermissionRequest() { /* no-op */ }
         }
     }
-
-    var hasUserTriedToGrantNotificationsPermission by remember { mutableStateOf(false) }
-    var isNotificationsPermissionDialogVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier.background(color = MaterialTheme.colors.background)
@@ -108,7 +117,14 @@ fun WorkInBackgroundScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = MaterialTheme.space.medium)
-                        .clickable { uriHandler.openUri(backgroundWorkImprovementWebsite) }
+                        .clickable(
+                            enabled =
+                            !hasUserFinishedBackgroundWorkInstructions || isLaunchedFromSettings,
+                            onClick = {
+                                uriHandler.openUri(backgroundWorkImprovementWebsite)
+                                hasUserNavigatedToBackgroundWorkWebsite = true
+                            }
+                        )
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically
@@ -146,9 +162,18 @@ fun WorkInBackgroundScreen(
                         }
 
                         Icon(
-                            imageVector = Icons.Outlined.NavigateNext,
+                            imageVector =
+                            if (!hasUserFinishedBackgroundWorkInstructions
+                                || isLaunchedFromSettings
+                            ) {
+                                Icons.Outlined.NavigateNext
+                            } else Icons.Filled.Done,
                             contentDescription = stringResource(
-                                R.string.content_description_next_icon
+                                if (!hasUserFinishedBackgroundWorkInstructions
+                                    || isLaunchedFromSettings
+                                ) {
+                                    R.string.content_description_next_icon
+                                } else R.string.content_description_done_icon
                             ),
                             modifier = Modifier
                                 .size(size = MaterialTheme.space.xLarge)
@@ -190,10 +215,7 @@ fun WorkInBackgroundScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = MaterialTheme.space.medium)
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.clickable(
+                            .clickable(
                                 enabled =
                                 notificationsPermissionState.status !is PermissionStatus.Granted,
                                 onClick = {
@@ -211,7 +233,8 @@ fun WorkInBackgroundScreen(
                                     }
                                 }
                             )
-                        ) {
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
                             Spacer(modifier = Modifier.width(MaterialTheme.space.medium))
 
                             Icon(
@@ -272,7 +295,9 @@ fun WorkInBackgroundScreen(
                         navController.navigate(Screen.SetupCompleteScreen.route)
                     }
                 },
-                enabled = notificationsPermissionState.status is PermissionStatus.Granted,
+                enabled = isLaunchedFromSettings ||
+                        (notificationsPermissionState.status is PermissionStatus.Granted &&
+                                hasUserFinishedBackgroundWorkInstructions),
                 modifier = Modifier.padding(all = MaterialTheme.space.medium)
             )
         }
