@@ -2,11 +2,13 @@ package com.sweak.unlockmaster.domain.use_case.daily_wrap_up
 
 import com.sweak.unlockmaster.domain.UNLOCK_LIMIT_LOWER_BOUND
 import com.sweak.unlockmaster.domain.model.DailyWrapUpData
+import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.toTimeInMillis
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.GetScreenOnEventsCountForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_time.GetScreenTimeDurationForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetFirstUnlockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
+import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetApplianceTimeOfUnlockLimitFromGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForGivenDayUseCase
 import java.time.Instant
 import java.time.ZoneId
@@ -20,7 +22,9 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
     private val getUnlockEventsCountForGivenDayUseCase: GetUnlockEventsCountForGivenDayUseCase,
     private val getScreenTimeDurationForGivenDayUseCase: GetScreenTimeDurationForGivenDayUseCase,
     private val getUnlockLimitAmountForGivenDayUseCase: GetUnlockLimitAmountForGivenDayUseCase,
-    private val getScreenOnEventsCountForGivenDayUseCase: GetScreenOnEventsCountForGivenDayUseCase
+    private val getUnlockLimitApplianceTimeOfUnlockLimitFromGivenDayUseCase: GetApplianceTimeOfUnlockLimitFromGivenDayUseCase,
+    private val getScreenOnEventsCountForGivenDayUseCase: GetScreenOnEventsCountForGivenDayUseCase,
+    private val timeRepository: TimeRepository
 ) {
     private lateinit var dailyWrapUpDateTime: ZonedDateTime
     private var todayUnlocksCount by Delegates.notNull<Int>()
@@ -34,8 +38,11 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
         todayUnlocksCount = getUnlockEventsCountForGivenDayUseCase(
             dailyWrapUpDateTime.toTimeInMillis()
         )
+
+        val weekInMillis = 604800000L
+
         hasAppBeenUsedForAtLeastAWeek = getFirstUnlockEventUseCase()?.let {
-            dailyWrapUpDateTime.toTimeInMillis() - it.timeInMillis >= 604800000L // 1 week millis
+            dailyWrapUpDateTime.toTimeInMillis() - it.timeInMillis >= weekInMillis
         } ?: false
 
         return DailyWrapUpData(
@@ -115,9 +122,23 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
             dailyWrapUpDateTime.plusDays(1).toTimeInMillis()
         )
 
+        val todayBeginningTimeInMillis = timeRepository.getBeginningOfGivenDayTimeInMillis(
+            dailyWrapUpDateTime.toTimeInMillis()
+        )
+        val todayUnlockLimitApplianceTimeInMillis =
+            getUnlockLimitApplianceTimeOfUnlockLimitFromGivenDayUseCase(
+                dailyWrapUpDateTime.toTimeInMillis()
+            ) ?: todayBeginningTimeInMillis
+        val dayInMillis = 86400000L
+
+        val isLastAppliedUnlockLimitEnoughDaysAgoForNewRecommendation =
+            todayBeginningTimeInMillis - todayUnlockLimitApplianceTimeInMillis >=
+                    LAST_UNLOCK_LIMIT_APPLIANCE_DAYS_DIFFERENCE_FOR_RECOMMENDATION * dayInMillis
+
         val recommendedUnlockLimit: Int?
 
         if (tomorrowUnlockLimit != todayUnlockLimit ||
+            !isLastAppliedUnlockLimitEnoughDaysAgoForNewRecommendation ||
             !hasAppBeenUsedForAtLeastAWeek ||
             todayUnlockLimit == UNLOCK_LIMIT_LOWER_BOUND
         ) {
@@ -187,5 +208,6 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
         const val MINIMAL_UNLOCKS_IMPROVEMENT_AMOUNT_FOR_RECOMMENDATION = 3
         const val UNLOCK_LIMIT_SIGNIFICANT_EXCEED_MULTIPLIER = 1.5
         const val MANY_MORE_SCREEN_ONS_THAN_UNLOCKS_MULTIPLIER = 3
+        const val LAST_UNLOCK_LIMIT_APPLIANCE_DAYS_DIFFERENCE_FOR_RECOMMENDATION = 6
     }
 }
