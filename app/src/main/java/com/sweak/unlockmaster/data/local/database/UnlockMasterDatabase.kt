@@ -14,7 +14,8 @@ import com.sweak.unlockmaster.data.local.database.entities.*
         CounterPausedEventEntity::class,
         CounterUnpausedEventEntity::class
     ],
-    version = 5
+    version = 5,
+    exportSchema = false
 )
 abstract class UnlockMasterDatabase : RoomDatabase() {
     abstract fun unlockEventsDao(): UnlockEventsDao
