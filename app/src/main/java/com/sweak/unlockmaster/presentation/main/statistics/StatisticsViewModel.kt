@@ -35,6 +35,7 @@ class StatisticsViewModel @Inject constructor(
         allTimeDaysToUnlockEventCounts = getAllTimeDaysToUnlockEventCountsUseCase()
 
         state = state.copy(
+            isInitializing = false,
             allTimeUnlockEventCounts = allTimeDaysToUnlockEventCounts.mapIndexed { index, pair ->
                 BarEntry(index.toFloat(), pair.second.toFloat())
             }
