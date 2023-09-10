@@ -1,8 +1,6 @@
 package com.sweak.unlockmaster.presentation.daily_wrap_up
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.EaseOutElastic
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Arrangement
@@ -167,12 +165,7 @@ fun DailyWrapUpScreen(
                                 onClick = {
                                     scrollScope.launch {
                                         scrollState.animateScrollBy(
-                                            value =
-                                            screenUnlocksCardPosition - navBarWithPaddingHeight,
-                                            animationSpec = tween(
-                                                durationMillis = 750,
-                                                easing = EaseOutElastic
-                                            )
+                                            screenUnlocksCardPosition - navBarWithPaddingHeight
                                         )
                                     }
                                 },
