@@ -111,7 +111,7 @@ fun DailyWrapUpSettingsScreen(
                 )
 
                 Text(
-                    text = stringResource(R.string.daily_wrapups_notifications_setting_description),
+                    text = stringResource(R.string.daily_wrapup_notifications_setting_description),
                     style = MaterialTheme.typography.subtitle1,
                     modifier = Modifier
                         .padding(
@@ -137,13 +137,19 @@ fun DailyWrapUpSettingsScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(
-                                start = MaterialTheme.space.medium,
-                                end = MaterialTheme.space.medium,
-                                bottom = MaterialTheme.space.mediumLarge
-                            )
+                            .padding(horizontal = MaterialTheme.space.medium)
                     )
                 }
+
+                Text(
+                    text = stringResource(R.string.daily_wrapup_notifications_opening_disclaimer),
+                    style = MaterialTheme.typography.subtitle1,
+                    modifier = Modifier
+                        .padding(
+                            horizontal = MaterialTheme.space.medium,
+                            vertical = MaterialTheme.space.mediumLarge
+                        )
+                )
 
                 Spacer(modifier = Modifier.weight(1f))
 
