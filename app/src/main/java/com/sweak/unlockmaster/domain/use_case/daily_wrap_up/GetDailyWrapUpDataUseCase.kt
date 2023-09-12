@@ -144,20 +144,17 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
         ) {
             recommendedUnlockLimit = null
         } else {
-            val lastWeekAverageUnlockCount = (0..6).sumOf {
-                getUnlockEventsCountForGivenDayUseCase(
-                    dailyWrapUpDateTime.minusDays(1).toTimeInMillis()
-                )
-            } / 7.0
-            val unlocksDifference =
-                (todayUnlockLimit - lastWeekAverageUnlockCount).roundToInt()
+            val lastWeekAverageUnlockCount = getLastWeekWeightedAverageUnlockCount()
 
-            recommendedUnlockLimit =
+            recommendedUnlockLimit = lastWeekAverageUnlockCount?.let {
+                val unlocksDifference = (todayUnlockLimit - it).roundToInt()
+
                 if (unlocksDifference >= MINIMAL_UNLOCKS_IMPROVEMENT_AMOUNT_FOR_RECOMMENDATION)
                     (todayUnlockLimit -
                             unlocksDifference / MINIMAL_UNLOCKS_IMPROVEMENT_AMOUNT_FOR_RECOMMENDATION)
                         .coerceAtLeast(UNLOCK_LIMIT_LOWER_BOUND)
                 else null
+            }
         }
 
         val isLimitSignificantlyExceeded =
@@ -169,6 +166,36 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
             recommendedUnlockLimit = recommendedUnlockLimit,
             isLimitSignificantlyExceeded = isLimitSignificantlyExceeded
         )
+    }
+
+    private suspend fun getLastWeekWeightedAverageUnlockCount(): Float? {
+        val firstUnlockEventDayBeginningInMillis =
+            timeRepository.getBeginningOfGivenDayTimeInMillis(
+                getFirstUnlockEventUseCase()?.timeInMillis ?: return null
+            )
+        val lastWeekUnlockEventCounts = (0..6).map {
+            val currentDayBeginningTimeInMillis =
+                timeRepository.getBeginningOfGivenDayTimeInMillis(
+                    dailyWrapUpDateTime.minusDays(it.toLong()).toTimeInMillis()
+                )
+
+            if (firstUnlockEventDayBeginningInMillis <= currentDayBeginningTimeInMillis) {
+                getUnlockEventsCountForGivenDayUseCase(currentDayBeginningTimeInMillis)
+            } else null
+        }
+
+        var weightedDivider = 0f
+        var weightedSum = 0
+
+        lastWeekUnlockEventCounts.forEachIndexed { index, unlockCount ->
+            unlockCount?.let {
+                val weight = if (index < 4) 1 else 2
+                weightedDivider += weight
+                weightedSum += unlockCount * weight
+            }
+        }
+
+        return if (weightedDivider == 0f) null else weightedSum / weightedDivider
     }
 
     private suspend fun getScreenOnData(): DailyWrapUpData.ScreenOnData {
@@ -208,6 +235,6 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
         const val MINIMAL_UNLOCKS_IMPROVEMENT_AMOUNT_FOR_RECOMMENDATION = 3
         const val UNLOCK_LIMIT_SIGNIFICANT_EXCEED_MULTIPLIER = 1.5
         const val MANY_MORE_SCREEN_ONS_THAN_UNLOCKS_MULTIPLIER = 3
-        const val LAST_UNLOCK_LIMIT_APPLIANCE_DAYS_DIFFERENCE_FOR_RECOMMENDATION = 6
+        const val LAST_UNLOCK_LIMIT_APPLIANCE_DAYS_DIFFERENCE_FOR_RECOMMENDATION = 3
     }
 }
