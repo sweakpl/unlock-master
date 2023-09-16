@@ -28,7 +28,6 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
 ) {
     private lateinit var dailyWrapUpDateTime: ZonedDateTime
     private var todayUnlocksCount by Delegates.notNull<Int>()
-    private var hasAppBeenUsedForAtLeastAWeek by Delegates.notNull<Boolean>()
 
     suspend operator fun invoke(dailyWrapUpDayMillis: Long): DailyWrapUpData {
         dailyWrapUpDateTime = ZonedDateTime.ofInstant(
@@ -39,18 +38,11 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
             dailyWrapUpDateTime.toTimeInMillis()
         )
 
-        val weekInMillis = 604800000L
-
-        hasAppBeenUsedForAtLeastAWeek = getFirstUnlockEventUseCase()?.let {
-            dailyWrapUpDateTime.toTimeInMillis() - it.timeInMillis >= weekInMillis
-        } ?: false
-
         return DailyWrapUpData(
             screenUnlocksData = getScreenUnlocksData(),
             screenTimeData = getScreenTimeData(),
             unlockLimitData = getUnlockLimitData(),
-            screenOnData = getScreenOnData(),
-            haveAllDailyWrapUpFeaturesBeenDiscovered = hasAppBeenUsedForAtLeastAWeek
+            screenOnData = getScreenOnData()
         )
     }
 
@@ -139,7 +131,6 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
 
         if (tomorrowUnlockLimit != todayUnlockLimit ||
             !isLastAppliedUnlockLimitEnoughDaysAgoForNewRecommendation ||
-            !hasAppBeenUsedForAtLeastAWeek ||
             todayUnlockLimit == UNLOCK_LIMIT_LOWER_BOUND
         ) {
             recommendedUnlockLimit = null

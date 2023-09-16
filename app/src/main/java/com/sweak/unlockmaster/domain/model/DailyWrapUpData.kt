@@ -4,8 +4,7 @@ data class DailyWrapUpData(
     val screenUnlocksData: ScreenUnlocksData,
     val screenTimeData: ScreenTimeData,
     val unlockLimitData: UnlockLimitData,
-    val screenOnData: ScreenOnData,
-    val haveAllDailyWrapUpFeaturesBeenDiscovered: Boolean
+    val screenOnData: ScreenOnData
 ) {
     data class ScreenUnlocksData(
         val todayUnlocksCount: Int,

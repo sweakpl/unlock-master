@@ -35,15 +35,7 @@ fun DailyWrapUpScreenOnEventsDetailsCard(
         elevation = MaterialTheme.space.xSmall,
         modifier = modifier
     ) {
-        Column(
-            modifier = Modifier
-                .padding(
-                    start = MaterialTheme.space.smallMedium,
-                    top = MaterialTheme.space.smallMedium,
-                    end = MaterialTheme.space.smallMedium,
-                    bottom = MaterialTheme.space.small,
-                )
-        ) {
+        Column(modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(bottom = MaterialTheme.space.small)

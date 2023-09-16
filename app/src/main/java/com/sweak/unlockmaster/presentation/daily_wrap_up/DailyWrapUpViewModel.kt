@@ -109,8 +109,7 @@ class DailyWrapUpViewModel @Inject constructor(
                         todayScreenOnEventsCount - it
                     },
                     isManyMoreScreenOnEventsThanUnlocks = dailyWrapUpData.screenOnData.isManyMoreScreenOnsThanUnlocks
-                ),
-                haveAllDailyWrapUpFeaturesBeenDiscovered = dailyWrapUpData.haveAllDailyWrapUpFeaturesBeenDiscovered
+                )
             )
         }
     }

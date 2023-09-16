@@ -124,7 +124,6 @@
     <string name="consdier_increasing_limit_or_pausing">Consider increasing your unlock limit or using the pause feature.</string>
     <string name="many_more_screen_ons_than_unlocks">Many more screen-ons than unlocks!</string>
     <string name="consider_limiting_auto_turn_on">Consider limiting automatic screen turn-on after receiving notifications or put the phone further away to prevent checking the phone unnecessarily too much.</string>
-    <string name="you_ve_not_discovered_full_daily_wrap_up">Hey, you’ve not discovered everything that daily wrap-up has to offer! Keep using UnlockMaster to get new insights!</string>
     <string name="daily_wrap_up_notifications_can_only_be_delivered_between">Daily wrap-up notifications can only be delivered between 20:00 and 23:59 (8:00 PM and 11:59 PM).</string>
     <string name="invalid_time_selected">Invalid time selected</string>
     <string name="done">Done</string>

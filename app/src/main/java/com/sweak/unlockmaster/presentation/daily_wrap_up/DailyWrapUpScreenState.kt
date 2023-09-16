@@ -19,6 +19,5 @@ data class DailyWrapUpScreenState(
     val unlockLimitDetailsData: DailyWrapUpUnlockLimitDetailsData? = null,
     val screenOnEventsDetailsData: DailyWrapUpScreenOnEventsDetailsData? = null,
 
-    val haveAllDailyWrapUpFeaturesBeenDiscovered: Boolean = false,
     val isScreenOnEventsInformationDialogVisible: Boolean = false
 )
