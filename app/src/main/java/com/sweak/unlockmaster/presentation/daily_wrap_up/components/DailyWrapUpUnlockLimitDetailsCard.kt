@@ -201,7 +201,7 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                             )
 
                             Text(
-                                text = stringResource(R.string.consdier_increasing_limit_or_pausing),
+                                text = stringResource(R.string.consider_increasing_limit_or_pausing),
                                 style = MaterialTheme.typography.subtitle2,
                             )
                         }

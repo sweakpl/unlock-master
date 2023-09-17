@@ -4,5 +4,5 @@ sealed class DailyWrapUpScreenEvent {
     data class ScreenOnEventsInformationDialogVisible(val isVisible: Boolean) :
         DailyWrapUpScreenEvent()
 
-    object ApplySuggestedUnlockLimit : DailyWrapUpScreenEvent()
+    data object ApplySuggestedUnlockLimit : DailyWrapUpScreenEvent()
 }

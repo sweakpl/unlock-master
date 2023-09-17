@@ -38,6 +38,7 @@ UnlockMaster doesn't just track unlocks; it also provides you with eye-catching 
    <img src="./screenshots/StatisticsScreen.jpg" width="196" height="436"/>  
    <img src="./screenshots/ScreenTimeScreen.jpg" width="196" height="436"/>  
    <img src="./screenshots/UnlockLimitUpdatingScreen.jpg" width="196" height="436"/>  
+   <img src="./screenshots/DailyWrapUpScreen.jpg" width="196" height="436"/>  
 </p>
 
 

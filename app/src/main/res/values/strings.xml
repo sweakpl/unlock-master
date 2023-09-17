@@ -121,7 +121,7 @@
     <string name="of_screen_today">of screen time today.</string>
     <string name="keep_improving_for_limit_recommendation">Keep improving to get unlock limit update recommendations!</string>
     <string name="limit_exceeded_significantly">Unlock limit exceeded significantly!</string>
-    <string name="consdier_increasing_limit_or_pausing">Consider increasing your unlock limit or using the pause feature.</string>
+    <string name="consider_increasing_limit_or_pausing">Consider increasing your unlock limit if you are using your phone more extensively or using the pause feature when you know you are going to be unlocking the phone deliberately more often (e.g. using calculator or gym log app).</string>
     <string name="many_more_screen_ons_than_unlocks">Many more screen-ons than unlocks!</string>
     <string name="consider_limiting_auto_turn_on">Consider limiting automatic screen turn-on after receiving notifications or put the phone further away to prevent checking the phone unnecessarily too much.</string>
     <string name="daily_wrap_up_notifications_can_only_be_delivered_between">Daily wrap-up notifications can only be delivered between 20:00 and 23:59 (8:00 PM and 11:59 PM).</string>

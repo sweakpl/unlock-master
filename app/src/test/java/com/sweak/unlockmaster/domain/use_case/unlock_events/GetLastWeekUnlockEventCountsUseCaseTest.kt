@@ -2,14 +2,12 @@ package com.sweak.unlockmaster.domain.use_case.unlock_events
 
 import com.sweak.unlockmaster.data.repository.TimeRepositoryFake
 import com.sweak.unlockmaster.data.repository.UnlockEventsRepositoryFake
-import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.UnlockEvent
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class GetLastWeekUnlockEventCountsUseCaseTest {
 
     // All times in milliseconds should be referenced with the context of the timezone UTC +1.

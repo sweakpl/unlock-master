@@ -6,7 +6,7 @@ sealed class DailyWrapUpSettingsScreenEvent {
         val newNotificationMinute: Int,
     ) : DailyWrapUpSettingsScreenEvent()
 
-    object ConfirmNewSelectedDailyWrapUpSettings : DailyWrapUpSettingsScreenEvent()
+    data object ConfirmNewSelectedDailyWrapUpSettings : DailyWrapUpSettingsScreenEvent()
 
     data class IsInvalidTimeSelectedDialogVisible(val isVisible: Boolean) :
         DailyWrapUpSettingsScreenEvent()

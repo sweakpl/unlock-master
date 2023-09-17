@@ -4,5 +4,5 @@ sealed class MobilizingNotificationsScreenEvent {
     data class SelectNewFrequencyPercentageIndex(
         val newPercentageIndex: Int
     ) : MobilizingNotificationsScreenEvent()
-    object ConfirmNewSelectedFrequencyPercentage : MobilizingNotificationsScreenEvent()
+    data object ConfirmNewSelectedFrequencyPercentage : MobilizingNotificationsScreenEvent()
 }
