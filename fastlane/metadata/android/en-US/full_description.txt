@@ -1,9 +1,3 @@
-<p align="center">
-   <img src="./fastlane/metadata/android/en-US/images/icon.png" width="192" height="192"/>
-</p>
-
-<h1 align="center"><b>UnlockMaster</b></h1>
-
 ### UnlockMaster: Unlock the Power of Mindful Smartphone Use
 
 Are you tired of mindlessly unlocking your phone, only to find yourself lost in endless scrolling or compulsively checking your apps? Say hello to UnlockMaster, your ultimate companion for conscious smartphone usage.
@@ -30,13 +24,3 @@ UnlockMaster doesn't just track unlocks; it also provides you with eye-catching 
 
 ### Unlock the potential of mindful smartphone use with UnlockMaster.
 ### Take control of your digital life, *one unlock at a time*.
-
-<br/>
-
-<p>  
-   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/HomeScreen.jpg" width="196" height="416"/>  
-   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/StatisticsScreen.jpg" width="196" height="416"/>  
-   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/ScreenTimeScreen.jpg" width="196" height="416"/>  
-   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/UnlockLimitUpdatingScreen.jpg" width="196" height="416"/>  
-   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/DailyWrapUpScreen.jpg" width="196" height="416"/>  
-</p>
