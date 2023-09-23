@@ -92,7 +92,8 @@ class DailyWrapUpAlarmReceiver : BroadcastReceiver() {
             setContentText(context.getString(R.string.click_to_check_progress))
             setContentIntent(dailyWrapUpNotificationPendingIntent)
             setAutoCancel(true)
-            setLights(Color.GREEN, 3000, 1000)
+            setOngoing(true)
+            setLights(Color.GREEN, 2000, 1000)
             build()
         }
     }

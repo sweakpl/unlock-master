@@ -40,3 +40,9 @@ UnlockMaster doesn't just track unlocks; it also provides you with eye-catching 
    <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/UnlockLimitUpdatingScreen.jpg" width="196" height="416"/>  
    <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/DailyWrapUpScreen.jpg" width="196" height="416"/>  
 </p>
+
+## Setup
+* Download [`unlock-master-android-signed.apk`](https://github.com/sweakpl/unlock-master/releases),
+* Put it e.g. in a `Downloads` folder in Your Android device,
+* Go to the `Downloads` folder on the Android device,
+* Tap the file and install - the app doesn't require any special permissions.
