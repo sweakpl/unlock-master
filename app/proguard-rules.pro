@@ -19,3 +19,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Keeping chart classes so that chart animations work fine
+-keep class com.github.mikephil.charting.** { *; }
