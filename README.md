@@ -4,7 +4,7 @@
 
 <h1 align="center"><b>UnlockMaster</b></h1>
 
-### UnlockMaster: Unlock the Power of Mindful Smartphone Use
+**UnlockMaster: Unlock the Power of Mindful Smartphone Use**
 
 Are you tired of mindlessly unlocking your phone, only to find yourself lost in endless scrolling or compulsively checking your apps? Say hello to UnlockMaster, your ultimate companion for conscious smartphone usage.
 
@@ -28,8 +28,8 @@ At the end of each day, our app shows you a daily wrap-up notification. Tap it t
 
 UnlockMaster doesn't just track unlocks; it also provides you with eye-catching charts. Monitor your unlocks and screen time with beautiful charts, giving you a clear picture of your progress.
 
-### Unlock the potential of mindful smartphone use with UnlockMaster.
-### Take control of your digital life, *one unlock at a time*.
+**Unlock the potential of mindful smartphone use with UnlockMaster.**
+**Take control of your digital life, *one unlock at a time*.**
 
 <br/>
 
