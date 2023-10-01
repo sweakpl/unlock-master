@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -82,6 +83,10 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 }
+
+                // Fix for blank screen issue on Xiaomi devices:
+                // https://issuetracker.google.com/issues/227926002
+                ScaffoldDefaults.contentWindowInsets
 
                 NavHost(
                     navController = navController,
