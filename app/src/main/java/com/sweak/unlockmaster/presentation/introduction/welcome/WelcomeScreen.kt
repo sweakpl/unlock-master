@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -19,9 +20,12 @@ import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
+import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
 
 @Composable
 fun WelcomeScreen(navController: NavController) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -64,7 +68,10 @@ fun WelcomeScreen(navController: NavController) {
 
         Button(
             onClick = {
-                navController.navigate(Screen.IntroductionScreen.withArguments(false.toString()))
+                navController.navigateThrottled(
+                    Screen.IntroductionScreen.withArguments(false.toString()),
+                    lifecycleOwner
+                )
             },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = MaterialTheme.colors.surface

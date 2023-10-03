@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -37,6 +38,7 @@ import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
+import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
 import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
 import com.sweak.unlockmaster.presentation.settings.daily_wrap_up_settings.components.CardTimePicker
 
@@ -46,10 +48,11 @@ fun DailyWrapUpSettingsScreen(
     navController: NavController
 ) {
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(key1 = context) {
         dailyWrapUpSettingsViewModel.notificationTimeSubmittedEvents.collect {
-            navController.popBackStack()
+            navController.popBackStackThrottled(lifecycleOwner)
         }
     }
 
@@ -60,7 +63,7 @@ fun DailyWrapUpSettingsScreen(
     ) {
         NavigationBar(
             title = stringResource(R.string.daily_wrapups),
-            onBackClick = { navController.popBackStack() }
+            onBackClick = { navController.popBackStackThrottled(lifecycleOwner) }
         )
 
         Box(

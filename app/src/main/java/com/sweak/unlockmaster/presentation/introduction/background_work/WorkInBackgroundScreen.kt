@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,6 +40,8 @@ import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
+import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
+import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
 import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -48,6 +51,8 @@ fun WorkInBackgroundScreen(
     onWorkInBackgroundAllowed: () -> Unit,
     isLaunchedFromSettings: Boolean
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     var hasUserNavigatedToBackgroundWorkWebsite by remember { mutableStateOf(false) }
     var hasUserFinishedBackgroundWorkInstructions by remember { mutableStateOf(false) }
     var hasUserTriedToGrantNotificationsPermission by remember { mutableStateOf(false) }
@@ -77,7 +82,7 @@ fun WorkInBackgroundScreen(
     ) {
         NavigationBar(
             title = stringResource(R.string.work_in_background),
-            onBackClick = { navController.popBackStack() }
+            onBackClick = { navController.popBackStackThrottled(lifecycleOwner) }
         )
 
         Box(
@@ -289,10 +294,13 @@ fun WorkInBackgroundScreen(
                 text = stringResource(R.string._continue),
                 onClick = {
                     if (isLaunchedFromSettings) {
-                        navController.popBackStack()
+                        navController.popBackStackThrottled(lifecycleOwner)
                     } else {
                         onWorkInBackgroundAllowed()
-                        navController.navigate(Screen.SetupCompleteScreen.route)
+                        navController.navigateThrottled(
+                            Screen.SetupCompleteScreen.route,
+                            lifecycleOwner
+                        )
                     }
                 },
                 enabled = isLaunchedFromSettings ||

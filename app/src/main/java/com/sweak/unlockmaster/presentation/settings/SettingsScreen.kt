@@ -9,16 +9,21 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
+import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
+import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
 import com.sweak.unlockmaster.presentation.settings.components.SettingsEntry
 
 @Composable
 fun SettingsScreen(navController: NavController) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     Column(
         modifier = Modifier
             .background(color = MaterialTheme.colors.background)
@@ -26,7 +31,7 @@ fun SettingsScreen(navController: NavController) {
     ) {
         NavigationBar(
             title = stringResource(R.string.settings),
-            onBackClick = { navController.popBackStack() }
+            onBackClick = { navController.popBackStackThrottled(lifecycleOwner) }
         )
 
         Column(
@@ -35,7 +40,10 @@ fun SettingsScreen(navController: NavController) {
             SettingsEntry(
                 settingsEntryTitle = stringResource(R.string.mobilizing_notifications),
                 onEntryClick = {
-                    navController.navigate(Screen.MobilizingNotificationsScreen.route)
+                    navController.navigateThrottled(
+                        Screen.MobilizingNotificationsScreen.route,
+                        lifecycleOwner
+                    )
                 },
                 modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
             )
@@ -43,7 +51,10 @@ fun SettingsScreen(navController: NavController) {
             SettingsEntry(
                 settingsEntryTitle = stringResource(R.string.daily_wrapups),
                 onEntryClick = {
-                    navController.navigate(Screen.DailyWrapUpSettingsScreen.route)
+                    navController.navigateThrottled(
+                        Screen.DailyWrapUpSettingsScreen.route,
+                        lifecycleOwner
+                    )
                 },
                 modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
             )
@@ -51,8 +62,9 @@ fun SettingsScreen(navController: NavController) {
             SettingsEntry(
                 settingsEntryTitle = stringResource(R.string.work_in_background),
                 onEntryClick = {
-                    navController.navigate(
-                        Screen.WorkInBackgroundScreen.withArguments(true.toString())
+                    navController.navigateThrottled(
+                        Screen.WorkInBackgroundScreen.withArguments(true.toString()),
+                        lifecycleOwner
                     )
                 },
                 modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
@@ -61,7 +73,10 @@ fun SettingsScreen(navController: NavController) {
             SettingsEntry(
                 settingsEntryTitle = stringResource(R.string.introduction),
                 onEntryClick = {
-                    navController.navigate(Screen.IntroductionScreen.withArguments(true.toString()))
+                    navController.navigateThrottled(
+                        Screen.IntroductionScreen.withArguments(true.toString()),
+                        lifecycleOwner
+                    )
                 },
                 modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
             )

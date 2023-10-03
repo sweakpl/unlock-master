@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Spa
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.times
 import androidx.navigation.NavController
@@ -20,6 +21,8 @@ import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
+import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
+import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
 import com.sweak.unlockmaster.presentation.introduction.components.InformationCard
 import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
 
@@ -28,12 +31,14 @@ fun IntroductionScreen(
     navController: NavController,
     isLaunchedFromSettings: Boolean
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     Column(
         modifier = Modifier.background(color = MaterialTheme.colors.background)
     ) {
         NavigationBar(
             title = stringResource(R.string.introduction),
-            onBackClick = { navController.popBackStack() }
+            onBackClick = { navController.popBackStackThrottled(lifecycleOwner) }
         )
 
         Box(
@@ -119,10 +124,11 @@ fun IntroductionScreen(
                 text = stringResource(R.string.got_it),
                 onClick = {
                     if (isLaunchedFromSettings) {
-                        navController.popBackStack()
+                        navController.popBackStackThrottled(lifecycleOwner)
                     } else {
-                        navController.navigate(
-                            Screen.UnlockLimitSetupScreen.withArguments(false.toString())
+                        navController.navigateThrottled(
+                            Screen.UnlockLimitSetupScreen.withArguments(false.toString()),
+                            lifecycleOwner
                         )
                     }
                 },

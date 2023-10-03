@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -43,6 +44,8 @@ import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.common.util.getFullDateString
+import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
+import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewCard
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenOnEventsDetailsCard
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenTimeDetailsCard
@@ -56,6 +59,7 @@ fun DailyWrapUpScreen(
     dailyWrapUpDayTimeInMillis: Long,
     dailyWrapUpViewModel: DailyWrapUpViewModel = hiltViewModel()
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
     val dailyWrapUpScreenState = dailyWrapUpViewModel.state
 
     Column(
@@ -71,7 +75,7 @@ fun DailyWrapUpScreen(
                 .height(MaterialTheme.space.xxLarge)
                 .background(color = MaterialTheme.colors.primary)
         ) {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = { navController.popBackStackThrottled(lifecycleOwner) }) {
                 Icon(
                     imageVector = Icons.Outlined.Close,
                     contentDescription = stringResource(R.string.content_description_close_icon)
@@ -218,7 +222,10 @@ fun DailyWrapUpScreen(
                     DailyWrapUpScreenUnlocksDetailsCard(
                         detailsData = dailyWrapUpScreenState.screenUnlocksDetailsData!!,
                         onInteraction = {
-                            navController.navigate(Screen.StatisticsScreen.route)
+                            navController.navigateThrottled(
+                                Screen.StatisticsScreen.route,
+                                lifecycleOwner
+                            )
                         },
                         modifier = Modifier
                             .padding(
@@ -235,10 +242,11 @@ fun DailyWrapUpScreen(
                     DailyWrapUpScreenTimeDetailsCard(
                         detailsData = dailyWrapUpScreenState.screenTimeDetailsData!!,
                         onInteraction = {
-                            navController.navigate(
+                            navController.navigateThrottled(
                                 Screen.ScreenTimeScreen.withArguments(
                                     dailyWrapUpDayTimeInMillis.toString()
-                                )
+                                ),
+                                lifecycleOwner
                             )
                         },
                         modifier = Modifier

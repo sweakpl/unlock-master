@@ -42,6 +42,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -55,6 +56,7 @@ import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
+import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
 import com.sweak.unlockmaster.presentation.main.home.components.WeeklyUnlocksChart
 
 @Composable
@@ -62,6 +64,8 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
     navController: NavController
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     OnResume {
         homeViewModel.refresh()
     }
@@ -81,7 +85,14 @@ fun HomeScreen(
                 .height(MaterialTheme.space.xxLarge)
                 .background(color = MaterialTheme.colors.primary)
         ) {
-            IconButton(onClick = { navController.navigate(Screen.SettingsScreen.route) }) {
+            IconButton(
+                onClick = {
+                    navController.navigateThrottled(
+                        Screen.SettingsScreen.route,
+                        lifecycleOwner
+                    )
+                }
+            ) {
                 Icon(
                     imageVector = Icons.Outlined.Menu,
                     contentDescription = stringResource(R.string.content_description_menu_icon)
@@ -233,10 +244,11 @@ fun HomeScreen(
 
                                 Button(
                                     onClick = {
-                                        navController.navigate(
+                                        navController.navigateThrottled(
                                             Screen.UnlockLimitSetupScreen.withArguments(
                                                 true.toString()
-                                            )
+                                            ),
+                                            lifecycleOwner
                                         )
                                     }
                                 ) {
@@ -274,10 +286,11 @@ fun HomeScreen(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .clickable {
-                                            navController.navigate(
+                                            navController.navigateThrottled(
                                                 Screen.UnlockLimitSetupScreen.withArguments(
                                                     true.toString()
-                                                )
+                                                ),
+                                                lifecycleOwner
                                             )
                                         }
                                 ) {
@@ -343,10 +356,11 @@ fun HomeScreen(
 
                             Button(
                                 onClick = {
-                                    navController.navigate(
+                                    navController.navigateThrottled(
                                         Screen.ScreenTimeScreen.withArguments(
                                             System.currentTimeMillis().toString()
-                                        )
+                                        ),
+                                        lifecycleOwner
                                     )
                                 }
                             ) {
@@ -412,7 +426,10 @@ fun HomeScreen(
 
                             Button(
                                 onClick = {
-                                    navController.navigate(Screen.StatisticsScreen.route)
+                                    navController.navigateThrottled(
+                                        Screen.StatisticsScreen.route,
+                                        lifecycleOwner
+                                    )
                                 },
                                 modifier = Modifier
                                     .padding(top = MaterialTheme.space.medium)

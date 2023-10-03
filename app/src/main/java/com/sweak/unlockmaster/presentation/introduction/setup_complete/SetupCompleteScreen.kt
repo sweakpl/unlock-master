@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,16 +23,20 @@ import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
+import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
+import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
 import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
 
 @Composable
 fun SetupCompleteScreen(navController: NavController) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     Column(
         modifier = Modifier.background(color = MaterialTheme.colors.background)
     ) {
         NavigationBar(
             title = stringResource(R.string.setup_complete),
-            onBackClick = { navController.popBackStack() }
+            onBackClick = { navController.popBackStackThrottled(lifecycleOwner) }
         )
 
         Box(
@@ -197,7 +202,10 @@ fun SetupCompleteScreen(navController: NavController) {
             ProceedButton(
                 text = stringResource(R.string.lets_go),
                 onClick = {
-                    navController.navigate(Screen.HomeScreen.route) {
+                    navController.navigateThrottled(
+                        Screen.HomeScreen.route,
+                        lifecycleOwner
+                    ) {
                         popUpTo(Screen.WelcomeScreen.route) {
                             inclusive = true
                         }

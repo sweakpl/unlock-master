@@ -11,6 +11,7 @@ import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -24,6 +25,8 @@ import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
 import com.sweak.unlockmaster.presentation.common.util.getFullDateString
+import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
+import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
 import com.sweak.unlockmaster.presentation.main.statistics.components.AllTimeUnlocksChart
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -32,6 +35,8 @@ fun StatisticsScreen(
     navController: NavController,
     statisticsViewModel: StatisticsViewModel = hiltViewModel()
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     OnResume {
         statisticsViewModel.reload()
     }
@@ -45,7 +50,7 @@ fun StatisticsScreen(
     ) {
         NavigationBar(
             title = stringResource(R.string.statistics),
-            onBackClick = { navController.popBackStack() }
+            onBackClick = { navController.popBackStackThrottled(lifecycleOwner) }
         )
 
         AnimatedContent(
@@ -254,11 +259,12 @@ fun StatisticsScreen(
 
                             Button(
                                 onClick = {
-                                    navController.navigate(
+                                    navController.navigateThrottled(
                                         Screen.ScreenTimeScreen.withArguments(
                                             statisticsScreenState
                                                 .currentlyHighlightedDayTimeInMillis.toString()
-                                        )
+                                        ),
+                                        lifecycleOwner
                                     )
                                 },
                                 modifier = Modifier.align(Alignment.End)

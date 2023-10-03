@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -33,6 +34,7 @@ import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.common.util.TimeFormat
 import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
 import com.sweak.unlockmaster.presentation.common.util.getFullDateString
+import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
 import com.sweak.unlockmaster.presentation.main.screen_time.components.CounterPauseSeparator
 import com.sweak.unlockmaster.presentation.main.screen_time.components.DailyScreenTimeChart
 import com.sweak.unlockmaster.presentation.main.screen_time.components.SingleScreenTimeSessionCard
@@ -43,6 +45,8 @@ fun ScreenTimeScreen(
     navController: NavController,
     displayedScreenTimeDayTimeInMillis: Long
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     OnResume {
         screenTimeViewModel.refresh()
     }
@@ -56,7 +60,7 @@ fun ScreenTimeScreen(
     ) {
         NavigationBar(
             title = getFullDateString(displayedScreenTimeDayTimeInMillis),
-            onBackClick = { navController.popBackStack() }
+            onBackClick = { navController.popBackStackThrottled(lifecycleOwner) }
         )
 
         AnimatedContent(
