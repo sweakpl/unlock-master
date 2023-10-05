@@ -16,6 +16,7 @@ private val colorPalette = lightColorScheme(
     background = Porcelain,
     onBackground = Color.Black,
     surface = Color.White,
+    surfaceVariant = Color.White,
     onSurface = Color.Black,
     error = Monza,
     onError = Color.White
