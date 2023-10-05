@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Done
@@ -38,14 +38,14 @@ fun DailyWrapUpUnlockLimitDetailsCard(
         Column(modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)) {
             Text(
                 text = stringResource(R.string.unlock_limit),
-                style = MaterialTheme.typography.h1,
+                style = MaterialTheme.typography.displayLarge,
                 modifier = Modifier.padding(bottom = MaterialTheme.space.small)
             )
 
             Row {
                 Text(
                     text = detailsData.unlockLimit.toString(),
-                    style = MaterialTheme.typography.h1,
+                    style = MaterialTheme.typography.displayLarge,
                     fontSize = 32.sp,
                     modifier = Modifier
                         .padding(end = MaterialTheme.space.xSmall)
@@ -54,7 +54,7 @@ fun DailyWrapUpUnlockLimitDetailsCard(
 
                 Text(
                     text = stringResource(R.string.was_your_unlock_limit),
-                    style = MaterialTheme.typography.h4,
+                    style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier.alignByBaseline()
                 )
             }
@@ -62,15 +62,15 @@ fun DailyWrapUpUnlockLimitDetailsCard(
             detailsData.suggestedUnlockLimit?.let { suggestedUnlockLimit ->
                 Text(
                     text = stringResource(R.string.recommended_to_update),
-                    style = MaterialTheme.typography.h4
+                    style = MaterialTheme.typography.headlineMedium
                 )
 
                 Row(modifier = Modifier.padding(bottom = MaterialTheme.space.medium)) {
                     Text(
                         text = suggestedUnlockLimit.toString(),
-                        style = MaterialTheme.typography.h1,
+                        style = MaterialTheme.typography.displayLarge,
                         fontSize = 32.sp,
-                        color = MaterialTheme.colors.primaryVariant,
+                        color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier
                             .padding(end = MaterialTheme.space.xSmall)
                             .alignByBaseline()
@@ -78,12 +78,12 @@ fun DailyWrapUpUnlockLimitDetailsCard(
 
                     Text(
                         text = stringResource(R.string.for_more_improvements),
-                        style = MaterialTheme.typography.h4,
+                        style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier.alignByBaseline()
                     )
                 }
 
-                Card(backgroundColor = MaterialTheme.colors.background) {
+                Card(backgroundColor = MaterialTheme.colorScheme.background) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)
@@ -96,7 +96,7 @@ fun DailyWrapUpUnlockLimitDetailsCard(
 
                         Text(
                             text = stringResource(R.string.apply_suggested_unlock_limit),
-                            style = MaterialTheme.typography.subtitle1,
+                            style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier
                                 .weight(1f)
                                 .padding(horizontal = MaterialTheme.space.smallMedium)
@@ -114,7 +114,7 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                                 ) {
                                     Text(
                                         text = stringResource(R.string.done),
-                                        style = MaterialTheme.typography.subtitle1,
+                                        style = MaterialTheme.typography.titleMedium,
                                         modifier = Modifier.padding(end = MaterialTheme.space.small)
                                     )
 
@@ -134,7 +134,7 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         Text(
                                             text = stringResource(R.string.update),
-                                            style = MaterialTheme.typography.subtitle1,
+                                            style = MaterialTheme.typography.titleMedium,
                                             modifier = Modifier.padding(end = MaterialTheme.space.small)
                                         )
 
@@ -153,13 +153,13 @@ fun DailyWrapUpUnlockLimitDetailsCard(
             } ?: if (detailsData.unlockLimit != detailsData.tomorrowUnlockLimit) {
                 Text(
                     text = stringResource(R.string.you_have_recently_set),
-                    style = MaterialTheme.typography.h4
+                    style = MaterialTheme.typography.headlineMedium
                 )
 
                 Row {
                     Text(
                         text = detailsData.tomorrowUnlockLimit.toString(),
-                        style = MaterialTheme.typography.h1,
+                        style = MaterialTheme.typography.displayLarge,
                         fontSize = 32.sp,
                         modifier = Modifier
                             .padding(end = MaterialTheme.space.xSmall)
@@ -168,13 +168,13 @@ fun DailyWrapUpUnlockLimitDetailsCard(
 
                     Text(
                         text = stringResource(R.string.as_your_new_unlock_limit),
-                        style = MaterialTheme.typography.h4,
+                        style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier.alignByBaseline()
                     )
                 }
             } else if (detailsData.isLimitSignificantlyExceeded) {
                 Card(
-                    backgroundColor = MaterialTheme.colors.background,
+                    backgroundColor = MaterialTheme.colorScheme.background,
                     modifier = Modifier.padding(top = MaterialTheme.space.medium)
                 ) {
                     Row(
@@ -196,20 +196,20 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                         ) {
                             Text(
                                 text = stringResource(R.string.limit_exceeded_significantly),
-                                style = MaterialTheme.typography.subtitle1,
+                                style = MaterialTheme.typography.titleMedium,
                                 modifier = Modifier.padding(bottom = MaterialTheme.space.xSmall)
                             )
 
                             Text(
                                 text = stringResource(R.string.consider_increasing_limit_or_pausing),
-                                style = MaterialTheme.typography.subtitle2,
+                                style = MaterialTheme.typography.titleSmall,
                             )
                         }
                     }
                 }
             } else {
                 Card(
-                    backgroundColor = MaterialTheme.colors.background,
+                    backgroundColor = MaterialTheme.colorScheme.background,
                     modifier = Modifier.padding(top = MaterialTheme.space.medium)
                 ) {
                     Row(
@@ -228,7 +228,7 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                                     R.string.keep_improving_for_limit_recommendation
                                 else R.string.you_have_reached_the_lowest_unlock_limit
                             ),
-                            style = MaterialTheme.typography.subtitle1,
+                            style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier
                                 .weight(1f)
                                 .padding(start = MaterialTheme.space.smallMedium)

@@ -1,7 +1,7 @@
 package com.sweak.unlockmaster.presentation.main.statistics.components
 
 import android.graphics.Color
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,7 +38,7 @@ fun AllTimeUnlocksChart(
         mutableStateOf(allTimeUnlockEventCountsEntries)
     }
     var currentlyHighlightedXValue = remember { 0f }
-    val barArgbColor: Int = MaterialTheme.colors.primaryVariant.toArgb()
+    val barArgbColor: Int = MaterialTheme.colorScheme.secondary.toArgb()
 
     AndroidView(
         factory = { context ->

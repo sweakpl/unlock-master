@@ -12,7 +12,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowDropDown
@@ -49,7 +49,7 @@ fun ComboBox(
             ) {
                 Text(
                     text = menuItems[selectedIndex].toString(),
-                    style = MaterialTheme.typography.h2,
+                    style = MaterialTheme.typography.displayMedium,
                     modifier = Modifier
                         .padding(all = MaterialTheme.space.medium)
                         .weight(1f),
@@ -77,7 +77,7 @@ fun ComboBox(
             modifier = Modifier
                 .wrapContentWidth()
                 .background(
-                    color = MaterialTheme.colors.surface,
+                    color = MaterialTheme.colorScheme.surface,
                     shape = RoundedCornerShape(4.dp)
                 )
         ) {
@@ -90,7 +90,7 @@ fun ComboBox(
                 ) {
                     Text(
                         text = content.toString(),
-                        style = MaterialTheme.typography.h2
+                        style = MaterialTheme.typography.displayMedium
                     )
                 }
             }

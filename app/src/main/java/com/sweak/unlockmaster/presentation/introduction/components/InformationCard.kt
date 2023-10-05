@@ -3,7 +3,7 @@ package com.sweak.unlockmaster.presentation.introduction.components
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -40,7 +40,7 @@ fun InformationCard(
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.h4.copy(
+                    style = MaterialTheme.typography.headlineMedium.copy(
                         fontWeight = FontWeight.SemiBold
                     ),
                     modifier = Modifier.padding(bottom = MaterialTheme.space.xSmall)
@@ -48,7 +48,7 @@ fun InformationCard(
 
                 Text(
                     text = description,
-                    style = MaterialTheme.typography.subtitle2
+                    style = MaterialTheme.typography.titleSmall
                 )
             }
         }

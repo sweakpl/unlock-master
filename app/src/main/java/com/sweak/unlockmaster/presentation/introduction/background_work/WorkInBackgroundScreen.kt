@@ -10,19 +10,19 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.NavigateNext
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.NotificationsOff
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalUriHandler
@@ -78,7 +78,7 @@ fun WorkInBackgroundScreen(
     }
 
     Column(
-        modifier = Modifier.background(color = MaterialTheme.colors.background)
+        modifier = Modifier.background(color = MaterialTheme.colorScheme.background)
     ) {
         NavigationBar(
             title = stringResource(R.string.work_in_background),
@@ -96,7 +96,7 @@ fun WorkInBackgroundScreen(
             ) {
                 Text(
                     text = stringResource(R.string.allow_work_in_background),
-                    style = MaterialTheme.typography.h1,
+                    style = MaterialTheme.typography.displayLarge,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
@@ -108,7 +108,7 @@ fun WorkInBackgroundScreen(
 
                 Text(
                     text = stringResource(R.string.allow_work_in_background_description),
-                    style = MaterialTheme.typography.subtitle1,
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
@@ -151,9 +151,9 @@ fun WorkInBackgroundScreen(
                         ) {
                             Text(
                                 text = stringResource(R.string.dontkilmyapp_com),
-                                style = MaterialTheme.typography.h4.copy(
+                                style = MaterialTheme.typography.headlineMedium.copy(
                                     fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colors.secondaryVariant
+                                    color = MaterialTheme.colorScheme.tertiary
                                 ),
                                 modifier = Modifier.padding(bottom = MaterialTheme.space.xSmall)
                             )
@@ -162,7 +162,7 @@ fun WorkInBackgroundScreen(
                                 text = stringResource(
                                     R.string.select_manufacturer_and_follow_instructions
                                 ),
-                                style = MaterialTheme.typography.subtitle2
+                                style = MaterialTheme.typography.titleSmall
                             )
                         }
 
@@ -194,7 +194,7 @@ fun WorkInBackgroundScreen(
 
                     Text(
                         text = stringResource(R.string.allow_notifications),
-                        style = MaterialTheme.typography.h1,
+                        style = MaterialTheme.typography.displayLarge,
                         modifier = Modifier
                             .padding(
                                 start = MaterialTheme.space.medium,
@@ -206,7 +206,7 @@ fun WorkInBackgroundScreen(
 
                     Text(
                         text = stringResource(R.string.allow_notifications_description),
-                        style = MaterialTheme.typography.subtitle1,
+                        style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier
                             .padding(
                                 start = MaterialTheme.space.medium,
@@ -259,7 +259,7 @@ fun WorkInBackgroundScreen(
                                         R.string.notifications_disabled_click_to_enable
                                     else R.string.notifications_enabled
                                 ),
-                                style = MaterialTheme.typography.h4.copy(
+                                style = MaterialTheme.typography.headlineMedium.copy(
                                     fontWeight = FontWeight.SemiBold
                                 ),
                                 modifier = Modifier

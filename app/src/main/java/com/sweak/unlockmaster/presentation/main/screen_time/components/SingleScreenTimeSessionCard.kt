@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccessTime
@@ -49,7 +49,7 @@ fun SingleScreenTimeSessionCard(
                 text = getTimeString(screenSessionStartAndEndTimesInMillis.first, timeFormat) +
                         " - " +
                         getTimeString(screenSessionStartAndEndTimesInMillis.second, timeFormat),
-                style = MaterialTheme.typography.subtitle1,
+                style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier
                     .padding(horizontal = MaterialTheme.space.smallMedium)
                     .weight(1f)
@@ -57,7 +57,7 @@ fun SingleScreenTimeSessionCard(
 
             Text(
                 text = getCompactDurationString(screenSessionDuration),
-                style = MaterialTheme.typography.h2,
+                style = MaterialTheme.typography.displayMedium,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )

@@ -4,7 +4,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
@@ -32,7 +32,7 @@ fun SetupCompleteScreen(navController: NavController) {
     val lifecycleOwner = LocalLifecycleOwner.current
 
     Column(
-        modifier = Modifier.background(color = MaterialTheme.colors.background)
+        modifier = Modifier.background(color = MaterialTheme.colorScheme.background)
     ) {
         NavigationBar(
             title = stringResource(R.string.setup_complete),
@@ -50,7 +50,7 @@ fun SetupCompleteScreen(navController: NavController) {
             ) {
                 Text(
                     text = stringResource(R.string.all_set),
-                    style = MaterialTheme.typography.h1,
+                    style = MaterialTheme.typography.displayLarge,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
@@ -62,7 +62,7 @@ fun SetupCompleteScreen(navController: NavController) {
 
                 Text(
                     text = stringResource(R.string.all_set_description),
-                    style = MaterialTheme.typography.subtitle1,
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
@@ -88,7 +88,7 @@ fun SetupCompleteScreen(navController: NavController) {
 
                 Text(
                     text = stringResource(R.string.mobilizing_notifications),
-                    style = MaterialTheme.typography.h3,
+                    style = MaterialTheme.typography.displaySmall,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
@@ -100,7 +100,7 @@ fun SetupCompleteScreen(navController: NavController) {
 
                 Text(
                     text = stringResource(R.string.mobilizing_notifications_description),
-                    style = MaterialTheme.typography.subtitle1,
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
@@ -126,7 +126,7 @@ fun SetupCompleteScreen(navController: NavController) {
 
                 Text(
                     text = stringResource(R.string.daily_wrapups),
-                    style = MaterialTheme.typography.h3,
+                    style = MaterialTheme.typography.displaySmall,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
@@ -138,7 +138,7 @@ fun SetupCompleteScreen(navController: NavController) {
 
                 Text(
                     text = stringResource(R.string.daily_wrapups_description),
-                    style = MaterialTheme.typography.subtitle1,
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
@@ -168,7 +168,7 @@ fun SetupCompleteScreen(navController: NavController) {
                     backgroundColor = Color.Transparent,
                     border = BorderStroke(
                         width = 2.dp,
-                        color = MaterialTheme.colors.secondary
+                        color = MaterialTheme.colorScheme.tertiary
                     ),
                     elevation = MaterialTheme.space.default,
                     modifier = Modifier
@@ -190,7 +190,7 @@ fun SetupCompleteScreen(navController: NavController) {
                             text = stringResource(
                                 R.string.note_you_can_change_time_of_notifications
                             ),
-                            style = MaterialTheme.typography.subtitle2,
+                            style = MaterialTheme.typography.titleSmall,
                             modifier = Modifier.padding(start = MaterialTheme.space.small)
                         )
                     }

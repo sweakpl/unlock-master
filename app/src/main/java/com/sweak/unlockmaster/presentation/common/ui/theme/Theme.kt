@@ -1,23 +1,23 @@
 package com.sweak.unlockmaster.presentation.common.ui.theme
 
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.lightColors
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 
-private val colorPalette = lightColors(
+private val colorPalette = lightColorScheme(
     primary = Riptide,
-    primaryVariant = OceanGreen,
-    secondary = PictonBlue,
-    secondaryVariant = Lochmara,
-    background = Porcelain,
-    surface = Color.White,
-    error = Monza,
     onPrimary = Color.Black,
+    secondary = OceanGreen,
     onSecondary = Color.Black,
+    tertiary = Lochmara,
+    onTertiary = Color.Black,
+    background = Porcelain,
     onBackground = Color.Black,
+    surface = Color.White,
     onSurface = Color.Black,
+    error = Monza,
     onError = Color.White
 )
 
@@ -25,7 +25,7 @@ private val colorPalette = lightColors(
 fun UnlockMasterTheme(content: @Composable () -> Unit) {
     CompositionLocalProvider(LocalSpace provides Space()) {
         MaterialTheme(
-            colors = colorPalette,
+            colorScheme = colorPalette,
             typography = Typography,
             shapes = Shapes,
             content = content

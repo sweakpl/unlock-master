@@ -19,7 +19,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CalendarMonth
@@ -64,7 +64,7 @@ fun DailyWrapUpScreen(
 
     Column(
         modifier = Modifier
-            .background(color = MaterialTheme.colors.background)
+            .background(color = MaterialTheme.colorScheme.background)
             .fillMaxSize()
     ) {
         Row(
@@ -73,7 +73,7 @@ fun DailyWrapUpScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(MaterialTheme.space.xxLarge)
-                .background(color = MaterialTheme.colors.primary)
+                .background(color = MaterialTheme.colorScheme.primary)
         ) {
             IconButton(onClick = { navController.popBackStackThrottled(lifecycleOwner) }) {
                 Icon(
@@ -84,7 +84,7 @@ fun DailyWrapUpScreen(
 
             Text(
                 text = stringResource(R.string.daily_wrapup),
-                style = MaterialTheme.typography.h2
+                style = MaterialTheme.typography.displayMedium
             )
 
             Spacer(
@@ -122,7 +122,7 @@ fun DailyWrapUpScreen(
                 ) {
                     Text(
                         text = stringResource(R.string.heres_how_you_did_today),
-                        style = MaterialTheme.typography.h1,
+                        style = MaterialTheme.typography.displayLarge,
                         modifier = Modifier.padding(
                             start = MaterialTheme.space.medium,
                             top = MaterialTheme.space.mediumLarge,
@@ -144,7 +144,7 @@ fun DailyWrapUpScreen(
 
                         Text(
                             text = getFullDateString(dailyWrapUpDayTimeInMillis),
-                            style = MaterialTheme.typography.h4,
+                            style = MaterialTheme.typography.headlineMedium,
                             modifier = Modifier.padding(start = MaterialTheme.space.medium)
                         )
                     }
@@ -304,7 +304,7 @@ fun DailyWrapUpScreen(
             } else {
                 Box(modifier = Modifier.fillMaxHeight()) {
                     CircularProgressIndicator(
-                        color = MaterialTheme.colors.primaryVariant,
+                        color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier
                             .size(MaterialTheme.space.xLarge)
                             .align(alignment = Alignment.Center)

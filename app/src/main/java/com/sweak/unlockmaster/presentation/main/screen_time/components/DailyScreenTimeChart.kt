@@ -2,7 +2,7 @@ package com.sweak.unlockmaster.presentation.main.screen_time.components
 
 import android.graphics.Color
 import android.text.format.DateFormat
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
@@ -23,7 +23,7 @@ fun DailyScreenTimeChart(
     screenTimeMinutesPerHourEntries: List<Entry>,
     modifier: Modifier = Modifier
 ) {
-    val lineArgbColor: Int = MaterialTheme.colors.primaryVariant.toArgb()
+    val lineArgbColor: Int = MaterialTheme.colorScheme.secondary.toArgb()
 
     AndroidView(
         factory = { context ->

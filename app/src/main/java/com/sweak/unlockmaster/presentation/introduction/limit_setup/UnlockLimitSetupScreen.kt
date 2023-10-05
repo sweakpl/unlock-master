@@ -18,7 +18,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ModeEdit
@@ -73,7 +73,7 @@ fun UnlockLimitSetupScreen(
     val unlockLimitSetupScreenState = unlockLimitSetupViewModel.state
 
     Column(
-        modifier = Modifier.background(color = MaterialTheme.colors.background)
+        modifier = Modifier.background(color = MaterialTheme.colorScheme.background)
     ) {
         NavigationBar(
             title = stringResource(R.string.unlock_limit),
@@ -94,7 +94,7 @@ fun UnlockLimitSetupScreen(
                         if (isUpdatingExistingUnlockLimit) R.string.update_your_unlock_limit
                         else R.string.set_up_unlock_limit
                     ),
-                    style = MaterialTheme.typography.h1,
+                    style = MaterialTheme.typography.displayLarge,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
@@ -110,7 +110,7 @@ fun UnlockLimitSetupScreen(
                             R.string.update_your_unlock_limit_description
                         else R.string.set_up_unlock_limit_description
                     ),
-                    style = MaterialTheme.typography.subtitle1,
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
@@ -144,7 +144,7 @@ fun UnlockLimitSetupScreen(
                         backgroundColor = Color.Transparent,
                         border = BorderStroke(
                             width = 2.dp,
-                            color = MaterialTheme.colors.secondary
+                            color = MaterialTheme.colorScheme.tertiary
                         ),
                         elevation = MaterialTheme.space.default,
                         modifier = Modifier
@@ -168,13 +168,13 @@ fun UnlockLimitSetupScreen(
                                     text = stringResource(
                                         R.string.new_unlock_limit_set_for_tomorrow
                                     ),
-                                    style = MaterialTheme.typography.subtitle2
+                                    style = MaterialTheme.typography.titleSmall
                                 )
 
                                 Text(
                                     text =
                                     unlockLimitSetupScreenState.unlockLimitForTomorrow.toString(),
-                                    style = MaterialTheme.typography.h2
+                                    style = MaterialTheme.typography.displayMedium
                                 )
                             }
 
@@ -201,7 +201,7 @@ fun UnlockLimitSetupScreen(
 
                 Text(
                     text = stringResource(R.string.unlock_limit_purposes),
-                    style = MaterialTheme.typography.h3,
+                    style = MaterialTheme.typography.displaySmall,
                     modifier = Modifier.padding(all = MaterialTheme.space.medium)
                 )
 
@@ -243,7 +243,7 @@ fun UnlockLimitSetupScreen(
                     backgroundColor = Color.Transparent,
                     border = BorderStroke(
                         width = 2.dp,
-                        color = MaterialTheme.colors.secondary
+                        color = MaterialTheme.colorScheme.tertiary
                     ),
                     elevation = MaterialTheme.space.default,
                     modifier = Modifier
@@ -265,7 +265,7 @@ fun UnlockLimitSetupScreen(
                             text = stringResource(
                                 R.string.note_reaching_limit_wont_prevent_unlocking
                             ),
-                            style = MaterialTheme.typography.subtitle2,
+                            style = MaterialTheme.typography.titleSmall,
                             modifier = Modifier.padding(start = MaterialTheme.space.small)
                         )
                     }

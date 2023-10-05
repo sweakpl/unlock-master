@@ -4,7 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
@@ -27,7 +27,7 @@ fun NavigationBar(
         modifier = modifier
             .fillMaxWidth()
             .height(MaterialTheme.space.xxLarge)
-            .background(color = MaterialTheme.colors.background)
+            .background(color = MaterialTheme.colorScheme.background)
     ) {
         IconButton(onClick = onBackClick) {
             Icon(
@@ -38,7 +38,7 @@ fun NavigationBar(
 
         Text(
             text = title,
-            style = MaterialTheme.typography.h2
+            style = MaterialTheme.typography.displayMedium
         )
 
         Spacer(

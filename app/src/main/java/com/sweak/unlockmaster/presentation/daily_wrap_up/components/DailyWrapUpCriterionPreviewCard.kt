@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.NavigateNext
@@ -143,9 +143,9 @@ fun DailyWrapUpCriterionPreviewCard(
                             }
                         ),
                         tint = when (progress) {
-                            Progress.IMPROVEMENT -> MaterialTheme.colors.primaryVariant
-                            Progress.REGRESS -> MaterialTheme.colors.error
-                            else -> MaterialTheme.colors.onSurface
+                            Progress.IMPROVEMENT -> MaterialTheme.colorScheme.secondary
+                            Progress.REGRESS -> MaterialTheme.colorScheme.error
+                            else -> MaterialTheme.colorScheme.onSurface
                         },
                         modifier = Modifier
                             .size(size = MaterialTheme.space.mediumLarge)
@@ -161,7 +161,7 @@ fun DailyWrapUpCriterionPreviewCard(
 
                 Text(
                     text = criterionValueText,
-                    style = MaterialTheme.typography.h1
+                    style = MaterialTheme.typography.displayLarge
                 )
 
                 if (progress == null && isUnlockLimitSuggestionAvailable) {
@@ -179,7 +179,7 @@ fun DailyWrapUpCriterionPreviewCard(
 
             Text(
                 text = criterionText,
-                style = MaterialTheme.typography.subtitle1
+                style = MaterialTheme.typography.titleMedium
             )
         }
     }

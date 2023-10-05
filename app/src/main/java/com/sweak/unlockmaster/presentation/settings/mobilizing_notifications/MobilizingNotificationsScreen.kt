@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,7 +50,7 @@ fun MobilizingNotificationsScreen(
     val mobilizingNotificationsScreenState = mobilizingNotificationsViewModel.state
 
     Column(
-        modifier = Modifier.background(color = MaterialTheme.colors.background)
+        modifier = Modifier.background(color = MaterialTheme.colorScheme.background)
     ) {
         NavigationBar(
             title = stringResource(R.string.mobilizing_notifications),
@@ -68,7 +68,7 @@ fun MobilizingNotificationsScreen(
             ) {
                 Text(
                     text = stringResource(R.string.mobilizing_notifications),
-                    style = MaterialTheme.typography.h1,
+                    style = MaterialTheme.typography.displayLarge,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
@@ -80,7 +80,7 @@ fun MobilizingNotificationsScreen(
 
                 Text(
                     text = stringResource(R.string.mobilizing_notifications_description),
-                    style = MaterialTheme.typography.subtitle1,
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
@@ -106,7 +106,7 @@ fun MobilizingNotificationsScreen(
 
                 Text(
                     text = stringResource(R.string.mobilizing_notifications_setting_description),
-                    style = MaterialTheme.typography.subtitle1,
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
@@ -141,7 +141,7 @@ fun MobilizingNotificationsScreen(
 
                 Text(
                     text = stringResource(R.string.example),
-                    style = MaterialTheme.typography.h4,
+                    style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
@@ -152,7 +152,7 @@ fun MobilizingNotificationsScreen(
 
                 Text(
                     text = stringResource(R.string.mobilizing_notifications_setting_example),
-                    style = MaterialTheme.typography.subtitle2,
+                    style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
                 )
 

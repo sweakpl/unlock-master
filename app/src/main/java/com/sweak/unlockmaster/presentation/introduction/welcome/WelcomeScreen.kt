@@ -5,7 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,8 +34,8 @@ fun WelcomeScreen(navController: NavController) {
             .background(
                 brush = Brush.verticalGradient(
                     listOf(
-                        MaterialTheme.colors.primary,
-                        MaterialTheme.colors.primaryVariant
+                        MaterialTheme.colorScheme.primary,
+                        MaterialTheme.colorScheme.secondary
                     )
                 )
             )
@@ -48,7 +48,7 @@ fun WelcomeScreen(navController: NavController) {
 
         Text(
             text = stringResource(R.string.welcome_to_unlock_master),
-            style = MaterialTheme.typography.h1,
+            style = MaterialTheme.typography.displayLarge,
             color = Color.White,
             modifier = Modifier.padding(all = MaterialTheme.space.medium)
         )
@@ -56,7 +56,7 @@ fun WelcomeScreen(navController: NavController) {
         Text(
             text = stringResource(R.string.welcome_to_unlock_master_subtitle),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.subtitle1,
+            style = MaterialTheme.typography.titleMedium,
             color = Color.White,
             modifier = Modifier
                 .padding(
@@ -74,7 +74,7 @@ fun WelcomeScreen(navController: NavController) {
                 )
             },
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.surface
+                backgroundColor = MaterialTheme.colorScheme.surface
             ),
             elevation = ButtonDefaults.elevation(
                 defaultElevation = MaterialTheme.space.xSmall

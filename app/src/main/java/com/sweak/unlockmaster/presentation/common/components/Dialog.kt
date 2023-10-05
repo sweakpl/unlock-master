@@ -4,7 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,11 +38,11 @@ fun Dialog(
             modifier = Modifier
                 .wrapContentSize()
                 .clip(MaterialTheme.shapes.medium)
-                .background(MaterialTheme.colors.surface)
+                .background(MaterialTheme.colorScheme.surface)
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.h2,
+                style = MaterialTheme.typography.displayMedium,
                 modifier = Modifier.padding(
                     start = MaterialTheme.space.medium,
                     top = MaterialTheme.space.medium,
@@ -53,7 +53,7 @@ fun Dialog(
 
             Text(
                 text = message,
-                style = MaterialTheme.typography.subtitle1,
+                style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(
                     start = MaterialTheme.space.medium,
                     end = MaterialTheme.space.medium,

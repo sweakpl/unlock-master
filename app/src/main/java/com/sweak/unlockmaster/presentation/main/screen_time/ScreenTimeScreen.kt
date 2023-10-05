@@ -17,7 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -55,7 +55,7 @@ fun ScreenTimeScreen(
 
     Column(
         modifier = Modifier
-            .background(color = MaterialTheme.colors.background)
+            .background(color = MaterialTheme.colorScheme.background)
             .fillMaxSize()
     ) {
         NavigationBar(
@@ -101,13 +101,13 @@ fun ScreenTimeScreen(
                         ) {
                             Text(
                                 text = stringResource(R.string.screen_time_colon),
-                                style = MaterialTheme.typography.h4
+                                style = MaterialTheme.typography.headlineMedium
                             )
 
                             screenTimeScreenState.todayScreenTimeDuration?.let {
                                 Text(
                                     text = getCompactDurationString(it),
-                                    style = MaterialTheme.typography.h1
+                                    style = MaterialTheme.typography.displayLarge
                                 )
                             }
                         }
@@ -115,7 +115,7 @@ fun ScreenTimeScreen(
 
                     Text(
                         text = stringResource(R.string.screen_time_history),
-                        style = MaterialTheme.typography.h3,
+                        style = MaterialTheme.typography.displaySmall,
                         modifier = Modifier.padding(
                             start = MaterialTheme.space.medium,
                             end = MaterialTheme.space.medium,
@@ -143,7 +143,7 @@ fun ScreenTimeScreen(
                             ) {
                                 Text(
                                     text = stringResource(R.string.history_empty_for_that_day),
-                                    style = MaterialTheme.typography.h4
+                                    style = MaterialTheme.typography.headlineMedium
                                 )
                             }
                         }
@@ -189,7 +189,7 @@ fun ScreenTimeScreen(
             } else {
                 Box(modifier = Modifier.fillMaxHeight()) {
                     CircularProgressIndicator(
-                        color = MaterialTheme.colors.primaryVariant,
+                        color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier
                             .size(MaterialTheme.space.xLarge)
                             .align(alignment = Alignment.Center)

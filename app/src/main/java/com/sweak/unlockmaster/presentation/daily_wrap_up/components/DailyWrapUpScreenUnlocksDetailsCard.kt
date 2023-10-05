@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NavigateNext
@@ -36,14 +36,14 @@ fun DailyWrapUpScreenUnlocksDetailsCard(
         Column(modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)) {
             Text(
                 text = stringResource(R.string.screen_unlocks),
-                style = MaterialTheme.typography.h1,
+                style = MaterialTheme.typography.displayLarge,
                 modifier = Modifier.padding(bottom = MaterialTheme.space.small)
             )
 
             Row {
                 Text(
                     text = detailsData.screenUnlocksCount.toString(),
-                    style = MaterialTheme.typography.h1,
+                    style = MaterialTheme.typography.displayLarge,
                     fontSize = 32.sp,
                     modifier = Modifier
                         .padding(end = MaterialTheme.space.xSmall)
@@ -55,7 +55,7 @@ fun DailyWrapUpScreenUnlocksDetailsCard(
                         if (detailsData.yesterdayDifference != null) R.string.screen_unlocks_which_is
                         else R.string.screen_unlocks_today
                     ),
-                    style = MaterialTheme.typography.h4,
+                    style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier.alignByBaseline()
                 )
             }
@@ -64,11 +64,11 @@ fun DailyWrapUpScreenUnlocksDetailsCard(
                 Row {
                     Text(
                         text = if (it == 0) "—" else abs(it).toString(),
-                        style = MaterialTheme.typography.h1,
+                        style = MaterialTheme.typography.displayLarge,
                         fontSize = 32.sp,
-                        color = if (it < 0) MaterialTheme.colors.primaryVariant
-                        else if (it > 0) MaterialTheme.colors.error
-                        else MaterialTheme.colors.onBackground,
+                        color = if (it < 0) MaterialTheme.colorScheme.secondary
+                        else if (it > 0) MaterialTheme.colorScheme.error
+                        else MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier
                             .padding(end = MaterialTheme.space.xSmall)
                             .alignByBaseline()
@@ -86,7 +86,7 @@ fun DailyWrapUpScreenUnlocksDetailsCard(
                                 else R.string.as_much_as_yesterday_and
                             }
                         ),
-                        style = MaterialTheme.typography.h4,
+                        style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier.alignByBaseline()
                     )
                 }
@@ -96,11 +96,11 @@ fun DailyWrapUpScreenUnlocksDetailsCard(
                 Row {
                     Text(
                         text = if (it == 0) "—" else abs(it).toString(),
-                        style = MaterialTheme.typography.h1,
+                        style = MaterialTheme.typography.displayLarge,
                         fontSize = 32.sp,
-                        color = if (it < 0) MaterialTheme.colors.primaryVariant
-                        else if (it > 0) MaterialTheme.colors.error
-                        else MaterialTheme.colors.onBackground,
+                        color = if (it < 0) MaterialTheme.colorScheme.secondary
+                        else if (it > 0) MaterialTheme.colorScheme.error
+                        else MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier
                             .padding(end = MaterialTheme.space.xSmall)
                             .alignByBaseline()
@@ -112,7 +112,7 @@ fun DailyWrapUpScreenUnlocksDetailsCard(
                             else if (it > 0) R.string.more_than_a_week_before
                             else R.string.as_much_as_a_week_before
                         ),
-                        style = MaterialTheme.typography.h4,
+                        style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier.alignByBaseline()
                     )
                 }
@@ -120,7 +120,7 @@ fun DailyWrapUpScreenUnlocksDetailsCard(
 
             Spacer(modifier = Modifier.height(MaterialTheme.space.medium))
 
-            Card(backgroundColor = MaterialTheme.colors.background) {
+            Card(backgroundColor = MaterialTheme.colorScheme.background) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)
@@ -133,7 +133,7 @@ fun DailyWrapUpScreenUnlocksDetailsCard(
 
                     Text(
                         text = stringResource(R.string.compare_with_other_days),
-                        style = MaterialTheme.typography.subtitle1,
+                        style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = MaterialTheme.space.smallMedium)
@@ -143,7 +143,7 @@ fun DailyWrapUpScreenUnlocksDetailsCard(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
                                 text = stringResource(R.string.statistics),
-                                style = MaterialTheme.typography.subtitle1,
+                                style = MaterialTheme.typography.titleMedium,
                                 modifier = Modifier.padding(end = MaterialTheme.space.small)
                             )
 

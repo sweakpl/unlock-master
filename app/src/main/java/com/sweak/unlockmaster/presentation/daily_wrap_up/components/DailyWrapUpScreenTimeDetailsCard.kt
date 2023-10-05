@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NavigateNext
@@ -38,14 +38,14 @@ fun DailyWrapUpScreenTimeDetailsCard(
         Column(modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)) {
             Text(
                 text = stringResource(R.string.screen_time),
-                style = MaterialTheme.typography.h1,
+                style = MaterialTheme.typography.displayLarge,
                 modifier = Modifier.padding(bottom = MaterialTheme.space.small)
             )
 
             Row {
                 Text(
                     text = getCompactDurationString(detailsData.screenTimeDuration),
-                    style = MaterialTheme.typography.h1,
+                    style = MaterialTheme.typography.displayLarge,
                     fontSize = 32.sp,
                     modifier = Modifier
                         .padding(end = MaterialTheme.space.xSmall)
@@ -57,7 +57,7 @@ fun DailyWrapUpScreenTimeDetailsCard(
                         if (detailsData.yesterdayDifference != null) R.string.of_screen_time_which_is
                         else R.string.of_screen_today
                     ),
-                    style = MaterialTheme.typography.h4,
+                    style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier.alignByBaseline()
                 )
             }
@@ -71,11 +71,11 @@ fun DailyWrapUpScreenTimeDetailsCard(
                         else getCompactDurationString(
                             it.copy(durationMillis = abs(it.durationMillis))
                         ),
-                        style = MaterialTheme.typography.h1,
+                        style = MaterialTheme.typography.displayLarge,
                         fontSize = 32.sp,
-                        color = if (it.durationMillis < -minuteInMillis) MaterialTheme.colors.primaryVariant
-                        else if (it.durationMillis > minuteInMillis) MaterialTheme.colors.error
-                        else MaterialTheme.colors.onBackground,
+                        color = if (it.durationMillis < -minuteInMillis) MaterialTheme.colorScheme.secondary
+                        else if (it.durationMillis > minuteInMillis) MaterialTheme.colorScheme.error
+                        else MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier
                             .padding(end = MaterialTheme.space.xSmall)
                             .alignByBaseline()
@@ -93,7 +93,7 @@ fun DailyWrapUpScreenTimeDetailsCard(
                                 else R.string.as_much_as_yesterday_and
                             }
                         ),
-                        style = MaterialTheme.typography.h4,
+                        style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier.alignByBaseline()
                     )
                 }
@@ -106,11 +106,11 @@ fun DailyWrapUpScreenTimeDetailsCard(
                         else getCompactDurationString(
                             it.copy(durationMillis = abs(it.durationMillis))
                         ),
-                        style = MaterialTheme.typography.h1,
+                        style = MaterialTheme.typography.displayLarge,
                         fontSize = 32.sp,
-                        color = if (it.durationMillis < -minuteInMillis) MaterialTheme.colors.primaryVariant
-                        else if (it.durationMillis > minuteInMillis) MaterialTheme.colors.error
-                        else MaterialTheme.colors.onBackground,
+                        color = if (it.durationMillis < -minuteInMillis) MaterialTheme.colorScheme.secondary
+                        else if (it.durationMillis > minuteInMillis) MaterialTheme.colorScheme.error
+                        else MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier
                             .padding(end = MaterialTheme.space.xSmall)
                             .alignByBaseline()
@@ -122,7 +122,7 @@ fun DailyWrapUpScreenTimeDetailsCard(
                             else if (it.durationMillis > minuteInMillis) R.string.more_than_a_week_before
                             else R.string.as_much_as_a_week_before
                         ),
-                        style = MaterialTheme.typography.h4,
+                        style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier.alignByBaseline()
                     )
                 }
@@ -130,7 +130,7 @@ fun DailyWrapUpScreenTimeDetailsCard(
 
             Spacer(modifier = Modifier.height(MaterialTheme.space.medium))
 
-            Card(backgroundColor = MaterialTheme.colors.background) {
+            Card(backgroundColor = MaterialTheme.colorScheme.background) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)
@@ -143,7 +143,7 @@ fun DailyWrapUpScreenTimeDetailsCard(
 
                     Text(
                         text = stringResource(R.string.see_your_screen_time_breakdown),
-                        style = MaterialTheme.typography.subtitle1,
+                        style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = MaterialTheme.space.smallMedium)
@@ -153,7 +153,7 @@ fun DailyWrapUpScreenTimeDetailsCard(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
                                 text = stringResource(R.string.details),
-                                style = MaterialTheme.typography.subtitle1,
+                                style = MaterialTheme.typography.titleMedium,
                                 modifier = Modifier.padding(end = MaterialTheme.space.small)
                             )
 

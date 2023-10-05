@@ -3,10 +3,14 @@ package com.sweak.unlockmaster.presentation.introduction.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Slider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,7 +33,7 @@ fun NumberPickerSlider(
     ) {
         Text(
             text = pickedNumber.toString(),
-            style = MaterialTheme.typography.h1.copy(fontSize = 48.sp),
+            style = MaterialTheme.typography.displayLarge.copy(fontSize = 48.sp),
             modifier = Modifier.padding(bottom = MaterialTheme.space.small)
         )
 
@@ -45,7 +49,7 @@ fun NumberPickerSlider(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Remove,
-                    tint = MaterialTheme.colors.primary,
+                    tint = MaterialTheme.colorScheme.primary,
                     contentDescription = stringResource(R.string.content_description_subtract_icon)
                 )
             }
@@ -68,7 +72,7 @@ fun NumberPickerSlider(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
-                    tint = MaterialTheme.colors.primary,
+                    tint = MaterialTheme.colorScheme.primary,
                     contentDescription = stringResource(R.string.content_description_add_icon)
                 )
             }

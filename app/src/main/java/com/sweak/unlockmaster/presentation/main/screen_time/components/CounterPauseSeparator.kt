@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -41,7 +41,7 @@ fun CounterPauseSeparator(
                     getTimeString(counterPauseSessionStartAndEndTimesInMillis.first, timeFormat) +
                     " - " +
                     getTimeString(counterPauseSessionStartAndEndTimesInMillis.second, timeFormat),
-            style = MaterialTheme.typography.subtitle2,
+            style = MaterialTheme.typography.titleSmall,
             modifier = Modifier.padding(horizontal = MaterialTheme.space.small)
         )
 

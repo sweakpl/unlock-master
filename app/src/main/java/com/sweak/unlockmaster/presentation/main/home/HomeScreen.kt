@@ -27,7 +27,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pause
@@ -74,7 +74,7 @@ fun HomeScreen(
 
     Column(
         modifier = Modifier
-            .background(color = MaterialTheme.colors.background)
+            .background(color = MaterialTheme.colorScheme.background)
             .fillMaxSize()
     ) {
         Row(
@@ -83,7 +83,7 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(MaterialTheme.space.xxLarge)
-                .background(color = MaterialTheme.colors.primary)
+                .background(color = MaterialTheme.colorScheme.primary)
         ) {
             IconButton(
                 onClick = {
@@ -101,7 +101,7 @@ fun HomeScreen(
 
             Text(
                 text = stringResource(R.string.app_name),
-                style = MaterialTheme.typography.h2
+                style = MaterialTheme.typography.displayMedium
             )
 
             Spacer(
@@ -144,7 +144,7 @@ fun HomeScreen(
 
                         CircularProgressIndicator(
                             progress = progress,
-                            color = MaterialTheme.colors.primaryVariant,
+                            color = MaterialTheme.colorScheme.secondary,
                             strokeWidth = progressBarStrokeWidth,
                             modifier = Modifier
                                 .size(size = 216.dp)
@@ -166,12 +166,12 @@ fun HomeScreen(
                         ) {
                             Text(
                                 text = homeScreenState.unlockCount.toString(),
-                                style = MaterialTheme.typography.h1.copy(fontSize = 48.sp)
+                                style = MaterialTheme.typography.displayLarge.copy(fontSize = 48.sp)
                             )
 
                             Text(
                                 text = stringResource(R.string.unlocks),
-                                style = MaterialTheme.typography.h3
+                                style = MaterialTheme.typography.displaySmall
                             )
                         }
 
@@ -233,12 +233,12 @@ fun HomeScreen(
                                 Column {
                                     Text(
                                         text = stringResource(R.string.todays_unlock_limit),
-                                        style = MaterialTheme.typography.h4
+                                        style = MaterialTheme.typography.headlineMedium
                                     )
 
                                     Text(
                                         text = homeScreenState.unlockLimit.toString(),
-                                        style = MaterialTheme.typography.h2
+                                        style = MaterialTheme.typography.displayMedium
                                     )
                                 }
 
@@ -257,7 +257,7 @@ fun HomeScreen(
                                     ) {
                                         Text(
                                             text = stringResource(R.string.set_new),
-                                            style = MaterialTheme.typography.subtitle1,
+                                            style = MaterialTheme.typography.titleMedium,
                                             modifier = Modifier
                                                 .padding(end = MaterialTheme.space.small)
                                         )
@@ -280,7 +280,7 @@ fun HomeScreen(
                                     backgroundColor = Color.Transparent,
                                     border = BorderStroke(
                                         width = 2.dp,
-                                        color = MaterialTheme.colors.secondary
+                                        color = MaterialTheme.colorScheme.tertiary
                                     ),
                                     elevation = MaterialTheme.space.default,
                                     modifier = Modifier
@@ -306,7 +306,7 @@ fun HomeScreen(
                                             text = stringResource(
                                                 R.string.new_unlock_limit_set_for_tomorrow
                                             ),
-                                            style = MaterialTheme.typography.subtitle2,
+                                            style = MaterialTheme.typography.titleSmall,
                                             modifier = Modifier
                                                 .padding(end = MaterialTheme.space.small)
                                         )
@@ -315,7 +315,7 @@ fun HomeScreen(
                                             text =
                                             homeScreenState.unlockLimitForTomorrow?.toString()
                                                 ?: "",
-                                            style = MaterialTheme.typography.h2
+                                            style = MaterialTheme.typography.displayMedium
                                         )
                                     }
                                 }
@@ -343,13 +343,13 @@ fun HomeScreen(
                             Column {
                                 Text(
                                     text = stringResource(R.string.todays_screen_time),
-                                    style = MaterialTheme.typography.h4
+                                    style = MaterialTheme.typography.headlineMedium
                                 )
 
                                 homeScreenState.todayScreenTimeDuration?.let {
                                     Text(
                                         text = getCompactDurationString(it),
-                                        style = MaterialTheme.typography.h2
+                                        style = MaterialTheme.typography.displayMedium
                                     )
                                 }
                             }
@@ -369,7 +369,7 @@ fun HomeScreen(
                                 ) {
                                     Text(
                                         text = stringResource(R.string.details),
-                                        style = MaterialTheme.typography.subtitle1,
+                                        style = MaterialTheme.typography.titleMedium,
                                         modifier = Modifier
                                             .padding(end = MaterialTheme.space.small)
                                     )
@@ -402,13 +402,13 @@ fun HomeScreen(
                         ) {
                             Text(
                                 text = stringResource(R.string.statistics_colon),
-                                style = MaterialTheme.typography.h3,
+                                style = MaterialTheme.typography.displaySmall,
                                 modifier = Modifier.padding(bottom = MaterialTheme.space.xSmall)
                             )
 
                             Text(
                                 text = stringResource(R.string.how_unlock_count_looked),
-                                style = MaterialTheme.typography.subtitle1,
+                                style = MaterialTheme.typography.titleMedium,
                                 modifier = Modifier.padding(bottom = MaterialTheme.space.small)
                             )
 
@@ -419,7 +419,7 @@ fun HomeScreen(
                                     .fillMaxWidth()
                                     .height(MaterialTheme.space.xxxLarge)
                                     .background(
-                                        color = MaterialTheme.colors.background,
+                                        color = MaterialTheme.colorScheme.background,
                                         shape = RoundedCornerShape(size = MaterialTheme.space.small)
                                     )
                             )
@@ -440,7 +440,7 @@ fun HomeScreen(
                                 ) {
                                     Text(
                                         text = stringResource(R.string.get_more_insights),
-                                        style = MaterialTheme.typography.subtitle1,
+                                        style = MaterialTheme.typography.titleMedium,
                                         modifier = Modifier
                                             .padding(end = MaterialTheme.space.small)
                                     )
@@ -459,7 +459,7 @@ fun HomeScreen(
             } else {
                 Box(modifier = Modifier.fillMaxHeight()) {
                     CircularProgressIndicator(
-                        color = MaterialTheme.colors.primaryVariant,
+                        color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier
                             .size(MaterialTheme.space.xLarge)
                             .align(alignment = Alignment.Center)

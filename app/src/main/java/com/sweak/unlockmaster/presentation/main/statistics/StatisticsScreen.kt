@@ -5,7 +5,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.*
@@ -45,7 +53,7 @@ fun StatisticsScreen(
 
     Column(
         modifier = Modifier
-            .background(color = MaterialTheme.colors.background)
+            .background(color = MaterialTheme.colorScheme.background)
             .fillMaxSize()
     ) {
         NavigationBar(
@@ -94,7 +102,7 @@ fun StatisticsScreen(
                             text = getFullDateString(
                                 statisticsScreenState.currentlyHighlightedDayTimeInMillis
                             ),
-                            style = MaterialTheme.typography.h4,
+                            style = MaterialTheme.typography.headlineMedium,
                             modifier = Modifier.padding(start = MaterialTheme.space.medium)
                         )
                     }
@@ -132,7 +140,7 @@ fun StatisticsScreen(
 
                                 Text(
                                     text = stringResource(R.string.screen_unlocks),
-                                    style = MaterialTheme.typography.h4,
+                                    style = MaterialTheme.typography.headlineMedium,
                                     modifier = Modifier
                                         .padding(horizontal = MaterialTheme.space.smallMedium)
                                         .weight(1f)
@@ -140,7 +148,7 @@ fun StatisticsScreen(
 
                                 Text(
                                     text = statisticsScreenState.unlockEventsCount.toString(),
-                                    style = MaterialTheme.typography.h1
+                                    style = MaterialTheme.typography.displayLarge
                                 )
                             }
 
@@ -160,7 +168,7 @@ fun StatisticsScreen(
 
                                 Text(
                                     text = stringResource(R.string.unlock_limit),
-                                    style = MaterialTheme.typography.h4,
+                                    style = MaterialTheme.typography.headlineMedium,
                                     modifier = Modifier
                                         .padding(horizontal = MaterialTheme.space.smallMedium)
                                         .weight(1f)
@@ -168,7 +176,7 @@ fun StatisticsScreen(
 
                                 Text(
                                     text = statisticsScreenState.unlockLimitAmount.toString(),
-                                    style = MaterialTheme.typography.h1
+                                    style = MaterialTheme.typography.displayLarge
                                 )
                             }
 
@@ -187,7 +195,7 @@ fun StatisticsScreen(
 
                                 Text(
                                     text = stringResource(R.string.screen_on_events),
-                                    style = MaterialTheme.typography.h4,
+                                    style = MaterialTheme.typography.headlineMedium,
                                     modifier = Modifier
                                         .padding(start = MaterialTheme.space.smallMedium)
                                 )
@@ -222,7 +230,7 @@ fun StatisticsScreen(
 
                                 Text(
                                     text = statisticsScreenState.screenOnEventsCount.toString(),
-                                    style = MaterialTheme.typography.h1,
+                                    style = MaterialTheme.typography.displayLarge,
                                     textAlign = TextAlign.End,
                                     modifier = Modifier.weight(1f)
                                 )
@@ -243,7 +251,7 @@ fun StatisticsScreen(
 
                                 Text(
                                     text = stringResource(R.string.screen_time),
-                                    style = MaterialTheme.typography.h4,
+                                    style = MaterialTheme.typography.headlineMedium,
                                     modifier = Modifier
                                         .padding(horizontal = MaterialTheme.space.smallMedium)
                                         .weight(1f)
@@ -252,7 +260,7 @@ fun StatisticsScreen(
                                 statisticsScreenState.screenTimeDuration?.let {
                                     Text(
                                         text = getCompactDurationString(it),
-                                        style = MaterialTheme.typography.h1
+                                        style = MaterialTheme.typography.displayLarge
                                     )
                                 }
                             }
@@ -274,7 +282,7 @@ fun StatisticsScreen(
                                 ) {
                                     Text(
                                         text = stringResource(R.string.screen_time_details),
-                                        style = MaterialTheme.typography.subtitle1,
+                                        style = MaterialTheme.typography.titleMedium,
                                         modifier = Modifier
                                             .padding(end = MaterialTheme.space.small)
                                     )
@@ -293,7 +301,7 @@ fun StatisticsScreen(
             } else {
                 Box(modifier = Modifier.fillMaxHeight()) {
                     CircularProgressIndicator(
-                        color = MaterialTheme.colors.primaryVariant,
+                        color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier
                             .size(MaterialTheme.space.xLarge)
                             .align(alignment = Alignment.Center)

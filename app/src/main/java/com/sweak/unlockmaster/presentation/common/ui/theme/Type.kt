@@ -1,6 +1,6 @@
 package com.sweak.unlockmaster.presentation.common.ui.theme
 
-import androidx.compose.material.Typography
+import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -15,37 +15,37 @@ val amikoFamily = FontFamily(
 )
 
 val Typography = Typography(
-    h1 = TextStyle(
+    displayLarge = TextStyle(
         fontFamily = amikoFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp
     ),
-    h2 = TextStyle(
+    displayMedium = TextStyle(
         fontFamily = amikoFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 18.sp
     ),
-    h3 = TextStyle(
+    displaySmall = TextStyle(
         fontFamily = amikoFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp
     ),
-    h4 = TextStyle(
+    headlineMedium = TextStyle(
         fontFamily = amikoFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp
     ),
-    subtitle1 = TextStyle(
+    titleMedium = TextStyle(
         fontFamily = amikoFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp
     ),
-    subtitle2 = TextStyle(
+    titleSmall = TextStyle(
         fontFamily = amikoFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 10.sp
     ),
-    button = TextStyle(
+    labelLarge = TextStyle(
         fontFamily = amikoFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 18.sp

@@ -1,7 +1,7 @@
 package com.sweak.unlockmaster.presentation.main.home.components
 
 import android.graphics.Color
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
@@ -26,7 +26,7 @@ fun WeeklyUnlocksChart(
     lastWeekUnlockEventCountsEntries: List<BarEntry>,
     modifier: Modifier = Modifier
 ) {
-    val barArgbColor: Int = MaterialTheme.colors.primaryVariant.toArgb()
+    val barArgbColor: Int = MaterialTheme.colorScheme.secondary.toArgb()
 
     AndroidView(
         factory = { context ->

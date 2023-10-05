@@ -4,7 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.NotificationsActive
@@ -34,7 +34,7 @@ fun IntroductionScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     Column(
-        modifier = Modifier.background(color = MaterialTheme.colors.background)
+        modifier = Modifier.background(color = MaterialTheme.colorScheme.background)
     ) {
         NavigationBar(
             title = stringResource(R.string.introduction),
@@ -52,7 +52,7 @@ fun IntroductionScreen(
             ) {
                 Text(
                     text = stringResource(R.string.how_does_it_work),
-                    style = MaterialTheme.typography.h1,
+                    style = MaterialTheme.typography.displayLarge,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
@@ -64,7 +64,7 @@ fun IntroductionScreen(
 
                 Text(
                     text = stringResource(R.string.how_it_works_description),
-                    style = MaterialTheme.typography.subtitle1,
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
