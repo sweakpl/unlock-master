@@ -2,12 +2,13 @@ package com.sweak.unlockmaster.presentation.introduction.setup_complete
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -165,12 +166,16 @@ fun SetupCompleteScreen(navController: NavController) {
                 Spacer(modifier = Modifier.weight(1f))
 
                 Card(
-                    backgroundColor = Color.Transparent,
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.Transparent
+                    ),
                     border = BorderStroke(
                         width = 2.dp,
                         color = MaterialTheme.colorScheme.tertiary
                     ),
-                    elevation = MaterialTheme.space.default,
+                    elevation = CardDefaults.elevatedCardElevation(
+                        defaultElevation = MaterialTheme.space.default
+                    ),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = MaterialTheme.space.medium)

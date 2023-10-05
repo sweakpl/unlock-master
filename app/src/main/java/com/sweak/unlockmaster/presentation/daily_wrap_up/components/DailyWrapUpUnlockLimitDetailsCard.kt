@@ -6,16 +6,17 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.NavigateNext
 import androidx.compose.material.icons.outlined.TipsAndUpdates
 import androidx.compose.material.icons.outlined.WarningAmber
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,7 +33,9 @@ fun DailyWrapUpUnlockLimitDetailsCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        elevation = MaterialTheme.space.xSmall,
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = MaterialTheme.space.xSmall
+        ),
         modifier = modifier
     ) {
         Column(modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)) {
@@ -83,7 +86,11 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                     )
                 }
 
-                Card(backgroundColor = MaterialTheme.colorScheme.background) {
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.background
+                    )
+                ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)
@@ -174,7 +181,9 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                 }
             } else if (detailsData.isLimitSignificantlyExceeded) {
                 Card(
-                    backgroundColor = MaterialTheme.colorScheme.background,
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.background
+                    ),
                     modifier = Modifier.padding(top = MaterialTheme.space.medium)
                 ) {
                     Row(
@@ -209,7 +218,9 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                 }
             } else {
                 Card(
-                    backgroundColor = MaterialTheme.colorScheme.background,
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.background
+                    ),
                     modifier = Modifier.padding(top = MaterialTheme.space.medium)
                 ) {
                     Row(

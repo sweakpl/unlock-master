@@ -3,10 +3,10 @@ package com.sweak.unlockmaster.presentation.introduction.welcome
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -74,9 +74,9 @@ fun WelcomeScreen(navController: NavController) {
                 )
             },
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colorScheme.surface
+                containerColor = MaterialTheme.colorScheme.surface
             ),
-            elevation = ButtonDefaults.elevation(
+            elevation = ButtonDefaults.elevatedButtonElevation(
                 defaultElevation = MaterialTheme.space.xSmall
             ),
             contentPadding = PaddingValues(

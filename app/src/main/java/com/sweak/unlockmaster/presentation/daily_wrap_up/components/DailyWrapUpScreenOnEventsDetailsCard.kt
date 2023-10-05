@@ -4,16 +4,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.WarningAmber
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -24,7 +25,7 @@ import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import kotlin.math.abs
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DailyWrapUpScreenOnEventsDetailsCard(
     detailsData: DailyWrapUpScreenOnEventsDetailsData,
@@ -32,7 +33,9 @@ fun DailyWrapUpScreenOnEventsDetailsCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        elevation = MaterialTheme.space.xSmall,
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = MaterialTheme.space.xSmall
+        ),
         modifier = modifier
     ) {
         Column(modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)) {
@@ -142,7 +145,9 @@ fun DailyWrapUpScreenOnEventsDetailsCard(
 
             if (detailsData.isManyMoreScreenOnEventsThanUnlocks) {
                 Card(
-                    backgroundColor = MaterialTheme.colorScheme.background,
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.background
+                    ),
                     modifier = Modifier.padding(top = MaterialTheme.space.medium)
                 ) {
                     Row(

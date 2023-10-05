@@ -22,18 +22,19 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.NavigateNext
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -204,7 +205,9 @@ fun HomeScreen(
                     }
 
                     Card(
-                        elevation = MaterialTheme.space.xSmall,
+                        elevation = CardDefaults.elevatedCardElevation(
+                            defaultElevation = MaterialTheme.space.xSmall
+                        ),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(
@@ -277,12 +280,16 @@ fun HomeScreen(
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Card(
-                                    backgroundColor = Color.Transparent,
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = Color.Transparent
+                                    ),
                                     border = BorderStroke(
                                         width = 2.dp,
                                         color = MaterialTheme.colorScheme.tertiary
                                     ),
-                                    elevation = MaterialTheme.space.default,
+                                    elevation = CardDefaults.elevatedCardElevation(
+                                        defaultElevation = MaterialTheme.space.default
+                                    ),
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .clickable {
@@ -324,7 +331,9 @@ fun HomeScreen(
                     }
 
                     Card(
-                        elevation = MaterialTheme.space.xSmall,
+                        elevation = CardDefaults.elevatedCardElevation(
+                            defaultElevation = MaterialTheme.space.xSmall
+                        ),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(
@@ -386,7 +395,9 @@ fun HomeScreen(
                     }
 
                     Card(
-                        elevation = MaterialTheme.space.xSmall,
+                        elevation = CardDefaults.elevatedCardElevation(
+                            defaultElevation = MaterialTheme.space.xSmall
+                        ),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(
