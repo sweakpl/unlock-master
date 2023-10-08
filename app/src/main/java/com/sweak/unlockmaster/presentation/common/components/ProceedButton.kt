@@ -1,9 +1,9 @@
-package com.sweak.unlockmaster.presentation.introduction.components
+package com.sweak.unlockmaster.presentation.common.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,11 +17,12 @@ fun ProceedButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true
 ) {
-    Button(
+    ElevatedButton(
         onClick = onClick,
         enabled = enabled,
-        elevation = ButtonDefaults.elevatedButtonElevation(
-            defaultElevation = MaterialTheme.space.xSmall
+        colors = ButtonDefaults.elevatedButtonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
         ),
         modifier = modifier
             .fillMaxWidth()

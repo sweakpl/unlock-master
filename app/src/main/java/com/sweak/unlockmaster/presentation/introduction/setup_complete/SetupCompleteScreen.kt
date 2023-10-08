@@ -1,14 +1,26 @@
 package com.sweak.unlockmaster.presentation.introduction.setup_complete
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,10 +35,10 @@ import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
+import com.sweak.unlockmaster.presentation.common.components.ProceedButton
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
 import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
-import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
 
 @Composable
 fun SetupCompleteScreen(navController: NavController) {
@@ -165,16 +177,13 @@ fun SetupCompleteScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                Card(
-                    colors = CardDefaults.cardColors(
+                OutlinedCard(
+                    colors = CardDefaults.outlinedCardColors(
                         containerColor = Color.Transparent
                     ),
                     border = BorderStroke(
                         width = 2.dp,
                         color = MaterialTheme.colorScheme.tertiary
-                    ),
-                    elevation = CardDefaults.elevatedCardElevation(
-                        defaultElevation = MaterialTheme.space.default
                     ),
                     modifier = Modifier
                         .fillMaxWidth()

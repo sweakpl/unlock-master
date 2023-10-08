@@ -15,17 +15,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ModeEdit
 import androidx.compose.material.icons.filled.MyLocation
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -42,12 +42,12 @@ import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
+import com.sweak.unlockmaster.presentation.common.components.ProceedButton
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
 import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
 import com.sweak.unlockmaster.presentation.introduction.components.InformationCard
 import com.sweak.unlockmaster.presentation.introduction.components.NumberPickerSlider
-import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
 
 @Composable
 fun UnlockLimitSetupScreen(
@@ -141,16 +141,13 @@ fun UnlockLimitSetupScreen(
                 }
 
                 if (unlockLimitSetupScreenState.unlockLimitForTomorrow != null) {
-                    Card(
-                        colors = CardDefaults.cardColors(
+                    OutlinedCard(
+                        colors = CardDefaults.outlinedCardColors(
                             containerColor = Color.Transparent
                         ),
                         border = BorderStroke(
                             width = 2.dp,
                             color = MaterialTheme.colorScheme.tertiary
-                        ),
-                        elevation = CardDefaults.elevatedCardElevation(
-                            defaultElevation = MaterialTheme.space.default
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -244,16 +241,13 @@ fun UnlockLimitSetupScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                Card(
-                    colors = CardDefaults.elevatedCardColors(
+                OutlinedCard(
+                    colors = CardDefaults.outlinedCardColors(
                         containerColor = Color.Transparent
                     ),
                     border = BorderStroke(
                         width = 2.dp,
                         color = MaterialTheme.colorScheme.tertiary
-                    ),
-                    elevation = CardDefaults.elevatedCardElevation(
-                        defaultElevation = MaterialTheme.space.default
                     ),
                     modifier = Modifier
                         .fillMaxWidth()

@@ -18,8 +18,8 @@ import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.LockOpen
 import androidx.compose.material.icons.outlined.MyLocation
 import androidx.compose.material.icons.outlined.NavigateNext
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -93,7 +93,7 @@ fun DailyWrapUpCriterionPreviewCard(
         }
     }
 
-    Card(
+    ElevatedCard(
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = MaterialTheme.space.xSmall
         ),

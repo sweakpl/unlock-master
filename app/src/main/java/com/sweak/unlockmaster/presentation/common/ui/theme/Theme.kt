@@ -18,6 +18,7 @@ private val colorPalette = lightColorScheme(
     surface = Color.White,
     surfaceVariant = Color.White,
     onSurface = Color.Black,
+    onSurfaceVariant = Color.Black,
     error = Monza,
     onError = Color.White
 )

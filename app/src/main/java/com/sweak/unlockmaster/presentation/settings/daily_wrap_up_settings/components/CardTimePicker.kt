@@ -6,8 +6,8 @@ import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.widget.TimePicker
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,7 +27,7 @@ fun CardTimePicker(
     val context = LocalContext.current
     val is24HourFormat = DateFormat.is24HourFormat(context)
 
-    Card(
+    ElevatedCard(
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = MaterialTheme.space.xSmall
         ),

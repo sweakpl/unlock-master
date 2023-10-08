@@ -24,7 +24,7 @@ import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
 import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
 import com.sweak.unlockmaster.presentation.introduction.components.InformationCard
-import com.sweak.unlockmaster.presentation.introduction.components.ProceedButton
+import com.sweak.unlockmaster.presentation.common.components.ProceedButton
 
 @Composable
 fun IntroductionScreen(
