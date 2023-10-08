@@ -3,8 +3,6 @@ package com.sweak.unlockmaster.presentation.background_work
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ServiceInfo
@@ -28,6 +26,7 @@ import com.sweak.unlockmaster.presentation.MainActivity
 import com.sweak.unlockmaster.presentation.background_work.global_receivers.screen_event_receivers.ScreenLockReceiver
 import com.sweak.unlockmaster.presentation.background_work.global_receivers.screen_event_receivers.ScreenOnReceiver
 import com.sweak.unlockmaster.presentation.background_work.global_receivers.screen_event_receivers.ScreenUnlockReceiver
+import com.sweak.unlockmaster.presentation.background_work.local_receivers.UnlockCounterPauseReceiver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -72,38 +71,29 @@ class UnlockMasterService : Service() {
     @Inject
     lateinit var getMobilizingNotificationsFrequencyPercentage: GetMobilizingNotificationsFrequencyPercentage
 
-    private val unlockCounterPauseReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            intent?.let {
-                if (intent.action == ACTION_UNLOCK_COUNTER_PAUSE_CHANGED) {
-                    serviceScope.launch {
-                        val isUnlockCounterPaused = intent.getBooleanExtra(
-                            EXTRA_IS_UNLOCK_COUNTER_PAUSED,
-                            false
-                        )
-
-                        if (isUnlockCounterPaused) {
-                            unregisterScreenEventReceivers()
-                            addCounterPausedEventUseCase()
-                        } else {
-                            addCounterUnpausedEventUseCase()
-                            registerScreenEventReceivers()
-                        }
-
-                        try {
-                            notificationManager.notify(
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                                    FOREGROUND_SERVICE_ID
-                                else FOREGROUND_SERVICE_NOTIFICATION_ID,
-                                createNewServiceNotification(
-                                    getUnlockEventsCountForGivenDayUseCase(),
-                                    getUnlockLimitAmountForTodayUseCase(),
-                                    isUnlockCounterPaused
-                                )
-                            )
-                        } catch (_: SecurityException) { /* no-op */ }
-                    }
+    private val unlockCounterPauseReceiver = UnlockCounterPauseReceiver().apply {
+        onCounterPauseChanged = { isPaused ->
+            serviceScope.launch {
+                if (isPaused) {
+                    unregisterScreenEventReceivers()
+                    addCounterPausedEventUseCase()
+                } else {
+                    addCounterUnpausedEventUseCase()
+                    registerScreenEventReceivers()
                 }
+
+                try {
+                    notificationManager.notify(
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                            FOREGROUND_SERVICE_ID
+                        else FOREGROUND_SERVICE_NOTIFICATION_ID,
+                        createNewServiceNotification(
+                            getUnlockEventsCountForGivenDayUseCase(),
+                            getUnlockLimitAmountForTodayUseCase(),
+                            isPaused
+                        )
+                    )
+                } catch (_: SecurityException) { /* no-op */ }
             }
         }
     }
@@ -161,7 +151,7 @@ class UnlockMasterService : Service() {
             this,
             unlockCounterPauseReceiver,
             IntentFilter(ACTION_UNLOCK_COUNTER_PAUSE_CHANGED),
-            ContextCompat.RECEIVER_NOT_EXPORTED
+            ContextCompat.RECEIVER_EXPORTED
         )
     }
 
