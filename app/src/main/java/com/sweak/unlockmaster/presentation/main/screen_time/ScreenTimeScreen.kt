@@ -18,11 +18,16 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
@@ -40,6 +45,7 @@ import com.sweak.unlockmaster.presentation.main.screen_time.components.CounterPa
 import com.sweak.unlockmaster.presentation.main.screen_time.components.DailyScreenTimeChart
 import com.sweak.unlockmaster.presentation.main.screen_time.components.SingleScreenTimeSessionCard
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenTimeScreen(
     screenTimeViewModel: ScreenTimeViewModel = hiltViewModel(),
@@ -53,27 +59,32 @@ fun ScreenTimeScreen(
     }
 
     val screenTimeScreenState = screenTimeViewModel.state
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
-    Column(
-        modifier = Modifier
-            .background(color = MaterialTheme.colorScheme.background)
-            .fillMaxSize()
-    ) {
-        NavigationBar(
-            title = getFullDateString(displayedScreenTimeDayTimeInMillis),
-            onBackClick = { navController.popBackStackThrottled(lifecycleOwner) }
-        )
-
+    Scaffold(
+        modifier = Modifier.nestedScroll(
+            connection = scrollBehavior.nestedScrollConnection
+        ),
+        topBar = {
+            NavigationBar(
+                title = getFullDateString(displayedScreenTimeDayTimeInMillis),
+                onNavigationButtonClick = { navController.popBackStackThrottled(lifecycleOwner) },
+                scrollBehavior = scrollBehavior
+            )
+        }
+    ) { paddingValues ->
         AnimatedContent(
             targetState = screenTimeScreenState.isInitializing,
             contentAlignment = Alignment.Center,
             label = "screenTimeScreenContentLoadingAnimation",
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(paddingValues = paddingValues)
+                .verticalScroll(rememberScrollState())
         ) { isInitializing ->
             if (!isInitializing) {
-                Column(
-                    modifier = Modifier.verticalScroll(rememberScrollState())
-                ) {
+                Column {
                     DailyScreenTimeChart(
                         screenTimeMinutesPerHourEntries =
                         screenTimeScreenState.screenTimeMinutesPerHourEntries,
@@ -163,7 +174,8 @@ fun ScreenTimeScreen(
                                 )
                         ) {
                             val timeFormat =
-                                if (DateFormat.is24HourFormat(LocalContext.current)) TimeFormat.MILITARY
+                                if (DateFormat.is24HourFormat(LocalContext.current))
+                                    TimeFormat.MILITARY
                                 else TimeFormat.AMPM
 
                             screenTimeScreenState.UIReadySessionEvents.forEach {

@@ -16,10 +16,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -51,27 +55,32 @@ fun StatisticsScreen(
     }
 
     val statisticsScreenState = statisticsViewModel.state
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
-    Column(
-        modifier = Modifier
-            .background(color = MaterialTheme.colorScheme.background)
-            .fillMaxSize()
-    ) {
-        NavigationBar(
-            title = stringResource(R.string.statistics),
-            onBackClick = { navController.popBackStackThrottled(lifecycleOwner) }
-        )
-
+    Scaffold(
+        modifier = Modifier.nestedScroll(
+            connection = scrollBehavior.nestedScrollConnection
+        ),
+        topBar = {
+            NavigationBar(
+                title = stringResource(R.string.statistics),
+                onNavigationButtonClick = { navController.popBackStackThrottled(lifecycleOwner) },
+                scrollBehavior = scrollBehavior
+            )
+        }
+    ) { paddingValues ->
         AnimatedContent(
             targetState = statisticsScreenState.isInitializing,
             contentAlignment = Alignment.Center,
             label = "statisticsScreenContentLoadingAnimation",
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(paddingValues = paddingValues)
+                .verticalScroll(rememberScrollState())
         ) { isInitializing ->
             if (!isInitializing) {
-                Column(
-                    modifier = Modifier.verticalScroll(rememberScrollState())
-                ) {
+                Column {
                     AllTimeUnlocksChart(
                         allTimeUnlockEventCountsEntries =
                         statisticsScreenState.allTimeUnlockEventCounts,

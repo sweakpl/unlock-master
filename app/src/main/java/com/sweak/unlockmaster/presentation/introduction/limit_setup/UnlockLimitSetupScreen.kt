@@ -3,11 +3,9 @@ package com.sweak.unlockmaster.presentation.introduction.limit_setup
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,16 +19,22 @@ import androidx.compose.material.icons.filled.MyLocation
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
@@ -49,6 +53,7 @@ import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
 import com.sweak.unlockmaster.presentation.introduction.components.InformationCard
 import com.sweak.unlockmaster.presentation.introduction.components.NumberPickerSlider
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UnlockLimitSetupScreen(
     unlockLimitSetupViewModel: UnlockLimitSetupViewModel = hiltViewModel(),
@@ -72,175 +77,90 @@ fun UnlockLimitSetupScreen(
     }
 
     val unlockLimitSetupScreenState = unlockLimitSetupViewModel.state
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
-    Column(
-        modifier = Modifier.background(color = MaterialTheme.colorScheme.background)
-    ) {
-        NavigationBar(
-            title = stringResource(R.string.unlock_limit),
-            onBackClick = { navController.popBackStackThrottled(lifecycleOwner) }
-        )
-
-        Box(
-            contentAlignment = Alignment.BottomCenter,
-            modifier = Modifier.fillMaxHeight()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Text(
-                    text = stringResource(
-                        if (isUpdatingExistingUnlockLimit) R.string.update_your_unlock_limit
-                        else R.string.set_up_unlock_limit
-                    ),
-                    style = MaterialTheme.typography.displayLarge,
-                    modifier = Modifier
-                        .padding(
-                            start = MaterialTheme.space.medium,
-                            top = MaterialTheme.space.medium,
-                            end = MaterialTheme.space.medium,
-                            bottom = MaterialTheme.space.small
-                        )
-                )
-
-                Text(
-                    text = stringResource(
-                        if (isUpdatingExistingUnlockLimit)
-                            R.string.update_your_unlock_limit_description
-                        else R.string.set_up_unlock_limit_description
-                    ),
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier
-                        .padding(
-                            start = MaterialTheme.space.medium,
-                            end = MaterialTheme.space.medium,
-                            bottom = MaterialTheme.space.medium
-                        )
-                )
-
-                if (unlockLimitSetupScreenState.pickedUnlockLimit != null &&
-                        unlockLimitSetupScreenState.availableUnlockLimitRange != null
-                ) {
-                    NumberPickerSlider(
-                        pickedNumber = unlockLimitSetupScreenState.pickedUnlockLimit,
-                        numbersRange = unlockLimitSetupScreenState.availableUnlockLimitRange,
-                        onNewNumberPicked = { newUnlockLimit ->
-                            unlockLimitSetupViewModel.onEvent(
-                                UnlockLimitSetupScreenEvent.PickNewUnlockLimit(newUnlockLimit)
-                            )
-                        },
-                        modifier = Modifier
-                            .padding(
-                                start = MaterialTheme.space.medium,
-                                end = MaterialTheme.space.medium,
-                                bottom = MaterialTheme.space.large,
-                            )
+    Scaffold(
+        modifier = Modifier.nestedScroll(
+            connection = scrollBehavior.nestedScrollConnection
+        ),
+        topBar = {
+            NavigationBar(
+                title = stringResource(R.string.unlock_limit),
+                onNavigationButtonClick = { navController.popBackStackThrottled(lifecycleOwner) },
+                scrollBehavior = scrollBehavior
+            )
+        },
+        floatingActionButton = {
+            ProceedButton(
+                text = stringResource(R.string.confirm),
+                onClick = {
+                    unlockLimitSetupViewModel.onEvent(
+                        UnlockLimitSetupScreenEvent.SubmitSelectedUnlockLimit
                     )
-                }
+                },
+                modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
+            )
+        },
+        floatingActionButtonPosition = FabPosition.Center
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(paddingValues = it)
+                .verticalScroll(rememberScrollState())
+        ) {
+            Text(
+                text = stringResource(
+                    if (isUpdatingExistingUnlockLimit) R.string.update_your_unlock_limit
+                    else R.string.set_up_unlock_limit
+                ),
+                style = MaterialTheme.typography.displayLarge,
+                modifier = Modifier
+                    .padding(
+                        start = MaterialTheme.space.medium,
+                        top = MaterialTheme.space.medium,
+                        end = MaterialTheme.space.medium,
+                        bottom = MaterialTheme.space.small
+                    )
+            )
 
-                if (unlockLimitSetupScreenState.unlockLimitForTomorrow != null) {
-                    OutlinedCard(
-                        colors = CardDefaults.outlinedCardColors(
-                            containerColor = Color.Transparent
-                        ),
-                        border = BorderStroke(
-                            width = 2.dp,
-                            color = MaterialTheme.colorScheme.tertiary
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                start = MaterialTheme.space.medium,
-                                end = MaterialTheme.space.medium,
-                                bottom = MaterialTheme.space.small
-                            )
-                    ) {
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(
-                                horizontal = MaterialTheme.space.smallMedium,
-                                vertical = MaterialTheme.space.small
-                            )
-                        ) {
-                            Column {
-                                Text(
-                                    text = stringResource(
-                                        R.string.new_unlock_limit_set_for_tomorrow
-                                    ),
-                                    style = MaterialTheme.typography.titleSmall
-                                )
+            Text(
+                text = stringResource(
+                    if (isUpdatingExistingUnlockLimit)
+                        R.string.update_your_unlock_limit_description
+                    else R.string.set_up_unlock_limit_description
+                ),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier
+                    .padding(
+                        start = MaterialTheme.space.medium,
+                        end = MaterialTheme.space.medium,
+                        bottom = MaterialTheme.space.medium
+                    )
+            )
 
-                                Text(
-                                    text =
-                                    unlockLimitSetupScreenState.unlockLimitForTomorrow.toString(),
-                                    style = MaterialTheme.typography.displayMedium
-                                )
-                            }
-
-                            IconButton(
-                                onClick = {
-                                    unlockLimitSetupViewModel.onEvent(
-                                        UnlockLimitSetupScreenEvent.RemoveUnlockLimitForTomorrowDialogVisibilityChanged(
-                                            isVisible = true
-                                        )
-                                    )
-                                }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Delete,
-                                    contentDescription = stringResource(
-                                        R.string.content_description_delete_icon
-                                    ),
-                                    modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
-                                )
-                            }
-                        }
-                    }
-                }
-
-                Text(
-                    text = stringResource(R.string.unlock_limit_purposes),
-                    style = MaterialTheme.typography.displaySmall,
-                    modifier = Modifier.padding(all = MaterialTheme.space.medium)
-                )
-
-                InformationCard(
-                    title = stringResource(R.string.reference),
-                    description = stringResource(R.string.reference_description),
-                    icon = Icons.Filled.MyLocation,
-                    iconContentDescription = stringResource(
-                        R.string.content_description_crosshair_icon
-                    ),
+            if (unlockLimitSetupScreenState.pickedUnlockLimit != null &&
+                unlockLimitSetupScreenState.availableUnlockLimitRange != null
+            ) {
+                NumberPickerSlider(
+                    pickedNumber = unlockLimitSetupScreenState.pickedUnlockLimit,
+                    numbersRange = unlockLimitSetupScreenState.availableUnlockLimitRange,
+                    onNewNumberPicked = { newUnlockLimit ->
+                        unlockLimitSetupViewModel.onEvent(
+                            UnlockLimitSetupScreenEvent.PickNewUnlockLimit(newUnlockLimit)
+                        )
+                    },
                     modifier = Modifier
-                        .fillMaxWidth()
                         .padding(
                             start = MaterialTheme.space.medium,
                             end = MaterialTheme.space.medium,
-                            bottom = MaterialTheme.space.medium
+                            bottom = MaterialTheme.space.large,
                         )
                 )
+            }
 
-                InformationCard(
-                    title = stringResource(R.string.adjustability),
-                    description = stringResource(R.string.adjustability_description),
-                    icon = Icons.Filled.ModeEdit,
-                    iconContentDescription = stringResource(
-                        R.string.content_description_edit_icon
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            start = MaterialTheme.space.medium,
-                            end = MaterialTheme.space.medium,
-                            bottom = MaterialTheme.space.xLarge,
-                        )
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
+            if (unlockLimitSetupScreenState.unlockLimitForTomorrow != null) {
                 OutlinedCard(
                     colors = CardDefaults.outlinedCardColors(
                         containerColor = Color.Transparent
@@ -251,41 +171,130 @@ fun UnlockLimitSetupScreen(
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = MaterialTheme.space.medium)
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.small
+                        )
                 ) {
                     Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(all = MaterialTheme.space.small)
+                        modifier = Modifier.padding(
+                            horizontal = MaterialTheme.space.smallMedium,
+                            vertical = MaterialTheme.space.small
+                        )
                     ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Info,
-                            contentDescription = stringResource(
-                                R.string.content_description_info_icon
+                        Column {
+                            Text(
+                                text = stringResource(
+                                    R.string.new_unlock_limit_set_for_tomorrow
+                                ),
+                                style = MaterialTheme.typography.titleSmall
                             )
-                        )
 
-                        Text(
-                            text = stringResource(
-                                R.string.note_reaching_limit_wont_prevent_unlocking
-                            ),
-                            style = MaterialTheme.typography.titleSmall,
-                            modifier = Modifier.padding(start = MaterialTheme.space.small)
-                        )
+                            Text(
+                                text =
+                                unlockLimitSetupScreenState.unlockLimitForTomorrow.toString(),
+                                style = MaterialTheme.typography.displayMedium
+                            )
+                        }
+
+                        IconButton(
+                            onClick = {
+                                unlockLimitSetupViewModel.onEvent(
+                                    UnlockLimitSetupScreenEvent.RemoveUnlockLimitForTomorrowDialogVisibilityChanged(
+                                        isVisible = true
+                                    )
+                                )
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Delete,
+                                contentDescription = stringResource(
+                                    R.string.content_description_delete_icon
+                                ),
+                                modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
+                            )
+                        }
                     }
                 }
-
-                Spacer(modifier = Modifier.height(MaterialTheme.space.run { xLarge + 2 * medium }))
             }
 
-            ProceedButton(
-                text = stringResource(R.string.confirm),
-                onClick = {
-                    unlockLimitSetupViewModel.onEvent(
-                        UnlockLimitSetupScreenEvent.SubmitSelectedUnlockLimit
-                    )
-                },
+            Text(
+                text = stringResource(R.string.unlock_limit_purposes),
+                style = MaterialTheme.typography.displaySmall,
                 modifier = Modifier.padding(all = MaterialTheme.space.medium)
             )
+
+            InformationCard(
+                title = stringResource(R.string.reference),
+                description = stringResource(R.string.reference_description),
+                icon = Icons.Filled.MyLocation,
+                iconContentDescription = stringResource(
+                    R.string.content_description_crosshair_icon
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = MaterialTheme.space.medium,
+                        end = MaterialTheme.space.medium,
+                        bottom = MaterialTheme.space.medium
+                    )
+            )
+
+            InformationCard(
+                title = stringResource(R.string.adjustability),
+                description = stringResource(R.string.adjustability_description),
+                icon = Icons.Filled.ModeEdit,
+                iconContentDescription = stringResource(
+                    R.string.content_description_edit_icon
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = MaterialTheme.space.medium,
+                        end = MaterialTheme.space.medium,
+                        bottom = MaterialTheme.space.xLarge,
+                    )
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            OutlinedCard(
+                colors = CardDefaults.outlinedCardColors(
+                    containerColor = Color.Transparent
+                ),
+                border = BorderStroke(
+                    width = 2.dp,
+                    color = MaterialTheme.colorScheme.tertiary
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = MaterialTheme.space.medium)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(all = MaterialTheme.space.small)
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Info,
+                        contentDescription = stringResource(
+                            R.string.content_description_info_icon
+                        )
+                    )
+
+                    Text(
+                        text = stringResource(
+                            R.string.note_reaching_limit_wont_prevent_unlocking
+                        ),
+                        style = MaterialTheme.typography.titleSmall,
+                        modifier = Modifier.padding(start = MaterialTheme.space.small)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(MaterialTheme.space.run { xLarge + 2 * medium }))
         }
     }
 

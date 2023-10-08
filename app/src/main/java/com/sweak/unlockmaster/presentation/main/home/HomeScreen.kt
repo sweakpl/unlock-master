@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,13 +28,18 @@ import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.NavigateNext
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -43,6 +47,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
@@ -61,6 +66,7 @@ import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
 import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
 import com.sweak.unlockmaster.presentation.main.home.components.WeeklyUnlocksChart
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
@@ -73,60 +79,58 @@ fun HomeScreen(
     }
 
     val homeScreenState = homeViewModel.state
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
-    Column(
-        modifier = Modifier
-            .background(color = MaterialTheme.colorScheme.background)
-            .fillMaxSize()
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(MaterialTheme.space.xxLarge)
-                .background(color = MaterialTheme.colorScheme.primary)
-        ) {
-            IconButton(
-                onClick = {
-                    navController.navigateThrottled(
-                        Screen.SettingsScreen.route,
-                        lifecycleOwner
+    Scaffold(
+        modifier = Modifier.nestedScroll(
+            connection = scrollBehavior.nestedScrollConnection
+        ),
+        topBar = {
+            CenterAlignedTopAppBar(
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+                ),
+                title = {
+                    Text(
+                        text = stringResource(R.string.app_name),
+                        style = MaterialTheme.typography.displayMedium
                     )
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Menu,
-                    contentDescription = stringResource(R.string.content_description_menu_icon)
-                )
-            }
-
-            Text(
-                text = stringResource(R.string.app_name),
-                style = MaterialTheme.typography.displayMedium
-            )
-
-            Spacer(
-                modifier = Modifier
-                    .size(
-                        width = MaterialTheme.space.xLarge,
-                        height = MaterialTheme.space.mediumLarge
-                    )
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            navController.navigateThrottled(
+                                Screen.SettingsScreen.route,
+                                lifecycleOwner
+                            )
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Menu,
+                            contentDescription = stringResource(
+                                R.string.content_description_menu_icon
+                            )
+                        )
+                    }
+                },
+                scrollBehavior = scrollBehavior
             )
         }
-
+    ) { paddingValues ->
         AnimatedContent(
             targetState = homeScreenState.isInitializing,
             contentAlignment = Alignment.Center,
             label = "homeScreenContentLoadingAnimation",
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(paddingValues = paddingValues)
+                .verticalScroll(rememberScrollState())
         ) { isInitializing ->
             if (!isInitializing) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                ) {
+                Column {
                     Box(
                         modifier = Modifier
                             .wrapContentSize()

@@ -7,23 +7,26 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -32,6 +35,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalDensity
@@ -53,6 +57,7 @@ import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpS
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpUnlockLimitDetailsCard
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DailyWrapUpScreen(
     navController: NavController,
@@ -61,49 +66,52 @@ fun DailyWrapUpScreen(
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val dailyWrapUpScreenState = dailyWrapUpViewModel.state
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
-    Column(
-        modifier = Modifier
-            .background(color = MaterialTheme.colorScheme.background)
-            .fillMaxSize()
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(MaterialTheme.space.xxLarge)
-                .background(color = MaterialTheme.colorScheme.primary)
-        ) {
-            IconButton(onClick = { navController.popBackStackThrottled(lifecycleOwner) }) {
-                Icon(
-                    imageVector = Icons.Outlined.Close,
-                    contentDescription = stringResource(R.string.content_description_close_icon)
-                )
-            }
-
-            Text(
-                text = stringResource(R.string.daily_wrapup),
-                style = MaterialTheme.typography.displayMedium
-            )
-
-            Spacer(
-                modifier = Modifier
-                    .size(
-                        width = MaterialTheme.space.xLarge,
-                        height = MaterialTheme.space.mediumLarge
+    Scaffold(
+        modifier = Modifier.nestedScroll(
+            connection = scrollBehavior.nestedScrollConnection
+        ),
+        topBar = {
+            CenterAlignedTopAppBar(
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+                ),
+                title = {
+                    Text(
+                        text = stringResource(R.string.daily_wrapup),
+                        style = MaterialTheme.typography.displayMedium
                     )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStackThrottled(lifecycleOwner) }) {
+                        Icon(
+                            imageVector = Icons.Outlined.Close,
+                            contentDescription = stringResource(
+                                R.string.content_description_close_icon
+                            )
+                        )
+                    }
+                },
+                scrollBehavior = scrollBehavior
             )
         }
+    ) { paddingValues ->
+        val scrollState = rememberScrollState()
 
         AnimatedContent(
             targetState = dailyWrapUpScreenState.isInitializing,
             contentAlignment = Alignment.Center,
             label = "dailyWrapUpLoadingAnimation",
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(paddingValues = paddingValues)
+                .verticalScroll(scrollState)
         ) { isInitializing ->
             if (!isInitializing) {
-                val scrollState = rememberScrollState()
                 val scrollScope = rememberCoroutineScope()
 
                 var screenUnlocksCardPosition by remember { mutableFloatStateOf(0f) }
@@ -115,11 +123,7 @@ fun DailyWrapUpScreen(
                     MaterialTheme.space.run { xxLarge + medium }.toPx()
                 }
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(scrollState)
-                ) {
+                Column(modifier = Modifier.fillMaxSize()) {
                     Text(
                         text = stringResource(R.string.heres_how_you_did_today),
                         style = MaterialTheme.typography.displayLarge,
