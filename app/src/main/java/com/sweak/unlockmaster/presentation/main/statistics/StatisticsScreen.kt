@@ -224,10 +224,12 @@ fun StatisticsScreen(
                                                     )
                                             )
                                         },
-                                        modifier = Modifier.padding(
-                                            start = MaterialTheme.space.xSmall,
-                                            end = MaterialTheme.space.smallMedium
-                                        )
+                                        modifier = Modifier
+                                            .padding(
+                                                start = MaterialTheme.space.small,
+                                                end = MaterialTheme.space.smallMedium
+                                            )
+                                            .size(size = MaterialTheme.space.smallMedium)
                                     ) {
                                         Icon(
                                             imageVector = Icons.Outlined.HelpOutline,

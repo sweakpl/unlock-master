@@ -53,7 +53,12 @@ fun DailyWrapUpScreenOnEventsDetailsCard(
                 CompositionLocalProvider(
                     LocalMinimumInteractiveComponentEnforcement provides false
                 ) {
-                    IconButton(onClick = onInteraction) {
+                    IconButton(
+                        onClick = onInteraction,
+                        modifier = Modifier
+                            .padding(start = MaterialTheme.space.small)
+                            .size(size = MaterialTheme.space.smallMedium)
+                    ) {
                         Icon(
                             imageVector = Icons.Outlined.HelpOutline,
                             contentDescription = stringResource(
