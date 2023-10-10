@@ -89,6 +89,7 @@ dependencies {
 
     // View components
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.google.android.material:material:1.10.0'
 
     // Test
     testImplementation 'junit:junit:4.13.2'

@@ -10,6 +10,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
@@ -63,7 +64,9 @@ fun CardTimePicker(
                     it.currentMinute = minute
                 }
             },
-            modifier = Modifier.padding(all = MaterialTheme.space.medium)
+            modifier = Modifier
+                .padding(all = MaterialTheme.space.medium)
+                .align(Alignment.CenterHorizontally)
         )
     }
 }

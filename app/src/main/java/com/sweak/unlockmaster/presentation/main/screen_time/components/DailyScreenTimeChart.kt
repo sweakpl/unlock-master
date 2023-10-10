@@ -1,6 +1,5 @@
 package com.sweak.unlockmaster.presentation.main.screen_time.components
 
-import android.graphics.Color
 import android.text.format.DateFormat
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -24,6 +23,7 @@ fun DailyScreenTimeChart(
     modifier: Modifier = Modifier
 ) {
     val lineArgbColor: Int = MaterialTheme.colorScheme.secondary.toArgb()
+    val textArgbColor = MaterialTheme.colorScheme.onBackground.toArgb()
 
     AndroidView(
         factory = { context ->
@@ -51,7 +51,7 @@ fun DailyScreenTimeChart(
                     labelCount = 24
                     position = XAxis.XAxisPosition.BOTTOM
                     textSize = 10f
-                    textColor = Color.BLACK
+                    textColor = textArgbColor
                     typeface = ResourcesCompat.getFont(context, R.font.amiko_regular)
                     valueFormatter = object : IndexAxisValueFormatter() {
                         override fun getAxisLabel(value: Float, axis: AxisBase): String =

@@ -185,7 +185,7 @@ fun UnlockLimitSetupScreen(
                             vertical = MaterialTheme.space.small
                         )
                     ) {
-                        Column {
+                        Column(modifier = Modifier.weight(1f)) {
                             Text(
                                 text = stringResource(
                                     R.string.new_unlock_limit_set_for_tomorrow

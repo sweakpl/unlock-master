@@ -1,6 +1,5 @@
 package com.sweak.unlockmaster.presentation.main.home.components
 
-import android.graphics.Color
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,6 +26,7 @@ fun WeeklyUnlocksChart(
     modifier: Modifier = Modifier
 ) {
     val barArgbColor: Int = MaterialTheme.colorScheme.secondary.toArgb()
+    val textArgbColor = MaterialTheme.colorScheme.onBackground.toArgb()
 
     AndroidView(
         factory = { context ->
@@ -55,7 +55,7 @@ fun WeeklyUnlocksChart(
                     textSize = 10f
                     axisMinimum = -0.5f
                     axisMaximum = 6.5f
-                    textColor = Color.BLACK
+                    textColor = textArgbColor
                     typeface = ResourcesCompat.getFont(context, R.font.amiko_regular)
                     valueFormatter = object : IndexAxisValueFormatter() {
                         override fun getAxisLabel(value: Float, axis: AxisBase): String =
@@ -80,7 +80,7 @@ fun WeeklyUnlocksChart(
                 ).apply {
                     barWidth = 0.66f
                     setValueTextSize(10f)
-                    setValueTextColor(Color.BLACK)
+                    setValueTextColor(textArgbColor)
                     setValueTypeface(ResourcesCompat.getFont(it.context, R.font.amiko_regular))
                     setValueFormatter(object : ValueFormatter() {
                         override fun getFormattedValue(value: Float): String {

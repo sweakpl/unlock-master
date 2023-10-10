@@ -149,6 +149,8 @@ fun HomeScreen(
                             label = "unlockLimitProgressAnimation"
                         )
 
+                        val surfaceColor = MaterialTheme.colorScheme.surface
+
                         CircularProgressIndicator(
                             progress = progress,
                             color = MaterialTheme.colorScheme.secondary,
@@ -158,7 +160,7 @@ fun HomeScreen(
                                 .padding(all = MaterialTheme.space.smallMedium)
                                 .drawBehind {
                                     drawCircle(
-                                        color = Color.White,
+                                        color = surfaceColor,
                                         radius = size.width / 2 - progressBarStrokeWidth.toPx() / 2,
                                         style = Stroke(
                                             width = progressBarStrokeWidth.toPx()
@@ -320,6 +322,7 @@ fun HomeScreen(
                                             style = MaterialTheme.typography.titleSmall,
                                             modifier = Modifier
                                                 .padding(end = MaterialTheme.space.small)
+                                                .weight(1f)
                                         )
 
                                         Text(

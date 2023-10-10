@@ -1,6 +1,5 @@
 package com.sweak.unlockmaster.presentation.common.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +9,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -39,65 +39,66 @@ fun Dialog(
             dismissOnClickOutside = false
         )
     ) {
-        Column(
-            modifier = Modifier
-                .wrapContentSize()
-                .clip(MaterialTheme.shapes.medium)
-                .background(MaterialTheme.colorScheme.surface)
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.displayMedium,
-                modifier = Modifier.padding(
-                    start = MaterialTheme.space.medium,
-                    top = MaterialTheme.space.medium,
-                    end = MaterialTheme.space.medium,
-                    bottom = MaterialTheme.space.small
-                )
-            )
-
-            Text(
-                text = message,
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(
-                    start = MaterialTheme.space.medium,
-                    end = MaterialTheme.space.medium,
-                    bottom = MaterialTheme.space.medium
-                )
-            )
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
+        Surface {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
+                    .wrapContentSize()
+                    .clip(MaterialTheme.shapes.medium)
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.displayMedium,
+                    modifier = Modifier.padding(
+                        start = MaterialTheme.space.medium,
+                        top = MaterialTheme.space.medium,
+                        end = MaterialTheme.space.medium,
+                        bottom = MaterialTheme.space.small
+                    )
+                )
+
+                Text(
+                    text = message,
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(
                         start = MaterialTheme.space.medium,
                         end = MaterialTheme.space.medium,
                         bottom = MaterialTheme.space.medium
                     )
-            ) {
-                if (!onlyPositiveButton) {
-                    TextButton(
-                        onClick = onNegativeClick ?: onDismissRequest,
+                )
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.medium
+                        )
+                ) {
+                    if (!onlyPositiveButton) {
+                        TextButton(
+                            onClick = onNegativeClick ?: onDismissRequest,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(
+                                text = negativeButtonText!!,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.width(MaterialTheme.space.medium))
+                    }
+
+                    Button(
+                        onClick = onPositiveClick,
                         modifier = Modifier.weight(1f)
                     ) {
                         Text(
-                            text = negativeButtonText!!,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            text = positiveButtonText,
+                            modifier = Modifier.padding(MaterialTheme.space.xSmall)
                         )
                     }
-
-                    Spacer(modifier = Modifier.width(MaterialTheme.space.medium))
-                }
-
-                Button(
-                    onClick = onPositiveClick,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(
-                        text = positiveButtonText,
-                        modifier = Modifier.padding(MaterialTheme.space.xSmall)
-                    )
                 }
             }
         }

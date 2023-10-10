@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.sweak.unlockmaster.R
@@ -31,7 +30,7 @@ fun CounterPauseSeparator(
         Spacer(
             modifier = Modifier
                 .height(1.dp)
-                .background(color = Color.Black)
+                .background(color = MaterialTheme.colorScheme.onSurface)
                 .weight(1f)
         )
 
@@ -48,7 +47,7 @@ fun CounterPauseSeparator(
         Spacer(
             modifier = Modifier
                 .height(1.dp)
-                .background(color = Color.Black)
+                .background(color = MaterialTheme.colorScheme.onSurface)
                 .weight(1f)
         )
     }

@@ -79,7 +79,8 @@ fun WelcomeScreen(navController: NavController) {
                 )
             },
             colors = ButtonDefaults.elevatedButtonColors(
-                contentColor = MaterialTheme.colorScheme.onSurface
+                containerColor = Color.White,
+                contentColor = Color.Black
             ),
             contentPadding = PaddingValues(
                 horizontal = MaterialTheme.space.xxLarge,

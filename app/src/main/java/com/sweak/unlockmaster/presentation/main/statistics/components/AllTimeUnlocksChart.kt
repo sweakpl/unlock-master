@@ -1,6 +1,5 @@
 package com.sweak.unlockmaster.presentation.main.statistics.components
 
-import android.graphics.Color
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +38,7 @@ fun AllTimeUnlocksChart(
     }
     var currentlyHighlightedXValue = remember { 0f }
     val barArgbColor: Int = MaterialTheme.colorScheme.secondary.toArgb()
+    val textArgbColor = MaterialTheme.colorScheme.onBackground.toArgb()
 
     AndroidView(
         factory = { context ->
@@ -70,7 +70,7 @@ fun AllTimeUnlocksChart(
                     setDrawAxisLine(false)
                     position = XAxis.XAxisPosition.BOTTOM
                     textSize = 10f
-                    textColor = Color.BLACK
+                    textColor = textArgbColor
                     typeface = ResourcesCompat.getFont(context, R.font.amiko_regular)
                 }
 
@@ -116,7 +116,7 @@ fun AllTimeUnlocksChart(
 
                     barWidth = 0.66f
                     setValueTextSize(10f)
-                    setValueTextColor(Color.BLACK)
+                    setValueTextColor(textArgbColor)
                     setValueTypeface(ResourcesCompat.getFont(it.context, R.font.amiko_regular))
                     setValueFormatter(object : ValueFormatter() {
                         override fun getFormattedValue(value: Float): String {
