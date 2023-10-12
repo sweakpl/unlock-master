@@ -1,2 +1,0 @@
-* Fixed the unlock count chart not scrolling automatically to the latest entry,
-* Fixed navigation and back-stack issues on specific devices.
