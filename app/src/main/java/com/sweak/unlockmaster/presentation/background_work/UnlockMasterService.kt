@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.domain.use_case.counter_pause.AddCounterPausedEventUseCase
 import com.sweak.unlockmaster.domain.use_case.counter_pause.AddCounterUnpausedEventUseCase
+import com.sweak.unlockmaster.domain.use_case.counter_pause.IsUnlockCounterPausedUseCase
 import com.sweak.unlockmaster.domain.use_case.lock_events.AddLockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.lock_events.ShouldAddLockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.mobilizing_notifications.GetMobilizingNotificationsFrequencyPercentage
@@ -61,6 +62,9 @@ class UnlockMasterService : Service() {
 
     @Inject
     lateinit var getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase
+
+    @Inject
+    lateinit var isUnlockCounterPausedUseCase: IsUnlockCounterPausedUseCase
 
     @Inject
     lateinit var addCounterPausedEventUseCase: AddCounterPausedEventUseCase
@@ -112,7 +116,7 @@ class UnlockMasterService : Service() {
                     notificationManager.notify(
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) FOREGROUND_SERVICE_ID
                         else FOREGROUND_SERVICE_NOTIFICATION_ID,
-                        createNewServiceNotification(currentUnlockCount, currentUnlockLimit)
+                        createNewServiceNotification(currentUnlockCount, currentUnlockLimit, false)
                     )
 
                     showMobilizingNotificationIfNeeded(
@@ -146,39 +150,57 @@ class UnlockMasterService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        registerScreenEventReceivers()
         ContextCompat.registerReceiver(
             this,
             unlockCounterPauseReceiver,
             IntentFilter(ACTION_UNLOCK_COUNTER_PAUSE_CHANGED),
             ContextCompat.RECEIVER_EXPORTED
         )
+
+        serviceScope.launch {
+            if (!isUnlockCounterPausedUseCase()) {
+                registerScreenEventReceivers()
+            }
+        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         serviceScope.launch {
             val todayUnlockEventsCount = getUnlockEventsCountForGivenDayUseCase()
             val todayUnlockLimit = getUnlockLimitAmountForTodayUseCase()
+            val isUnlockCounterPaused = isUnlockCounterPausedUseCase()
 
             when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> {
                     startForeground(
                         FOREGROUND_SERVICE_ID,
-                        createNewServiceNotification(todayUnlockEventsCount, todayUnlockLimit),
+                        createNewServiceNotification(
+                            todayUnlockEventsCount,
+                            todayUnlockLimit,
+                            isUnlockCounterPaused
+                        ),
                         ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST
                     )
                 }
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
                     startForeground(
                         FOREGROUND_SERVICE_ID,
-                        createNewServiceNotification(todayUnlockEventsCount, todayUnlockLimit)
+                        createNewServiceNotification(
+                            todayUnlockEventsCount,
+                            todayUnlockLimit,
+                            isUnlockCounterPaused
+                        )
                     )
                 }
                 else -> {
                     try {
                         notificationManager.notify(
                             FOREGROUND_SERVICE_NOTIFICATION_ID,
-                            createNewServiceNotification(todayUnlockEventsCount, todayUnlockLimit)
+                            createNewServiceNotification(
+                                todayUnlockEventsCount,
+                                todayUnlockLimit,
+                                isUnlockCounterPaused
+                            )
                         )
                     } catch (_: SecurityException) { /* no-op */ }
                 }
@@ -191,7 +213,7 @@ class UnlockMasterService : Service() {
     private fun createNewServiceNotification(
         todayUnlockEventsCount: Int,
         todayUnlockLimit: Int,
-        isUnlockCounterPaused: Boolean = false
+        isUnlockCounterPaused: Boolean
     ): Notification {
         val notificationPendingIntent = PendingIntent.getActivity(
             applicationContext,
