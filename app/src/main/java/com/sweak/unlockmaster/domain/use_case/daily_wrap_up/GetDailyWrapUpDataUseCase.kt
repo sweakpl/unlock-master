@@ -1,6 +1,7 @@
 package com.sweak.unlockmaster.domain.use_case.daily_wrap_up
 
 import com.sweak.unlockmaster.domain.UNLOCK_LIMIT_LOWER_BOUND
+import com.sweak.unlockmaster.domain.UNLOCK_LIMIT_UPPER_BOUND
 import com.sweak.unlockmaster.domain.model.DailyWrapUpData
 import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.toTimeInMillis
@@ -28,6 +29,7 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
 ) {
     private lateinit var dailyWrapUpDateTime: ZonedDateTime
     private var todayUnlocksCount by Delegates.notNull<Int>()
+    private var todayUnlockLimit by Delegates.notNull<Int>()
 
     suspend operator fun invoke(dailyWrapUpDayMillis: Long): DailyWrapUpData {
         dailyWrapUpDateTime = ZonedDateTime.ofInstant(
@@ -35,6 +37,9 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
             ZoneId.systemDefault()
         )
         todayUnlocksCount = getUnlockEventsCountForGivenDayUseCase(
+            dailyWrapUpDateTime.toTimeInMillis()
+        )
+        todayUnlockLimit = getUnlockLimitAmountForGivenDayUseCase(
             dailyWrapUpDateTime.toTimeInMillis()
         )
 
@@ -107,9 +112,6 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
     }
 
     private suspend fun getUnlockLimitData(): DailyWrapUpData.UnlockLimitData {
-        val todayUnlockLimit = getUnlockLimitAmountForGivenDayUseCase(
-            dailyWrapUpDateTime.toTimeInMillis()
-        )
         val tomorrowUnlockLimit = getUnlockLimitAmountForGivenDayUseCase(
             dailyWrapUpDateTime.plusDays(1).toTimeInMillis()
         )
@@ -210,8 +212,15 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
             else DailyWrapUpData.Progress.STABLE
         } ?: DailyWrapUpData.Progress.STABLE
 
+        val manyMoreScreenOnsThanUnlocksMultiplier =
+            ManyMoreScreenOnsThanUnlocksMultiplier.entries.firstOrNull {
+                todayUnlockLimit in it.suitableUnlockLimitRange
+            }?.multiplier
+
         val isManyMoreScreenOnsThanUnlocks =
-            todayScreenOnsCount > todayUnlocksCount * MANY_MORE_SCREEN_ONS_THAN_UNLOCKS_MULTIPLIER
+            manyMoreScreenOnsThanUnlocksMultiplier?.let {
+                todayScreenOnsCount > todayUnlocksCount * manyMoreScreenOnsThanUnlocksMultiplier
+            } ?: false
 
         return DailyWrapUpData.ScreenOnData(
             todayScreenOnsCount = todayScreenOnsCount,
@@ -225,7 +234,15 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
     private companion object {
         const val MINIMAL_UNLOCKS_IMPROVEMENT_AMOUNT_FOR_RECOMMENDATION = 3
         const val UNLOCK_LIMIT_SIGNIFICANT_EXCEED_MULTIPLIER = 1.5
-        const val MANY_MORE_SCREEN_ONS_THAN_UNLOCKS_MULTIPLIER = 3
         const val LAST_UNLOCK_LIMIT_APPLIANCE_DAYS_DIFFERENCE_FOR_RECOMMENDATION = 3
+
+        enum class ManyMoreScreenOnsThanUnlocksMultiplier(
+            val multiplier: Int,
+            val suitableUnlockLimitRange: IntRange
+        ) {
+            LENIENT(5, IntRange(UNLOCK_LIMIT_LOWER_BOUND, 20)),
+            MODERATE(4, IntRange(21, 40)),
+            STRICT(3, IntRange(41, UNLOCK_LIMIT_UPPER_BOUND))
+        }
     }
 }
