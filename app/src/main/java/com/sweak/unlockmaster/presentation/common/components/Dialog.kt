@@ -39,12 +39,8 @@ fun Dialog(
             dismissOnClickOutside = false
         )
     ) {
-        Surface {
-            Column(
-                modifier = Modifier
-                    .wrapContentSize()
-                    .clip(MaterialTheme.shapes.medium)
-            ) {
+        Surface(modifier = Modifier.clip(MaterialTheme.shapes.medium)) {
+            Column(modifier = Modifier.wrapContentSize()) {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.displayMedium,
