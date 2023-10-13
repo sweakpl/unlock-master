@@ -1,6 +1,5 @@
 package com.sweak.unlockmaster.presentation.introduction.introduction
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -67,83 +66,84 @@ fun IntroductionScreen(
                 modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
             )
         },
-        floatingActionButtonPosition = FabPosition.Center
+        floatingActionButtonPosition = FabPosition.Center,
+        containerColor = MaterialTheme.colorScheme.background
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.background)
-                .padding(paddingValues = it)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text(
-                text = stringResource(R.string.how_does_it_work),
-                style = MaterialTheme.typography.displayLarge,
-                modifier = Modifier
-                    .padding(
-                        start = MaterialTheme.space.medium,
-                        top = MaterialTheme.space.medium,
-                        end = MaterialTheme.space.medium,
-                        bottom = MaterialTheme.space.small
-                    )
-            )
+            Column(modifier = Modifier.padding(paddingValues = it)) {
+                Text(
+                    text = stringResource(R.string.how_does_it_work),
+                    style = MaterialTheme.typography.displayLarge,
+                    modifier = Modifier
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            top = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.small
+                        )
+                )
 
-            Text(
-                text = stringResource(R.string.how_it_works_description),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier
-                    .padding(
-                        start = MaterialTheme.space.medium,
-                        end = MaterialTheme.space.medium,
-                        bottom = MaterialTheme.space.mediumLarge
-                    )
-            )
+                Text(
+                    text = stringResource(R.string.how_it_works_description),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.mediumLarge
+                        )
+                )
 
-            InformationCard(
-                title = stringResource(R.string.guidance),
-                description = stringResource(R.string.guidance_description),
-                icon = Icons.Filled.NotificationsActive,
-                iconContentDescription = stringResource(
-                    R.string.content_description_guidance_icon
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = MaterialTheme.space.medium,
-                        end = MaterialTheme.space.medium,
-                        bottom = MaterialTheme.space.medium
-                    )
-            )
+                InformationCard(
+                    title = stringResource(R.string.guidance),
+                    description = stringResource(R.string.guidance_description),
+                    icon = Icons.Filled.NotificationsActive,
+                    iconContentDescription = stringResource(
+                        R.string.content_description_guidance_icon
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.medium
+                        )
+                )
 
-            InformationCard(
-                title = stringResource(R.string.statistics),
-                description = stringResource(R.string.statistics_description),
-                icon = Icons.Filled.QueryStats,
-                iconContentDescription = stringResource(
-                    R.string.content_description_statistics_icon
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = MaterialTheme.space.medium,
-                        end = MaterialTheme.space.medium,
-                        bottom = MaterialTheme.space.medium
-                    )
-            )
+                InformationCard(
+                    title = stringResource(R.string.statistics),
+                    description = stringResource(R.string.statistics_description),
+                    icon = Icons.Filled.QueryStats,
+                    iconContentDescription = stringResource(
+                        R.string.content_description_statistics_icon
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.medium
+                        )
+                )
 
-            InformationCard(
-                title = stringResource(R.string.wellness),
-                description = stringResource(R.string.wellness_description),
-                icon = Icons.Filled.Spa,
-                iconContentDescription = stringResource(
-                    R.string.content_description_wellness_icon
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MaterialTheme.space.medium)
-            )
+                InformationCard(
+                    title = stringResource(R.string.wellness),
+                    description = stringResource(R.string.wellness_description),
+                    icon = Icons.Filled.Spa,
+                    iconContentDescription = stringResource(
+                        R.string.content_description_wellness_icon
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = MaterialTheme.space.medium)
+                )
 
-            Spacer(modifier = Modifier.height(MaterialTheme.space.run { xLarge + 2 * medium }))
+                Spacer(modifier = Modifier.height(MaterialTheme.space.run { xLarge + 2 * medium }))
+            }
         }
     }
 }

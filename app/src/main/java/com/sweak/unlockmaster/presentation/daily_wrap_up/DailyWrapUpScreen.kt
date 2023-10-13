@@ -1,7 +1,6 @@
 package com.sweak.unlockmaster.presentation.daily_wrap_up
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -97,7 +96,8 @@ fun DailyWrapUpScreen(
                 },
                 scrollBehavior = scrollBehavior
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         val scrollState = rememberScrollState()
 
@@ -107,8 +107,6 @@ fun DailyWrapUpScreen(
             label = "dailyWrapUpLoadingAnimation",
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.background)
-                .padding(paddingValues = paddingValues)
                 .verticalScroll(scrollState)
         ) { isInitializing ->
             if (!isInitializing) {
@@ -123,7 +121,7 @@ fun DailyWrapUpScreen(
                     MaterialTheme.space.run { xxLarge + medium }.toPx()
                 }
 
-                Column(modifier = Modifier.fillMaxSize()) {
+                Column(modifier = Modifier.padding(paddingValues = paddingValues)) {
                     Text(
                         text = stringResource(R.string.heres_how_you_did_today),
                         style = MaterialTheme.typography.displayLarge,
@@ -306,7 +304,11 @@ fun DailyWrapUpScreen(
                     )
                 }
             } else {
-                Box(modifier = Modifier.fillMaxHeight()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(paddingValues = paddingValues)
+                ) {
                     CircularProgressIndicator(
                         color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier

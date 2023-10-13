@@ -5,8 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -129,117 +129,17 @@ fun WorkInBackgroundScreen(
                 modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
             )
         },
-        floatingActionButtonPosition = FabPosition.Center
+        floatingActionButtonPosition = FabPosition.Center,
+        containerColor = MaterialTheme.colorScheme.background
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.background)
-                .padding(paddingValues = it)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text(
-                text = stringResource(R.string.allow_work_in_background),
-                style = MaterialTheme.typography.displayLarge,
-                modifier = Modifier
-                    .padding(
-                        start = MaterialTheme.space.medium,
-                        top = MaterialTheme.space.medium,
-                        end = MaterialTheme.space.medium,
-                        bottom = MaterialTheme.space.small
-                    )
-            )
-
-            Text(
-                text = stringResource(R.string.allow_work_in_background_description),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier
-                    .padding(
-                        start = MaterialTheme.space.medium,
-                        end = MaterialTheme.space.medium,
-                        bottom = MaterialTheme.space.medium
-                    )
-            )
-
-            ElevatedCard(
-                elevation = CardDefaults.elevatedCardElevation(
-                    defaultElevation = MaterialTheme.space.xSmall
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MaterialTheme.space.medium)
-                    .clickable(
-                        enabled =
-                        !hasUserFinishedBackgroundWorkInstructions || isLaunchedFromSettings,
-                        onClick = {
-                            uriHandler.openUri(backgroundWorkImprovementWebsite)
-                            hasUserNavigatedToBackgroundWorkWebsite = true
-                        }
-                    )
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Spacer(modifier = Modifier.width(MaterialTheme.space.medium))
-
-                    Icon(
-                        imageVector = Icons.Outlined.Build,
-                        contentDescription = stringResource(
-                            R.string.content_description_wrench_icon
-                        ),
-                        modifier = Modifier.size(size = MaterialTheme.space.xLarge)
-                    )
-
-                    Column(
-                        modifier = Modifier
-                            .padding(all = MaterialTheme.space.medium)
-                            .weight(1f)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.dontkilmyapp_com),
-                            style = MaterialTheme.typography.headlineMedium.copy(
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colorScheme.tertiary
-                            ),
-                            modifier = Modifier.padding(bottom = MaterialTheme.space.xSmall)
-                        )
-
-                        Text(
-                            text = stringResource(
-                                R.string.select_manufacturer_and_follow_instructions
-                            ),
-                            style = MaterialTheme.typography.titleSmall
-                        )
-                    }
-
-                    Icon(
-                        imageVector =
-                        if (!hasUserFinishedBackgroundWorkInstructions
-                            || isLaunchedFromSettings
-                        ) {
-                            Icons.Outlined.NavigateNext
-                        } else Icons.Filled.Done,
-                        contentDescription = stringResource(
-                            if (!hasUserFinishedBackgroundWorkInstructions
-                                || isLaunchedFromSettings
-                            ) {
-                                R.string.content_description_next_icon
-                            } else R.string.content_description_done_icon
-                        ),
-                        modifier = Modifier
-                            .size(size = MaterialTheme.space.xLarge)
-                            .padding(all = MaterialTheme.space.small)
-                    )
-
-                    Spacer(modifier = Modifier.width(MaterialTheme.space.small))
-                }
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                Spacer(modifier = Modifier.height(MaterialTheme.space.large))
-
+            Column(modifier = Modifier.padding(paddingValues = it)) {
                 Text(
-                    text = stringResource(R.string.allow_notifications),
+                    text = stringResource(R.string.allow_work_in_background),
                     style = MaterialTheme.typography.displayLarge,
                     modifier = Modifier
                         .padding(
@@ -251,7 +151,7 @@ fun WorkInBackgroundScreen(
                 )
 
                 Text(
-                    text = stringResource(R.string.allow_notifications_description),
+                    text = stringResource(R.string.allow_work_in_background_description),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .padding(
@@ -270,60 +170,61 @@ fun WorkInBackgroundScreen(
                         .padding(horizontal = MaterialTheme.space.medium)
                         .clickable(
                             enabled =
-                            notificationsPermissionState.status !is PermissionStatus.Granted,
+                            !hasUserFinishedBackgroundWorkInstructions || isLaunchedFromSettings,
                             onClick = {
-                                val permissionStatus = notificationsPermissionState.status
-
-                                if (permissionStatus is PermissionStatus.Denied) {
-                                    if (hasUserTriedToGrantNotificationsPermission &&
-                                        !permissionStatus.shouldShowRationale
-                                    ) {
-                                        isNotificationsPermissionDialogVisible = true
-                                    } else {
-                                        notificationsPermissionState.launchPermissionRequest()
-                                        hasUserTriedToGrantNotificationsPermission = true
-                                    }
-                                }
+                                uriHandler.openUri(backgroundWorkImprovementWebsite)
+                                hasUserNavigatedToBackgroundWorkWebsite = true
                             }
                         )
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Spacer(modifier = Modifier.width(MaterialTheme.space.medium))
 
                         Icon(
-                            imageVector =
-                            if (notificationsPermissionState.status !is PermissionStatus.Granted)
-                                Icons.Outlined.NotificationsOff
-                            else Icons.Outlined.Notifications,
+                            imageVector = Icons.Outlined.Build,
                             contentDescription = stringResource(
-                                R.string.content_description_disabled_notifications_icon
+                                R.string.content_description_wrench_icon
                             ),
                             modifier = Modifier.size(size = MaterialTheme.space.xLarge)
                         )
 
-                        Text(
-                            text = stringResource(
-                                if (notificationsPermissionState.status !is PermissionStatus.Granted)
-                                    R.string.notifications_disabled_click_to_enable
-                                else R.string.notifications_enabled
-                            ),
-                            style = MaterialTheme.typography.headlineMedium.copy(
-                                fontWeight = FontWeight.SemiBold
-                            ),
+                        Column(
                             modifier = Modifier
                                 .padding(all = MaterialTheme.space.medium)
                                 .weight(1f)
-                        )
+                        ) {
+                            Text(
+                                text = stringResource(R.string.dontkilmyapp_com),
+                                style = MaterialTheme.typography.headlineMedium.copy(
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colorScheme.tertiary
+                                ),
+                                modifier = Modifier.padding(bottom = MaterialTheme.space.xSmall)
+                            )
+
+                            Text(
+                                text = stringResource(
+                                    R.string.select_manufacturer_and_follow_instructions
+                                ),
+                                style = MaterialTheme.typography.titleSmall
+                            )
+                        }
 
                         Icon(
                             imageVector =
-                            if (notificationsPermissionState.status !is PermissionStatus.Granted)
+                            if (!hasUserFinishedBackgroundWorkInstructions
+                                || isLaunchedFromSettings
+                            ) {
                                 Icons.Outlined.NavigateNext
-                            else Icons.Filled.Done,
+                            } else Icons.Filled.Done,
                             contentDescription = stringResource(
-                                if (notificationsPermissionState.status !is PermissionStatus.Granted)
+                                if (!hasUserFinishedBackgroundWorkInstructions
+                                    || isLaunchedFromSettings
+                                ) {
                                     R.string.content_description_next_icon
-                                else R.string.content_description_done_icon
+                                } else R.string.content_description_done_icon
                             ),
                             modifier = Modifier
                                 .size(size = MaterialTheme.space.xLarge)
@@ -333,9 +234,109 @@ fun WorkInBackgroundScreen(
                         Spacer(modifier = Modifier.width(MaterialTheme.space.small))
                     }
                 }
-            }
 
-            Spacer(modifier = Modifier.height(MaterialTheme.space.run { xLarge + 2 * medium }))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    Spacer(modifier = Modifier.height(MaterialTheme.space.large))
+
+                    Text(
+                        text = stringResource(R.string.allow_notifications),
+                        style = MaterialTheme.typography.displayLarge,
+                        modifier = Modifier
+                            .padding(
+                                start = MaterialTheme.space.medium,
+                                top = MaterialTheme.space.medium,
+                                end = MaterialTheme.space.medium,
+                                bottom = MaterialTheme.space.small
+                            )
+                    )
+
+                    Text(
+                        text = stringResource(R.string.allow_notifications_description),
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier
+                            .padding(
+                                start = MaterialTheme.space.medium,
+                                end = MaterialTheme.space.medium,
+                                bottom = MaterialTheme.space.medium
+                            )
+                    )
+
+                    ElevatedCard(
+                        elevation = CardDefaults.elevatedCardElevation(
+                            defaultElevation = MaterialTheme.space.xSmall
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = MaterialTheme.space.medium)
+                            .clickable(
+                                enabled =
+                                notificationsPermissionState.status !is PermissionStatus.Granted,
+                                onClick = {
+                                    val permissionStatus = notificationsPermissionState.status
+
+                                    if (permissionStatus is PermissionStatus.Denied) {
+                                        if (hasUserTriedToGrantNotificationsPermission &&
+                                            !permissionStatus.shouldShowRationale
+                                        ) {
+                                            isNotificationsPermissionDialogVisible = true
+                                        } else {
+                                            notificationsPermissionState.launchPermissionRequest()
+                                            hasUserTriedToGrantNotificationsPermission = true
+                                        }
+                                    }
+                                }
+                            )
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Spacer(modifier = Modifier.width(MaterialTheme.space.medium))
+
+                            Icon(
+                                imageVector =
+                                if (notificationsPermissionState.status !is PermissionStatus.Granted)
+                                    Icons.Outlined.NotificationsOff
+                                else Icons.Outlined.Notifications,
+                                contentDescription = stringResource(
+                                    R.string.content_description_disabled_notifications_icon
+                                ),
+                                modifier = Modifier.size(size = MaterialTheme.space.xLarge)
+                            )
+
+                            Text(
+                                text = stringResource(
+                                    if (notificationsPermissionState.status !is PermissionStatus.Granted)
+                                        R.string.notifications_disabled_click_to_enable
+                                    else R.string.notifications_enabled
+                                ),
+                                style = MaterialTheme.typography.headlineMedium.copy(
+                                    fontWeight = FontWeight.SemiBold
+                                ),
+                                modifier = Modifier
+                                    .padding(all = MaterialTheme.space.medium)
+                                    .weight(1f)
+                            )
+
+                            Icon(
+                                imageVector =
+                                if (notificationsPermissionState.status !is PermissionStatus.Granted)
+                                    Icons.Outlined.NavigateNext
+                                else Icons.Filled.Done,
+                                contentDescription = stringResource(
+                                    if (notificationsPermissionState.status !is PermissionStatus.Granted)
+                                        R.string.content_description_next_icon
+                                    else R.string.content_description_done_icon
+                                ),
+                                modifier = Modifier
+                                    .size(size = MaterialTheme.space.xLarge)
+                                    .padding(all = MaterialTheme.space.small)
+                            )
+
+                            Spacer(modifier = Modifier.width(MaterialTheme.space.small))
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(MaterialTheme.space.run { xLarge + 2 * medium }))
+            }
         }
     }
 

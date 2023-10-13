@@ -117,7 +117,8 @@ fun HomeScreen(
                 },
                 scrollBehavior = scrollBehavior
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         AnimatedContent(
             targetState = homeScreenState.isInitializing,
@@ -125,12 +126,10 @@ fun HomeScreen(
             label = "homeScreenContentLoadingAnimation",
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.background)
-                .padding(paddingValues = paddingValues)
                 .verticalScroll(rememberScrollState())
         ) { isInitializing ->
             if (!isInitializing) {
-                Column {
+                Column(modifier = Modifier.padding(paddingValues = paddingValues)) {
                     Box(
                         modifier = Modifier
                             .wrapContentSize()
@@ -475,7 +474,11 @@ fun HomeScreen(
                     }
                 }
             } else {
-                Box(modifier = Modifier.fillMaxHeight()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(paddingValues = paddingValues)
+                ) {
                     CircularProgressIndicator(
                         color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier

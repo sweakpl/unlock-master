@@ -1,7 +1,6 @@
 package com.sweak.unlockmaster.presentation.main.statistics
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -67,7 +66,8 @@ fun StatisticsScreen(
                 onNavigationButtonClick = { navController.popBackStackThrottled(lifecycleOwner) },
                 scrollBehavior = scrollBehavior
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         AnimatedContent(
             targetState = statisticsScreenState.isInitializing,
@@ -75,12 +75,10 @@ fun StatisticsScreen(
             label = "statisticsScreenContentLoadingAnimation",
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.background)
-                .padding(paddingValues = paddingValues)
                 .verticalScroll(rememberScrollState())
         ) { isInitializing ->
             if (!isInitializing) {
-                Column {
+                Column(modifier = Modifier.padding(paddingValues = paddingValues)) {
                     AllTimeUnlocksChart(
                         allTimeUnlockEventCountsEntries =
                         statisticsScreenState.allTimeUnlockEventCounts,
@@ -313,7 +311,11 @@ fun StatisticsScreen(
                     }
                 }
             } else {
-                Box(modifier = Modifier.fillMaxHeight()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(paddingValues = paddingValues)
+                ) {
                     CircularProgressIndicator(
                         color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier

@@ -2,7 +2,7 @@ package com.sweak.unlockmaster.presentation.settings.daily_wrap_up_settings
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -87,131 +87,132 @@ fun DailyWrapUpSettingsScreen(
                 modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
             )
         },
-        floatingActionButtonPosition = FabPosition.Center
+        floatingActionButtonPosition = FabPosition.Center,
+        containerColor = MaterialTheme.colorScheme.background
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.background)
-                .padding(paddingValues = it)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text(
-                text = stringResource(R.string.daily_wrapups),
-                style = MaterialTheme.typography.displayLarge,
-                modifier = Modifier
-                    .padding(
-                        start = MaterialTheme.space.medium,
-                        top = MaterialTheme.space.medium,
-                        end = MaterialTheme.space.medium,
-                        bottom = MaterialTheme.space.small
-                    )
-            )
-
-            Text(
-                text = stringResource(R.string.daily_wrapups_description),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier
-                    .padding(
-                        start = MaterialTheme.space.medium,
-                        end = MaterialTheme.space.medium,
-                        bottom = MaterialTheme.space.medium
-                    )
-            )
-
-            Image(
-                painter = painterResource(R.drawable.img_daily_wrapup_notification),
-                contentDescription = stringResource(
-                    R.string.content_description_daily_wrapup_notification_image
-                ),
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = MaterialTheme.space.mediumLarge,
-                        end = MaterialTheme.space.mediumLarge,
-                        bottom = MaterialTheme.space.mediumLarge,
-                    )
-            )
-
-            Text(
-                text = stringResource(R.string.daily_wrapup_notifications_setting_description),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier
-                    .padding(
-                        start = MaterialTheme.space.medium,
-                        end = MaterialTheme.space.medium,
-                        bottom = MaterialTheme.space.medium
-                    )
-            )
-
-            if (dailyWrapUpSettingsScreenState.notificationHourOfDay != null &&
-                dailyWrapUpSettingsScreenState.notificationMinute != null
-            ) {
-                CardTimePicker(
-                    hourOfDay = dailyWrapUpSettingsScreenState.notificationHourOfDay,
-                    minute = dailyWrapUpSettingsScreenState.notificationMinute,
-                    onTimeChanged = { hourOfDay, minute ->
-                        dailyWrapUpSettingsViewModel.onEvent(
-                            DailyWrapUpSettingsScreenEvent
-                                .SelectNewDailyWrapUpSettingsNotificationsTime(
-                                    newNotificationHourOfDay = hourOfDay,
-                                    newNotificationMinute = minute
-                                )
+            Column(modifier = Modifier.padding(paddingValues = it)) {
+                Text(
+                    text = stringResource(R.string.daily_wrapups),
+                    style = MaterialTheme.typography.displayLarge,
+                    modifier = Modifier
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            top = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.small
                         )
-                    },
+                )
+
+                Text(
+                    text = stringResource(R.string.daily_wrapups_description),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.medium
+                        )
+                )
+
+                Image(
+                    painter = painterResource(R.drawable.img_daily_wrapup_notification),
+                    contentDescription = stringResource(
+                        R.string.content_description_daily_wrapup_notification_image
+                    ),
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = MaterialTheme.space.mediumLarge,
+                            end = MaterialTheme.space.mediumLarge,
+                            bottom = MaterialTheme.space.mediumLarge,
+                        )
+                )
+
+                Text(
+                    text = stringResource(R.string.daily_wrapup_notifications_setting_description),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.medium
+                        )
+                )
+
+                if (dailyWrapUpSettingsScreenState.notificationHourOfDay != null &&
+                    dailyWrapUpSettingsScreenState.notificationMinute != null
+                ) {
+                    CardTimePicker(
+                        hourOfDay = dailyWrapUpSettingsScreenState.notificationHourOfDay,
+                        minute = dailyWrapUpSettingsScreenState.notificationMinute,
+                        onTimeChanged = { hourOfDay, minute ->
+                            dailyWrapUpSettingsViewModel.onEvent(
+                                DailyWrapUpSettingsScreenEvent
+                                    .SelectNewDailyWrapUpSettingsNotificationsTime(
+                                        newNotificationHourOfDay = hourOfDay,
+                                        newNotificationMinute = minute
+                                    )
+                            )
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = MaterialTheme.space.medium)
+                    )
+                }
+
+                Text(
+                    text = stringResource(R.string.daily_wrapup_notifications_opening_disclaimer),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .padding(
+                            horizontal = MaterialTheme.space.medium,
+                            vertical = MaterialTheme.space.mediumLarge
+                        )
+                )
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                OutlinedCard(
+                    colors = CardDefaults.outlinedCardColors(
+                        containerColor = Color.Transparent
+                    ),
+                    border = BorderStroke(
+                        width = 2.dp,
+                        color = MaterialTheme.colorScheme.tertiary
+                    ),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = MaterialTheme.space.medium)
-                )
-            }
-
-            Text(
-                text = stringResource(R.string.daily_wrapup_notifications_opening_disclaimer),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier
-                    .padding(
-                        horizontal = MaterialTheme.space.medium,
-                        vertical = MaterialTheme.space.mediumLarge
-                    )
-            )
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            OutlinedCard(
-                colors = CardDefaults.outlinedCardColors(
-                    containerColor = Color.Transparent
-                ),
-                border = BorderStroke(
-                    width = 2.dp,
-                    color = MaterialTheme.colorScheme.tertiary
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = MaterialTheme.space.medium)
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(all = MaterialTheme.space.small)
                 ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Info,
-                        contentDescription = stringResource(
-                            R.string.content_description_info_icon
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(all = MaterialTheme.space.small)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Info,
+                            contentDescription = stringResource(
+                                R.string.content_description_info_icon
+                            )
                         )
-                    )
 
-                    Text(
-                        text = stringResource(
-                            R.string.daily_wrap_up_notifications_can_only_be_delivered_between
-                        ),
-                        style = MaterialTheme.typography.titleSmall,
-                        modifier = Modifier.padding(start = MaterialTheme.space.small)
-                    )
+                        Text(
+                            text = stringResource(
+                                R.string.daily_wrap_up_notifications_can_only_be_delivered_between
+                            ),
+                            style = MaterialTheme.typography.titleSmall,
+                            modifier = Modifier.padding(start = MaterialTheme.space.small)
+                        )
+                    }
                 }
-            }
 
-            Spacer(modifier = Modifier.height(MaterialTheme.space.run { xLarge + 2 * medium }))
+                Spacer(modifier = Modifier.height(MaterialTheme.space.run { xLarge + 2 * medium }))
+            }
         }
     }
 

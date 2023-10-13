@@ -1,7 +1,7 @@
 package com.sweak.unlockmaster.presentation.settings.mobilizing_notifications
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -76,106 +76,107 @@ fun MobilizingNotificationsScreen(
                 modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
             )
         },
-        floatingActionButtonPosition = FabPosition.Center
+        floatingActionButtonPosition = FabPosition.Center,
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.background)
-                .padding(paddingValues = paddingValues)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text(
-                text = stringResource(R.string.mobilizing_notifications),
-                style = MaterialTheme.typography.displayLarge,
-                modifier = Modifier
-                    .padding(
-                        start = MaterialTheme.space.medium,
-                        top = MaterialTheme.space.medium,
-                        end = MaterialTheme.space.medium,
-                        bottom = MaterialTheme.space.small
-                    )
-            )
-
-            Text(
-                text = stringResource(R.string.mobilizing_notifications_description),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier
-                    .padding(
-                        start = MaterialTheme.space.medium,
-                        end = MaterialTheme.space.medium,
-                        bottom = MaterialTheme.space.medium
-                    )
-            )
-
-            Image(
-                painter = painterResource(R.drawable.img_mobilizing_notification),
-                contentDescription = stringResource(
-                    R.string.content_description_mobilizing_notification_image
-                ),
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = MaterialTheme.space.mediumLarge,
-                        end = MaterialTheme.space.mediumLarge,
-                        bottom = MaterialTheme.space.mediumLarge,
-                    )
-            )
-
-            Text(
-                text = stringResource(R.string.mobilizing_notifications_setting_description),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier
-                    .padding(
-                        start = MaterialTheme.space.medium,
-                        end = MaterialTheme.space.medium,
-                        bottom = MaterialTheme.space.medium
-                    )
-            )
-
-            if (mobilizingNotificationsScreenState.availableMobilizingNotificationsFrequencyPercentages != null &&
-                mobilizingNotificationsScreenState.selectedMobilizingNotificationsFrequencyPercentageIndex != null
-            ) {
-                ComboBox(
-                    menuItems = mobilizingNotificationsScreenState.availableMobilizingNotificationsFrequencyPercentages.map {
-                        stringResource(R.string.every_x_percent, it)
-                    },
-                    selectedIndex = mobilizingNotificationsScreenState.selectedMobilizingNotificationsFrequencyPercentageIndex,
-                    onMenuItemClick = {
-                        mobilizingNotificationsViewModel.onEvent(
-                            MobilizingNotificationsScreenEvent.SelectNewFrequencyPercentageIndex(
-                                newPercentageIndex = it
-                            )
+            Column(modifier = Modifier.padding(paddingValues = paddingValues)) {
+                Text(
+                    text = stringResource(R.string.mobilizing_notifications),
+                    style = MaterialTheme.typography.displayLarge,
+                    modifier = Modifier
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            top = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.small
                         )
-                    },
+                )
+
+                Text(
+                    text = stringResource(R.string.mobilizing_notifications_description),
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .padding(
                             start = MaterialTheme.space.medium,
                             end = MaterialTheme.space.medium,
-                            bottom = MaterialTheme.space.mediumLarge
+                            bottom = MaterialTheme.space.medium
                         )
                 )
-            }
 
-            Text(
-                text = stringResource(R.string.example),
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier
-                    .padding(
-                        start = MaterialTheme.space.medium,
-                        end = MaterialTheme.space.medium,
-                        bottom = MaterialTheme.space.xSmall
+                Image(
+                    painter = painterResource(R.drawable.img_mobilizing_notification),
+                    contentDescription = stringResource(
+                        R.string.content_description_mobilizing_notification_image
+                    ),
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = MaterialTheme.space.mediumLarge,
+                            end = MaterialTheme.space.mediumLarge,
+                            bottom = MaterialTheme.space.mediumLarge,
+                        )
+                )
+
+                Text(
+                    text = stringResource(R.string.mobilizing_notifications_setting_description),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.medium
+                        )
+                )
+
+                if (mobilizingNotificationsScreenState.availableMobilizingNotificationsFrequencyPercentages != null &&
+                    mobilizingNotificationsScreenState.selectedMobilizingNotificationsFrequencyPercentageIndex != null
+                ) {
+                    ComboBox(
+                        menuItems = mobilizingNotificationsScreenState.availableMobilizingNotificationsFrequencyPercentages.map {
+                            stringResource(R.string.every_x_percent, it)
+                        },
+                        selectedIndex = mobilizingNotificationsScreenState.selectedMobilizingNotificationsFrequencyPercentageIndex,
+                        onMenuItemClick = {
+                            mobilizingNotificationsViewModel.onEvent(
+                                MobilizingNotificationsScreenEvent.SelectNewFrequencyPercentageIndex(
+                                    newPercentageIndex = it
+                                )
+                            )
+                        },
+                        modifier = Modifier
+                            .padding(
+                                start = MaterialTheme.space.medium,
+                                end = MaterialTheme.space.medium,
+                                bottom = MaterialTheme.space.mediumLarge
+                            )
                     )
-            )
+                }
 
-            Text(
-                text = stringResource(R.string.mobilizing_notifications_setting_example),
-                style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
-            )
+                Text(
+                    text = stringResource(R.string.example),
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.xSmall
+                        )
+                )
 
-            Spacer(modifier = Modifier.height(MaterialTheme.space.run { xLarge + 2 * medium }))
+                Text(
+                    text = stringResource(R.string.mobilizing_notifications_setting_example),
+                    style = MaterialTheme.typography.titleSmall,
+                    modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
+                )
+
+                Spacer(modifier = Modifier.height(MaterialTheme.space.run { xLarge + 2 * medium }))
+            }
         }
     }
 }
