@@ -154,7 +154,7 @@ class UnlockMasterService : Service() {
             this,
             unlockCounterPauseReceiver,
             IntentFilter(ACTION_UNLOCK_COUNTER_PAUSE_CHANGED),
-            ContextCompat.RECEIVER_EXPORTED
+            ContextCompat.RECEIVER_NOT_EXPORTED
         )
 
         serviceScope.launch {

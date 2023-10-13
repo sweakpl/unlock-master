@@ -505,6 +505,7 @@ fun HomeScreen(
                     HomeScreenEvent.PauseUnlockCounter {
                         context.sendBroadcast(
                             Intent(ACTION_UNLOCK_COUNTER_PAUSE_CHANGED).apply {
+                                setPackage(context.packageName)
                                 putExtra(EXTRA_IS_UNLOCK_COUNTER_PAUSED, it)
                             }
                         )
