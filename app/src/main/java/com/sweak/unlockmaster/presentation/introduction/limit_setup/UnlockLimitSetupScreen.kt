@@ -14,10 +14,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ModeEdit
-import androidx.compose.material.icons.filled.MyLocation
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.ModeEdit
+import androidx.compose.material.icons.outlined.MyLocation
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
@@ -45,12 +45,12 @@ import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.Dialog
+import com.sweak.unlockmaster.presentation.common.components.InformationCard
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.components.ProceedButton
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
 import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
-import com.sweak.unlockmaster.presentation.common.components.InformationCard
 import com.sweak.unlockmaster.presentation.introduction.components.NumberPickerSlider
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -230,7 +230,7 @@ fun UnlockLimitSetupScreen(
                 InformationCard(
                     title = stringResource(R.string.reference),
                     description = stringResource(R.string.reference_description),
-                    icon = Icons.Filled.MyLocation,
+                    icon = Icons.Outlined.MyLocation,
                     iconContentDescription = stringResource(
                         R.string.content_description_crosshair_icon
                     ),
@@ -246,7 +246,7 @@ fun UnlockLimitSetupScreen(
                 InformationCard(
                     title = stringResource(R.string.adjustability),
                     description = stringResource(R.string.adjustability_description),
-                    icon = Icons.Filled.ModeEdit,
+                    icon = Icons.Outlined.ModeEdit,
                     iconContentDescription = stringResource(
                         R.string.content_description_edit_icon
                     ),

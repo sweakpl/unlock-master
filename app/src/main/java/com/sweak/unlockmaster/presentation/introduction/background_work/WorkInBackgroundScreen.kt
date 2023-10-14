@@ -19,8 +19,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.outlined.Build
+import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.NavigateNext
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.NotificationsOff
@@ -218,7 +218,7 @@ fun WorkInBackgroundScreen(
                                 || isLaunchedFromSettings
                             ) {
                                 Icons.Outlined.NavigateNext
-                            } else Icons.Filled.Done,
+                            } else Icons.Outlined.Done,
                             contentDescription = stringResource(
                                 if (!hasUserFinishedBackgroundWorkInstructions
                                     || isLaunchedFromSettings
@@ -319,7 +319,7 @@ fun WorkInBackgroundScreen(
                                 imageVector =
                                 if (notificationsPermissionState.status !is PermissionStatus.Granted)
                                     Icons.Outlined.NavigateNext
-                                else Icons.Filled.Done,
+                                else Icons.Outlined.Done,
                                 contentDescription = stringResource(
                                     if (notificationsPermissionState.status !is PermissionStatus.Granted)
                                         R.string.content_description_next_icon

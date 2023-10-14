@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.NotificationsActive
-import androidx.compose.material.icons.filled.QueryStats
-import androidx.compose.material.icons.filled.Spa
+import androidx.compose.material.icons.outlined.NotificationsActive
+import androidx.compose.material.icons.outlined.QueryStats
+import androidx.compose.material.icons.outlined.Spa
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
@@ -23,12 +23,12 @@ import androidx.compose.ui.unit.times
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.Screen
+import com.sweak.unlockmaster.presentation.common.components.InformationCard
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.components.ProceedButton
 import com.sweak.unlockmaster.presentation.common.ui.theme.space
 import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
 import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
-import com.sweak.unlockmaster.presentation.common.components.InformationCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -101,7 +101,7 @@ fun IntroductionScreen(
                 InformationCard(
                     title = stringResource(R.string.guidance),
                     description = stringResource(R.string.guidance_description),
-                    icon = Icons.Filled.NotificationsActive,
+                    icon = Icons.Outlined.NotificationsActive,
                     iconContentDescription = stringResource(
                         R.string.content_description_guidance_icon
                     ),
@@ -117,7 +117,7 @@ fun IntroductionScreen(
                 InformationCard(
                     title = stringResource(R.string.statistics),
                     description = stringResource(R.string.statistics_description),
-                    icon = Icons.Filled.QueryStats,
+                    icon = Icons.Outlined.QueryStats,
                     iconContentDescription = stringResource(
                         R.string.content_description_statistics_icon
                     ),
@@ -133,7 +133,7 @@ fun IntroductionScreen(
                 InformationCard(
                     title = stringResource(R.string.wellness),
                     description = stringResource(R.string.wellness_description),
-                    icon = Icons.Filled.Spa,
+                    icon = Icons.Outlined.Spa,
                     iconContentDescription = stringResource(
                         R.string.content_description_wellness_icon
                     ),

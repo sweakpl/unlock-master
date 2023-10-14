@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material.icons.outlined.AccessTime
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.HorizontalRule
@@ -121,7 +120,7 @@ fun DailyWrapUpCriterionPreviewCard(
                 )
 
                 Icon(
-                    imageVector = Icons.Default.NavigateNext,
+                    imageVector = Icons.Outlined.NavigateNext,
                     contentDescription = stringResource(R.string.content_description_next_icon),
                     modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
                 )

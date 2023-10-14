@@ -2,7 +2,7 @@ package com.sweak.unlockmaster.presentation.common.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIos
+import androidx.compose.material.icons.outlined.ArrowBackIos
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -39,7 +39,7 @@ fun NavigationBar(
         navigationIcon = {
             IconButton(onClick = onNavigationButtonClick) {
                 Icon(
-                    imageVector = Icons.Filled.ArrowBackIos,
+                    imageVector = Icons.Outlined.ArrowBackIos,
                     contentDescription = stringResource(R.string.content_description_back_icon)
                 )
             }

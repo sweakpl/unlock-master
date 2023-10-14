@@ -3,13 +3,13 @@ package com.sweak.unlockmaster.presentation.introduction.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Remove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Slider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -48,7 +48,7 @@ fun NumberPickerSlider(
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Remove,
+                    imageVector = Icons.Outlined.Remove,
                     tint = MaterialTheme.colorScheme.primary,
                     contentDescription = stringResource(R.string.content_description_subtract_icon)
                 )
@@ -71,7 +71,7 @@ fun NumberPickerSlider(
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Add,
+                    imageVector = Icons.Outlined.Add,
                     tint = MaterialTheme.colorScheme.primary,
                     contentDescription = stringResource(R.string.content_description_add_icon)
                 )

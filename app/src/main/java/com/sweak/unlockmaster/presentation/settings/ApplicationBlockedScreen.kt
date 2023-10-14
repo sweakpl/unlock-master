@@ -14,8 +14,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.outlined.Build
+import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.MoodBad
 import androidx.compose.material.icons.outlined.NavigateNext
 import androidx.compose.material.icons.outlined.NoEncryption
@@ -248,7 +248,7 @@ fun ApplicationBlockedScreen(navController: NavController) {
                             imageVector =
                             if (!hasUserFinishedBackgroundWorkInstructions) {
                                 Icons.Outlined.NavigateNext
-                            } else Icons.Filled.Done,
+                            } else Icons.Outlined.Done,
                             contentDescription = stringResource(
                                 if (!hasUserFinishedBackgroundWorkInstructions) {
                                     R.string.content_description_next_icon
