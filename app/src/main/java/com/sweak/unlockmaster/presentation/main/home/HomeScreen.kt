@@ -246,9 +246,7 @@ fun HomeScreen(
                                             HomeScreenEvent.DismissUnlockMasterBlockedWarning
                                         )
                                         navController.navigateThrottled(
-                                            Screen.WorkInBackgroundScreen.withArguments(
-                                                false.toString()
-                                            ),
+                                            Screen.ApplicationBlockedScreen.route,
                                             lifecycleOwner
                                         )
                                     }
@@ -268,7 +266,7 @@ fun HomeScreen(
                                 )
 
                                 Text(
-                                    text = stringResource(R.string.unlock_master_was_blocked),
+                                    text = stringResource(R.string.unlock_master_was_blocked_click_here),
                                     style = MaterialTheme.typography.headlineMedium,
                                     modifier = Modifier
                                         .padding(all = MaterialTheme.space.medium)

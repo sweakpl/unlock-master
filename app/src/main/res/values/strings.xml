@@ -131,7 +131,16 @@
     <string name="you_have_recently_set">You have recently set</string>
     <string name="as_your_new_unlock_limit">as your new unlock limit.</string>
     <string name="daily_wrapup_notifications_opening_disclaimer">Remember, you can always open your daily wrap-up later than at the specified time! E.g. if the notification comes at 23:45 you can always open it throughout the next day at e.g. 0:15 or in the morning.</string>
-    <string name="unlock_master_was_blocked">UnlockMaster was blocked by Android! Click here for more information.</string>
+    <string name="unlock_master_was_blocked_click_here">UnlockMaster was blocked by Android! Click here for more information.</string>
+    <string name="application_blocked">Application blocked</string>
+    <string name="unlock_master_was_blocked_by_android">UnlockMaster was blocked by the Android system!</string>
+    <string name="unlock_master_was_blocked_by_android_description">This can happen when either the Android system decides to kill the app in order to free up resources or the user manually force-stops the app. This has a detrimental impact on the app stability in many ways:</string>
+    <string name="no_unlock_tracking">No unlock tracking</string>
+    <string name="no_unlock_tracking_description">UnlockMaster cannot track your unlocks without the app running in the background.</string>
+    <string name="missing_data">Missing data</string>
+    <string name="missing_data_description">The data displayed within the app can be false and misleading for the user.</string>
+    <string name="degraded_experience">Degraded experience</string>
+    <string name="degraded_experience_description">The app cannot provide the best value to the user without being able to work properly.</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>
@@ -168,4 +177,7 @@
     <string name="content_description_warning_icon">Warning triangle icon</string>
     <string name="content_description_done_icon">Positive tick icon</string>
     <string name="content_description_block_icon">Block/Prohibition sign icon</string>
+    <string name="content_description_no_unlock_tracking_icon">Crossed out padlock icon</string>
+    <string name="content_description_missing_data_icon">Trending down arrow icon</string>
+    <string name="content_description_bad_mood_icon">Face with bad mood icon</string>
 </resources>

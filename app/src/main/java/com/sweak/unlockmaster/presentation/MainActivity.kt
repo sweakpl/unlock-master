@@ -38,6 +38,7 @@ import com.sweak.unlockmaster.presentation.background_work.UnlockMasterService
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_DAILY_WRAP_UP_DAY_MILLIS
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.daily_wrap_up.DailyWrapUpScreen
+import com.sweak.unlockmaster.presentation.settings.ApplicationBlockedScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -223,6 +224,10 @@ class MainActivity : ComponentActivity() {
                             it.arguments?.getLong(KEY_DAILY_WRAP_UP_DAY_MILLIS)
                                 ?: System.currentTimeMillis()
                         )
+                    }
+
+                    composable(route = Screen.ApplicationBlockedScreen.route) {
+                        ApplicationBlockedScreen(navController = navController)
                     }
                 }
             }

@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.introduction.components
+package com.sweak.unlockmaster.presentation.common.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
