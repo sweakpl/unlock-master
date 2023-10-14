@@ -4,7 +4,7 @@ import android.app.KeyguardManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.sweak.unlockmaster.domain.use_case.counter_pause.IsUnlockCounterPausedUseCase
+import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.use_case.lock_events.AddLockEventUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
@@ -14,10 +14,10 @@ import javax.inject.Inject
 class ShutdownReceiver : BroadcastReceiver() {
 
     @Inject
-    lateinit var addLockEventUseCase: AddLockEventUseCase
+    lateinit var userSessionRepository: UserSessionRepository
 
     @Inject
-    lateinit var isUnlockCounterPausedUSeCase: IsUnlockCounterPausedUseCase
+    lateinit var addLockEventUseCase: AddLockEventUseCase
 
     @Inject
     lateinit var keyguardManager: KeyguardManager
@@ -30,7 +30,9 @@ class ShutdownReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action in intentActionsToFilter) {
             runBlocking {
-                if (!keyguardManager.isKeyguardLocked && !isUnlockCounterPausedUSeCase()) {
+                if (!keyguardManager.isKeyguardLocked &&
+                    !userSessionRepository.isUnlockCounterPaused()
+                ) {
                     addLockEventUseCase()
                 }
             }

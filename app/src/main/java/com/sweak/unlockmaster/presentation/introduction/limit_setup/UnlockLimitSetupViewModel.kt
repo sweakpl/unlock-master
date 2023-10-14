@@ -6,6 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sweak.unlockmaster.domain.UNLOCK_LIMIT_LOWER_BOUND
+import com.sweak.unlockmaster.domain.UNLOCK_LIMIT_UPPER_BOUND
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.*
 import com.sweak.unlockmaster.presentation.common.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +23,6 @@ class UnlockLimitSetupViewModel @Inject constructor(
     private val addOrUpdateUnlockLimitForTomorrowUseCase: AddOrUpdateUnlockLimitForTomorrowUseCase,
     private val getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase,
     private val getUnlockLimitAmountForTomorrowUseCase: GetUnlockLimitAmountForTomorrowUseCase,
-    private val getAvailableUnlockLimitRangeUseCase: GetAvailableUnlockLimitRangeUseCase,
     private val deleteUnlockLimitForTomorrowUseCase: DeleteUnlockLimitForTomorrowUseCase
 ) : ViewModel() {
 
@@ -36,7 +37,10 @@ class UnlockLimitSetupViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val unlockLimitForToday = getUnlockLimitAmountForTodayUseCase()
-            val availableUnlockLimitRangeUseCase = getAvailableUnlockLimitRangeUseCase()
+            val availableUnlockLimitRangeUseCase = IntRange(
+                start = UNLOCK_LIMIT_LOWER_BOUND,
+                endInclusive = UNLOCK_LIMIT_UPPER_BOUND
+            )
             val unlockLimitForTomorrow = getUnlockLimitAmountForTomorrowUseCase()
 
             state = state.copy(

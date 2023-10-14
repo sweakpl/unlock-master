@@ -5,9 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sweak.unlockmaster.domain.use_case.mobilizing_notifications.GetAvailableMobilizingNotificationsFrequencyPercentages
-import com.sweak.unlockmaster.domain.use_case.mobilizing_notifications.GetMobilizingNotificationsFrequencyPercentage
-import com.sweak.unlockmaster.domain.use_case.mobilizing_notifications.SetMobilizingNotificationsFrequencyPercentage
+import com.sweak.unlockmaster.domain.AVAILABLE_MOBILIZING_NOTIFICATIONS_FREQUENCY_PERCENTAGES
+import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -16,9 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MobilizingNotificationsViewModel @Inject constructor(
-    private val getMobilizingNotificationsFrequencyPercentage: GetMobilizingNotificationsFrequencyPercentage,
-    private val setMobilizingNotificationsFrequencyPercentage: SetMobilizingNotificationsFrequencyPercentage,
-    private val getAvailableMobilizingNotificationsFrequencyPercentages: GetAvailableMobilizingNotificationsFrequencyPercentages
+    private val userSessionRepository: UserSessionRepository
 ) : ViewModel() {
 
     var state by mutableStateOf(MobilizingNotificationsScreenState())
@@ -30,8 +27,8 @@ class MobilizingNotificationsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val percentage = getMobilizingNotificationsFrequencyPercentage()
-            val availablePercentages = getAvailableMobilizingNotificationsFrequencyPercentages()
+            val percentage = userSessionRepository.getMobilizingNotificationsFrequencyPercentage()
+            val availablePercentages = AVAILABLE_MOBILIZING_NOTIFICATIONS_FREQUENCY_PERCENTAGES
             val selectedPercentageIndex = availablePercentages.indexOf(percentage)
 
             state = state.copy(
@@ -53,7 +50,7 @@ class MobilizingNotificationsViewModel @Inject constructor(
                     with(state) {
                         availableMobilizingNotificationsFrequencyPercentages?.let { percentages ->
                             selectedMobilizingNotificationsFrequencyPercentageIndex?.let {
-                                setMobilizingNotificationsFrequencyPercentage(
+                                userSessionRepository.setMobilizingNotificationsFrequencyPercentage(
                                     percentage = percentages[it]
                                 )
                                 frequencyPercentageSubmittedEventsChannel.send(

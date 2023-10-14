@@ -7,8 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.BarEntry
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
-import com.sweak.unlockmaster.domain.use_case.counter_pause.IsUnlockCounterPausedUseCase
-import com.sweak.unlockmaster.domain.use_case.counter_pause.SetUnlockCounterPauseUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_time.GetScreenTimeDurationForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetLastWeekUnlockEventCountsUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
@@ -25,8 +23,6 @@ class HomeViewModel @Inject constructor(
     private val getUnlockEventsCountForGivenDayUseCase: GetUnlockEventsCountForGivenDayUseCase,
     private val getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase,
     private val getUnlockLimitAmountForTomorrowUseCase: GetUnlockLimitAmountForTomorrowUseCase,
-    private val setUnlockCounterPauseUseCase: SetUnlockCounterPauseUseCase,
-    private val isUnlockCounterPausedUseCase: IsUnlockCounterPausedUseCase,
     private val getScreenTimeDurationForGivenDayUseCase: GetScreenTimeDurationForGivenDayUseCase,
     private val getLastWeekUnlockEventCountsUseCase: GetLastWeekUnlockEventCountsUseCase,
     private val userSessionRepository: UserSessionRepository
@@ -47,7 +43,7 @@ class HomeViewModel @Inject constructor(
             isInitializing = false,
             unlockCount = getUnlockEventsCountForGivenDayUseCase(),
             unlockLimit = unlockLimitForToday,
-            isUnlockCounterPaused = isUnlockCounterPausedUseCase(),
+            isUnlockCounterPaused = userSessionRepository.isUnlockCounterPaused(),
             shouldShowUnlockMasterBlockedWarning =
             userSessionRepository.shouldShowUnlockMasterBlockedWarning(),
             unlockLimitForTomorrow =
@@ -65,10 +61,10 @@ class HomeViewModel @Inject constructor(
     fun onEvent(event: HomeScreenEvent) {
         when (event) {
             is HomeScreenEvent.TryPauseOrUnpauseUnlockCounter -> viewModelScope.launch {
-                val isUnlockCounterPaused = isUnlockCounterPausedUseCase()
+                val isUnlockCounterPaused = userSessionRepository.isUnlockCounterPaused()
 
                 if (isUnlockCounterPaused) {
-                    setUnlockCounterPauseUseCase(isPaused = false)
+                    userSessionRepository.setUnlockCounterPaused(isPaused = false)
                     state = state.copy(
                         isUnlockCounterPaused = false,
                         isUnlockCounterPauseConfirmationDialogVisible = false
@@ -79,7 +75,7 @@ class HomeViewModel @Inject constructor(
                 }
             }
             is HomeScreenEvent.PauseUnlockCounter -> viewModelScope.launch {
-                setUnlockCounterPauseUseCase(isPaused = true)
+                userSessionRepository.setUnlockCounterPaused(isPaused = true)
                 state = state.copy(
                     isUnlockCounterPaused = true,
                     isUnlockCounterPauseConfirmationDialogVisible = false

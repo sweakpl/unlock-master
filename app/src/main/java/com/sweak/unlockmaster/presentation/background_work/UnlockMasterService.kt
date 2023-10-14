@@ -16,10 +16,8 @@ import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.use_case.counter_pause.AddCounterPausedEventUseCase
 import com.sweak.unlockmaster.domain.use_case.counter_pause.AddCounterUnpausedEventUseCase
-import com.sweak.unlockmaster.domain.use_case.counter_pause.IsUnlockCounterPausedUseCase
 import com.sweak.unlockmaster.domain.use_case.lock_events.AddLockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.lock_events.ShouldAddLockEventUseCase
-import com.sweak.unlockmaster.domain.use_case.mobilizing_notifications.GetMobilizingNotificationsFrequencyPercentage
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.AddScreenOnEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
@@ -69,16 +67,10 @@ class UnlockMasterService : Service() {
     lateinit var getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase
 
     @Inject
-    lateinit var isUnlockCounterPausedUseCase: IsUnlockCounterPausedUseCase
-
-    @Inject
     lateinit var addCounterPausedEventUseCase: AddCounterPausedEventUseCase
 
     @Inject
     lateinit var addCounterUnpausedEventUseCase: AddCounterUnpausedEventUseCase
-
-    @Inject
-    lateinit var getMobilizingNotificationsFrequencyPercentage: GetMobilizingNotificationsFrequencyPercentage
 
     private val unlockCounterPauseReceiver = UnlockCounterPauseReceiver().apply {
         onCounterPauseChanged = { isPaused ->
@@ -115,7 +107,7 @@ class UnlockMasterService : Service() {
                 val currentUnlockCount = getUnlockEventsCountForGivenDayUseCase()
                 val currentUnlockLimit = getUnlockLimitAmountForTodayUseCase()
                 val mobilizingNotificationsFrequencyPercentage =
-                    getMobilizingNotificationsFrequencyPercentage()
+                    userSessionRepository.getMobilizingNotificationsFrequencyPercentage()
 
                 try {
                     notificationManager.notify(
@@ -163,7 +155,7 @@ class UnlockMasterService : Service() {
         )
 
         serviceScope.launch {
-            if (!isUnlockCounterPausedUseCase()) {
+            if (!userSessionRepository.isUnlockCounterPaused()) {
                 registerScreenEventReceivers()
             }
 
@@ -175,7 +167,7 @@ class UnlockMasterService : Service() {
         serviceScope.launch {
             val todayUnlockEventsCount = getUnlockEventsCountForGivenDayUseCase()
             val todayUnlockLimit = getUnlockLimitAmountForTodayUseCase()
-            val isUnlockCounterPaused = isUnlockCounterPausedUseCase()
+            val isUnlockCounterPaused = userSessionRepository.isUnlockCounterPaused()
 
             when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> {

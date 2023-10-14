@@ -4,12 +4,12 @@ import com.sweak.unlockmaster.domain.UNLOCK_LIMIT_LOWER_BOUND
 import com.sweak.unlockmaster.domain.UNLOCK_LIMIT_UPPER_BOUND
 import com.sweak.unlockmaster.domain.model.DailyWrapUpData
 import com.sweak.unlockmaster.domain.repository.TimeRepository
+import com.sweak.unlockmaster.domain.repository.UnlockEventsRepository
 import com.sweak.unlockmaster.domain.toTimeInMillis
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.GetScreenOnEventsCountForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_time.GetScreenTimeDurationForGivenDayUseCase
-import com.sweak.unlockmaster.domain.use_case.unlock_events.GetFirstUnlockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
-import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetApplianceTimeOfUnlockLimitFromGivenDayUseCase
+import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitApplianceDayForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForGivenDayUseCase
 import java.time.Instant
 import java.time.ZoneId
@@ -19,11 +19,11 @@ import kotlin.math.roundToInt
 import kotlin.properties.Delegates
 
 class GetDailyWrapUpDataUseCase @Inject constructor(
-    private val getFirstUnlockEventUseCase: GetFirstUnlockEventUseCase,
+    private val unlockEventsRepository: UnlockEventsRepository,
     private val getUnlockEventsCountForGivenDayUseCase: GetUnlockEventsCountForGivenDayUseCase,
     private val getScreenTimeDurationForGivenDayUseCase: GetScreenTimeDurationForGivenDayUseCase,
     private val getUnlockLimitAmountForGivenDayUseCase: GetUnlockLimitAmountForGivenDayUseCase,
-    private val getUnlockLimitApplianceTimeOfUnlockLimitFromGivenDayUseCase: GetApplianceTimeOfUnlockLimitFromGivenDayUseCase,
+    private val getUnlockLimitApplianceTimeOfUnlockLimitFromGivenDayUseCase: GetUnlockLimitApplianceDayForGivenDayUseCase,
     private val getScreenOnEventsCountForGivenDayUseCase: GetScreenOnEventsCountForGivenDayUseCase,
     private val timeRepository: TimeRepository
 ) {
@@ -164,7 +164,7 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
     private suspend fun getLastWeekWeightedAverageUnlockCount(): Float? {
         val firstUnlockEventDayBeginningInMillis =
             timeRepository.getBeginningOfGivenDayTimeInMillis(
-                getFirstUnlockEventUseCase()?.timeInMillis ?: return null
+                unlockEventsRepository.getFirstUnlockEvent()?.timeInMillis ?: return null
             )
         val lastWeekUnlockEventCounts = (0..6).map {
             val currentDayBeginningTimeInMillis =
