@@ -168,7 +168,10 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable(route = Screen.HomeScreen.route) {
-                        HomeScreen(navController = navController)
+                        HomeScreen(
+                            navController = navController,
+                            onBack = { finish() }
+                        )
                     }
 
                     composable(route = Screen.SettingsScreen.route) {

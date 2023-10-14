@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.use_case.counter_pause.AddCounterPausedEventUseCase
 import com.sweak.unlockmaster.domain.use_case.counter_pause.AddCounterUnpausedEventUseCase
 import com.sweak.unlockmaster.domain.use_case.counter_pause.IsUnlockCounterPausedUseCase
@@ -34,6 +35,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -44,6 +46,9 @@ class UnlockMasterService : Service() {
 
     @Inject
     lateinit var notificationManager: NotificationManagerCompat
+
+    @Inject
+    lateinit var userSessionRepository: UserSessionRepository
 
     @Inject
     lateinit var addUnlockEventUseCase: AddUnlockEventUseCase
@@ -161,6 +166,8 @@ class UnlockMasterService : Service() {
             if (!isUnlockCounterPausedUseCase()) {
                 registerScreenEventReceivers()
             }
+
+            userSessionRepository.setUnlockMasterServiceProperlyClosed(false)
         }
     }
 
@@ -300,6 +307,10 @@ class UnlockMasterService : Service() {
     }
 
     override fun onDestroy() {
+        runBlocking {
+            userSessionRepository.setUnlockMasterServiceProperlyClosed(true)
+        }
+
         unregisterScreenEventReceivers()
         unregisterReceiver(unlockCounterPauseReceiver)
 

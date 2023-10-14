@@ -9,4 +9,8 @@ interface UserSessionRepository {
     suspend fun getMobilizingNotificationsFrequencyPercentage(): Int
     suspend fun setDailyWrapUpNotificationsTimeInMinutesAfterMidnight(minutes: Int)
     suspend fun getDailyWrapUpNotificationsTimeInMinutesAfterMidnight(): Int
+    suspend fun setUnlockMasterServiceProperlyClosed(wasProperlyClosed: Boolean)
+    suspend fun wasUnlockMasterServiceProperlyClosed(): Boolean
+    suspend fun setShouldShowUnlockMasterBlockedWarning(shouldShowWarning: Boolean)
+    suspend fun shouldShowUnlockMasterBlockedWarning(): Boolean
 }

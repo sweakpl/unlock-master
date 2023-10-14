@@ -9,6 +9,7 @@ data class HomeScreenState(
     val unlockLimit: Int? = null,
     val isUnlockCounterPaused: Boolean? = null,
     val isUnlockCounterPauseConfirmationDialogVisible: Boolean = false,
+    val shouldShowUnlockMasterBlockedWarning: Boolean = false,
     val unlockLimitForTomorrow: Int? = null,
     val todayScreenTimeDuration: Duration? = null,
     val lastWeekUnlockEventCounts: List<BarEntry> = emptyList()

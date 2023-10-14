@@ -4,6 +4,7 @@ import android.app.KeyguardManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.use_case.counter_pause.IsUnlockCounterPausedUseCase
 import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpNotificationsUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.AddScreenOnEventUseCase
@@ -16,13 +17,16 @@ import javax.inject.Inject
 class BootReceiver : BroadcastReceiver() {
 
     @Inject
+    lateinit var userSessionRepository: UserSessionRepository
+
+    @Inject
     lateinit var addUnlockEventUseCase: AddUnlockEventUseCase
 
     @Inject
     lateinit var addScreenOnEventUseCase: AddScreenOnEventUseCase
 
     @Inject
-    lateinit var isUnlockCounterPausedUSeCase: IsUnlockCounterPausedUseCase
+    lateinit var isUnlockCounterPausedUseCase: IsUnlockCounterPausedUseCase
 
     @Inject
     lateinit var scheduleDailyWrapUpNotificationsUseCase: ScheduleDailyWrapUpNotificationsUseCase
@@ -41,10 +45,11 @@ class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action in intentActionsToFilter) {
             runBlocking {
-                if (!keyguardManager.isKeyguardLocked && !isUnlockCounterPausedUSeCase()) {
-                    addUnlockEventUseCase()
+                if (!keyguardManager.isKeyguardLocked && !isUnlockCounterPausedUseCase()) {
                     addScreenOnEventUseCase()
+                    addUnlockEventUseCase()
                     scheduleDailyWrapUpNotificationsUseCase()
+                    userSessionRepository.setShouldShowUnlockMasterBlockedWarning(false)
                 }
             }
         }

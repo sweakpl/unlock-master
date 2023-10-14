@@ -63,6 +63,28 @@ class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepos
                 ?: DEFAULT_DAILY_WRAP_UPS_NOTIFICATIONS_TIME_IN_MINUTES_PAST_MIDNIGHT
         }.first()
 
+    override suspend fun setUnlockMasterServiceProperlyClosed(wasProperlyClosed: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[WAS_UNLOCK_MASTER_SERVICE_PROPERLY_CLOSED] = wasProperlyClosed
+        }
+    }
+
+    override suspend fun wasUnlockMasterServiceProperlyClosed(): Boolean =
+        context.dataStore.data.map { preferences ->
+            preferences[WAS_UNLOCK_MASTER_SERVICE_PROPERLY_CLOSED] ?: true
+        }.first()
+
+    override suspend fun setShouldShowUnlockMasterBlockedWarning(shouldShowWarning: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[SHOULD_SHOW_UNLOCK_MASTER_BLOCKED_WARNING] = shouldShowWarning
+        }
+    }
+
+    override suspend fun shouldShowUnlockMasterBlockedWarning(): Boolean =
+        context.dataStore.data.map { preferences ->
+            preferences[SHOULD_SHOW_UNLOCK_MASTER_BLOCKED_WARNING] ?: false
+        }.first()
+
     companion object {
         val IS_INTRODUCTION_FINISHED = booleanPreferencesKey("isIntroductionFinished")
         val IS_UNLOCK_COUNTER_PAUSED = booleanPreferencesKey("isUnlockCounterPaused")
@@ -70,5 +92,9 @@ class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepos
             intPreferencesKey("mobilizingNotificationsFrequencyPercentage")
         val DAILY_WRAP_UP_NOTIFICATIONS_TIME_IN_MINUTES_PAST_MIDNIGHT =
             intPreferencesKey("dailyWrapUpNotificationsTimeInMinutesPastMidnight")
+        val WAS_UNLOCK_MASTER_SERVICE_PROPERLY_CLOSED =
+            booleanPreferencesKey("wasUnlockMasterServiceProperlyClosed")
+        val SHOULD_SHOW_UNLOCK_MASTER_BLOCKED_WARNING =
+            booleanPreferencesKey("shouldShowUnlockMasterBlockedWarning")
     }
 }

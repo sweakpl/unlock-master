@@ -1,6 +1,7 @@
 package com.sweak.unlockmaster.presentation.main.home
 
 import android.content.Intent
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
@@ -11,12 +12,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,6 +27,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.outlined.Block
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.NavigateNext
 import androidx.compose.material3.Button
@@ -70,7 +74,8 @@ import com.sweak.unlockmaster.presentation.main.home.components.WeeklyUnlocksCha
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
+    onBack: () -> Unit
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -80,6 +85,11 @@ fun HomeScreen(
 
     val homeScreenState = homeViewModel.state
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+
+    BackHandler(enabled = homeScreenState.shouldShowUnlockMasterBlockedWarning) {
+        homeViewModel.onEvent(HomeScreenEvent.DismissUnlockMasterBlockedWarning)
+        onBack()
+    }
 
     Scaffold(
         modifier = Modifier.nestedScroll(
@@ -208,6 +218,74 @@ fun HomeScreen(
                                     if (it) stringResource(R.string.content_description_play_icon)
                                     else stringResource(R.string.content_description_pause_icon)
                                 )
+                            }
+                        }
+                    }
+
+                    AnimatedVisibility(
+                        visible = homeScreenState.shouldShowUnlockMasterBlockedWarning,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        ElevatedCard(
+                            colors = CardDefaults.elevatedCardColors(
+                                containerColor = MaterialTheme.colorScheme.error
+                            ),
+                            elevation = CardDefaults.elevatedCardElevation(
+                                defaultElevation = MaterialTheme.space.xSmall
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    start = MaterialTheme.space.medium,
+                                    end = MaterialTheme.space.medium,
+                                    bottom = MaterialTheme.space.mediumLarge
+                                )
+                                .clickable(
+                                    onClick = {
+                                        homeViewModel.onEvent(
+                                            HomeScreenEvent.DismissUnlockMasterBlockedWarning
+                                        )
+                                        navController.navigateThrottled(
+                                            Screen.WorkInBackgroundScreen.withArguments(
+                                                false.toString()
+                                            ),
+                                            lifecycleOwner
+                                        )
+                                    }
+                                )
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Spacer(modifier = Modifier.width(MaterialTheme.space.medium))
+
+                                Icon(
+                                    imageVector = Icons.Outlined.Block,
+                                    contentDescription = stringResource(
+                                        R.string.content_description_block_icon
+                                    ),
+                                    modifier = Modifier.size(size = MaterialTheme.space.xLarge)
+                                )
+
+                                Text(
+                                    text = stringResource(R.string.unlock_master_was_blocked),
+                                    style = MaterialTheme.typography.headlineMedium,
+                                    modifier = Modifier
+                                        .padding(all = MaterialTheme.space.medium)
+                                        .weight(1f)
+                                )
+
+                                Icon(
+                                    imageVector = Icons.Outlined.NavigateNext,
+                                    contentDescription = stringResource(
+                                        R.string.content_description_next_icon
+                                    ),
+                                    modifier = Modifier
+                                        .size(size = MaterialTheme.space.xLarge)
+                                        .padding(all = MaterialTheme.space.small)
+                                )
+
+                                Spacer(modifier = Modifier.width(MaterialTheme.space.small))
                             }
                         }
                     }

@@ -10,4 +10,5 @@ sealed class HomeScreenEvent {
     data class UnlockCounterPauseConfirmationDialogVisibilityChanged(
         val isVisible: Boolean
     ) : HomeScreenEvent()
+    data object DismissUnlockMasterBlockedWarning : HomeScreenEvent()
 }

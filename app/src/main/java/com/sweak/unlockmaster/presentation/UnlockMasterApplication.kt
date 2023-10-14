@@ -36,6 +36,7 @@ class UnlockMasterApplication : Application() {
         super.onCreate()
 
         createNotificationChannelsIfVersionRequires()
+        checkForPotentialBackgroundWorkIssues()
         setUpUnlockMasterServiceAndDailyWrapUpsIfUserHasFinishedIntroduction()
     }
 
@@ -86,6 +87,14 @@ class UnlockMasterApplication : Application() {
                 createNotificationChannel(foregroundServiceNotificationChannel)
                 createNotificationChannel(mobilizingNotificationsChannel)
                 createNotificationChannel(dailyWrapUpNotificationsChannel)
+            }
+        }
+    }
+
+    private fun checkForPotentialBackgroundWorkIssues() {
+        runBlocking {
+            if (!userSessionRepository.wasUnlockMasterServiceProperlyClosed()) {
+                userSessionRepository.setShouldShowUnlockMasterBlockedWarning(true)
             }
         }
     }

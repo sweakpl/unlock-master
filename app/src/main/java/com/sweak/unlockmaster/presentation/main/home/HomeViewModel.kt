@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.BarEntry
+import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.use_case.counter_pause.IsUnlockCounterPausedUseCase
 import com.sweak.unlockmaster.domain.use_case.counter_pause.SetUnlockCounterPauseUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_time.GetScreenTimeDurationForGivenDayUseCase
@@ -27,7 +28,8 @@ class HomeViewModel @Inject constructor(
     private val setUnlockCounterPauseUseCase: SetUnlockCounterPauseUseCase,
     private val isUnlockCounterPausedUseCase: IsUnlockCounterPausedUseCase,
     private val getScreenTimeDurationForGivenDayUseCase: GetScreenTimeDurationForGivenDayUseCase,
-    private val getLastWeekUnlockEventCountsUseCase: GetLastWeekUnlockEventCountsUseCase
+    private val getLastWeekUnlockEventCountsUseCase: GetLastWeekUnlockEventCountsUseCase,
+    private val userSessionRepository: UserSessionRepository
 ) : ViewModel() {
 
     var state by mutableStateOf(HomeScreenState())
@@ -46,6 +48,8 @@ class HomeViewModel @Inject constructor(
             unlockCount = getUnlockEventsCountForGivenDayUseCase(),
             unlockLimit = unlockLimitForToday,
             isUnlockCounterPaused = isUnlockCounterPausedUseCase(),
+            shouldShowUnlockMasterBlockedWarning =
+            userSessionRepository.shouldShowUnlockMasterBlockedWarning(),
             unlockLimitForTomorrow =
             if (unlockLimitForTomorrow != unlockLimitForToday) unlockLimitForTomorrow else null,
             todayScreenTimeDuration = Duration(
@@ -84,6 +88,10 @@ class HomeViewModel @Inject constructor(
             }
             is HomeScreenEvent.UnlockCounterPauseConfirmationDialogVisibilityChanged -> {
                 state = state.copy(isUnlockCounterPauseConfirmationDialogVisible = event.isVisible)
+            }
+            is HomeScreenEvent.DismissUnlockMasterBlockedWarning -> viewModelScope.launch {
+                userSessionRepository.setShouldShowUnlockMasterBlockedWarning(false)
+                state = state.copy(shouldShowUnlockMasterBlockedWarning = false)
             }
         }
     }

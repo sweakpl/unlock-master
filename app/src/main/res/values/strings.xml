@@ -131,6 +131,7 @@
     <string name="you_have_recently_set">You have recently set</string>
     <string name="as_your_new_unlock_limit">as your new unlock limit.</string>
     <string name="daily_wrapup_notifications_opening_disclaimer">Remember, you can always open your daily wrap-up later than at the specified time! E.g. if the notification comes at 23:45 you can always open it throughout the next day at e.g. 0:15 or in the morning.</string>
+    <string name="unlock_master_was_blocked">UnlockMaster was blocked by Android! Click here for more information.</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>
@@ -166,4 +167,5 @@
     <string name="content_description_tips_icon">Light bulb with sparks icon indicating tips</string>
     <string name="content_description_warning_icon">Warning triangle icon</string>
     <string name="content_description_done_icon">Positive tick icon</string>
+    <string name="content_description_block_icon">Block/Prohibition sign icon</string>
 </resources>
