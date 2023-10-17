@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Build
+import androidx.compose.material.icons.outlined.AppSettingsAlt
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.MoodBad
 import androidx.compose.material.icons.outlined.NavigateNext
@@ -215,9 +215,9 @@ fun ApplicationBlockedScreen(navController: NavController) {
                         Spacer(modifier = Modifier.width(MaterialTheme.space.medium))
 
                         Icon(
-                            imageVector = Icons.Outlined.Build,
+                            imageVector = Icons.Outlined.AppSettingsAlt,
                             contentDescription = stringResource(
-                                R.string.content_description_wrench_icon
+                                R.string.content_description_app_settings_icon
                             ),
                             modifier = Modifier.size(size = MaterialTheme.space.xLarge)
                         )

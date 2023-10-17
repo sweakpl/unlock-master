@@ -27,7 +27,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.outlined.Block
+import androidx.compose.material.icons.outlined.AppBlocking
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.NavigateNext
 import androidx.compose.material3.Button
@@ -258,9 +258,9 @@ fun HomeScreen(
                                 Spacer(modifier = Modifier.width(MaterialTheme.space.medium))
 
                                 Icon(
-                                    imageVector = Icons.Outlined.Block,
+                                    imageVector = Icons.Outlined.AppBlocking,
                                     contentDescription = stringResource(
-                                        R.string.content_description_block_icon
+                                        R.string.content_description_app_blocked_icon
                                     ),
                                     modifier = Modifier.size(size = MaterialTheme.space.xLarge)
                                 )

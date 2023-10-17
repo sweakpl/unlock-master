@@ -150,7 +150,7 @@
     <string name="content_description_subtract_icon">Subtraction sign icon</string>
     <string name="content_description_add_icon">Addition sign icon</string>
     <string name="content_description_info_icon">Information icon</string>
-    <string name="content_description_wrench_icon">Wrench icon</string>
+    <string name="content_description_app_settings_icon">Application settings icon</string>
     <string name="content_description_disabled_notifications_icon">Disabled notification bell icon</string>
     <string name="content_description_next_icon">Arrow indicating further navigation icon</string>
     <string name="content_description_service_notification_image">Notification indicating working background service image</string>
@@ -176,7 +176,7 @@
     <string name="content_description_tips_icon">Light bulb with sparks icon indicating tips</string>
     <string name="content_description_warning_icon">Warning triangle icon</string>
     <string name="content_description_done_icon">Positive tick icon</string>
-    <string name="content_description_block_icon">Block/Prohibition sign icon</string>
+    <string name="content_description_app_blocked_icon">Blocked application icon</string>
     <string name="content_description_no_unlock_tracking_icon">Crossed out padlock icon</string>
     <string name="content_description_missing_data_icon">Trending down arrow icon</string>
     <string name="content_description_bad_mood_icon">Face with bad mood icon</string>
