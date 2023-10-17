@@ -5,6 +5,7 @@ import android.app.Application
 import android.app.KeyguardManager
 import android.content.Context
 import android.content.Intent
+import android.os.PowerManager
 import androidx.core.app.NotificationManagerCompat
 import androidx.room.Room
 import com.sweak.unlockmaster.data.local.database.UnlockMasterDatabase
@@ -28,6 +29,14 @@ object ApplicationModule {
     @Provides
     fun provideNotificationManager(app: Application): NotificationManagerCompat =
         NotificationManagerCompat.from(app)
+
+    @Provides
+    fun providePowerManager(app: Application): PowerManager =
+        app.getSystemService(Context.POWER_SERVICE) as PowerManager
+
+    @Provides
+    @Named("PackageName")
+    fun providePackageName(app: Application): String = app.packageName
 
     @Provides
     fun provideAlarmManger(app: Application): AlarmManager =

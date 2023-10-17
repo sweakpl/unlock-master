@@ -27,8 +27,12 @@
     <string name="adjustability_description">Unlock limit can be adjusted to meet your improving smartphone usage standards.</string>
     <string name="note_reaching_limit_wont_prevent_unlocking">Note: reaching your unlock limit will NOT prevent you from unlocking your screen.</string>
     <string name="work_in_background">Work in background</string>
-    <string name="allow_work_in_background">Allow UnlockMaster to fully work in background</string>
-    <string name="allow_work_in_background_description">UnlockMaster constantly works in background to gather your device unlocks. Some mobile phone manufacturers impose restrictions on background work by killing working applications. In order to prevent this behavior please visit the dontkillmyapp.com website and follow instructions for your smartphone manufacturer:</string>
+    <string name="allow_optimal_work_in_background">Allow UnlockMaster to efficiently work in background</string>
+    <string name="allow_optimal_work_in_background_description">UnlockMaster constantly works in background to gather your device unlocks. The Android system imposes background work restrictions by default - our app is adversely affected by that fact. Make sure to allow UnlockMaster to work efficiently in background before continuing:</string>
+    <string name="allow_full_work_in_background">Fully optimize UnlockMaster for background work</string>
+    <string name="allow_full_work_in_background_description">Some mobile phone manufacturers impose specific restrictions on background work by killing working applications. In order to prevent this behavior please visit the dontkillmyapp.com website and follow instructions for your smartphone manufacturer:</string>
+    <string name="allow_full_work_in_background_description_extended">UnlockMaster constantly works in background to gather your device unlocks. Some mobile phone manufacturers impose specific restrictions on background work by killing working applications. In order to prevent this behavior please visit the dontkillmyapp.com website and follow instructions for your smartphone manufacturer:</string>
+    <string name="work_in_background_limited_click_to_enable">Work in background is limited. Click to enable.</string>
     <string name="allow_notifications">Allow UnlockMaster to show notifications</string>
     <string name="allow_notifications_description">UnlockMaster is designed to send you mobilizing notifications and remind you about your daily unlocks with a persistent notification. This requires the app to have the permission to post notifications. Make sure you grant that permission before continuing:</string>
     <string name="dontkilmyapp_com" translatable="false">dontkillmyapp.com</string>
@@ -141,6 +145,9 @@
     <string name="missing_data_description">The data displayed within the app can be false and misleading for the user.</string>
     <string name="degraded_experience">Degraded experience</string>
     <string name="degraded_experience_description">The app cannot provide the best value to the user without being able to work properly.</string>
+    <string name="setting_unavailable">Setting unavailable</string>
+    <string name="ignore_battery_optimization_unavailable">Unfortunately your system doesn’t support quick background work optimization setting. Please, refer to the next step: \"Fully optimize UnlockMaster for background work\".</string>
+    <string name="work_in_background_enabled">Work in background is enabled. Good job!</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>
@@ -180,4 +187,5 @@
     <string name="content_description_no_unlock_tracking_icon">Crossed out padlock icon</string>
     <string name="content_description_missing_data_icon">Trending down arrow icon</string>
     <string name="content_description_bad_mood_icon">Face with bad mood icon</string>
+    <string name="content_description_suggested_settings_icon">Suggested setting icon</string>
 </resources>
