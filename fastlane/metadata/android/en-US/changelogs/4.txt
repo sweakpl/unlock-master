@@ -1,0 +1,2 @@
+* New and improved handling of background work optimization,
+* Performance and security improvements.

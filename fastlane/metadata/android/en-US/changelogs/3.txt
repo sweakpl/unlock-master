@@ -1,3 +1,0 @@
-* Added system-controlled UI dark mode,
-* Improvements and bug fixes,
-* Updated UI design.
