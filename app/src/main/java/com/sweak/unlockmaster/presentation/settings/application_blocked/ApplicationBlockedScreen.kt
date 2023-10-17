@@ -54,6 +54,7 @@ import androidx.compose.ui.unit.times
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.InformationCard
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.components.OnResume
@@ -388,5 +389,29 @@ fun ApplicationBlockedScreen(
                 Spacer(modifier = Modifier.height(MaterialTheme.space.run { xLarge + 2 * medium }))
             }
         }
+    }
+
+    if (applicationBlockedScreenState.isIgnoreBatteryOptimizationsRequestUnavailableDialogVisible) {
+        Dialog(
+            title = stringResource(R.string.setting_unavailable),
+            message = stringResource(R.string.ignore_battery_optimization_unavailable),
+            onDismissRequest = {
+                applicationBlockedViewModel.onEvent(
+                    ApplicationBlockedScreenEvent
+                        .IsIgnoreBatteryOptimizationsRequestUnavailableDialogVisible(
+                            isVisible = false
+                        )
+                )
+            },
+            onPositiveClick = {
+                applicationBlockedViewModel.onEvent(
+                    ApplicationBlockedScreenEvent
+                        .IsIgnoreBatteryOptimizationsRequestUnavailableDialogVisible(
+                            isVisible = false
+                        )
+                )
+            },
+            positiveButtonText = stringResource(R.string.ok)
+        )
     }
 }
