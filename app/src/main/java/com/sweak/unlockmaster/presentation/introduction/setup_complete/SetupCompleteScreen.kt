@@ -83,9 +83,13 @@ fun SetupCompleteScreen(navController: NavController) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                .padding(paddingValues = it)
         ) {
-            Column(modifier = Modifier.padding(paddingValues = it)) {
+            Column(
+                modifier = Modifier
+                    .matchParentSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
                 Text(
                     text = stringResource(R.string.all_set),
                     style = MaterialTheme.typography.displayLarge,

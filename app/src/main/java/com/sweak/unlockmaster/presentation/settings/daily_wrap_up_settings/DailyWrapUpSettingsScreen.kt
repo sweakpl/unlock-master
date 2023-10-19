@@ -93,9 +93,13 @@ fun DailyWrapUpSettingsScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                .padding(paddingValues = it)
         ) {
-            Column(modifier = Modifier.padding(paddingValues = it)) {
+            Column(
+                modifier = Modifier
+                    .matchParentSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
                 Text(
                     text = stringResource(R.string.daily_wrapups),
                     style = MaterialTheme.typography.displayLarge,
