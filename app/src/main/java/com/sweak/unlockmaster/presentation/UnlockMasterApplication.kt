@@ -102,6 +102,8 @@ class UnlockMasterApplication : Application() {
     private fun setUpUnlockMasterServiceAndDailyWrapUpsIfUserHasFinishedIntroduction() {
         runBlocking {
             if (userSessionRepository.isIntroductionFinished()) {
+                userSessionRepository.setUnlockMasterServiceProperlyClosed(false)
+
                 val serviceIntent =
                     Intent(this@UnlockMasterApplication, UnlockMasterService::class.java)
 
