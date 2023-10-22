@@ -18,11 +18,15 @@ import com.sweak.unlockmaster.domain.use_case.screen_on_events.AddScreenOnEventU
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
 import com.sweak.unlockmaster.presentation.background_work.EXTRA_DAILY_WRAP_UP_DAY_MILLIS
 import com.sweak.unlockmaster.presentation.background_work.EXTRA_SHOW_DAILY_WRAP_UP_SCREEN
+import com.sweak.unlockmaster.presentation.background_work.UnlockMasterService
 import com.sweak.unlockmaster.presentation.common.Screen
+import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_DAILY_WRAP_UP_DAY_MILLIS
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_DISPLAYED_SCREEN_TIME_DAY_MILLIS
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_IS_LAUNCHED_FROM_SETTINGS
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_IS_UPDATING_EXISTING_UNLOCK_LIMIT
+import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
+import com.sweak.unlockmaster.presentation.daily_wrap_up.DailyWrapUpScreen
 import com.sweak.unlockmaster.presentation.introduction.background_work.WorkInBackgroundScreen
 import com.sweak.unlockmaster.presentation.introduction.introduction.IntroductionScreen
 import com.sweak.unlockmaster.presentation.introduction.limit_setup.UnlockLimitSetupScreen
@@ -32,13 +36,9 @@ import com.sweak.unlockmaster.presentation.main.home.HomeScreen
 import com.sweak.unlockmaster.presentation.main.screen_time.ScreenTimeScreen
 import com.sweak.unlockmaster.presentation.main.statistics.StatisticsScreen
 import com.sweak.unlockmaster.presentation.settings.SettingsScreen
+import com.sweak.unlockmaster.presentation.settings.application_blocked.ApplicationBlockedScreen
 import com.sweak.unlockmaster.presentation.settings.daily_wrap_up_settings.DailyWrapUpSettingsScreen
 import com.sweak.unlockmaster.presentation.settings.mobilizing_notifications.MobilizingNotificationsScreen
-import com.sweak.unlockmaster.presentation.background_work.UnlockMasterService
-import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_DAILY_WRAP_UP_DAY_MILLIS
-import com.sweak.unlockmaster.presentation.common.components.OnResume
-import com.sweak.unlockmaster.presentation.daily_wrap_up.DailyWrapUpScreen
-import com.sweak.unlockmaster.presentation.settings.application_blocked.ApplicationBlockedScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -148,6 +148,10 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             onWorkInBackgroundAllowed = {
                                 lifecycleScope.launch {
+                                    if (userSessionRepository.isIntroductionFinished()) {
+                                        return@launch
+                                    }
+
                                     // We're adding an unlock event for the data to be coherent as
                                     // the next lock event that will be caught has to have
                                     // a corresponding unlock event:
