@@ -23,6 +23,7 @@ import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCas
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
 import com.sweak.unlockmaster.presentation.MainActivity
+import com.sweak.unlockmaster.presentation.background_work.global_receivers.ShutdownReceiver
 import com.sweak.unlockmaster.presentation.background_work.global_receivers.screen_event_receivers.ScreenLockReceiver
 import com.sweak.unlockmaster.presentation.background_work.global_receivers.screen_event_receivers.ScreenOnReceiver
 import com.sweak.unlockmaster.presentation.background_work.global_receivers.screen_event_receivers.ScreenUnlockReceiver
@@ -144,6 +145,8 @@ class UnlockMasterService : Service() {
         }
     }
 
+    private val shutdownReceiver by lazy { ShutdownReceiver() }
+
     override fun onCreate() {
         super.onCreate()
 
@@ -160,6 +163,18 @@ class UnlockMasterService : Service() {
             }
 
             userSessionRepository.setUnlockMasterServiceProperlyClosed(false)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            ContextCompat.registerReceiver(
+                this,
+                shutdownReceiver,
+                IntentFilter().apply {
+                    addAction("android.intent.action.ACTION_SHUTDOWN")
+                    addAction("android.intent.action.QUICKBOOT_POWEROFF")
+                },
+                ContextCompat.RECEIVER_NOT_EXPORTED
+            )
         }
     }
 
@@ -305,6 +320,10 @@ class UnlockMasterService : Service() {
 
         unregisterScreenEventReceivers()
         unregisterReceiver(unlockCounterPauseReceiver)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            unregisterReceiver(shutdownReceiver)
+        }
 
         serviceScope.cancel(
             CancellationException("UnlockMasterService has been destroyed")
