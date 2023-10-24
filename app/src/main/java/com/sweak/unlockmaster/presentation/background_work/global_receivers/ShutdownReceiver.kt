@@ -30,7 +30,8 @@ class ShutdownReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action in intentActionsToFilter) {
             runBlocking {
-                if (!keyguardManager.isKeyguardLocked &&
+                if (userSessionRepository.isIntroductionFinished() &&
+                    !keyguardManager.isKeyguardLocked &&
                     !userSessionRepository.isUnlockCounterPaused()
                 ) {
                     addLockEventUseCase()

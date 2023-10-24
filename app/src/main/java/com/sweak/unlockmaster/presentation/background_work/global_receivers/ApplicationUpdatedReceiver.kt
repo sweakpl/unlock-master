@@ -17,7 +17,9 @@ class ApplicationUpdatedReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_MY_PACKAGE_REPLACED) {
             runBlocking {
-                userSessionRepository.setShouldShowUnlockMasterBlockedWarning(false)
+                if (userSessionRepository.isIntroductionFinished()) {
+                    userSessionRepository.setShouldShowUnlockMasterBlockedWarning(false)
+                }
             }
         }
     }
