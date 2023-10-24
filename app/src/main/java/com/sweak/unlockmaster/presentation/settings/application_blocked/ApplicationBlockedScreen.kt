@@ -325,10 +325,9 @@ fun ApplicationBlockedScreen(
                         .fillMaxWidth()
                         .padding(horizontal = MaterialTheme.space.medium)
                         .clickable(
-                            enabled = !hasUserFinishedBackgroundWorkInstructions,
                             onClick = {
-                                uriHandler.openUri(backgroundWorkImprovementWebsite)
                                 hasUserNavigatedToBackgroundWorkWebsite = true
+                                uriHandler.openUri(backgroundWorkImprovementWebsite)
                             }
                         )
                 ) {
