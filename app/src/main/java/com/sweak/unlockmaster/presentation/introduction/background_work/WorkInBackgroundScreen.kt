@@ -291,8 +291,15 @@ fun WorkInBackgroundScreen(
                         .padding(horizontal = MaterialTheme.space.medium)
                         .clickable(
                             onClick = {
-                                hasUserNavigatedToBackgroundWorkWebsite = true
-                                uriHandler.openUri(backgroundWorkImprovementWebsite)
+                                try {
+                                    uriHandler.openUri(backgroundWorkImprovementWebsite)
+                                    hasUserNavigatedToBackgroundWorkWebsite = true
+                                } catch (exception: ActivityNotFoundException) {
+                                    workInBackgroundViewModel.onEvent(
+                                        WorkInBackgroundScreenEvent
+                                            .IsWebBrowserNotFoundDialogVisible(isVisible = true)
+                                    )
+                                }
                             }
                         )
                 ) {
@@ -512,6 +519,24 @@ fun WorkInBackgroundScreen(
                         .IsIgnoreBatteryOptimizationsRequestUnavailableDialogVisible(
                             isVisible = false
                         )
+                )
+            },
+            positiveButtonText = stringResource(R.string.ok)
+        )
+    }
+
+    if (workInBackgroundScreenState.isWebBrowserNotFoundDialogVisible) {
+        Dialog(
+            title = stringResource(R.string.browser_not_found),
+            message = stringResource(R.string.browser_not_found_open_link_manually),
+            onDismissRequest = {
+                workInBackgroundViewModel.onEvent(
+                    WorkInBackgroundScreenEvent.IsWebBrowserNotFoundDialogVisible(isVisible = false)
+                )
+            },
+            onPositiveClick = {
+                workInBackgroundViewModel.onEvent(
+                    WorkInBackgroundScreenEvent.IsWebBrowserNotFoundDialogVisible(isVisible = false)
                 )
             },
             positiveButtonText = stringResource(R.string.ok)

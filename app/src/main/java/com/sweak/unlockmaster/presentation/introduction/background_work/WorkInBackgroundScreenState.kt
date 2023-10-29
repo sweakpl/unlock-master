@@ -5,5 +5,6 @@ data class WorkInBackgroundScreenState(
     val isIgnoreBatteryOptimizationsRequestUnavailable: Boolean = false,
     val isIgnoreBatteryOptimizationsRequestUnavailableDialogVisible: Boolean = false,
     val hasUserTriedToGrantNotificationsPermission: Boolean = false,
-    val isNotificationsPermissionDialogVisible: Boolean = false
+    val isNotificationsPermissionDialogVisible: Boolean = false,
+    val isWebBrowserNotFoundDialogVisible: Boolean = false
 )

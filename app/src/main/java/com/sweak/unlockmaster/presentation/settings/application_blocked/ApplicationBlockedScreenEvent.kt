@@ -6,4 +6,8 @@ sealed class ApplicationBlockedScreenEvent {
     data class IsIgnoreBatteryOptimizationsRequestUnavailableDialogVisible(
         val isVisible: Boolean
     ) : ApplicationBlockedScreenEvent()
+
+    data class IsWebBrowserNotFoundDialogVisible(
+        val isVisible: Boolean
+    ) : ApplicationBlockedScreenEvent()
 }

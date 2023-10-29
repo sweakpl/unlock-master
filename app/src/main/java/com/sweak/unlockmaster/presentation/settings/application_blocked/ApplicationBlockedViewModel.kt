@@ -53,6 +53,8 @@ class ApplicationBlockedViewModel @Inject constructor(
                     isIgnoreBatteryOptimizationsRequestUnavailable = true,
                     isIgnoreBatteryOptimizationsRequestUnavailableDialogVisible = event.isVisible
                 )
+            is ApplicationBlockedScreenEvent.IsWebBrowserNotFoundDialogVisible ->
+                state = state.copy(isWebBrowserNotFoundDialogVisible = event.isVisible)
         }
     }
 }

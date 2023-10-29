@@ -12,4 +12,8 @@ sealed class WorkInBackgroundScreenEvent {
     data class IsNotificationsPermissionDialogVisible(
         val isVisible: Boolean
     ) : WorkInBackgroundScreenEvent()
+
+    data class IsWebBrowserNotFoundDialogVisible(
+        val isVisible: Boolean
+    ) : WorkInBackgroundScreenEvent()
 }

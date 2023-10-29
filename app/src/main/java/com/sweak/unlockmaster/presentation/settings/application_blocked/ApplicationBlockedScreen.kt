@@ -326,8 +326,15 @@ fun ApplicationBlockedScreen(
                         .padding(horizontal = MaterialTheme.space.medium)
                         .clickable(
                             onClick = {
-                                hasUserNavigatedToBackgroundWorkWebsite = true
-                                uriHandler.openUri(backgroundWorkImprovementWebsite)
+                                try {
+                                    uriHandler.openUri(backgroundWorkImprovementWebsite)
+                                    hasUserNavigatedToBackgroundWorkWebsite = true
+                                } catch (exception: ActivityNotFoundException) {
+                                    applicationBlockedViewModel.onEvent(
+                                        ApplicationBlockedScreenEvent
+                                            .IsWebBrowserNotFoundDialogVisible(isVisible = true)
+                                    )
+                                }
                             }
                         )
                 ) {
@@ -408,6 +415,26 @@ fun ApplicationBlockedScreen(
                         .IsIgnoreBatteryOptimizationsRequestUnavailableDialogVisible(
                             isVisible = false
                         )
+                )
+            },
+            positiveButtonText = stringResource(R.string.ok)
+        )
+    }
+
+    if (applicationBlockedScreenState.isWebBrowserNotFoundDialogVisible) {
+        Dialog(
+            title = stringResource(R.string.browser_not_found),
+            message = stringResource(R.string.browser_not_found_open_link_manually),
+            onDismissRequest = {
+                applicationBlockedViewModel.onEvent(
+                    ApplicationBlockedScreenEvent
+                        .IsWebBrowserNotFoundDialogVisible(isVisible = false)
+                )
+            },
+            onPositiveClick = {
+                applicationBlockedViewModel.onEvent(
+                    ApplicationBlockedScreenEvent
+                        .IsWebBrowserNotFoundDialogVisible(isVisible = false)
                 )
             },
             positiveButtonText = stringResource(R.string.ok)

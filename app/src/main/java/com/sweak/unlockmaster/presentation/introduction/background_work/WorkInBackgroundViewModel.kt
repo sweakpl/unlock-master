@@ -57,6 +57,8 @@ class WorkInBackgroundViewModel @Inject constructor(
                 state = state.copy(hasUserTriedToGrantNotificationsPermission = true)
             is WorkInBackgroundScreenEvent.IsNotificationsPermissionDialogVisible ->
                 state = state.copy(isNotificationsPermissionDialogVisible = event.isVisible)
+            is WorkInBackgroundScreenEvent.IsWebBrowserNotFoundDialogVisible ->
+                state = state.copy(isWebBrowserNotFoundDialogVisible = event.isVisible)
         }
     }
 }

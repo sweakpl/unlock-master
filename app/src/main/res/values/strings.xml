@@ -148,6 +148,8 @@
     <string name="setting_unavailable">Setting unavailable</string>
     <string name="ignore_battery_optimization_unavailable">Unfortunately your system doesn’t support quick background work optimization setting. Please, refer to the next step: \"Fully optimize UnlockMaster for background work\".</string>
     <string name="work_in_background_enabled">Work in background is enabled. Good job!</string>
+    <string name="browser_not_found">Web browser not found</string>
+    <string name="browser_not_found_open_link_manually">UnlockMaster could not find the web browser application to open the link. If you believe the browser is installed - please, open the link manually.</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>
