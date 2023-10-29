@@ -6,8 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,12 +25,7 @@ fun InformationCard(
     iconContentDescription: String,
     modifier: Modifier = Modifier
 ) {
-    ElevatedCard(
-        elevation = CardDefaults.elevatedCardElevation(
-            defaultElevation = MaterialTheme.space.xSmall
-        ),
-        modifier = modifier
-    ) {
+    Card(modifier = modifier) {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
