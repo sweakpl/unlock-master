@@ -14,7 +14,9 @@ import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.domain.MINIMAL_DAILY_WRAP_UPS_NOTIFICATIONS_TIME_HOUR_OF_DAY
 import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.toTimeInMillis
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.GetDailyWrapUpNotificationsTimeUseCase
 import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.IsGivenDayEligibleForDailyWrapUpUseCase
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpNotificationsUseCase
 import com.sweak.unlockmaster.presentation.MainActivity
 import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UPS_NOTIFICATIONS_CHANNEL_ID
 import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UP_NOTIFICATION_ID
@@ -40,12 +42,20 @@ class DailyWrapUpAlarmReceiver : BroadcastReceiver() {
     @Inject
     lateinit var isGivenDayEligibleForDailyWrapUpUseCase: IsGivenDayEligibleForDailyWrapUpUseCase
 
+    @Inject
+    lateinit var getDailyWrapUpNotificationsTimeUseCase: GetDailyWrapUpNotificationsTimeUseCase
+
+    @Inject
+    lateinit var scheduleDailyWrapUpNotificationsUseCase: ScheduleDailyWrapUpNotificationsUseCase
+
     override fun onReceive(context: Context, intent: Intent) {
         try {
             getDailyWrapUpNotification(context)?.let {
                 notificationManager.notify(DAILY_WRAP_UP_NOTIFICATION_ID, it)
             }
         } catch (_: SecurityException) { /* no-op */ }
+
+        handlePotentialDaylightSavingTimeChange()
     }
 
     private fun getDailyWrapUpNotification(context: Context): Notification? {
@@ -95,6 +105,30 @@ class DailyWrapUpAlarmReceiver : BroadcastReceiver() {
             setOngoing(true)
             setLights(Color.GREEN, 2000, 1000)
             build()
+        }
+    }
+
+    private fun handlePotentialDaylightSavingTimeChange() = runBlocking {
+        val (notificationHourOfDay, notificationMinute) =
+            getDailyWrapUpNotificationsTimeUseCase().run { Pair(hourOfDay, minute) }
+        val (currentHourOfDay, currentMinuteOfDay) = ZonedDateTime.now().run { Pair(hour, minute) }
+
+        // We will compare the minutes difference between the current time and notification time:
+        val notificationMinutesSum = 60 * notificationHourOfDay + notificationMinute
+        val currentMinutesSum = 60 * currentHourOfDay + currentMinuteOfDay +
+            // There might be a situation when the notification has been displayed the next day:
+            if (currentHourOfDay < MINIMAL_DAILY_WRAP_UPS_NOTIFICATIONS_TIME_HOUR_OF_DAY)
+                24 * 60 // minutes in a full day
+            else 0
+
+        val minutesDifference = currentMinutesSum - notificationMinutesSum
+
+        // Example situations that can be handled:
+        // Notification: 22:15, Current: 22:23 -> Diff = 8 - NO RESCHEDULE
+        // Notification: 22:15, Current: 21:23 -> Diff = -52 - RESCHEDULE (time shifted back)
+        // Notification: 22:15, Current: 23:23 -> Diff = 68 - RESCHEDULE (likely time forwarded)
+        if (minutesDifference < 0 || minutesDifference >= 60) {
+            scheduleDailyWrapUpNotificationsUseCase()
         }
     }
 }
