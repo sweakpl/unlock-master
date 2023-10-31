@@ -432,6 +432,7 @@ fun ApplicationBlockedScreen(
                 )
             },
             onPositiveClick = {
+                hasUserFinishedBackgroundWorkInstructions = true
                 applicationBlockedViewModel.onEvent(
                     ApplicationBlockedScreenEvent
                         .IsWebBrowserNotFoundDialogVisible(isVisible = false)

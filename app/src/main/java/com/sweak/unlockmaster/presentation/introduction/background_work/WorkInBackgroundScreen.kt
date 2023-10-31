@@ -535,6 +535,7 @@ fun WorkInBackgroundScreen(
                 )
             },
             onPositiveClick = {
+                hasUserFinishedBackgroundWorkInstructions = true
                 workInBackgroundViewModel.onEvent(
                     WorkInBackgroundScreenEvent.IsWebBrowserNotFoundDialogVisible(isVisible = false)
                 )
