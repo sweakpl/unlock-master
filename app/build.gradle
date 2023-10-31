@@ -13,8 +13,8 @@ android {
         applicationId "com.sweak.unlockmaster"
         minSdk 21
         targetSdk 34
-        versionCode 5
-        versionName "1.2.1"
+        versionCode 6
+        versionName "1.2.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -73,9 +73,9 @@ dependencies {
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
     // Room
-    implementation 'androidx.room:room-ktx:2.5.2'
-    annotationProcessor 'androidx.room:room-compiler:2.5.2'
-    ksp 'androidx.room:room-compiler:2.5.2'
+    implementation 'androidx.room:room-ktx:2.6.0'
+    annotationProcessor 'androidx.room:room-compiler:2.6.0'
+    ksp 'androidx.room:room-compiler:2.6.0'
 
     // Preferences DataStore
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
