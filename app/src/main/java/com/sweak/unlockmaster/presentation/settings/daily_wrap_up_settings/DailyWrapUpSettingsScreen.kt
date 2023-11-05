@@ -25,13 +25,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -42,6 +40,7 @@ import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
+import com.sweak.unlockmaster.presentation.common.components.ObserveAsEvents
 import com.sweak.unlockmaster.presentation.common.components.ProceedButton
 import com.sweak.unlockmaster.presentation.common.theme.space
 import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
@@ -53,14 +52,14 @@ fun DailyWrapUpSettingsScreen(
     dailyWrapUpSettingsViewModel: DailyWrapUpSettingsViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    LaunchedEffect(key1 = context) {
-        dailyWrapUpSettingsViewModel.notificationTimeSubmittedEvents.collect {
+    ObserveAsEvents(
+        flow = dailyWrapUpSettingsViewModel.notificationTimeSubmittedEvents,
+        onEvent = {
             navController.popBackStackThrottled(lifecycleOwner)
         }
-    }
+    )
 
     val dailyWrapUpSettingsScreenState = dailyWrapUpSettingsViewModel.state
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())

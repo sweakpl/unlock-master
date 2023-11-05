@@ -30,12 +30,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -47,6 +45,7 @@ import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.InformationCard
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
+import com.sweak.unlockmaster.presentation.common.components.ObserveAsEvents
 import com.sweak.unlockmaster.presentation.common.components.ProceedButton
 import com.sweak.unlockmaster.presentation.common.theme.space
 import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
@@ -60,11 +59,11 @@ fun UnlockLimitSetupScreen(
     navController: NavController,
     isUpdatingExistingUnlockLimit: Boolean
 ) {
-    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    LaunchedEffect(key1 = context) {
-        unlockLimitSetupViewModel.unlockLimitSubmittedEvents.collect {
+    ObserveAsEvents(
+        flow = unlockLimitSetupViewModel.unlockLimitSubmittedEvents,
+        onEvent = {
             if (isUpdatingExistingUnlockLimit) {
                 navController.popBackStackThrottled(lifecycleOwner)
             } else {
@@ -74,7 +73,7 @@ fun UnlockLimitSetupScreen(
                 )
             }
         }
-    }
+    )
 
     val unlockLimitSetupScreenState = unlockLimitSetupViewModel.state
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())

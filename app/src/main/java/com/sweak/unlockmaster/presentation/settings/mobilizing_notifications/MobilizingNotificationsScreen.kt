@@ -18,11 +18,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
+import com.sweak.unlockmaster.presentation.common.components.ObserveAsEvents
 import com.sweak.unlockmaster.presentation.common.components.ProceedButton
 import com.sweak.unlockmaster.presentation.common.theme.space
 import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
@@ -42,14 +41,14 @@ fun MobilizingNotificationsScreen(
     mobilizingNotificationsViewModel: MobilizingNotificationsViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    LaunchedEffect(key1 = context) {
-        mobilizingNotificationsViewModel.frequencyPercentageSubmittedEvents.collect {
+    ObserveAsEvents(
+        flow = mobilizingNotificationsViewModel.frequencyPercentageSubmittedEvents,
+        onEvent = {
             navController.popBackStackThrottled(lifecycleOwner)
         }
-    }
+    )
 
     val mobilizingNotificationsScreenState = mobilizingNotificationsViewModel.state
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
