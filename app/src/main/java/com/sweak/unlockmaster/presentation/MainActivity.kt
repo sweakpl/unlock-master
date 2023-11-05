@@ -25,7 +25,7 @@ import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_DISPLAYED
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_IS_LAUNCHED_FROM_SETTINGS
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_IS_UPDATING_EXISTING_UNLOCK_LIMIT
 import com.sweak.unlockmaster.presentation.common.components.OnResume
-import com.sweak.unlockmaster.presentation.common.ui.theme.UnlockMasterTheme
+import com.sweak.unlockmaster.presentation.common.theme.UnlockMasterTheme
 import com.sweak.unlockmaster.presentation.daily_wrap_up.DailyWrapUpScreen
 import com.sweak.unlockmaster.presentation.introduction.background_work.WorkInBackgroundScreen
 import com.sweak.unlockmaster.presentation.introduction.introduction.IntroductionScreen

@@ -25,7 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.domain.UNLOCK_LIMIT_LOWER_BOUND
-import com.sweak.unlockmaster.presentation.common.ui.theme.space
+import com.sweak.unlockmaster.presentation.common.theme.space
 
 @Composable
 fun DailyWrapUpUnlockLimitDetailsCard(

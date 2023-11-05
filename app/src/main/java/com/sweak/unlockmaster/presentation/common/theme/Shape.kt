@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.common.ui.theme
+package com.sweak.unlockmaster.presentation.common.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes
