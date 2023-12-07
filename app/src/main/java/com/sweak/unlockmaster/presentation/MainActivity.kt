@@ -3,11 +3,14 @@ package com.sweak.unlockmaster.presentation
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -72,6 +75,13 @@ class MainActivity : ComponentActivity() {
             )
 
             UnlockMasterTheme(uiThemeMode = uiThemeMode) {
+                // The colorScheme of the MaterialTheme might have been manually changed by the user
+                // and we have to account for that by taking care of status bar color change:
+                window.apply {
+                    addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                    statusBarColor = MaterialTheme.colorScheme.primary.toArgb()
+                }
+
                 val navController = rememberNavController()
 
                 OnResume {
