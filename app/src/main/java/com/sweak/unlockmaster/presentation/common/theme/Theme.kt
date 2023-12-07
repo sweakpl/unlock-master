@@ -7,6 +7,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
+import com.sweak.unlockmaster.domain.model.UiThemeMode
 
 private val lightColorPalette = lightColorScheme(
     primary = Riptide,
@@ -43,9 +44,18 @@ private val darkColorPalette = darkColorScheme(
 )
 
 @Composable
-fun UnlockMasterTheme(content: @Composable () -> Unit) {
+fun UnlockMasterTheme(
+    uiThemeMode: UiThemeMode = UiThemeMode.SYSTEM,
+    content: @Composable () -> Unit
+) {
     CompositionLocalProvider(LocalSpace provides Space()) {
-        val colorPalette = if (isSystemInDarkTheme()) darkColorPalette else lightColorPalette
+        val isDarkModeEnabled = when (uiThemeMode) {
+            UiThemeMode.LIGHT -> false
+            UiThemeMode.DARK -> true
+            UiThemeMode.SYSTEM -> isSystemInDarkTheme()
+        }
+
+        val colorPalette = if (isDarkModeEnabled) darkColorPalette else lightColorPalette
 
         MaterialTheme(
             colorScheme = colorPalette,

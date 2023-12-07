@@ -6,12 +6,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.ScaffoldDefaults
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.sweak.unlockmaster.domain.model.UiThemeMode
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpNotificationsUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.AddScreenOnEventUseCase
@@ -39,6 +42,7 @@ import com.sweak.unlockmaster.presentation.settings.SettingsScreen
 import com.sweak.unlockmaster.presentation.settings.application_blocked.ApplicationBlockedScreen
 import com.sweak.unlockmaster.presentation.settings.daily_wrap_up_settings.DailyWrapUpSettingsScreen
 import com.sweak.unlockmaster.presentation.settings.mobilizing_notifications.MobilizingNotificationsScreen
+import com.sweak.unlockmaster.presentation.settings.user_interface_theme.UserInterfaceThemeScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -63,7 +67,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            UnlockMasterTheme {
+            val uiThemeMode by userSessionRepository.getUiThemeModeFlow().collectAsState(
+                initial = UiThemeMode.SYSTEM
+            )
+
+            UnlockMasterTheme(uiThemeMode = uiThemeMode) {
                 val navController = rememberNavController()
 
                 OnResume {
@@ -232,6 +240,10 @@ class MainActivity : ComponentActivity() {
 
                     composable(route = Screen.ApplicationBlockedScreen.route) {
                         ApplicationBlockedScreen(navController = navController)
+                    }
+
+                    composable(route = Screen.UserInterfaceThemeScreen.route) {
+                        UserInterfaceThemeScreen(navController = navController)
                     }
                 }
             }

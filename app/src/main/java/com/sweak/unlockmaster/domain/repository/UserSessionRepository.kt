@@ -1,5 +1,8 @@
 package com.sweak.unlockmaster.domain.repository
 
+import com.sweak.unlockmaster.domain.model.UiThemeMode
+import kotlinx.coroutines.flow.Flow
+
 interface UserSessionRepository {
     suspend fun setIntroductionFinished()
     suspend fun isIntroductionFinished(): Boolean
@@ -13,4 +16,6 @@ interface UserSessionRepository {
     suspend fun wasUnlockMasterServiceProperlyClosed(): Boolean
     suspend fun setShouldShowUnlockMasterBlockedWarning(shouldShowWarning: Boolean)
     suspend fun shouldShowUnlockMasterBlockedWarning(): Boolean
+    suspend fun setUiThemeMode(uiThemeMode: UiThemeMode)
+    fun getUiThemeModeFlow(): Flow<UiThemeMode>
 }

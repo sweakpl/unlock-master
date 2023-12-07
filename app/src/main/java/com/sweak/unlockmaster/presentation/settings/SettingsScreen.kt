@@ -93,6 +93,17 @@ fun SettingsScreen(navController: NavController) {
                     },
                     modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
                 )
+
+                SettingsEntry(
+                    settingsEntryTitle = stringResource(R.string.user_interface_theme),
+                    onEntryClick = {
+                        navController.navigateThrottled(
+                            Screen.UserInterfaceThemeScreen.route,
+                            lifecycleOwner
+                        )
+                    },
+                    modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
+                )
             }
         }
     }

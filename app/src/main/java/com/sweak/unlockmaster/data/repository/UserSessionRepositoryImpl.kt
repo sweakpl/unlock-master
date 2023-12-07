@@ -6,10 +6,13 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.sweak.unlockmaster.domain.DEFAULT_DAILY_WRAP_UPS_NOTIFICATIONS_TIME_IN_MINUTES_PAST_MIDNIGHT
 import com.sweak.unlockmaster.domain.DEFAULT_MOBILIZING_NOTIFICATIONS_FREQUENCY_PERCENTAGE
+import com.sweak.unlockmaster.domain.model.UiThemeMode
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
@@ -85,6 +88,22 @@ class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepos
             preferences[SHOULD_SHOW_UNLOCK_MASTER_BLOCKED_WARNING] ?: false
         }.first()
 
+    override suspend fun setUiThemeMode(uiThemeMode: UiThemeMode) {
+        context.dataStore.edit { preferences ->
+            preferences[UI_THEME_MODE] = uiThemeMode.name
+        }
+    }
+
+    override fun getUiThemeModeFlow(): Flow<UiThemeMode> =
+        context.dataStore.data.map { preferences ->
+            when (preferences[UI_THEME_MODE]) {
+                "LIGHT" -> UiThemeMode.LIGHT
+                "DARK" -> UiThemeMode.DARK
+                "SYSTEM" -> UiThemeMode.SYSTEM
+                else -> UiThemeMode.SYSTEM
+            }
+        }
+
     companion object {
         val IS_INTRODUCTION_FINISHED = booleanPreferencesKey("isIntroductionFinished")
         val IS_UNLOCK_COUNTER_PAUSED = booleanPreferencesKey("isUnlockCounterPaused")
@@ -96,5 +115,6 @@ class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepos
             booleanPreferencesKey("wasUnlockMasterServiceProperlyClosed")
         val SHOULD_SHOW_UNLOCK_MASTER_BLOCKED_WARNING =
             booleanPreferencesKey("shouldShowUnlockMasterBlockedWarning")
+        val UI_THEME_MODE = stringPreferencesKey("uiThemeMode")
     }
 }
