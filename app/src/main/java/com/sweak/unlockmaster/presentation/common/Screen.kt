@@ -15,6 +15,7 @@ sealed class Screen(val route: String) {
     data object DailyWrapUpScreen : Screen("daily_wrap_up_screen")
     data object ApplicationBlockedScreen : Screen("application_blocked_screen")
     data object UserInterfaceThemeScreen : Screen("user_interface_theme_screen")
+    data object DataBackupScreen : Screen("data_backup_screen")
 
     fun withArguments(vararg arguments: String): String {
         return buildString {

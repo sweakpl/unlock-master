@@ -155,6 +155,14 @@
     <string name="light_theme">Light theme</string>
     <string name="dark_theme">Dark theme</string>
     <string name="system_theme">System theme</string>
+    <string name="data_backup">Data backup</string>
+    <string name="data_backup_description">You can download your current application data and later use that saved data to recover your usage history on e.g. a new device with a fresh installation of UnlockMaster.</string>
+    <string name="download_backup">Download backup</string>
+    <string name="download_backup_description">Tap to save your data to your local storage.</string>
+    <string name="save">Save</string>
+    <string name="restore_data">Restore data</string>
+    <string name="restore_data_description">Tap to select a backup file to recover your data.</string>
+    <string name="recover">Recover</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>
@@ -195,4 +203,6 @@
     <string name="content_description_missing_data_icon">Trending down arrow icon</string>
     <string name="content_description_bad_mood_icon">Face with bad mood icon</string>
     <string name="content_description_suggested_settings_icon">Suggested setting icon</string>
+    <string name="content_description_download_icon">Download icon</string>
+    <string name="content_description_upload_icon">Upload icon</string>
 </resources>

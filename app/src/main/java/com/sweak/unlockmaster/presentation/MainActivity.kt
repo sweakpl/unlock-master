@@ -44,6 +44,7 @@ import com.sweak.unlockmaster.presentation.main.statistics.StatisticsScreen
 import com.sweak.unlockmaster.presentation.settings.SettingsScreen
 import com.sweak.unlockmaster.presentation.settings.application_blocked.ApplicationBlockedScreen
 import com.sweak.unlockmaster.presentation.settings.daily_wrap_up_settings.DailyWrapUpSettingsScreen
+import com.sweak.unlockmaster.presentation.settings.data_backup.DataBackupScreen
 import com.sweak.unlockmaster.presentation.settings.mobilizing_notifications.MobilizingNotificationsScreen
 import com.sweak.unlockmaster.presentation.settings.user_interface_theme.UserInterfaceThemeScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -254,6 +255,10 @@ class MainActivity : ComponentActivity() {
 
                     composable(route = Screen.UserInterfaceThemeScreen.route) {
                         UserInterfaceThemeScreen(navController = navController)
+                    }
+
+                    composable(route = Screen.DataBackupScreen.route) {
+                        DataBackupScreen(navController = navController)
                     }
                 }
             }

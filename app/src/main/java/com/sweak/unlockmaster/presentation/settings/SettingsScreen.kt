@@ -104,6 +104,17 @@ fun SettingsScreen(navController: NavController) {
                     },
                     modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
                 )
+
+                SettingsEntry(
+                    settingsEntryTitle = stringResource(R.string.data_backup),
+                    onEntryClick = {
+                        navController.navigateThrottled(
+                            Screen.DataBackupScreen.route,
+                            lifecycleOwner
+                        )
+                    },
+                    modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
+                )
             }
         }
     }
