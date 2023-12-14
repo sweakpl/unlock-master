@@ -11,6 +11,9 @@ interface UnlockEventsDao {
     @Insert
     suspend fun insert(unlockEventEntity: UnlockEventEntity)
 
+    @Insert
+    suspend fun insertAll(unlockEventsEntities: List<UnlockEventEntity>)
+
     @Query("SELECT * FROM unlock_event")
     suspend fun getAllUnlockEvents(): List<UnlockEventEntity>
 }

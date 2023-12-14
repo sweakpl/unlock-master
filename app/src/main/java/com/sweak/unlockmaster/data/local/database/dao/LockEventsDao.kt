@@ -11,6 +11,9 @@ interface LockEventsDao {
     @Insert
     suspend fun insert(lockEventEntity: LockEventEntity)
 
+    @Insert
+    suspend fun insertAll(lockEventsEntities: List<LockEventEntity>)
+
     @Query("SELECT * FROM lock_event")
     suspend fun getAllLockEvents(): List<LockEventEntity>
 }

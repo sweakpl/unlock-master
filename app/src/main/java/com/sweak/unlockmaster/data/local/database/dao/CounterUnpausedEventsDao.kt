@@ -11,6 +11,9 @@ interface CounterUnpausedEventsDao {
     @Insert
     suspend fun insert(counterUnpausedEventEntity: CounterUnpausedEventEntity)
 
+    @Insert
+    suspend fun insertAll(counterUnpausedEventsEntities: List<CounterUnpausedEventEntity>)
+
     @Query("SELECT * FROM counter_unpaused_event")
     suspend fun getAllCounterUnpausedEvents(): List<CounterUnpausedEventEntity>
 }

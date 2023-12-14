@@ -11,6 +11,9 @@ interface ScreenOnEventsDao {
     @Insert
     suspend fun insert(screenOnEventEntity: ScreenOnEventEntity)
 
+    @Insert
+    suspend fun insertAll(screenOnEventsEntities: List<ScreenOnEventEntity>)
+
     @Query("SELECT * FROM screen_on_event")
     suspend fun getAllScreenOnEvents(): List<ScreenOnEventEntity>
 }

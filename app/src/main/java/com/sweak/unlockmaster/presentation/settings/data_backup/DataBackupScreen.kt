@@ -25,14 +25,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
-import com.sweak.unlockmaster.presentation.common.theme.UnlockMasterTheme
 import com.sweak.unlockmaster.presentation.common.theme.space
 import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
 
@@ -187,13 +184,5 @@ fun DataBackupScreen(navController: NavController) {
                 }
             }
         }
-    }
-}
-
-@Composable
-@Preview
-fun DataBackupScreenPreview() {
-    UnlockMasterTheme {
-        DataBackupScreen(NavController(LocalContext.current))
     }
 }
