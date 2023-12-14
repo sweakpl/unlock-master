@@ -1,6 +1,7 @@
 package com.sweak.unlockmaster.data.local.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.sweak.unlockmaster.data.local.database.entities.CounterUnpausedEventEntity
@@ -16,4 +17,7 @@ interface CounterUnpausedEventsDao {
 
     @Query("SELECT * FROM counter_unpaused_event")
     suspend fun getAllCounterUnpausedEvents(): List<CounterUnpausedEventEntity>
+
+    @Delete
+    suspend fun deleteAll(counterUnpausedEventsEntities: List<CounterUnpausedEventEntity>)
 }

@@ -104,6 +104,8 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
         unlockMasterDatabase.apply {
             runInTransaction {
                 runBlocking {
+                    applyLocalDataCorrections(unlockMasterBackupData.backupCreationTimeInMillis)
+
                     unlockEventsDao().insertAll(unlockMasterBackupData.unlockEvents)
                     lockEventsDao().insertAll(unlockMasterBackupData.lockEvents)
                     unlockLimitsDao().insertAll(unlockMasterBackupData.unlockLimits)
@@ -159,6 +161,78 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
                         latestCounterPausedEventEntity != null &&
                         latestCounterUnpausedEventEntity.timeInMillis < latestCounterPausedEventEntity.timeInMillis)
     }
+
+    private suspend fun applyLocalDataCorrections(backupCreationTimeInMillis: Long) =
+        // We have to account for the case when the backup and local data is overlapping. We always
+        // remove local data generated before the backup creation time and "fill the gaps" left
+        // after the deletion to preserve data integrity.
+        unlockMasterDatabase.apply {
+            val (unlockEventsBeforeBackup, unlockEventsAfterBackup) =
+                unlockEventsDao().getAllUnlockEvents().partition {
+                    it.timeInMillis <= backupCreationTimeInMillis
+                }
+            val (lockEventsBeforeBackup, lockEventsAfterBackup) =
+                lockEventsDao().getAllLockEvents().partition {
+                    it.timeInMillis <= backupCreationTimeInMillis
+                }
+            val (counterPausedEventsBeforeBackup, counterPausedEventsAfterBackup) =
+                counterPausedEventsDao().getAllCounterPausedEvents().partition {
+                    it.timeInMillis <= backupCreationTimeInMillis
+                }
+            val (counterUnpausedEventsBeforeBackup, counterUnpausedEventsAfterBackup) =
+                counterUnpausedEventsDao().getAllCounterUnpausedEvents().partition {
+                    it.timeInMillis <= backupCreationTimeInMillis
+                }
+            val screenOnEventsBeforeBackup = screenOnEventsDao().getAllScreenOnEvents().filter {
+                it.timeInMillis <= backupCreationTimeInMillis
+            }
+
+            // Always removing all events from before backup time:
+            unlockEventsDao().deleteAll(unlockEventsBeforeBackup)
+            lockEventsDao().deleteAll(lockEventsBeforeBackup)
+            counterPausedEventsDao().deleteAll(counterPausedEventsBeforeBackup)
+            counterUnpausedEventsDao().deleteAll(counterUnpausedEventsBeforeBackup)
+            screenOnEventsDao().deleteAll(screenOnEventsBeforeBackup)
+
+            val firstLockEventAfterBackup =
+                lockEventsAfterBackup.minByOrNull { it.timeInMillis }
+            val firstUnlockEventAfterBackup =
+                unlockEventsAfterBackup.minByOrNull { it.timeInMillis }
+            val firstCounterPausedEventAfterBackup =
+                counterPausedEventsAfterBackup.minByOrNull { it.timeInMillis }
+            val firstCounterUnpausedEventAfterBackup =
+                counterUnpausedEventsAfterBackup.minByOrNull { it.timeInMillis }
+
+            val firstDifferentEventsAfterBackupWithTimeInMillis = mutableMapOf<Any, Long>().apply {
+                firstLockEventAfterBackup?.let { put(it, it.timeInMillis) }
+                firstUnlockEventAfterBackup?.let { put(it, it.timeInMillis) }
+                firstCounterPausedEventAfterBackup?.let { put(it, it.timeInMillis) }
+                firstCounterUnpausedEventAfterBackup?.let { put(it, it.timeInMillis) }
+            }
+
+            val firstEventAfterBackup = firstDifferentEventsAfterBackupWithTimeInMillis
+                .minByOrNull { it.value }
+
+            // If the first event after backup time is one of lock or counter unpause, then we have
+            // to insert a matching unlock (and screen on) or counter pause event respectively.
+            // In any other case the data is already integral and we don't need to take any action:
+            when (firstEventAfterBackup?.key) {
+                is LockEventEntity -> {
+                    unlockEventsDao().insert(UnlockEventEntity(backupCreationTimeInMillis + 1))
+                    screenOnEventsDao().insert(ScreenOnEventEntity(backupCreationTimeInMillis + 1))
+                }
+
+                is CounterUnpausedEventEntity -> {
+                    counterPausedEventsDao().insert(
+                        CounterPausedEventEntity(backupCreationTimeInMillis + 1)
+                    )
+                }
+            }
+
+            // With unlock limits we take the straightforward approach of just removing all local
+            // unlock limits so that backup unlock limits take precedence:
+            unlockLimitsDao().deleteAll(unlockLimitsDao().getAllUnlockLimits())
+        }
 
     data class UnlockMasterBackupData(
         val backupCreationTimeInMillis: Long,

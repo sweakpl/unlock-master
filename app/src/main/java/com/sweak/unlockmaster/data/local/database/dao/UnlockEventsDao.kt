@@ -1,6 +1,7 @@
 package com.sweak.unlockmaster.data.local.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.sweak.unlockmaster.data.local.database.entities.UnlockEventEntity
@@ -16,4 +17,7 @@ interface UnlockEventsDao {
 
     @Query("SELECT * FROM unlock_event")
     suspend fun getAllUnlockEvents(): List<UnlockEventEntity>
+
+    @Delete
+    suspend fun deleteAll(unlockEventsEntities: List<UnlockEventEntity>)
 }

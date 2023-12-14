@@ -24,4 +24,7 @@ interface UnlockLimitsDao {
 
     @Query("SELECT * FROM unlock_limit")
     suspend fun getAllUnlockLimits(): List<UnlockLimitEntity>
+
+    @Delete
+    suspend fun deleteAll(unlockLimitsEntities: List<UnlockLimitEntity>)
 }

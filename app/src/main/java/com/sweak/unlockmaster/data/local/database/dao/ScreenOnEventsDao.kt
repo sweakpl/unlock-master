@@ -1,6 +1,7 @@
 package com.sweak.unlockmaster.data.local.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.sweak.unlockmaster.data.local.database.entities.ScreenOnEventEntity
@@ -16,4 +17,7 @@ interface ScreenOnEventsDao {
 
     @Query("SELECT * FROM screen_on_event")
     suspend fun getAllScreenOnEvents(): List<ScreenOnEventEntity>
+
+    @Delete
+    suspend fun deleteAll(screenOnEventsEntities: List<ScreenOnEventEntity>)
 }
