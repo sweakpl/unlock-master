@@ -14,6 +14,7 @@ import com.sweak.unlockmaster.domain.model.UiThemeMode
 import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import java.nio.charset.Charset
 import javax.inject.Inject
 
@@ -99,12 +100,16 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
         )
 
         unlockMasterDatabase.apply {
-            unlockEventsDao().insertAll(unlockMasterBackupData.unlockEvents)
-            lockEventsDao().insertAll(unlockMasterBackupData.lockEvents)
-            unlockLimitsDao().insertAll(unlockMasterBackupData.unlockLimits)
-            screenOnEventsDao().insertAll(unlockMasterBackupData.screenOnEvents)
-            counterPausedEventsDao().insertAll(unlockMasterBackupData.counterPausedEvents)
-            counterUnpausedEventsDao().insertAll(unlockMasterBackupData.counterUnpausedEvents)
+            runInTransaction {
+                runBlocking {
+                    unlockEventsDao().insertAll(unlockMasterBackupData.unlockEvents)
+                    lockEventsDao().insertAll(unlockMasterBackupData.lockEvents)
+                    unlockLimitsDao().insertAll(unlockMasterBackupData.unlockLimits)
+                    screenOnEventsDao().insertAll(unlockMasterBackupData.screenOnEvents)
+                    counterPausedEventsDao().insertAll(unlockMasterBackupData.counterPausedEvents)
+                    counterUnpausedEventsDao().insertAll(unlockMasterBackupData.counterUnpausedEvents)
+                }
+            }
         }
 
         userSessionRepository.apply {
