@@ -15,6 +15,7 @@ import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import java.lang.IllegalArgumentException
 import java.nio.charset.Charset
 import javax.inject.Inject
 
@@ -74,6 +75,7 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
         )
 
         val unlockMasterBackupData = UnlockMasterBackupData(
+            backupCreationTimeInMillis = currentTimeInMillis,
             unlockEvents = unlockEventsEntities,
             lockEvents = lockEventsEntities,
             unlockLimits = unlockLimitsEntities,
@@ -120,7 +122,13 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
                 unlockMasterBackupData.userPreferences
                     .dailyWrapUpNotificationsTimeInMinutesPastMidnight
             )
-            setUiThemeMode(UiThemeMode.valueOf(unlockMasterBackupData.userPreferences.uiThemeMode))
+
+            // If the backup uiThemeMode can't be recognized, the local value will be left:
+            try {
+                setUiThemeMode(
+                    UiThemeMode.valueOf(unlockMasterBackupData.userPreferences.uiThemeMode)
+                )
+            } catch (ignored: IllegalArgumentException) { }
         }
     }
 
@@ -153,6 +161,7 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
     }
 
     data class UnlockMasterBackupData(
+        val backupCreationTimeInMillis: Long,
         val unlockEvents: List<UnlockEventEntity>,
         val lockEvents: List<LockEventEntity>,
         val unlockLimits: List<UnlockLimitEntity>,
