@@ -213,19 +213,30 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
             val firstEventAfterBackup = firstDifferentEventsAfterBackupWithTimeInMillis
                 .minByOrNull { it.value }
 
-            // If the first event after backup time is one of lock or counter unpause, then we have
-            // to insert a matching unlock (and screen on) or counter pause event respectively.
-            // In any other case the data is already integral and we don't need to take any action:
-            when (firstEventAfterBackup?.key) {
-                is LockEventEntity -> {
-                    unlockEventsDao().insert(UnlockEventEntity(backupCreationTimeInMillis + 1))
-                    screenOnEventsDao().insert(ScreenOnEventEntity(backupCreationTimeInMillis + 1))
-                }
-
-                is CounterUnpausedEventEntity -> {
-                    counterPausedEventsDao().insert(
-                        CounterPausedEventEntity(backupCreationTimeInMillis + 1)
-                    )
+            if (firstEventAfterBackup == null) {
+                // If there are no local events after backup we have to insert an unlock event:
+                val currentTimeInMillis = timeRepository.getCurrentTimeInMillis()
+                unlockEventsDao().insert(UnlockEventEntity(currentTimeInMillis))
+                screenOnEventsDao().insert(ScreenOnEventEntity(currentTimeInMillis))
+            } else {
+                // If the first event after backup time is one of lock or counter unpause, then we
+                // have to insert a matching unlock (and screen on) or counter pause event
+                // respectively. In any other case the data is already integral and we don't need to
+                // take any action:
+                when (firstEventAfterBackup.key) {
+                    is LockEventEntity -> {
+                        unlockEventsDao().insert(
+                            UnlockEventEntity(backupCreationTimeInMillis + 1)
+                        )
+                        screenOnEventsDao().insert(
+                            ScreenOnEventEntity(backupCreationTimeInMillis + 1)
+                        )
+                    }
+                    is CounterUnpausedEventEntity -> {
+                        counterPausedEventsDao().insert(
+                            CounterPausedEventEntity(backupCreationTimeInMillis + 1)
+                        )
+                    }
                 }
             }
 
