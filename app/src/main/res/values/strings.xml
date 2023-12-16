@@ -205,4 +205,12 @@
     <string name="content_description_suggested_settings_icon">Suggested setting icon</string>
     <string name="content_description_download_icon">Download icon</string>
     <string name="content_description_upload_icon">Upload icon</string>
+    <string name="backup_unavailable">Backup unavailable</string>
+    <string name="backup_unavailable_description">UnlockMaster cannot perform data restoration from backup when the unlock counter is paused. Please unpause the counter and try again.</string>
+    <string name="backup_not_created">Backup not created</string>
+    <string name="backup_not_created_description">Unfortunately, UnlockMaster encountered an error during the data backup creation.</string>
+    <string name="data_restoration_unsuccessful">Data restoration unsuccessful</string>
+    <string name="data_restoration_unsuccessful_description">Unfortunately, UnlockMaster encountered an error during the data restoration.</string>
+    <string name="backup_created">Data backup has been created successfully!</string>
+    <string name="data_restoration_successful">Data restoration has been completed!</string>
 </resources>

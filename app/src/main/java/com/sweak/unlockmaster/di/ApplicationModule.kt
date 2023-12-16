@@ -11,10 +11,8 @@ import androidx.room.Room
 import com.sweak.unlockmaster.data.local.database.UnlockMasterDatabase
 import com.sweak.unlockmaster.data.local.database.dao.*
 import com.sweak.unlockmaster.data.management.UnlockMasterAlarmManagerImpl
-import com.sweak.unlockmaster.data.management.UnlockMasterBackupManagerImpl
 import com.sweak.unlockmaster.data.repository.*
 import com.sweak.unlockmaster.domain.management.UnlockMasterAlarmManager
-import com.sweak.unlockmaster.domain.management.UnlockMasterBackupManager
 import com.sweak.unlockmaster.domain.repository.*
 import com.sweak.unlockmaster.presentation.background_work.local_receivers.DailyWrapUpAlarmReceiver
 import dagger.Module
@@ -146,13 +144,4 @@ object ApplicationModule {
     @Provides
     @Singleton
     fun provideTimeRepository(): TimeRepository = TimeRepositoryImpl()
-
-    @Provides
-    @Singleton
-    fun provideUnlockMasterBackupManager(
-        database: UnlockMasterDatabase,
-        userSessionRepository: UserSessionRepository,
-        timeRepository: TimeRepository
-    ): UnlockMasterBackupManager =
-        UnlockMasterBackupManagerImpl(database, userSessionRepository, timeRepository)
 }
