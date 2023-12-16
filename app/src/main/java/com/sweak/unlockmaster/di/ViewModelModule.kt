@@ -1,11 +1,13 @@
 package com.sweak.unlockmaster.di
 
 import android.app.Application
+import android.content.ContentResolver
 import com.sweak.unlockmaster.data.local.database.UnlockMasterDatabase
 import com.sweak.unlockmaster.data.management.UnlockMasterBackupManagerImpl
 import com.sweak.unlockmaster.domain.management.UnlockMasterBackupManager
 import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpNotificationsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,10 +21,16 @@ object ViewModelModule {
     fun provideUnlockMasterBackupManager(
         database: UnlockMasterDatabase,
         userSessionRepository: UserSessionRepository,
-        timeRepository: TimeRepository
+        timeRepository: TimeRepository,
+        scheduleDailyWrapUpNotificationsUseCase: ScheduleDailyWrapUpNotificationsUseCase
     ): UnlockMasterBackupManager =
-        UnlockMasterBackupManagerImpl(database, userSessionRepository, timeRepository)
+        UnlockMasterBackupManagerImpl(
+            database,
+            userSessionRepository,
+            timeRepository,
+            scheduleDailyWrapUpNotificationsUseCase
+        )
 
     @Provides
-    fun provideContentResolver(app: Application) = app.contentResolver
+    fun provideContentResolver(app: Application): ContentResolver = app.contentResolver
 }

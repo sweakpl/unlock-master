@@ -13,16 +13,17 @@ import com.sweak.unlockmaster.domain.management.UnlockMasterBackupManager
 import com.sweak.unlockmaster.domain.model.UiThemeMode
 import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
+import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpNotificationsUseCase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import java.lang.IllegalArgumentException
 import java.nio.charset.Charset
 import javax.inject.Inject
 
 class UnlockMasterBackupManagerImpl @Inject constructor(
     private val unlockMasterDatabase: UnlockMasterDatabase,
     private val userSessionRepository: UserSessionRepository,
-    private val timeRepository: TimeRepository
+    private val timeRepository: TimeRepository,
+    private val scheduleDailyWrapUpNotificationsUseCase: ScheduleDailyWrapUpNotificationsUseCase
 ) : UnlockMasterBackupManager {
 
     private val backupFileCharset: Charset = Charsets.UTF_8
@@ -124,6 +125,7 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
                 unlockMasterBackupData.userPreferences
                     .dailyWrapUpNotificationsTimeInMinutesPastMidnight
             )
+            scheduleDailyWrapUpNotificationsUseCase()
 
             // If the backup uiThemeMode can't be recognized, the local value will be left:
             try {
