@@ -1,5 +1,6 @@
 package com.sweak.unlockmaster.data.management
 
+import androidx.annotation.Keep
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.sweak.unlockmaster.data.local.database.UnlockMasterDatabase
@@ -247,6 +248,7 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
             unlockLimitsDao().deleteAll(unlockLimitsDao().getAllUnlockLimits())
         }
 
+    @Keep
     data class UnlockMasterBackupData(
         val backupCreationTimeInMillis: Long,
         val unlockEvents: List<UnlockEventEntity>,
@@ -257,6 +259,7 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
         val counterUnpausedEvents: List<CounterUnpausedEventEntity>,
         val userPreferences: UserPreferences
     ) {
+        @Keep
         data class UserPreferences(
             val mobilizingNotificationsFrequencyPercentage: Int,
             val dailyWrapUpNotificationsTimeInMinutesPastMidnight: Int,
