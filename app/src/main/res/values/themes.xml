@@ -7,8 +7,8 @@
     <style name="SpinnerTimePickerStyle">
         <item name="android:textSize">48sp</item>
         <item name="android:fontFamily">@font/amiko_semibold</item>
-        <item name="android:textColorPrimary">@android:color/black</item>
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColorPrimary">#3EA87D</item>
+        <item name="android:textColor">#3EA87D</item>
         <item name="android:colorControlNormal">@android:color/transparent</item>
     </style>
 </resources>
