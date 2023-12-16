@@ -207,7 +207,11 @@ fun DataBackupScreen(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = MaterialTheme.space.medium)
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.mediumLarge,
+                        )
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -269,6 +273,137 @@ fun DataBackupScreen(
                                 )
                             }
                         }
+                    }
+                }
+
+                Text(
+                    text = stringResource(R.string.how_does_it_work),
+                    style = MaterialTheme.typography.displayLarge,
+                    modifier = Modifier
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.small
+                        )
+                )
+
+                Column(
+                    modifier = Modifier
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.medium
+                        )
+                ) {
+                    Row(modifier = Modifier.padding(bottom = MaterialTheme.space.xSmall)) {
+                        Text(
+                            text = "•",
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(horizontal = MaterialTheme.space.xSmall)
+                        )
+
+                        Text(
+                            text = stringResource(R.string.backup_instructions_1),
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+
+                    Row(modifier = Modifier.padding(bottom = MaterialTheme.space.xSmall)) {
+                        Text(
+                            text = "•",
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(horizontal = MaterialTheme.space.xSmall)
+                        )
+
+                        Text(
+                            text = stringResource(R.string.backup_instructions_2),
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+
+                    Row(modifier = Modifier.padding(bottom = MaterialTheme.space.xSmall)) {
+                        Text(
+                            text = "•",
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(horizontal = MaterialTheme.space.xSmall)
+                        )
+
+                        Text(
+                            text = stringResource(R.string.backup_instructions_3),
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+
+                    Row(modifier = Modifier.padding(bottom = MaterialTheme.space.xSmall)) {
+                        Text(
+                            text = "•",
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(horizontal = MaterialTheme.space.xSmall)
+                        )
+
+                        Text(
+                            text = stringResource(R.string.backup_instructions_4),
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+
+                    Row {
+                        Text(
+                            text = "•",
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(horizontal = MaterialTheme.space.xSmall)
+                        )
+
+                        Text(
+                            text = stringResource(R.string.backup_instructions_5),
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                }
+
+                Text(
+                    text = stringResource(R.string.what_to_consider),
+                    style = MaterialTheme.typography.displayLarge,
+                    modifier = Modifier
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.small
+                        )
+                )
+
+                Column(
+                    modifier = Modifier
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.medium
+                        )
+                ) {
+                    Row(modifier = Modifier.padding(bottom = MaterialTheme.space.xSmall)) {
+                        Text(
+                            text = "•",
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(horizontal = MaterialTheme.space.xSmall)
+                        )
+
+                        Text(
+                            text = stringResource(R.string.backup_considerations_1),
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+
+                    Row {
+                        Text(
+                            text = "•",
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(horizontal = MaterialTheme.space.xSmall)
+                        )
+
+                        Text(
+                            text = stringResource(R.string.backup_considerations_2),
+                            style = MaterialTheme.typography.titleMedium
+                        )
                     }
                 }
             }

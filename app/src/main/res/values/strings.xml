@@ -163,6 +163,22 @@
     <string name="restore_data">Restore data</string>
     <string name="restore_data_description">Tap to select a backup file to recover your data.</string>
     <string name="recover">Recover</string>
+    <string name="backup_unavailable">Backup unavailable</string>
+    <string name="backup_unavailable_description">UnlockMaster cannot perform data restoration from backup when the unlock counter is paused. Please unpause the counter and try again.</string>
+    <string name="backup_not_created">Backup not created</string>
+    <string name="backup_not_created_description">Unfortunately, UnlockMaster encountered an error during the data backup creation.</string>
+    <string name="data_restoration_unsuccessful">Data restoration unsuccessful</string>
+    <string name="data_restoration_unsuccessful_description">Unfortunately, UnlockMaster encountered an error during the data restoration.</string>
+    <string name="backup_created">Data backup has been created successfully!</string>
+    <string name="data_restoration_successful">Data restoration has been completed!</string>
+    <string name="what_to_consider">What to consider</string>
+    <string name="backup_instructions_1">Download the backup file to your old device by clicking “Save”,</string>
+    <string name="backup_instructions_2">Send the downloaded backup file to a new device (via USB, Cloud, e-mail etc.),</string>
+    <string name="backup_instructions_3">Open UnlockMaster on a new device and navigate to this page,</string>
+    <string name="backup_instructions_4">Click “Recover” to find and select the backup file from old device,</string>
+    <string name="backup_instructions_5">UnlockMaster will perform data restoration using the selected backup file.</string>
+    <string name="backup_considerations_1">To avoid data loss, you should FIRST create the backup on an old device and THEN download and restore the app on a new device,</string>
+    <string name="backup_considerations_2">The backup restoration cannot be performed when the unlock counter is paused - you have to unpause it first on the home screen.</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>
@@ -205,12 +221,4 @@
     <string name="content_description_suggested_settings_icon">Suggested setting icon</string>
     <string name="content_description_download_icon">Download icon</string>
     <string name="content_description_upload_icon">Upload icon</string>
-    <string name="backup_unavailable">Backup unavailable</string>
-    <string name="backup_unavailable_description">UnlockMaster cannot perform data restoration from backup when the unlock counter is paused. Please unpause the counter and try again.</string>
-    <string name="backup_not_created">Backup not created</string>
-    <string name="backup_not_created_description">Unfortunately, UnlockMaster encountered an error during the data backup creation.</string>
-    <string name="data_restoration_unsuccessful">Data restoration unsuccessful</string>
-    <string name="data_restoration_unsuccessful_description">Unfortunately, UnlockMaster encountered an error during the data restoration.</string>
-    <string name="backup_created">Data backup has been created successfully!</string>
-    <string name="data_restoration_successful">Data restoration has been completed!</string>
 </resources>
