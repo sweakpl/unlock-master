@@ -73,7 +73,9 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
             userSessionRepository.getMobilizingNotificationsFrequencyPercentage(),
             dailyWrapUpNotificationsTimeInMinutesPastMidnight =
             userSessionRepository.getDailyWrapUpNotificationsTimeInMinutesAfterMidnight(),
-            uiThemeMode = userSessionRepository.getUiThemeModeFlow().first().name
+            uiThemeMode = userSessionRepository.getUiThemeModeFlow().first().name,
+            areOverUnlockLimitMobilizingNotificationsEnabled =
+            userSessionRepository.areOverUnlockLimitMobilizingNotificationsEnabled()
         )
 
         val unlockMasterBackupData = UnlockMasterBackupData(
@@ -134,6 +136,11 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
                     UiThemeMode.valueOf(unlockMasterBackupData.userPreferences.uiThemeMode)
                 )
             } catch (ignored: IllegalArgumentException) { }
+
+            userSessionRepository.setOverUnlockLimitMobilizingNotificationsEnabled(
+                unlockMasterBackupData.userPreferences
+                    .areOverUnlockLimitMobilizingNotificationsEnabled
+            )
         }
     }
 
@@ -263,7 +270,8 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
         data class UserPreferences(
             val mobilizingNotificationsFrequencyPercentage: Int,
             val dailyWrapUpNotificationsTimeInMinutesPastMidnight: Int,
-            val uiThemeMode: String
+            val uiThemeMode: String,
+            val areOverUnlockLimitMobilizingNotificationsEnabled: Boolean
         )
     }
 }
