@@ -10,4 +10,7 @@ sealed class DailyWrapUpSettingsScreenEvent {
 
     data class IsInvalidTimeSelectedDialogVisible(val isVisible: Boolean) :
         DailyWrapUpSettingsScreenEvent()
+
+    data class IsSettingsNotSavedDialogVisible(val isVisible: Boolean) :
+        DailyWrapUpSettingsScreenEvent()
 }

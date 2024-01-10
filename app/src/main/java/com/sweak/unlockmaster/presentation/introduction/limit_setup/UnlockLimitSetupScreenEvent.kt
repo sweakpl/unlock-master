@@ -6,6 +6,9 @@ sealed class UnlockLimitSetupScreenEvent {
 
     data object ConfirmRemoveUnlockLimitForTomorrow : UnlockLimitSetupScreenEvent()
 
-    data class RemoveUnlockLimitForTomorrowDialogVisibilityChanged(val isVisible: Boolean) :
+    data class IsRemoveUnlockLimitForTomorrowDialogVisible(val isVisible: Boolean) :
+        UnlockLimitSetupScreenEvent()
+
+    data class IsSettingsNotSavedDialogVisible(val isVisible: Boolean) :
         UnlockLimitSetupScreenEvent()
 }

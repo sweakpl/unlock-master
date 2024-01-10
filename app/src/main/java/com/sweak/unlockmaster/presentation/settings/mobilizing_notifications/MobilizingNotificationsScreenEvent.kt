@@ -9,4 +9,7 @@ sealed class MobilizingNotificationsScreenEvent {
         val areOverLimitNotificationsEnabled: Boolean
     ) : MobilizingNotificationsScreenEvent()
     data object ConfirmSelectedSettings : MobilizingNotificationsScreenEvent()
+
+    data class IsSettingsNotSavedDialogVisible(val isVisible: Boolean) :
+        MobilizingNotificationsScreenEvent()
 }

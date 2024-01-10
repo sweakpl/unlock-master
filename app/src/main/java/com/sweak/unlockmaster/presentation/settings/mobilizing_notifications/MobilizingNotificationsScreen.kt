@@ -1,5 +1,6 @@
 package com.sweak.unlockmaster.presentation.settings.mobilizing_notifications
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,6 +34,7 @@ import androidx.compose.ui.unit.times
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.components.ObserveAsEvents
 import com.sweak.unlockmaster.presentation.common.components.ProceedButton
@@ -58,6 +60,12 @@ fun MobilizingNotificationsScreen(
     val mobilizingNotificationsScreenState = mobilizingNotificationsViewModel.state
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
+    BackHandler(enabled = mobilizingNotificationsScreenState.hasUserChangedAnySettings) {
+        mobilizingNotificationsViewModel.onEvent(
+            MobilizingNotificationsScreenEvent.IsSettingsNotSavedDialogVisible(isVisible = true)
+        )
+    }
+
     Scaffold(
         modifier = Modifier.nestedScroll(
             connection = scrollBehavior.nestedScrollConnection
@@ -65,7 +73,17 @@ fun MobilizingNotificationsScreen(
         topBar = {
             NavigationBar(
                 title = stringResource(R.string.mobilizing_notifications),
-                onNavigationButtonClick = { navController.popBackStackThrottled(lifecycleOwner) },
+                onNavigationButtonClick = {
+                    if (mobilizingNotificationsScreenState.hasUserChangedAnySettings) {
+                        mobilizingNotificationsViewModel.onEvent(
+                            MobilizingNotificationsScreenEvent.IsSettingsNotSavedDialogVisible(
+                                isVisible = true
+                            )
+                        )
+                    } else {
+                        navController.popBackStackThrottled(lifecycleOwner)
+                    }
+                },
                 scrollBehavior = scrollBehavior
             )
         },
@@ -234,5 +252,29 @@ fun MobilizingNotificationsScreen(
                 Spacer(modifier = Modifier.height(MaterialTheme.space.run { xLarge + 2 * medium }))
             }
         }
+    }
+
+    if (mobilizingNotificationsScreenState.isSettingsNotSavedDialogVisible) {
+        Dialog(
+            title = stringResource(R.string.setting_not_saved),
+            message = stringResource(R.string.setting_not_saved_description),
+            onDismissRequest = {
+                mobilizingNotificationsViewModel.onEvent(
+                    MobilizingNotificationsScreenEvent.IsSettingsNotSavedDialogVisible(
+                        isVisible = false
+                    )
+                )
+                navController.popBackStackThrottled(lifecycleOwner)
+            },
+            onPositiveClick = {
+                mobilizingNotificationsViewModel.onEvent(
+                    MobilizingNotificationsScreenEvent.IsSettingsNotSavedDialogVisible(
+                        isVisible = false
+                    )
+                )
+            },
+            positiveButtonText = stringResource(R.string.ok),
+            negativeButtonText = stringResource(R.string.exit)
+        )
     }
 }

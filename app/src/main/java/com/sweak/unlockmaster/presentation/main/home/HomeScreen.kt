@@ -574,7 +574,7 @@ fun HomeScreen(
             message = stringResource(R.string.pause_counter_description),
             onDismissRequest = {
                 homeViewModel.onEvent(
-                    HomeScreenEvent.UnlockCounterPauseConfirmationDialogVisibilityChanged(
+                    HomeScreenEvent.IsUnlockCounterPauseConfirmationDialogVisible(
                         isVisible = false
                     )
                 )

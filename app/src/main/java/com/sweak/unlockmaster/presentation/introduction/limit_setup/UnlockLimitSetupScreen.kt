@@ -1,5 +1,6 @@
 package com.sweak.unlockmaster.presentation.introduction.limit_setup
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -78,6 +79,12 @@ fun UnlockLimitSetupScreen(
     val unlockLimitSetupScreenState = unlockLimitSetupViewModel.state
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
+    BackHandler(enabled = unlockLimitSetupScreenState.hasUserChangedAnySettings) {
+        unlockLimitSetupViewModel.onEvent(
+            UnlockLimitSetupScreenEvent.IsSettingsNotSavedDialogVisible(isVisible = true)
+        )
+    }
+
     Scaffold(
         modifier = Modifier.nestedScroll(
             connection = scrollBehavior.nestedScrollConnection
@@ -85,7 +92,17 @@ fun UnlockLimitSetupScreen(
         topBar = {
             NavigationBar(
                 title = stringResource(R.string.unlock_limit),
-                onNavigationButtonClick = { navController.popBackStackThrottled(lifecycleOwner) },
+                onNavigationButtonClick = {
+                    if (unlockLimitSetupScreenState.hasUserChangedAnySettings) {
+                        unlockLimitSetupViewModel.onEvent(
+                            UnlockLimitSetupScreenEvent.IsSettingsNotSavedDialogVisible(
+                                isVisible = true
+                            )
+                        )
+                    } else {
+                        navController.popBackStackThrottled(lifecycleOwner)
+                    }
+                },
                 scrollBehavior = scrollBehavior
             )
         },
@@ -206,9 +223,10 @@ fun UnlockLimitSetupScreen(
                             IconButton(
                                 onClick = {
                                     unlockLimitSetupViewModel.onEvent(
-                                        UnlockLimitSetupScreenEvent.RemoveUnlockLimitForTomorrowDialogVisibilityChanged(
-                                            isVisible = true
-                                        )
+                                        UnlockLimitSetupScreenEvent
+                                            .IsRemoveUnlockLimitForTomorrowDialogVisible(
+                                                isVisible = true
+                                            )
                                     )
                                 }
                             ) {
@@ -308,7 +326,7 @@ fun UnlockLimitSetupScreen(
             message = stringResource(R.string.remove_tomorrow_unlock_limit_description),
             onDismissRequest = {
                 unlockLimitSetupViewModel.onEvent(
-                    UnlockLimitSetupScreenEvent.RemoveUnlockLimitForTomorrowDialogVisibilityChanged(
+                    UnlockLimitSetupScreenEvent.IsRemoveUnlockLimitForTomorrowDialogVisible(
                         isVisible = false
                     )
                 )
@@ -320,6 +338,26 @@ fun UnlockLimitSetupScreen(
             },
             positiveButtonText = stringResource(R.string.yes),
             negativeButtonText = stringResource(R.string.no)
+        )
+    }
+
+    if (unlockLimitSetupScreenState.isSettingsNotSavedDialogVisible) {
+        Dialog(
+            title = stringResource(R.string.setting_not_saved),
+            message = stringResource(R.string.setting_not_saved_description),
+            onDismissRequest = {
+                unlockLimitSetupViewModel.onEvent(
+                    UnlockLimitSetupScreenEvent.IsSettingsNotSavedDialogVisible(isVisible = false)
+                )
+                navController.popBackStackThrottled(lifecycleOwner)
+            },
+            onPositiveClick = {
+                unlockLimitSetupViewModel.onEvent(
+                    UnlockLimitSetupScreenEvent.IsSettingsNotSavedDialogVisible(isVisible = false)
+                )
+            },
+            positiveButtonText = stringResource(R.string.ok),
+            negativeButtonText = stringResource(R.string.exit)
         )
     }
 }

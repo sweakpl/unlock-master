@@ -82,7 +82,7 @@ class HomeViewModel @Inject constructor(
                 )
                 event.pauseChangedCallback(true)
             }
-            is HomeScreenEvent.UnlockCounterPauseConfirmationDialogVisibilityChanged -> {
+            is HomeScreenEvent.IsUnlockCounterPauseConfirmationDialogVisible -> {
                 state = state.copy(isUnlockCounterPauseConfirmationDialogVisible = event.isVisible)
             }
             is HomeScreenEvent.DismissUnlockMasterBlockedWarning -> viewModelScope.launch {

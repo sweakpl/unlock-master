@@ -47,6 +47,7 @@ class DailyWrapUpSettingsViewModel @Inject constructor(
                 state = state.copy(
                     notificationHourOfDay = event.newNotificationHourOfDay,
                     notificationMinute = event.newNotificationMinute,
+                    hasUserChangedAnySettings = true
                 )
             }
             is DailyWrapUpSettingsScreenEvent.ConfirmNewSelectedDailyWrapUpSettings -> {
@@ -73,6 +74,9 @@ class DailyWrapUpSettingsViewModel @Inject constructor(
             }
             is DailyWrapUpSettingsScreenEvent.IsInvalidTimeSelectedDialogVisible -> {
                 state = state.copy(isInvalidTimeSelectedDialogVisible = event.isVisible)
+            }
+            is DailyWrapUpSettingsScreenEvent.IsSettingsNotSavedDialogVisible -> {
+                state = state.copy(isSettingsNotSavedDialogVisible = event.isVisible)
             }
         }
     }

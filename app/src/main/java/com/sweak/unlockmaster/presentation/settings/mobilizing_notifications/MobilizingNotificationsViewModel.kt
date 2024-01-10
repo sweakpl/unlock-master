@@ -46,12 +46,14 @@ class MobilizingNotificationsViewModel @Inject constructor(
             is MobilizingNotificationsScreenEvent.SelectNewFrequencyPercentageIndex -> {
                 state = state.copy(
                     selectedMobilizingNotificationsFrequencyPercentageIndex =
-                    event.newPercentageIndex
+                    event.newPercentageIndex,
+                    hasUserChangedAnySettings = true
                 )
             }
             is MobilizingNotificationsScreenEvent.ToggleOverLimitNotifications -> {
                 state = state.copy(
-                    areOverLimitNotificationsEnabled = event.areOverLimitNotificationsEnabled
+                    areOverLimitNotificationsEnabled = event.areOverLimitNotificationsEnabled,
+                    hasUserChangedAnySettings = true
                 )
             }
             is MobilizingNotificationsScreenEvent.ConfirmSelectedSettings -> {
@@ -76,6 +78,9 @@ class MobilizingNotificationsViewModel @Inject constructor(
                         }
                     }
                 }
+            }
+            is MobilizingNotificationsScreenEvent.IsSettingsNotSavedDialogVisible -> {
+                state = state.copy(isSettingsNotSavedDialogVisible = event.isVisible)
             }
         }
     }

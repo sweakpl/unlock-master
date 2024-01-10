@@ -57,7 +57,10 @@ class UnlockLimitSetupViewModel @Inject constructor(
     fun onEvent(event: UnlockLimitSetupScreenEvent) {
         when (event) {
             is UnlockLimitSetupScreenEvent.PickNewUnlockLimit -> {
-                state = state.copy(pickedUnlockLimit = event.newUnlockLimit)
+                state = state.copy(
+                    pickedUnlockLimit = event.newUnlockLimit,
+                    hasUserChangedAnySettings = true
+                )
             }
             is UnlockLimitSetupScreenEvent.SubmitSelectedUnlockLimit -> {
                 state.pickedUnlockLimit?.let {
@@ -72,7 +75,7 @@ class UnlockLimitSetupViewModel @Inject constructor(
                     }
                 }
             }
-            is UnlockLimitSetupScreenEvent.RemoveUnlockLimitForTomorrowDialogVisibilityChanged -> {
+            is UnlockLimitSetupScreenEvent.IsRemoveUnlockLimitForTomorrowDialogVisible -> {
                 state = state.copy(isRemoveUnlockLimitForTomorrowDialogVisible = event.isVisible)
             }
             is UnlockLimitSetupScreenEvent.ConfirmRemoveUnlockLimitForTomorrow -> {
@@ -83,6 +86,9 @@ class UnlockLimitSetupViewModel @Inject constructor(
                         isRemoveUnlockLimitForTomorrowDialogVisible = false
                     )
                 }
+            }
+            is UnlockLimitSetupScreenEvent.IsSettingsNotSavedDialogVisible -> {
+                state = state.copy(isSettingsNotSavedDialogVisible =  event.isVisible)
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.sweak.unlockmaster.presentation.settings.daily_wrap_up_settings
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -64,6 +65,12 @@ fun DailyWrapUpSettingsScreen(
     val dailyWrapUpSettingsScreenState = dailyWrapUpSettingsViewModel.state
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
+    BackHandler(enabled = dailyWrapUpSettingsScreenState.hasUserChangedAnySettings) {
+        dailyWrapUpSettingsViewModel.onEvent(
+            DailyWrapUpSettingsScreenEvent.IsSettingsNotSavedDialogVisible(isVisible = true)
+        )
+    }
+
     Scaffold(
         modifier = Modifier.nestedScroll(
             connection = scrollBehavior.nestedScrollConnection
@@ -71,7 +78,17 @@ fun DailyWrapUpSettingsScreen(
         topBar = {
             NavigationBar(
                 title = stringResource(R.string.daily_wrapups),
-                onNavigationButtonClick = { navController.popBackStackThrottled(lifecycleOwner) },
+                onNavigationButtonClick = {
+                    if (dailyWrapUpSettingsScreenState.hasUserChangedAnySettings) {
+                        dailyWrapUpSettingsViewModel.onEvent(
+                            DailyWrapUpSettingsScreenEvent.IsSettingsNotSavedDialogVisible(
+                                isVisible = true
+                            )
+                        )
+                    } else {
+                        navController.popBackStackThrottled(lifecycleOwner)
+                    }
+                },
                 scrollBehavior = scrollBehavior
             )
         },
@@ -240,6 +257,30 @@ fun DailyWrapUpSettingsScreen(
                 )
             },
             positiveButtonText = stringResource(R.string.ok)
+        )
+    }
+
+    if (dailyWrapUpSettingsScreenState.isSettingsNotSavedDialogVisible) {
+        Dialog(
+            title = stringResource(R.string.setting_not_saved),
+            message = stringResource(R.string.setting_not_saved_description),
+            onDismissRequest = {
+                dailyWrapUpSettingsViewModel.onEvent(
+                    DailyWrapUpSettingsScreenEvent.IsSettingsNotSavedDialogVisible(
+                        isVisible = false
+                    )
+                )
+                navController.popBackStackThrottled(lifecycleOwner)
+            },
+            onPositiveClick = {
+                dailyWrapUpSettingsViewModel.onEvent(
+                    DailyWrapUpSettingsScreenEvent.IsSettingsNotSavedDialogVisible(
+                        isVisible = false
+                    )
+                )
+            },
+            positiveButtonText = stringResource(R.string.ok),
+            negativeButtonText = stringResource(R.string.exit)
         )
     }
 }
