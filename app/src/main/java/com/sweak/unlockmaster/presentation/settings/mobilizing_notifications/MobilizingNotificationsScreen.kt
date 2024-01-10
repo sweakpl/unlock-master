@@ -3,6 +3,7 @@ package com.sweak.unlockmaster.presentation.settings.mobilizing_notifications
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,14 +11,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
@@ -69,7 +74,7 @@ fun MobilizingNotificationsScreen(
                 text = stringResource(R.string.confirm),
                 onClick = {
                     mobilizingNotificationsViewModel.onEvent(
-                        MobilizingNotificationsScreenEvent.ConfirmNewSelectedFrequencyPercentage
+                        MobilizingNotificationsScreenEvent.ConfirmSelectedSettings
                     )
                 },
                 modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
@@ -173,6 +178,58 @@ fun MobilizingNotificationsScreen(
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
                 )
+
+                if (mobilizingNotificationsScreenState.areOverLimitNotificationsEnabled != null) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                start = MaterialTheme.space.medium,
+                                top = MaterialTheme.space.large,
+                                end = MaterialTheme.space.medium
+                            )
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(all = MaterialTheme.space.medium)
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(end = MaterialTheme.space.medium)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.notify_over_100),
+                                    style = MaterialTheme.typography.displaySmall
+                                )
+
+                                Text(
+                                    text = stringResource(R.string.notify_over_100_description),
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                            }
+
+                            Switch(
+                                checked =
+                                mobilizingNotificationsScreenState.areOverLimitNotificationsEnabled,
+                                onCheckedChange = {
+                                    mobilizingNotificationsViewModel.onEvent(
+                                        MobilizingNotificationsScreenEvent
+                                            .ToggleOverLimitNotifications(
+                                                areOverLimitNotificationsEnabled = it
+                                            )
+                                    )
+                                },
+                                colors = SwitchDefaults.colors(
+                                    checkedThumbColor = MaterialTheme.colorScheme.secondary,
+                                    checkedTrackColor = MaterialTheme.colorScheme.primary
+                                )
+                            )
+                        }
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(MaterialTheme.space.run { xLarge + 2 * medium }))
             }

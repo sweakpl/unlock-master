@@ -104,6 +104,17 @@ class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepos
             }
         }
 
+    override suspend fun setOverUnlockLimitMobilizingNotificationsEnabled(areEnabled: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[ARE_OVER_UNLOCK_LIMIT_MOBILIZING_NOTIFICATIONS_ENABLED] = areEnabled
+        }
+    }
+
+    override suspend fun areOverUnlockLimitMobilizingNotificationsEnabled(): Boolean =
+        context.dataStore.data.map { preferences ->
+            preferences[ARE_OVER_UNLOCK_LIMIT_MOBILIZING_NOTIFICATIONS_ENABLED] ?: true
+        }.first()
+
     companion object {
         val IS_INTRODUCTION_FINISHED = booleanPreferencesKey("isIntroductionFinished")
         val IS_UNLOCK_COUNTER_PAUSED = booleanPreferencesKey("isUnlockCounterPaused")
@@ -116,5 +127,7 @@ class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepos
         val SHOULD_SHOW_UNLOCK_MASTER_BLOCKED_WARNING =
             booleanPreferencesKey("shouldShowUnlockMasterBlockedWarning")
         val UI_THEME_MODE = stringPreferencesKey("uiThemeMode")
+        val ARE_OVER_UNLOCK_LIMIT_MOBILIZING_NOTIFICATIONS_ENABLED =
+            booleanPreferencesKey("areOverUnlockLimitMobilizingNotificationsEnabled")
     }
 }

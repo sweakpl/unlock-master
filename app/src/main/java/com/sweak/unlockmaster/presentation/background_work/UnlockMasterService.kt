@@ -109,6 +109,8 @@ class UnlockMasterService : Service() {
                 val currentUnlockLimit = getUnlockLimitAmountForTodayUseCase()
                 val mobilizingNotificationsFrequencyPercentage =
                     userSessionRepository.getMobilizingNotificationsFrequencyPercentage()
+                val areOverUnlockLimitMobilizingNotificationsEnabled =
+                    userSessionRepository.areOverUnlockLimitMobilizingNotificationsEnabled()
 
                 try {
                     notificationManager.notify(
@@ -120,7 +122,8 @@ class UnlockMasterService : Service() {
                     showMobilizingNotificationIfNeeded(
                         currentUnlockCount,
                         currentUnlockLimit,
-                        mobilizingNotificationsFrequencyPercentage
+                        mobilizingNotificationsFrequencyPercentage,
+                        areOverUnlockLimitMobilizingNotificationsEnabled
                     )
                 } catch (_: SecurityException) { /* no-op */ }
             }
@@ -262,10 +265,12 @@ class UnlockMasterService : Service() {
     private fun showMobilizingNotificationIfNeeded(
         unlockCount: Int,
         unlockLimit: Int,
-        percentage: Int
+        percentage: Int,
+        areOverLimitNotificationsEnabled: Boolean
     ) {
         val multiple = unlockLimit * percentage / 100f
-        val multiples = (percentage..100 step percentage).mapIndexed { index, _ ->
+        val maxMultiple = if (areOverLimitNotificationsEnabled) 1000 else 100
+        val multiples = (percentage..maxMultiple step percentage).mapIndexed { index, _ ->
             ((index + 1) * multiple).roundToInt()
         }
 

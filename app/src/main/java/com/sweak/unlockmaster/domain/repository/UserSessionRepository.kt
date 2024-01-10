@@ -18,4 +18,7 @@ interface UserSessionRepository {
     suspend fun shouldShowUnlockMasterBlockedWarning(): Boolean
     suspend fun setUiThemeMode(uiThemeMode: UiThemeMode)
     fun getUiThemeModeFlow(): Flow<UiThemeMode>
+    suspend fun setOverUnlockLimitMobilizingNotificationsEnabled(areEnabled: Boolean)
+    suspend fun areOverUnlockLimitMobilizingNotificationsEnabled(): Boolean
+
 }

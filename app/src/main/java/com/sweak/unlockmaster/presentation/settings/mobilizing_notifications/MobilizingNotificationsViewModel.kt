@@ -21,7 +21,7 @@ class MobilizingNotificationsViewModel @Inject constructor(
     var state by mutableStateOf(MobilizingNotificationsScreenState())
 
     private val frequencyPercentageSubmittedEventsChannel =
-        Channel<FrequencyPercentageSubmittedEvent>()
+        Channel<SelectedSettingsConfirmedEvent>()
     val frequencyPercentageSubmittedEvents =
         frequencyPercentageSubmittedEventsChannel.receiveAsFlow()
 
@@ -30,10 +30,13 @@ class MobilizingNotificationsViewModel @Inject constructor(
             val percentage = userSessionRepository.getMobilizingNotificationsFrequencyPercentage()
             val availablePercentages = AVAILABLE_MOBILIZING_NOTIFICATIONS_FREQUENCY_PERCENTAGES
             val selectedPercentageIndex = availablePercentages.indexOf(percentage)
+            val areOverLimitNotificationsEnabled =
+                userSessionRepository.areOverUnlockLimitMobilizingNotificationsEnabled()
 
             state = state.copy(
                 selectedMobilizingNotificationsFrequencyPercentageIndex = selectedPercentageIndex,
-                availableMobilizingNotificationsFrequencyPercentages = availablePercentages
+                availableMobilizingNotificationsFrequencyPercentages = availablePercentages,
+                areOverLimitNotificationsEnabled = areOverLimitNotificationsEnabled
             )
         }
     }
@@ -42,21 +45,34 @@ class MobilizingNotificationsViewModel @Inject constructor(
         when (event) {
             is MobilizingNotificationsScreenEvent.SelectNewFrequencyPercentageIndex -> {
                 state = state.copy(
-                    selectedMobilizingNotificationsFrequencyPercentageIndex = event.newPercentageIndex
+                    selectedMobilizingNotificationsFrequencyPercentageIndex =
+                    event.newPercentageIndex
                 )
             }
-            is MobilizingNotificationsScreenEvent.ConfirmNewSelectedFrequencyPercentage -> {
+            is MobilizingNotificationsScreenEvent.ToggleOverLimitNotifications -> {
+                state = state.copy(
+                    areOverLimitNotificationsEnabled = event.areOverLimitNotificationsEnabled
+                )
+            }
+            is MobilizingNotificationsScreenEvent.ConfirmSelectedSettings -> {
                 viewModelScope.launch {
                     with(state) {
-                        availableMobilizingNotificationsFrequencyPercentages?.let { percentages ->
-                            selectedMobilizingNotificationsFrequencyPercentageIndex?.let {
-                                userSessionRepository.setMobilizingNotificationsFrequencyPercentage(
-                                    percentage = percentages[it]
+                        if (availableMobilizingNotificationsFrequencyPercentages != null &&
+                            selectedMobilizingNotificationsFrequencyPercentageIndex != null &&
+                            areOverLimitNotificationsEnabled != null
+                        ) {
+                            userSessionRepository.setMobilizingNotificationsFrequencyPercentage(
+                                percentage = availableMobilizingNotificationsFrequencyPercentages[
+                                    selectedMobilizingNotificationsFrequencyPercentageIndex
+                                ]
+                            )
+                            userSessionRepository
+                                .setOverUnlockLimitMobilizingNotificationsEnabled(
+                                    areEnabled = areOverLimitNotificationsEnabled
                                 )
-                                frequencyPercentageSubmittedEventsChannel.send(
-                                    FrequencyPercentageSubmittedEvent
-                                )
-                            }
+                            frequencyPercentageSubmittedEventsChannel.send(
+                                SelectedSettingsConfirmedEvent
+                            )
                         }
                     }
                 }
@@ -64,5 +80,5 @@ class MobilizingNotificationsViewModel @Inject constructor(
         }
     }
 
-    object FrequencyPercentageSubmittedEvent
+    object SelectedSettingsConfirmedEvent
 }

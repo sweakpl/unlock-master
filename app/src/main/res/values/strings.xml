@@ -179,6 +179,8 @@
     <string name="backup_instructions_5">UnlockMaster will perform data restoration using the selected backup file.</string>
     <string name="backup_considerations_1">To avoid data loss, you should FIRST create the backup and THEN install the new UnlockMaster and use the created backup to restore the data,</string>
     <string name="backup_considerations_2">The backup restoration cannot be performed when the unlock counter is paused - you have to unpause it first on the home screen.</string>
+    <string name="notify_over_100">Notify over 100%</string>
+    <string name="notify_over_100_description">UnlockMaster will send mobilizing notifications even after reaching your unlock limit.</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>
