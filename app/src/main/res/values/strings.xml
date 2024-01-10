@@ -156,7 +156,7 @@
     <string name="dark_theme">Dark theme</string>
     <string name="system_theme">System theme</string>
     <string name="data_backup">Data backup</string>
-    <string name="data_backup_description">You can download your current application data and later use that saved data to recover your usage history on e.g. a new device with a fresh installation of UnlockMaster.</string>
+    <string name="data_backup_description">You can download your current application data and later use that saved data to recover your usage history on a fresh installation of UnlockMaster.</string>
     <string name="download_backup">Download backup</string>
     <string name="download_backup_description">Tap to save your data to your local storage.</string>
     <string name="save">Save</string>
@@ -172,12 +172,12 @@
     <string name="backup_created">Data backup has been created successfully!</string>
     <string name="data_restoration_successful">Data restoration has been completed!</string>
     <string name="what_to_consider">What to consider</string>
-    <string name="backup_instructions_1">Download the backup file to your old device by clicking “Save”,</string>
-    <string name="backup_instructions_2">Send the downloaded backup file to a new device (via USB, Cloud, e-mail etc.),</string>
-    <string name="backup_instructions_3">Open UnlockMaster on a new device and navigate to this page,</string>
-    <string name="backup_instructions_4">Click “Recover” to find and select the backup file from old device,</string>
+    <string name="backup_instructions_1">Download the backup file by clicking \"Save\",</string>
+    <string name="backup_instructions_2">If migrating to a new device, send the downloaded backup file to a new device (via USB, e-mail etc.),</string>
+    <string name="backup_instructions_3">Open a new installation of UnlockMaster and navigate to this page,</string>
+    <string name="backup_instructions_4">Click \"Recover\" to find and select the backup that was saved previously,</string>
     <string name="backup_instructions_5">UnlockMaster will perform data restoration using the selected backup file.</string>
-    <string name="backup_considerations_1">To avoid data loss, you should FIRST create the backup on an old device and THEN download and restore the app on a new device,</string>
+    <string name="backup_considerations_1">To avoid data loss, you should FIRST create the backup and THEN install the new UnlockMaster and use the created backup to restore the data,</string>
     <string name="backup_considerations_2">The backup restoration cannot be performed when the unlock counter is paused - you have to unpause it first on the home screen.</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
