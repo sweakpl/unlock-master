@@ -1,3 +1,0 @@
-* Added the data backup functionality,
-* Added the manual UI theme setting functionality,
-* Performance improvements.

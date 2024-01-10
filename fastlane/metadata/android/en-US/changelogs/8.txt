@@ -1,0 +1,2 @@
+* Added the option to enable/disable over-the-limit mobilizing notifications,
+* UI and preformance improvements.
