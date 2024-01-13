@@ -59,7 +59,7 @@ class UnlockLimitSetupViewModel @Inject constructor(
             is UnlockLimitSetupScreenEvent.PickNewUnlockLimit -> {
                 state = state.copy(
                     pickedUnlockLimit = event.newUnlockLimit,
-                    hasUserChangedAnySettings = true
+                    hasUserChangedAnySettings = isUpdatingExistingUnlockLimit
                 )
             }
             is UnlockLimitSetupScreenEvent.SubmitSelectedUnlockLimit -> {
