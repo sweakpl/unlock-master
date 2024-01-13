@@ -47,7 +47,8 @@ class DailyWrapUpSettingsViewModel @Inject constructor(
                 state = state.copy(
                     notificationHourOfDay = event.newNotificationHourOfDay,
                     notificationMinute = event.newNotificationMinute,
-                    hasUserChangedAnySettings = true
+                    hasInitialTimeBeenSet = true,
+                    hasUserChangedAnySettings = state.hasInitialTimeBeenSet
                 )
             }
             is DailyWrapUpSettingsScreenEvent.ConfirmNewSelectedDailyWrapUpSettings -> {

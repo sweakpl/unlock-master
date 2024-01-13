@@ -39,7 +39,7 @@ fun CardTimePicker(
                 (LayoutInflater.from(it)
                     .inflate(R.layout.spinner_time_picker, null) as TimePicker)
                     .apply {
-                        // Right after composing the TimePicker it calls the  timeChangedListener
+                        // Right after composing the TimePicker it calls the timeChangedListener
                         // with the current time which breaks the uiState - we have to prevent the
                         // uiState update after this initial timeChangedListener call:
                         var isInitialUpdate = true
