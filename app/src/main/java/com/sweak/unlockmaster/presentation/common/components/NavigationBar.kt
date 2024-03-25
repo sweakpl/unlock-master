@@ -1,6 +1,5 @@
 package com.sweak.unlockmaster.presentation.common.components
 
-import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBackIos
 import androidx.compose.material3.CenterAlignedTopAppBar
