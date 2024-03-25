@@ -3,7 +3,7 @@
   <string name="your_unlock_count_is">Kilit açma sayınız %1$d/%2$d</string>
   <string name="background_service_notification_channel_title">Arka plan çalışması göstergesi</string>
   <string name="background_service_notification_channel_description">Çalışan arka plan hizmeti hakkında devam eden bir bildirim görüntüleyin</string>
-  <string name="welcome_to_unlock_master">UnlockMaster'a hoş geldiniz!</string>
+  <string name="welcome_to_unlock_master">UnlockMaster\'a hoş geldiniz!</string>
   <string name="welcome_to_unlock_master_subtitle">Ekran kilidinin kullanım alışkanlıklarınızı nasıl etkilediği ve akıllı telefonla ilişkinizi nasıl daha verimli ve sağlıklı hale getirdiği hakkında bir fikir edinin!</string>
   <string name="lets_start">Hadi başlayalım!</string>
   <string name="introduction">Giriş</string>
@@ -18,7 +18,7 @@
   <string name="wellness_description">Cihazınızla daha sağlıklı ve verimli ilişki.</string>
   <string name="unlock_limit">Kilit açma limiti</string>
   <string name="set_up_unlock_limit">Kilit açma limitinizi belirleyin</string>
-  <string name="set_up_unlock_limit_description">UnlockMaster'ı kullanmaya başlamadan önce kilit açma limitinizi ayarlamanız gerekir:</string>
+  <string name="set_up_unlock_limit_description">UnlockMaster\'ı kullanmaya başlamadan önce kilit açma limitinizi ayarlamanız gerekir:</string>
   <string name="unlock_limit_purposes">Kilit açma limiti şu amaçlara hizmet eder:</string>
   <string name="confirm">Onayla</string>
   <string name="reference">Referans</string>
@@ -27,13 +27,13 @@
   <string name="adjustability_description">Kilit açma sınırı, gelişen akıllı telefon kullanım standartlarınızı karşılayacak şekilde ayarlanabilir.</string>
   <string name="note_reaching_limit_wont_prevent_unlocking">Not: Kilit açma limitine ulaşman, ekranının kilidini açmanı engellemez.</string>
   <string name="work_in_background">Arka planda çalışma</string>
-  <string name="allow_optimal_work_in_background">UnlockMaster'ın arka planda verimli çalışmasına izin ver</string>
-  <string name="allow_optimal_work_in_background_description">UnlockMaster, cihazınızın kilidini açmak için sürekli arka planda çalışır. Android sistemi varsayılan olarak arka planda çalışma kısıtlamaları getirir. Uygulamamız bu durumdan olumsuz etkilenir. Devam etmeden önce UnlockMaster'ın arka planda verimli çalışmasına izin verdiğinizden emin olun:</string>
-  <string name="allow_full_work_in_background">Arka plan çalışması için UnlockMaster'ı tamamen optimize edin</string>
+  <string name="allow_optimal_work_in_background">UnlockMaster\'ın arka planda verimli çalışmasına izin ver</string>
+  <string name="allow_optimal_work_in_background_description">UnlockMaster, cihazınızın kilidini açmak için sürekli arka planda çalışır. Android sistemi varsayılan olarak arka planda çalışma kısıtlamaları getirir. Uygulamamız bu durumdan olumsuz etkilenir. Devam etmeden önce UnlockMaster\'ın arka planda verimli çalışmasına izin verdiğinizden emin olun:</string>
+  <string name="allow_full_work_in_background">Arka plan çalışması için UnlockMaster\'ı tamamen optimize edin</string>
   <string name="allow_full_work_in_background_description">Bazı cep telefonu üreticileri, çalışan uygulamaları kapatarak arka plan çalışmalarına belirli kısıtlamalar getirmektedir. Bu davranışı önlemek için lütfen dontkillmyapp.com web sitesini ziyaret edin ve akıllı telefon üreticinizin talimatlarını izleyin:</string>
   <string name="allow_full_work_in_background_description_extended">UnlockMaster, cihazınızın kilidini açmak için sürekli arka planda çalışır. Bazı cep telefonu üreticileri, çalışan uygulamaları kapatarak arka plan çalışmalarına belirli kısıtlamalar getirmektedir. Bu davranışı önlemek için lütfen dontkillmyapp.com web sitesini ziyaret edin ve akıllı telefon üreticinizin talimatlarını izleyin:</string>
   <string name="work_in_background_limited_click_to_enable">Arka planda çalışma sınırlıdır. Etkinleştirmek için tıklayın.</string>
-  <string name="allow_notifications">UnlockMaster'ın bildirimleri göstermesine izin ver</string>
+  <string name="allow_notifications">UnlockMaster\'ın bildirimleri göstermesine izin ver</string>
   <string name="allow_notifications_description">UnlockMaster, size mobil bildirimler göndermek ve kalıcı bir bildirimle günlük kilit açma işlemlerinizi hatırlatmak için tasarlanmıştır. Bu, uygulamanın bildirim gönderme iznine sahip olmasını gerektirir. Devam etmeden önce bu izni verdiğinizden emin olun:</string>
   <string name="dontkilmyapp_com" translatable="false">dontkillmyapp.com</string>
   <string name="dontkilmyapp_com_full_uri" translatable="false">https://dontkillmyapp.com/</string>
@@ -42,11 +42,11 @@
   <string name="_continue">Devam et</string>
   <string name="notifications_enabled">Bildirim izni verilir. İyi iş çıkardın!</string>
   <string name="notifications_permission_required">Bildirim izni gerekli</string>
-  <string name="notifications_permission_required_description">UnlockMaster'ın düzgün çalışması için bildirim izni çok önemlidir. Vermek için ayarlara gidin.</string>
+  <string name="notifications_permission_required_description">UnlockMaster\'ın düzgün çalışması için bildirim izni çok önemlidir. Vermek için ayarlara gidin.</string>
   <string name="settings">Ayarlar</string>
   <string name="later">Daha sonra</string>
   <string name="all_set">Hazırsınız, yola çıkmaya hazırsınız!</string>
-  <string name="all_set_description">Artık UnlockMaster sizin için sürekli çalışacak ve akıllı telefon kullanım alışkanlıklarınızı geliştirmenize yardımcı olacak! Bunun gibi bir bildirim gördüğünüzde UnlockMaster'ın çalıştığını bilebilirsiniz:</string>
+  <string name="all_set_description">Artık UnlockMaster sizin için sürekli çalışacak ve akıllı telefon kullanım alışkanlıklarınızı geliştirmenize yardımcı olacak! Bunun gibi bir bildirim gördüğünüzde UnlockMaster\'ın çalıştığını bilebilirsiniz:</string>
   <string name="mobilizing_notifications">Bildirimleri harekete geçirme</string>
   <string name="mobilizing_notifications_description">UnlockMaster, hedeflerinizi hatırlatan ve gereksiz akıllı telefon kullanımını önlemek için periyodik olarak popping-off bildirimleri yayınlayacaktır:</string>
   <string name="daily_wrapups">Günlük özetler</string>
@@ -73,9 +73,9 @@
   <string name="screen_time">Ekran süresi</string>
   <string name="screen_time_colon">Ekran süresi:</string>
   <string name="screen_time_history">Ekran zamanı geçmişi:</string>
-  <string name="hours_amount">%1 $dh</string>
-  <string name="minutes_amount">%1 $ddk</string>
-  <string name="seconds_amount">%1 $ds</string>
+  <string name="hours_amount">%1$dh</string>
+  <string name="minutes_amount">%1$ddk</string>
+  <string name="seconds_amount">%1$ds</string>
   <string name="counter_paused_colon">Sayaç duraklatıldı:</string>
   <string name="pause_counter">Sayacı duraklat?</string>
   <string name="pause_counter_description">Sayacı duraklatmak istediğinizden emin misiniz? Sayaç duraklatıldığında telefon kilitleri, ekran süresi vb. kaydedilmez.</string>
@@ -92,7 +92,7 @@
   <string name="mobilizing_notifications_channel_title">Hatırlatıcıları harekete geçirme</string>
   <string name="mobilizing_notifications_channel_description">Akıllı telefon kullanım hedeflerini hatırlatan bildirimleri göster</string>
   <string name="mobilizing_notifications_setting_description">Tercihinize göre bu bildirimler, kilit açma limitinizin belirli bir yüzdesinin katı olan bir kilit açma sayısına her ulaştığınızda görüntülenir. Bu yüzdeyi buradan değiştirebilirsiniz:</string>
-  <string name="mobilizing_notifications_setting_example">Kilit açma limitiniz 40 'tır ve kilit açma limitinizin her % 25' inde bir bildirim seçtiniz.\nBu durumda, 10, 20, 30 ve 40 kilidini açtığınızda mobilize edici bildirimler gelecektir.</string>
+  <string name="mobilizing_notifications_setting_example">Kilit açma limitiniz 40 \'tır ve kilit açma limitinizin her % 25\' inde bir bildirim seçtiniz.\nBu durumda, 10, 20, 30 ve 40 kilidini açtığınızda mobilize edici bildirimler gelecektir.</string>
   <string name="every_x_percent">Her %1$d%%</string>
   <string name="example">Örnek:</string>
   <string name="daily_wrapup_notifications_setting_description">Tercihinize göre, bu bildirimler her gün burada belirtilen saatte görüntülenecektir. Ayarlamak için saat ve dakika alanlarını sürükleyin:</string>
@@ -134,7 +134,7 @@
   <string name="you_have_reached_the_lowest_unlock_limit">Mevcut en düşük kilit açma sınırına ulaştınız. İyi iş çıkardın!</string>
   <string name="you_have_recently_set">Yakın zamanda ayarladınız</string>
   <string name="as_your_new_unlock_limit">yeni kilit açma limitiniz olarak.</string>
-  <string name="daily_wrapup_notifications_opening_disclaimer">Unutmayın, günlük paketinizi her zaman belirtilen saatten daha geç açabilirsiniz! Örneğin, bildirim 23:45 'te gelirse, ertesi gün boyunca örneğin 0:15' te veya sabahları her zaman açabilirsiniz.</string>
+  <string name="daily_wrapup_notifications_opening_disclaimer">Unutmayın, günlük paketinizi her zaman belirtilen saatten daha geç açabilirsiniz! Örneğin, bildirim 23:45 \'te gelirse, ertesi gün boyunca örneğin 0:15\' te veya sabahları her zaman açabilirsiniz.</string>
   <string name="unlock_master_was_blocked_click_here">UnlockMaster Android tarafından engellendi! Daha fazla bilgi için buraya tıklayın.</string>
   <string name="application_blocked">Uygulama engellendi</string>
   <string name="unlock_master_was_blocked_by_android">UnlockMaster Android sistemi tarafından engellendi!</string>
@@ -146,17 +146,17 @@
   <string name="degraded_experience">Azaltılmış deneyim</string>
   <string name="degraded_experience_description">Uygulama, düzgün çalışmadan kullanıcıya en iyi değeri sağlayamaz.</string>
   <string name="setting_unavailable">Ayar yapılamıyor</string>
-  <string name="ignore_battery_optimization_unavailable">Ne yazık ki sisteminiz hızlı arka plan çalışması optimizasyonu ayarını desteklemiyor. Lütfen bir sonraki adıma bakın: \"UnlockMaster'ı arka plan çalışması için tamamen optimize edin\".</string>
+  <string name="ignore_battery_optimization_unavailable">Ne yazık ki sisteminiz hızlı arka plan çalışması optimizasyonu ayarını desteklemiyor. Lütfen bir sonraki adıma bakın: \"UnlockMaster\'ı arka plan çalışması için tamamen optimize edin\".</string>
   <string name="work_in_background_enabled">Arka planda çalışma etkinleştirildi. İyi iş çıkardın!</string>
   <string name="browser_not_found">Web tarayıcısı bulunamadı</string>
   <string name="browser_not_found_open_link_manually">UnlockMaster, bağlantıyı açmak için web tarayıcı uygulamasını bulamadı. Tarayıcının yüklü olduğunu düşünüyorsanız lütfen bağlantıyı manuel olarak açın.</string>
   <string name="user_interface_theme">Kullanıcı arayüzü teması</string>
-  <string name="user_interface_theme_description">UnlockMaster'ın görünümünü değiştirmek için koyu ve açık tema arasından seçim yapın veya sistem temanızın uygulamanın teması olmasına izin verin:</string>
+  <string name="user_interface_theme_description">UnlockMaster\'ın görünümünü değiştirmek için koyu ve açık tema arasından seçim yapın veya sistem temanızın uygulamanın teması olmasına izin verin:</string>
   <string name="light_theme">Açık tema</string>
   <string name="dark_theme">Koyu tema</string>
   <string name="system_theme">Sistem teması</string>
   <string name="data_backup">Veri yedekleme</string>
-  <string name="data_backup_description">Mevcut uygulama verilerinizi indirebilir ve daha sonra UnlockMaster'ın yeni bir kurulumunda kullanım geçmişinizi kurtarmak için bu kayıtlı verileri kullanabilirsiniz.</string>
+  <string name="data_backup_description">Mevcut uygulama verilerinizi indirebilir ve daha sonra UnlockMaster\'ın yeni bir kurulumunda kullanım geçmişinizi kurtarmak için bu kayıtlı verileri kullanabilirsiniz.</string>
   <string name="download_backup">Yedeklemeyi indir</string>
   <string name="download_backup_description">Verilerinizi yerel depolama alanınıza kaydetmek için dokunun.</string>
   <string name="save">Kaydet</string>
@@ -177,13 +177,14 @@
   <string name="backup_instructions_3">Yeni bir UnlockMaster kurulumu açın ve bu sayfaya gidin,</string>
   <string name="backup_instructions_4">Daha önce kaydedilen yedeği bulmak ve seçmek için \" Kurtar \" a tıklayın,</string>
   <string name="backup_instructions_5">UnlockMaster, seçilen yedekleme dosyasını kullanarak veri geri yükleme gerçekleştirecektir.</string>
-  <string name="backup_considerations_1">Veri kaybını önlemek için ÖNCE yedeği oluşturmalı ve ARDINDAN yeni UnlockMaster'ı yüklemeli ve verileri geri yüklemek için oluşturulan yedeği kullanmalısınız,</string>
+  <string name="backup_considerations_1">Veri kaybını önlemek için ÖNCE yedeği oluşturmalı ve ARDINDAN yeni UnlockMaster\'ı yüklemeli ve verileri geri yüklemek için oluşturulan yedeği kullanmalısınız,</string>
   <string name="backup_considerations_2">Kilit açma sayacı duraklatıldığında yedek geri yükleme gerçekleştirilemez - önce ana ekranda duraklatmayı kaldırmanız gerekir.</string>
-  <string name="notify_over_100">% 100 'den fazla bildir</string>
+  <string name="notify_over_100">% 100 \'den fazla bildir</string>
   <string name="notify_over_100_description">UnlockMaster, kilit açma limitinize ulaştıktan sonra bile harekete geçirici bildirimler gönderir.</string>
   <string name="setting_not_saved">Ayarlar kaydedilmedi</string>
   <string name="setting_not_saved_description">Değiştirdiğiniz ayarlar kaydedilmedi. Değişiklikleri kaydetmek için \"Onayla\" düğmesine tıklayın.</string>
   <string name="exit">Çıkış</string>
+
   <string name="content_description_application_icon">UnlockMaster uygulama simgesi</string>
   <string name="content_description_back_icon">Geri ok simgesi</string>
   <string name="content_description_guidance_icon">Zil simgesi</string>
