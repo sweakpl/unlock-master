@@ -84,7 +84,7 @@
   <string name="screen_on_event_description">Screen On olayı, akıllı telefonunuzun ekranının yandığı (açıldığı) bir durumdur. Örneğin bir bildirim alındıktan veya güç düğmesine basıldıktan sonra olabilir. Bu olay, telefonun kilidinin açık olduğu anlamına gelmez.</string>
   <string name="ok">Tamam</string>
   <string name="history_empty_for_that_day">O güne ait tarih boş</string>
-  <string name="percent_of_limit_reached">Sınırın %% %1$dkadarına ulaşıldı!</string>
+  <string name="percent_of_limit_reached">Sınırın %% %1$d kadarına ulaşıldı!</string>
   <string name="thats_your_unlock_number">Bu, %2$d üzerinden %1$d olan kilit açma numaranız</string>
   <string name="mobilizing_notifications_channel_title">Hatırlatıcıları harekete geçirme</string>
   <string name="mobilizing_notifications_channel_description">Akıllı telefon kullanım hedeflerini hatırlatan bildirimleri göster</string>

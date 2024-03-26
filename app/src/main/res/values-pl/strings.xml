@@ -85,7 +85,7 @@
     <string name="screen_on_event_description">Podświetlenie ekranu to sytuacja, w której ekran smartfona zostaje włączony. Może to nastąpić np. po otrzymaniu powiadomienia lub naciśnięciu przycisku zasilania. Zdarzenie to nie musi oznaczać, że telefon został odblokowany.</string>
     <string name="ok">OK</string>
     <string name="history_empty_for_that_day">Historia jest pusta dla tego dnia</string>
-    <string name="percent_of_limit_reached">Osiągnięto %1$d% limitu!</string>
+    <string name="percent_of_limit_reached">Osiągnięto %1$d%% limitu!</string>
     <string name="thats_your_unlock_number">To twoje odblokowanie %1$d z %2$d</string>
     <string name="mobilizing_notifications_channel_title">Mobilizujące przypomnienia</string>
     <string name="mobilizing_notifications_channel_description">Wyświetlanie powiadomień przypominających o celach związanych z użytkowaniem smartfona</string>
