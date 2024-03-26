@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UnlockMaster</string>
+    <string name="app_name" translatable="false">UnlockMaster</string>
     <string name="your_unlock_count_is">Your unlock count is %1$d/%2$d</string>
     <string name="background_service_notification_channel_title">Background work indication</string>
     <string name="background_service_notification_channel_description">Display an ongoing notification about background service running</string>

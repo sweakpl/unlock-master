@@ -1,5 +1,4 @@
 <resources>
-  <string name="app_name">UnlockMaster</string>
   <string name="your_unlock_count_is">Kilit açma sayınız %1$d/%2$d</string>
   <string name="background_service_notification_channel_title">Arka plan çalışması göstergesi</string>
   <string name="background_service_notification_channel_description">Çalışan arka plan hizmeti hakkında devam eden bir bildirim görüntüleyin</string>
@@ -35,8 +34,6 @@
   <string name="work_in_background_limited_click_to_enable">Arka planda çalışma sınırlıdır. Etkinleştirmek için tıklayın.</string>
   <string name="allow_notifications">UnlockMaster\'ın bildirimleri göstermesine izin ver</string>
   <string name="allow_notifications_description">UnlockMaster, size mobil bildirimler göndermek ve kalıcı bir bildirimle günlük kilit açma işlemlerinizi hatırlatmak için tasarlanmıştır. Bu, uygulamanın bildirim gönderme iznine sahip olmasını gerektirir. Devam etmeden önce bu izni verdiğinizden emin olun:</string>
-  <string name="dontkilmyapp_com" translatable="false">dontkillmyapp.com</string>
-  <string name="dontkilmyapp_com_full_uri" translatable="false">https://dontkillmyapp.com/</string>
   <string name="select_manufacturer_and_follow_instructions">Telefon üreticinizi seçin ve verilen talimatları izleyin.</string>
   <string name="notifications_disabled_click_to_enable">Bildirim izni reddedildi. Etkinleştirmek için tıklayın.</string>
   <string name="_continue">Devam et</string>
