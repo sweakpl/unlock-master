@@ -1,5 +1,6 @@
 package com.sweak.unlockmaster.data.repository
 
+import android.database.sqlite.SQLiteConstraintException
 import com.sweak.unlockmaster.data.local.database.dao.ScreenOnEventsDao
 import com.sweak.unlockmaster.data.local.database.entities.ScreenOnEventEntity
 import com.sweak.unlockmaster.domain.model.UnlockMasterEvent.ScreenOnEvent
@@ -11,9 +12,11 @@ class ScreenOnEventsRepositoryImpl @Inject constructor(
 ) : ScreenOnEventsRepository {
 
     override suspend fun addScreenOnEvent(screenOnEvent: ScreenOnEvent) {
-        screenOnEventsDao.insert(
-            ScreenOnEventEntity(timeInMillis = screenOnEvent.timeInMillis)
-        )
+        try {
+            screenOnEventsDao.insert(
+                ScreenOnEventEntity(timeInMillis = screenOnEvent.timeInMillis)
+            )
+        } catch (_: SQLiteConstraintException) { /* no-op */ }
     }
 
     override suspend fun getLatestScreenOnEvent(): ScreenOnEvent? =
