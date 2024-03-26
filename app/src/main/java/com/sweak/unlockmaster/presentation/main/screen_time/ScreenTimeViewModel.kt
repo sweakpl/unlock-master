@@ -42,7 +42,7 @@ class ScreenTimeViewModel @Inject constructor(
                 durationMillis = getScreenTimeDurationForGivenDayUseCase(displayedDayTimeInMillis),
                 precision = Duration.DisplayPrecision.MINUTES
             ),
-            UIReadySessionEvents =
+            uiReadySessionEvents =
             getSessionEventsForGivenDayUseCase(displayedDayTimeInMillis)
                 .map {
                     when (it) {

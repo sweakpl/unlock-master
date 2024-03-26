@@ -20,13 +20,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.NavigateNext
+import androidx.compose.material.icons.automirrored.outlined.TrendingDown
 import androidx.compose.material.icons.outlined.AppSettingsAlt
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.MoodBad
-import androidx.compose.material.icons.outlined.NavigateNext
 import androidx.compose.material.icons.outlined.NoEncryption
 import androidx.compose.material.icons.outlined.SettingsSuggest
-import androidx.compose.material.icons.outlined.TrendingDown
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -165,7 +165,7 @@ fun ApplicationBlockedScreen(
                 InformationCard(
                     title = stringResource(R.string.missing_data),
                     description = stringResource(R.string.missing_data_description),
-                    icon = Icons.Outlined.TrendingDown,
+                    icon = Icons.AutoMirrored.Outlined.TrendingDown,
                     iconContentDescription = stringResource(
                         R.string.content_description_missing_data_icon
                     ),
@@ -276,7 +276,7 @@ fun ApplicationBlockedScreen(
                             Icon(
                                 imageVector =
                                 if (!applicationBlockedScreenState.isIgnoringBatteryOptimizations) {
-                                    Icons.Outlined.NavigateNext
+                                    Icons.AutoMirrored.Outlined.NavigateNext
                                 } else Icons.Outlined.Done,
                                 contentDescription = stringResource(
                                     if (!applicationBlockedScreenState.isIgnoringBatteryOptimizations) {
@@ -376,7 +376,7 @@ fun ApplicationBlockedScreen(
                         Icon(
                             imageVector =
                             if (!hasUserFinishedBackgroundWorkInstructions) {
-                                Icons.Outlined.NavigateNext
+                                Icons.AutoMirrored.Outlined.NavigateNext
                             } else Icons.Outlined.Done,
                             contentDescription = stringResource(
                                 if (!hasUserFinishedBackgroundWorkInstructions) {

@@ -25,11 +25,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.NavigateNext
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.AppBlocking
 import androidx.compose.material.icons.outlined.Menu
-import androidx.compose.material.icons.outlined.NavigateNext
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -161,7 +161,7 @@ fun HomeScreen(
                         val surfaceColor = MaterialTheme.colorScheme.surface
 
                         CircularProgressIndicator(
-                            progress = progress,
+                            progress = { progress },
                             color = MaterialTheme.colorScheme.secondary,
                             strokeWidth = progressBarStrokeWidth,
                             modifier = Modifier
@@ -274,7 +274,7 @@ fun HomeScreen(
                                 )
 
                                 Icon(
-                                    imageVector = Icons.Outlined.NavigateNext,
+                                    imageVector = Icons.AutoMirrored.Outlined.NavigateNext,
                                     contentDescription = stringResource(
                                         R.string.content_description_next_icon
                                     ),
@@ -306,7 +306,9 @@ fun HomeScreen(
                                 .padding(all = MaterialTheme.space.medium)
                         ) {
                             Row(
-                                horizontalArrangement = Arrangement.SpaceBetween,
+                                horizontalArrangement = Arrangement.spacedBy(
+                                    MaterialTheme.space.medium
+                                ),
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -317,7 +319,7 @@ fun HomeScreen(
                                         else MaterialTheme.space.default
                                     )
                             ) {
-                                Column {
+                                Column(modifier = Modifier.weight(1f)) {
                                     Text(
                                         text = stringResource(R.string.todays_unlock_limit),
                                         style = MaterialTheme.typography.headlineMedium
@@ -350,7 +352,7 @@ fun HomeScreen(
                                         )
 
                                         Icon(
-                                            imageVector = Icons.Outlined.NavigateNext,
+                                            imageVector = Icons.AutoMirrored.Outlined.NavigateNext,
                                             contentDescription = stringResource(
                                                 R.string.content_description_next_icon
                                             )
@@ -383,7 +385,9 @@ fun HomeScreen(
                                         }
                                 ) {
                                     Row(
-                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        horizontalArrangement = Arrangement.spacedBy(
+                                            MaterialTheme.space.medium
+                                        ),
                                         verticalAlignment = Alignment.CenterVertically,
                                         modifier = Modifier.padding(
                                             horizontal = MaterialTheme.space.smallMedium,
@@ -395,9 +399,7 @@ fun HomeScreen(
                                                 R.string.new_unlock_limit_set_for_tomorrow
                                             ),
                                             style = MaterialTheme.typography.titleSmall,
-                                            modifier = Modifier
-                                                .padding(end = MaterialTheme.space.small)
-                                                .weight(1f)
+                                            modifier = Modifier.weight(1f)
                                         )
 
                                         Text(
@@ -425,13 +427,15 @@ fun HomeScreen(
                             )
                     ) {
                         Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
+                            horizontalArrangement = Arrangement.spacedBy(
+                                MaterialTheme.space.medium
+                            ),
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(all = MaterialTheme.space.medium)
                         ) {
-                            Column {
+                            Column(modifier = Modifier.weight(1f)) {
                                 Text(
                                     text = stringResource(R.string.todays_screen_time),
                                     style = MaterialTheme.typography.headlineMedium
@@ -466,7 +470,7 @@ fun HomeScreen(
                                     )
 
                                     Icon(
-                                        imageVector = Icons.Outlined.NavigateNext,
+                                        imageVector = Icons.AutoMirrored.Outlined.NavigateNext,
                                         contentDescription = stringResource(
                                             R.string.content_description_next_icon
                                         )
@@ -539,7 +543,7 @@ fun HomeScreen(
                                     )
 
                                     Icon(
-                                        imageVector = Icons.Outlined.NavigateNext,
+                                        imageVector = Icons.AutoMirrored.Outlined.NavigateNext,
                                         contentDescription = stringResource(
                                             R.string.content_description_next_icon
                                         )

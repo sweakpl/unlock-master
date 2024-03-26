@@ -135,7 +135,7 @@ fun ScreenTimeScreen(
                         )
                     )
 
-                    if (screenTimeScreenState.UIReadySessionEvents.isEmpty()) {
+                    if (screenTimeScreenState.uiReadySessionEvents.isEmpty()) {
                         ElevatedCard(
                             elevation = CardDefaults.elevatedCardElevation(
                                 defaultElevation = MaterialTheme.space.xSmall
@@ -176,7 +176,7 @@ fun ScreenTimeScreen(
                                     TimeFormat.MILITARY
                                 else TimeFormat.AMPM
 
-                            screenTimeScreenState.UIReadySessionEvents.forEach {
+                            screenTimeScreenState.uiReadySessionEvents.forEach {
                                 if (it is ScreenTimeScreenState.UIReadySessionEvent.ScreenTime) {
                                     SingleScreenTimeSessionCard(
                                         screenSessionStartAndEndTimesInMillis =

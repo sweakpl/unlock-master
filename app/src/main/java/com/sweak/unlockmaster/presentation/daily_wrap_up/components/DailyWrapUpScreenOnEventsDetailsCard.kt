@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.HelpOutline
+import androidx.compose.material.icons.automirrored.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -60,7 +60,7 @@ fun DailyWrapUpScreenOnEventsDetailsCard(
                             .size(size = MaterialTheme.space.smallMedium)
                     ) {
                         Icon(
-                            imageVector = Icons.Outlined.HelpOutline,
+                            imageVector = Icons.AutoMirrored.Outlined.HelpOutline,
                             contentDescription = stringResource(
                                 R.string.content_description_help_icon
                             ),

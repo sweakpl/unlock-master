@@ -10,13 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.NavigateNext
 import androidx.compose.material.icons.outlined.AccessTime
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.HorizontalRule
 import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.LockOpen
 import androidx.compose.material.icons.outlined.MyLocation
-import androidx.compose.material.icons.outlined.NavigateNext
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
@@ -120,7 +120,7 @@ fun DailyWrapUpCriterionPreviewCard(
                 )
 
                 Icon(
-                    imageVector = Icons.Outlined.NavigateNext,
+                    imageVector = Icons.AutoMirrored.Outlined.NavigateNext,
                     contentDescription = stringResource(R.string.content_description_next_icon),
                     modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
                 )
@@ -134,8 +134,8 @@ fun DailyWrapUpCriterionPreviewCard(
                     Icon(
                         imageVector = when (progress) {
                             Progress.STABLE -> Icons.Outlined.HorizontalRule
-                            Progress.IMPROVEMENT -> Icons.Outlined.NavigateNext
-                            Progress.REGRESS -> Icons.Outlined.NavigateNext
+                            Progress.IMPROVEMENT -> Icons.AutoMirrored.Outlined.NavigateNext
+                            Progress.REGRESS -> Icons.AutoMirrored.Outlined.NavigateNext
                         },
                         contentDescription = stringResource(
                             when (progress) {

@@ -7,7 +7,7 @@ data class ScreenTimeScreenState(
     val isInitializing: Boolean = true,
     val screenTimeMinutesPerHourEntries: List<Entry> = emptyList(),
     val todayScreenTimeDuration: Duration? = null,
-    val UIReadySessionEvents: List<UIReadySessionEvent> = emptyList()
+    val uiReadySessionEvents: List<UIReadySessionEvent> = emptyList()
 ) {
     sealed class UIReadySessionEvent(val startAndEndTimesInMillis: Pair<Long, Long>) {
         class ScreenTime(

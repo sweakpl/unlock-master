@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.sweak.unlockmaster.presentation.common.theme.space
@@ -79,6 +80,8 @@ fun Dialog(
                         ) {
                             Text(
                                 text = negativeButtonText!!,
+                                overflow = TextOverflow.Ellipsis,
+                                maxLines = 1,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
@@ -92,6 +95,8 @@ fun Dialog(
                     ) {
                         Text(
                             text = positiveButtonText,
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1,
                             modifier = Modifier.padding(MaterialTheme.space.xSmall)
                         )
                     }

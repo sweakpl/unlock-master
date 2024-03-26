@@ -21,9 +21,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.NavigateNext
 import androidx.compose.material.icons.outlined.AppSettingsAlt
 import androidx.compose.material.icons.outlined.Done
-import androidx.compose.material.icons.outlined.NavigateNext
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.NotificationsOff
 import androidx.compose.material.icons.outlined.SettingsSuggest
@@ -234,7 +234,7 @@ fun WorkInBackgroundScreen(
                             Icon(
                                 imageVector =
                                 if (!workInBackgroundScreenState.isIgnoringBatteryOptimizations) {
-                                    Icons.Outlined.NavigateNext
+                                    Icons.AutoMirrored.Outlined.NavigateNext
                                 } else Icons.Outlined.Done,
                                 contentDescription = stringResource(
                                     if (!workInBackgroundScreenState.isIgnoringBatteryOptimizations) {
@@ -343,7 +343,7 @@ fun WorkInBackgroundScreen(
                             if (!hasUserFinishedBackgroundWorkInstructions ||
                                 isLaunchedFromSettings
                             ) {
-                                Icons.Outlined.NavigateNext
+                                Icons.AutoMirrored.Outlined.NavigateNext
                             } else Icons.Outlined.Done,
                             contentDescription = stringResource(
                                 if (!hasUserFinishedBackgroundWorkInstructions ||
@@ -451,7 +451,7 @@ fun WorkInBackgroundScreen(
                             Icon(
                                 imageVector =
                                 if (notificationsPermissionState.status !is PermissionStatus.Granted)
-                                    Icons.Outlined.NavigateNext
+                                    Icons.AutoMirrored.Outlined.NavigateNext
                                 else Icons.Outlined.Done,
                                 contentDescription = stringResource(
                                     if (notificationsPermissionState.status !is PermissionStatus.Granted)

@@ -71,7 +71,7 @@
     <string name="screen_time">Czas przed ekranem</string>
     <string name="screen_time_colon">Czas przed ekranem:</string>
     <string name="screen_time_history">Historia czasu przed ekranem:</string>
-    <string name="hours_amount">%1$dgodz.</string>
+    <string name="hours_amount">%1$dg</string>
     <string name="minutes_amount">%1$dmin</string>
     <string name="seconds_amount">%1$ds</string>
     <string name="counter_paused_colon">Licznik wstrzymany:</string>
@@ -98,7 +98,7 @@
     <string name="click_to_check_progress">Kliknij, aby sprawdzić swoje postępy i wyznaczyć nowe cele z UnlockMaster!</string>
     <string name="daily_wrapup_notifications_channel_title">Przypomnienia o codziennym podsumowaniu</string>
     <string name="daily_wrapup_notifications_channel_description">Wyświetlanie powiadomień przypominających o codziennych sesjach podsumowujących</string>
-    <string name="heres_how_you_did_today">Oto jak ci poszło dzisiaj!</string>
+    <string name="heres_how_you_did_today">Oto jak ci dzisiaj poszło!</string>
     <string name="screen_unlocks_which_is">odblokowań ekranu, czyli</string>
     <string name="more_than_yesterday_and">więcej niż wczoraj i</string>
     <string name="less_than_a_week_before">mniej niż tydzień temu.</string>

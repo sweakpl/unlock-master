@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.NavigateNext
+import androidx.compose.material.icons.automirrored.outlined.NavigateNext
 import androidx.compose.material.icons.outlined.TipsAndUpdates
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -156,7 +156,7 @@ fun DailyWrapUpScreenUnlocksDetailsCard(
                             )
 
                             Icon(
-                                imageVector = Icons.Outlined.NavigateNext,
+                                imageVector = Icons.AutoMirrored.Outlined.NavigateNext,
                                 contentDescription = stringResource(
                                     R.string.content_description_next_icon
                                 )

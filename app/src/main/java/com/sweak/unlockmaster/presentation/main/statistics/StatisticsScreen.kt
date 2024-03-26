@@ -1,11 +1,25 @@
 package com.sweak.unlockmaster.presentation.main.statistics
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.automirrored.outlined.HelpOutline
+import androidx.compose.material.icons.automirrored.outlined.NavigateNext
+import androidx.compose.material.icons.outlined.AccessTime
+import androidx.compose.material.icons.outlined.CalendarMonth
+import androidx.compose.material.icons.outlined.LightMode
+import androidx.compose.material.icons.outlined.LockOpen
+import androidx.compose.material.icons.outlined.MyLocation
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -19,7 +33,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -230,7 +245,7 @@ fun StatisticsScreen(
                                             .size(size = MaterialTheme.space.smallMedium)
                                     ) {
                                         Icon(
-                                            imageVector = Icons.Outlined.HelpOutline,
+                                            imageVector = Icons.AutoMirrored.Outlined.HelpOutline,
                                             contentDescription = stringResource(
                                                 R.string.content_description_help_icon
                                             ),
@@ -300,7 +315,7 @@ fun StatisticsScreen(
                                     )
 
                                     Icon(
-                                        imageVector = Icons.Outlined.NavigateNext,
+                                        imageVector = Icons.AutoMirrored.Outlined.NavigateNext,
                                         contentDescription = stringResource(
                                             R.string.content_description_next_icon
                                         )
