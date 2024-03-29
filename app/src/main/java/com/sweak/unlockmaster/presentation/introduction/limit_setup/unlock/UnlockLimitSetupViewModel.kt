@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.introduction.limit_setup
+package com.sweak.unlockmaster.presentation.introduction.limit_setup.unlock
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,7 +37,7 @@ class UnlockLimitSetupViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val unlockLimitForToday = getUnlockLimitAmountForTodayUseCase()
-            val availableUnlockLimitRangeUseCase = IntRange(
+            val availableUnlockLimitRange = IntRange(
                 start = UNLOCK_LIMIT_LOWER_BOUND,
                 endInclusive = UNLOCK_LIMIT_UPPER_BOUND
             )
@@ -45,7 +45,7 @@ class UnlockLimitSetupViewModel @Inject constructor(
 
             state = state.copy(
                 pickedUnlockLimit = unlockLimitForTomorrow ?: unlockLimitForToday,
-                availableUnlockLimitRange = availableUnlockLimitRangeUseCase,
+                availableUnlockLimitRange = availableUnlockLimitRange,
                 unlockLimitForTomorrow =
                 if (unlockLimitForTomorrow != null && unlockLimitForToday != unlockLimitForTomorrow)
                     unlockLimitForTomorrow

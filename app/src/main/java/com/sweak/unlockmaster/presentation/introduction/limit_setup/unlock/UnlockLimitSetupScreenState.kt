@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.introduction.limit_setup
+package com.sweak.unlockmaster.presentation.introduction.limit_setup.unlock
 
 data class UnlockLimitSetupScreenState(
     val pickedUnlockLimit: Int? = null,

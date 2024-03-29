@@ -1,4 +1,4 @@
-package com.sweak.unlockmaster.presentation.introduction.limit_setup
+package com.sweak.unlockmaster.presentation.introduction.limit_setup.unlock
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
@@ -51,7 +51,7 @@ import com.sweak.unlockmaster.presentation.common.components.ProceedButton
 import com.sweak.unlockmaster.presentation.common.theme.space
 import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
 import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
-import com.sweak.unlockmaster.presentation.introduction.components.NumberPickerSlider
+import com.sweak.unlockmaster.presentation.introduction.components.UnlockLimitPickerSlider
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,7 +69,7 @@ fun UnlockLimitSetupScreen(
                 navController.popBackStackThrottled(lifecycleOwner)
             } else {
                 navController.navigateThrottled(
-                    Screen.WorkInBackgroundScreen.withArguments(false.toString()),
+                    Screen.ScreenTimeLimitSetupScreen.withArguments(false.toString()),
                     lifecycleOwner
                 )
             }
@@ -163,10 +163,10 @@ fun UnlockLimitSetupScreen(
                 if (unlockLimitSetupScreenState.pickedUnlockLimit != null &&
                     unlockLimitSetupScreenState.availableUnlockLimitRange != null
                 ) {
-                    NumberPickerSlider(
-                        pickedNumber = unlockLimitSetupScreenState.pickedUnlockLimit,
-                        numbersRange = unlockLimitSetupScreenState.availableUnlockLimitRange,
-                        onNewNumberPicked = { newUnlockLimit ->
+                    UnlockLimitPickerSlider(
+                        pickedLimit = unlockLimitSetupScreenState.pickedUnlockLimit,
+                        limitRange = unlockLimitSetupScreenState.availableUnlockLimitRange,
+                        onNewLimitPicked = { newUnlockLimit ->
                             unlockLimitSetupViewModel.onEvent(
                                 UnlockLimitSetupScreenEvent.PickNewUnlockLimit(newUnlockLimit)
                             )
@@ -266,7 +266,7 @@ fun UnlockLimitSetupScreen(
 
                 InformationCard(
                     title = stringResource(R.string.adjustability),
-                    description = stringResource(R.string.adjustability_description),
+                    description = stringResource(R.string.adjustability_description_unlock_limit),
                     icon = Icons.Outlined.ModeEdit,
                     iconContentDescription = stringResource(
                         R.string.content_description_edit_icon

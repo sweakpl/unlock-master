@@ -29,13 +29,15 @@ import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_DAILY_WRAP_UP_DAY_MILLIS
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_DISPLAYED_SCREEN_TIME_DAY_MILLIS
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_IS_LAUNCHED_FROM_SETTINGS
+import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_IS_UPDATING_EXISTING_SCREEN_TIME_LIMIT
 import com.sweak.unlockmaster.presentation.common.Screen.Companion.KEY_IS_UPDATING_EXISTING_UNLOCK_LIMIT
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.theme.UnlockMasterTheme
 import com.sweak.unlockmaster.presentation.daily_wrap_up.DailyWrapUpScreen
 import com.sweak.unlockmaster.presentation.introduction.background_work.WorkInBackgroundScreen
 import com.sweak.unlockmaster.presentation.introduction.introduction.IntroductionScreen
-import com.sweak.unlockmaster.presentation.introduction.limit_setup.UnlockLimitSetupScreen
+import com.sweak.unlockmaster.presentation.introduction.limit_setup.screen_time.ScreenTimeLimitSetupScreen
+import com.sweak.unlockmaster.presentation.introduction.limit_setup.unlock.UnlockLimitSetupScreen
 import com.sweak.unlockmaster.presentation.introduction.setup_complete.SetupCompleteScreen
 import com.sweak.unlockmaster.presentation.introduction.welcome.WelcomeScreen
 import com.sweak.unlockmaster.presentation.main.home.HomeScreen
@@ -150,6 +152,24 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             isUpdatingExistingUnlockLimit =
                             it.arguments?.getBoolean(KEY_IS_UPDATING_EXISTING_UNLOCK_LIMIT) ?: true
+                        )
+                    }
+
+                    composable(
+                        route = Screen.ScreenTimeLimitSetupScreen.route
+                                + "/{$KEY_IS_UPDATING_EXISTING_SCREEN_TIME_LIMIT}",
+                        arguments = listOf(
+                            navArgument(KEY_IS_UPDATING_EXISTING_SCREEN_TIME_LIMIT) {
+                                type = NavType.BoolType
+                                nullable = false
+                            }
+                        )
+                    ) {
+                        ScreenTimeLimitSetupScreen(
+                            navController = navController,
+                            isUpdatingExistingScreenTimeLimit = it.arguments?.getBoolean(
+                                KEY_IS_UPDATING_EXISTING_SCREEN_TIME_LIMIT
+                            ) ?: true
                         )
                     }
 

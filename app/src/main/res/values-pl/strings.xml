@@ -53,12 +53,12 @@
     <string name="unlock_limit">Limit odblokowań</string>
     <string name="set_up_unlock_limit">Ustaw swój limit odblokowań</string>
     <string name="set_up_unlock_limit_description">Przed rozpoczęciem korzystania z UnlockMaster należy ustawić limit odblokowań:</string>
-    <string name="unlock_limit_purposes">Limit odblokowania służy tym celom:</string>
+    <string name="unlock_limit_purposes">Limit odblokowań służy tym celom:</string>
     <string name="confirm">Potwierdź</string>
     <string name="reference">Punkt odniesienia</string>
     <string name="reference_description">Limit odblokowań to liczba odblokowań, której nie chcesz przekroczyć w ciągu dnia.</string>
     <string name="adjustability">Możliwość regulacji</string>
-    <string name="adjustability_description">Limit odblokowań może być dostosowany do twoich poprawiających się standardów użytkowania smartfona.</string>
+    <string name="adjustability_description_unlock_limit">Limit odblokowań może być dostosowany do twoich poprawiających się standardów użytkowania smartfona.</string>
     <string name="note_reaching_limit_wont_prevent_unlocking">Uwaga: osiągnięcie limitu odblokowań NIE uniemożliwi odblokowania ekranu.</string>
     <string name="work_in_background">Praca w tle</string>
     <string name="allow_optimal_work_in_background">Pozwól UnlockMaster wydajnie pracować w tle</string>
@@ -91,7 +91,7 @@
     <string name="set_new">Ustaw nowy</string>
     <string name="update_your_unlock_limit">Zaktualizuj limit odblokowań</string>
     <string name="update_your_unlock_limit_description">Możesz zmienić limit odblokowań, aby lepiej dopasować go do swojego stylu korzystania ze smartfona. Nowy limit odblokowania zacznie obowiązywać od jutra:</string>
-    <string name="new_unlock_limit_set_for_tomorrow">Nowy limit odblokowań jest już ustalony na jutro:</string>
+    <string name="new_unlock_limit_set_for_tomorrow">Nowy limit odblokowań jest już ustawiony na jutro:</string>
     <string name="remove_tomorrow_unlock_limit">Usunąć jutrzejszy nowy limit odblokowań?</string>
     <string name="remove_tomorrow_unlock_limit_description">Czy na pewno chcesz anulować nowy limit odblokowań, który wszedłby w życie jutro?</string>
     <string name="yes">Tak</string>
@@ -104,7 +104,7 @@
     <string name="screen_time">Czas przed ekranem</string>
     <string name="screen_time_colon">Czas przed ekranem:</string>
     <string name="screen_time_history">Historia czasu przed ekranem:</string>
-    <string name="hours_amount">%1$dg</string>
+    <string name="hours_amount">%1$dh</string>
     <string name="minutes_amount">%1$dmin</string>
     <string name="seconds_amount">%1$ds</string>
     <string name="counter_paused_colon">Licznik wstrzymany:</string>
@@ -252,4 +252,16 @@
     <string name="content_description_suggested_settings_icon">Ikona sugerowanego ustawienia</string>
     <string name="content_description_download_icon">Ikona pobierania</string>
     <string name="content_description_upload_icon">Ikona przesyłania</string>
+    <string name="set_up_screen_time_limit">Ustaw swój limit czasu przed ekranem</string>
+    <string name="screen_time_limit">Limit czasu przed ekranem</string>
+    <string name="set_up_screen_time_limit_description">Możesz ustawić dzienny limit czasu przed ekranem lub go wyłączyć:</string>
+    <string name="new_screen_time_limit_set_for_tomorrow">Nowy limit czasu przed ekranem jest już ustawiony na jutro:</string>
+    <string name="screen_time_limit_purposes">Limit czasu przed ekranem służy tym celom:</string>
+    <string name="complementation_description">Limit czasu przed ekranem wraz z limitem odblokowań pozwala jeszcze dokładniej kontrolować nawyki użytkowania.</string>
+    <string name="complementation">Uzupełnienie</string>
+    <string name="content_description_complementing_layers_icon">Ikona uzupełniających się warstw</string>
+    <string name="adjustability_description_screen_time_limit">Limit czasu przed ekranem może być dostosowany do twoich poprawiających się standardów użytkowania smartfona.</string>
+    <string name="remove_tomorrow_screen_time_limit">Usunąć jutrzejszy nowy limit czasu przed ekranem?</string>
+    <string name="remove_tomorrow_screen_time_limit_description">Czy na pewno chcesz anulować nowy limit czasu przed ekranem, który wszedłby w życie jutro?</string>
+    <string name="enable_screen_time_limit">Włącz limit czasu przed ekranem</string>
 </resources>

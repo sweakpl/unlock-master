@@ -49,7 +49,7 @@
     <string name="reference">Reference</string>
     <string name="reference_description">Unlock limit is a number of unlocks that you don’t want to exceed during the day.</string>
     <string name="adjustability">Adjustability</string>
-    <string name="adjustability_description">Unlock limit can be adjusted to meet your improving smartphone usage standards.</string>
+    <string name="adjustability_description_unlock_limit">Unlock limit can be adjusted to meet your improving smartphone usage standards.</string>
     <string name="note_reaching_limit_wont_prevent_unlocking">Note: reaching your unlock limit will NOT prevent you from unlocking your screen.</string>
     <string name="work_in_background">Work in background</string>
     <string name="allow_optimal_work_in_background">Allow UnlockMaster to efficiently work in background</string>
@@ -246,4 +246,16 @@
     <string name="content_description_suggested_settings_icon">Suggested setting icon</string>
     <string name="content_description_download_icon">Download icon</string>
     <string name="content_description_upload_icon">Upload icon</string>
+    <string name="set_up_screen_time_limit">Set up your screen time limit</string>
+    <string name="screen_time_limit">Screen time limit</string>
+    <string name="set_up_screen_time_limit_description">You can set your daily screen time limit or disable it:</string>
+    <string name="new_screen_time_limit_set_for_tomorrow">New screen time limit is already set for tomorrow:</string>
+    <string name="screen_time_limit_purposes">Screen time limit serves these purposes:</string>
+    <string name="complementation_description">Screen time limit along with unlock limit lets you control usage habits even more precise.</string>
+    <string name="complementation">Complementation</string>
+    <string name="content_description_complementing_layers_icon">Complementing layers icon</string>
+    <string name="adjustability_description_screen_time_limit">Screen time limit can be adjusted to meet your improving smartphone usage standards.</string>
+    <string name="remove_tomorrow_screen_time_limit">Remove tomorrow’s new screen time limit?</string>
+    <string name="remove_tomorrow_screen_time_limit_description">Are you sure you want to cancel the new screen time limit that would take effect tomorrow?</string>
+    <string name="enable_screen_time_limit">Enable screen time limit</string>
 </resources>

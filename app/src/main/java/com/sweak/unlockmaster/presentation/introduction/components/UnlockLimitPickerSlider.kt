@@ -21,10 +21,10 @@ import com.sweak.unlockmaster.presentation.common.theme.space
 import kotlin.math.roundToInt
 
 @Composable
-fun NumberPickerSlider(
-    pickedNumber: Int,
-    numbersRange: IntRange,
-    onNewNumberPicked: (Int) -> Unit,
+fun UnlockLimitPickerSlider(
+    pickedLimit: Int,
+    limitRange: IntRange,
+    onNewLimitPicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -32,7 +32,7 @@ fun NumberPickerSlider(
         modifier = modifier
     ) {
         Text(
-            text = pickedNumber.toString(),
+            text = pickedLimit.toString(),
             style = MaterialTheme.typography.displayLarge.copy(fontSize = 48.sp),
             modifier = Modifier.padding(bottom = MaterialTheme.space.small)
         )
@@ -42,8 +42,8 @@ fun NumberPickerSlider(
         ) {
             IconButton(
                 onClick = {
-                    if (pickedNumber > numbersRange.first) {
-                        onNewNumberPicked(pickedNumber - 1)
+                    if (pickedLimit > limitRange.first) {
+                        onNewLimitPicked(pickedLimit - 1)
                     }
                 }
             ) {
@@ -55,18 +55,18 @@ fun NumberPickerSlider(
             }
 
             Slider(
-                value = pickedNumber.toFloat(),
+                value = pickedLimit.toFloat(),
                 onValueChange = {
-                    onNewNumberPicked(it.roundToInt())
+                    onNewLimitPicked(it.roundToInt())
                 },
-                valueRange = numbersRange.run { first.toFloat()..last.toFloat() },
+                valueRange = limitRange.run { first.toFloat()..last.toFloat() },
                 modifier = Modifier.weight(1f)
             )
 
             IconButton(
                 onClick = {
-                    if (pickedNumber < numbersRange.last) {
-                        onNewNumberPicked(pickedNumber + 1)
+                    if (pickedLimit < limitRange.last) {
+                        onNewLimitPicked(pickedLimit + 1)
                     }
                 }
             ) {
