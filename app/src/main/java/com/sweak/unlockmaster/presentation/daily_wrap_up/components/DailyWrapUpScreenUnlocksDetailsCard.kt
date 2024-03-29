@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import com.sweak.unlockmaster.R
@@ -55,10 +56,17 @@ fun DailyWrapUpScreenUnlocksDetailsCard(
                 )
 
                 Text(
-                    text = stringResource(
-                        if (detailsData.yesterdayDifference != null) R.string.screen_unlocks_which_is
-                        else R.string.screen_unlocks_today
-                    ),
+                    text = if (detailsData.yesterdayDifference != null) {
+                        pluralStringResource(
+                            R.plurals.screen_unlocks_which_is,
+                            detailsData.screenUnlocksCount
+                        )
+                    } else {
+                        pluralStringResource(
+                            R.plurals.screen_unlocks_today,
+                            detailsData.screenUnlocksCount
+                        )
+                    },
                     style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier.alignByBaseline()
                 )

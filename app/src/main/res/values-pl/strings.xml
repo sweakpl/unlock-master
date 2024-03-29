@@ -1,5 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <plurals name="unlocks">
+        <item quantity="one">Odblokowanie</item>
+        <item quantity="few">Odblokowania</item>
+        <item quantity="many">Odblokowań</item>
+        <item quantity="other">Odblokowań</item>
+    </plurals>
+
+    <plurals name="screen_unlocks_which_is">
+        <item quantity="one">odblokowanie ekranu, czyli</item>
+        <item quantity="few">odblokowania ekranu, czyli</item>
+        <item quantity="many">odblokowań ekranu, czyli</item>
+        <item quantity="other">odblokowań ekranu, czyli</item>
+    </plurals>
+
+    <plurals name="screen_turn_ons_which_is">
+        <item quantity="one">podświetlenie ekranu, czyli</item>
+        <item quantity="few">podświetlenia ekranu, czyli</item>
+        <item quantity="many">podświetleń ekranu, czyli</item>
+        <item quantity="other">podświetleń ekranu, czyli</item>
+    </plurals>
+
+    <plurals name="screen_turn_ons_today">
+        <item quantity="one">podświetlenie ekranu dzisiaj.</item>
+        <item quantity="few">podświetlenia ekranu dzisiaj.</item>
+        <item quantity="many">podświetleń ekranu dzisiaj.</item>
+        <item quantity="other">podświetleń ekranu dzisiaj.</item>
+    </plurals>
+
+    <plurals name="screen_unlocks_today">
+        <item quantity="one">odblokowanie ekranu dzisiaj.</item>
+        <item quantity="few">odblokowania ekranu dzisiaj.</item>
+        <item quantity="many">odblokowań ekranu dzisiaj.</item>
+        <item quantity="other">odblokowań ekranu dzisiaj.</item>
+    </plurals>
+
     <string name="your_unlock_count_is">Twoja liczba odblokowań to %1$d/%2$d</string>
     <string name="background_service_notification_channel_title">Sygnalizacja pracy w tle</string>
     <string name="background_service_notification_channel_description">Wyświetla stałe powiadomienie o uruchomionym serwisie w tle</string>
@@ -52,7 +86,6 @@
     <string name="note_you_can_change_time_of_notifications">Uwaga: zawsze możesz zmienić częstotliwość i czas tych powiadomień w ustawieniach.</string>
     <string name="lets_go">Zaczynajmy!</string>
     <string name="setup_complete">Konfiguracja zakończona</string>
-    <string name="unlocks">Odblokowania</string>
     <string name="unlock_master_paused">UnlockMaster (wstrzymany)</string>
     <string name="todays_unlock_limit">Dzisiejszy limit odblokowań:</string>
     <string name="set_new">Ustaw nowy</string>
@@ -99,7 +132,6 @@
     <string name="daily_wrapup_notifications_channel_title">Przypomnienia o codziennym podsumowaniu</string>
     <string name="daily_wrapup_notifications_channel_description">Wyświetlanie powiadomień przypominających o codziennych sesjach podsumowujących</string>
     <string name="heres_how_you_did_today">Oto jak ci dzisiaj poszło!</string>
-    <string name="screen_unlocks_which_is">odblokowań ekranu, czyli</string>
     <string name="more_than_yesterday_and">więcej niż wczoraj i</string>
     <string name="less_than_a_week_before">mniej niż tydzień temu.</string>
     <string name="compare_with_other_days">Możesz porównać z innymi dniami:</string>
@@ -107,15 +139,12 @@
     <string name="less_than_yesterday_and">mniej niż wczoraj i</string>
     <string name="more_than_a_week_before">więcej niż tydzień temu.</string>
     <string name="see_your_screen_time_breakdown">Możesz zobaczyć rozkład czasu spędzanego przed ekranem:</string>
-    <string name="was_your_unlock_limit">był twoim limitem odblokowań.</string>
+    <string name="was_your_unlock_limit">było twoim limitem odblokowań.</string>
     <string name="recommended_to_update">Zaleca się aktualizację do</string>
     <string name="for_more_improvements">dla jeszcze większej poprawy!</string>
     <string name="apply_suggested_unlock_limit">Zastosuj sugerowany limit odblokowań już teraz:</string>
     <string name="update">Zaktualizuj</string>
-    <string name="screen_turn_ons_which_is">podświetleń ekranu, czyli</string>
-    <string name="screen_turn_ons_today">podświetleń ekranu dzisiaj.</string>
     <string name="as_much_as_yesterday_and">tyle samo, co wczoraj i</string>
-    <string name="screen_unlocks_today">odblokowań ekranu dzisiaj.</string>
     <string name="less_than_yesterday">mniej niż wczoraj.</string>
     <string name="more_than_yesterday">więcej niż wczoraj.</string>
     <string name="as_much_as_yesterday">tyle samo, co wczoraj.</string>

@@ -1,4 +1,29 @@
 <resources>
+  <plurals name="unlocks">
+      <item quantity="one">Kilit açma</item>
+      <item quantity="other">Kilit açma</item>
+  </plurals>
+
+    <plurals name="screen_unlocks_which_is">
+        <item quantity="one">ekran kilidini açma</item>
+        <item quantity="other">ekran kilidi açılır</item>
+    </plurals>
+
+    <plurals name="screen_turn_ons_which_is">
+        <item quantity="one">ekran açma</item>
+        <item quantity="other">ekran açılışları</item>
+    </plurals>
+
+    <plurals name="screen_turn_ons_today">
+        <item quantity="one">bugün ekran açılıyor.</item>
+        <item quantity="other">bugün ekran açılışları.</item>
+    </plurals>
+
+    <plurals name="screen_unlocks_today">
+        <item quantity="one">ekran kilidini bugün aç.</item>
+        <item quantity="other">ekran kilidi bugün açılıyor.</item>
+    </plurals>
+
   <string name="your_unlock_count_is">Kilit açma sayınız %1$d/%2$d</string>
   <string name="background_service_notification_channel_title">Arka plan çalışması göstergesi</string>
   <string name="background_service_notification_channel_description">Çalışan arka plan hizmeti hakkında devam eden bir bildirim görüntüleyin</string>
@@ -51,7 +76,6 @@
   <string name="note_you_can_change_time_of_notifications">Not: Bu bildirimlerin sıklığını ve saatini istediğiniz zaman ayarlardan değiştirebilirsiniz.</string>
   <string name="lets_go">Hadi gidelim!</string>
   <string name="setup_complete">Kurulum tamamlandı</string>
-  <string name="unlocks">Kilidi açar</string>
   <string name="unlock_master_paused">UnlockMaster (duraklatıldı)</string>
   <string name="todays_unlock_limit">Bugünün kilit açma limiti:</string>
   <string name="set_new">Yeni ayarla</string>
@@ -98,7 +122,6 @@
   <string name="daily_wrapup_notifications_channel_title">Günlük özet hatırlatıcıları</string>
   <string name="daily_wrapup_notifications_channel_description">Günlük özet oturumlarını hatırlatan bildirimleri göster</string>
   <string name="heres_how_you_did_today">İşte bugün yaptığın şey!</string>
-  <string name="screen_unlocks_which_is">ekran kilidi açılır</string>
   <string name="more_than_yesterday_and">dünden daha fazla ve</string>
   <string name="less_than_a_week_before">bir haftadan az bir süre önce.</string>
   <string name="compare_with_other_days">Diğer günlerle karşılaştırabilirsiniz:</string>
@@ -111,10 +134,7 @@
   <string name="for_more_improvements">daha da fazla iyileştirme için!</string>
   <string name="apply_suggested_unlock_limit">Önerilen kilit açma sınırını şimdi uygulayın:</string>
   <string name="update">Güncelle</string>
-  <string name="screen_turn_ons_which_is">ekran açılışları</string>
-  <string name="screen_turn_ons_today">bugün ekran açılışları.</string>
   <string name="as_much_as_yesterday_and">dün olduğu kadar ve</string>
-  <string name="screen_unlocks_today">ekran bugün açılır.</string>
   <string name="less_than_yesterday">dünden daha az.</string>
   <string name="more_than_yesterday">dünden daha fazla.</string>
   <string name="as_much_as_yesterday">dün olduğu kadar.</string>

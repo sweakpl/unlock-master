@@ -1,4 +1,29 @@
 <resources>
+    <plurals name="unlocks">
+        <item quantity="one">Unlock</item>
+        <item quantity="other">Unlocks</item>
+    </plurals>
+
+    <plurals name="screen_unlocks_which_is">
+        <item quantity="one">screen unlock which is</item>
+        <item quantity="other">screen unlocks which is</item>
+    </plurals>
+
+    <plurals name="screen_turn_ons_which_is">
+        <item quantity="one">screen turn-on which is</item>
+        <item quantity="other">screen turn-ons which is</item>
+    </plurals>
+
+    <plurals name="screen_turn_ons_today">
+        <item quantity="one">screen turn-on today.</item>
+        <item quantity="other">screen turn-ons today.</item>
+    </plurals>
+
+    <plurals name="screen_unlocks_today">
+        <item quantity="one">screen unlock today.</item>
+        <item quantity="other">screen unlocks today.</item>
+    </plurals>
+
     <string name="app_name" translatable="false">UnlockMaster</string>
     <string name="your_unlock_count_is">Your unlock count is %1$d/%2$d</string>
     <string name="background_service_notification_channel_title">Background work indication</string>
@@ -54,7 +79,6 @@
     <string name="note_you_can_change_time_of_notifications">Note: you can always change the frequency and time of those notifications in the settings.</string>
     <string name="lets_go">Let\'s go!</string>
     <string name="setup_complete">Setup complete</string>
-    <string name="unlocks">Unlocks</string>
     <string name="unlock_master_paused">UnlockMaster (paused)</string>
     <string name="todays_unlock_limit">Today\'s unlock limit:</string>
     <string name="set_new">Set new</string>
@@ -101,7 +125,6 @@
     <string name="daily_wrapup_notifications_channel_title">Daily wrap-up reminders</string>
     <string name="daily_wrapup_notifications_channel_description">Display notifications reminding about daily wrap-up sessions</string>
     <string name="heres_how_you_did_today">Here\'s how you did today!</string>
-    <string name="screen_unlocks_which_is">screen unlocks which is</string>
     <string name="more_than_yesterday_and">more than yesterday and</string>
     <string name="less_than_a_week_before">less than a week before.</string>
     <string name="compare_with_other_days">You can compare with other days:</string>
@@ -114,10 +137,7 @@
     <string name="for_more_improvements">for even more improvements!</string>
     <string name="apply_suggested_unlock_limit">Apply the suggested unlock limit now:</string>
     <string name="update">Update</string>
-    <string name="screen_turn_ons_which_is">screen turn-ons which is</string>
-    <string name="screen_turn_ons_today">screen turn-ons today.</string>
     <string name="as_much_as_yesterday_and">as much as yesterday and</string>
-    <string name="screen_unlocks_today">screen unlocks today.</string>
     <string name="less_than_yesterday">less than yesterday.</string>
     <string name="more_than_yesterday">more than yesterday.</string>
     <string name="as_much_as_yesterday">as much as yesterday.</string>
