@@ -272,10 +272,7 @@ fun ScreenTimeLimitSetupScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(
-                                horizontal = MaterialTheme.space.medium,
-                                vertical = MaterialTheme.space.small
-                            )
+                            .padding(all = MaterialTheme.space.medium)
                     ) {
                         Column(
                             modifier = Modifier
@@ -284,8 +281,12 @@ fun ScreenTimeLimitSetupScreen(
                         ) {
                             Text(
                                 text = stringResource(R.string.enable_screen_time_limit),
-                                style = MaterialTheme.typography.displaySmall,
-                                modifier = Modifier.padding(end = MaterialTheme.space.medium)
+                                style = MaterialTheme.typography.displaySmall
+                            )
+
+                            Text(
+                                text = stringResource(R.string.enable_screen_time_limit_description),
+                                style = MaterialTheme.typography.titleMedium
                             )
                         }
 

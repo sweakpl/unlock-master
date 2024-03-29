@@ -12,5 +12,8 @@ data class HomeScreenState(
     val shouldShowUnlockMasterBlockedWarning: Boolean = false,
     val unlockLimitForTomorrow: Int? = null,
     val todayScreenTimeDuration: Duration? = null,
+    val isScreenTimeLimitEnabled: Boolean = true,
+    val screenTimeLimitMinutes: Int? = null,
+    val screenTimeLimitForTomorrowMinutes: Int? = null,
     val lastWeekUnlockEventCounts: List<BarEntry> = emptyList()
 )

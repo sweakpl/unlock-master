@@ -70,9 +70,9 @@
     <string name="allow_notifications">Zezwól UnlockMaster na wyświetlanie powiadomień</string>
     <string name="allow_notifications_description">UnlockMaster został zaprojektowany do wysyłania mobilizujących powiadomień i przypominania o dziennych odblokowaniach za pomocą stałego powiadomienia. Wymaga to, aby aplikacja miała uprawnienia do wyświetlania powiadomień. Upewnij się, że udzieliłeś tego pozwolenia przed kontynuowaniem:</string>
     <string name="select_manufacturer_and_follow_instructions">Wybierz producenta swojego telefonu i postępuj zgodnie z wyświetlanymi instrukcjami.</string>
-    <string name="notifications_disabled_click_to_enable">Uprawnienia do wyświetlania powiadomień jest zablokowane. Kliknij, aby zezwolić.</string>
+    <string name="notifications_disabled_click_to_enable">Uprawnienie do wyświetlania powiadomień jest zablokowane. Kliknij, aby zezwolić.</string>
     <string name="_continue">Kontynuuj</string>
-    <string name="notifications_enabled">Zezwolenie na wyświetlanie powiadomień zostało przyznane. Dobra robota!</string>
+    <string name="notifications_enabled">Uprawnienie na wyświetlanie powiadomień zostało przyznane. Dobra robota!</string>
     <string name="notifications_permission_required">Wymagane zezwolenie na wyświetlanie powiadomień</string>
     <string name="notifications_permission_required_description">Zezwolenie na wyświetlanie powiadomień jest niezbędne do prawidłowego działania UnlockMaster. Przejdź do ustawień, aby je przyznać.</string>
     <string name="settings">Ustawienia</string>
@@ -264,4 +264,6 @@
     <string name="remove_tomorrow_screen_time_limit">Usunąć jutrzejszy nowy limit czasu przed ekranem?</string>
     <string name="remove_tomorrow_screen_time_limit_description">Czy na pewno chcesz anulować nowy limit czasu przed ekranem, który wszedłby w życie jutro?</string>
     <string name="enable_screen_time_limit">Włącz limit czasu przed ekranem</string>
+    <string name="enable_screen_time_limit_description">Wyłączenie limitu spowoduje wyłączenie limitu czasu przed ekranem z powiadomień mobilizujących i codziennych podsumowań.</string>
+    <string name="todays_screen_time_limit">Dzisiejszy limit czasu przed ekranem:</string>
 </resources>

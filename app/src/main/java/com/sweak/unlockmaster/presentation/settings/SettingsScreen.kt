@@ -73,6 +73,19 @@ fun SettingsScreen(navController: NavController) {
                 )
 
                 SettingsEntry(
+                    settingsEntryTitle = stringResource(R.string.screen_time_limit),
+                    onEntryClick = {
+                        navController.navigateThrottled(
+                            Screen.ScreenTimeLimitSetupScreen.withArguments(
+                                true.toString()
+                            ),
+                            lifecycleOwner
+                        )
+                    },
+                    modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
+                )
+
+                SettingsEntry(
                     settingsEntryTitle = stringResource(R.string.work_in_background),
                     onEntryClick = {
                         navController.navigateThrottled(

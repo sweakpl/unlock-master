@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.BarEntry
+import com.sweak.unlockmaster.domain.DEFAULT_SCREEN_TIME_LIMIT_MINUTES
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.use_case.screen_time.GetScreenTimeDurationForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetLastWeekUnlockEventCountsUseCase
@@ -52,6 +53,9 @@ class HomeViewModel @Inject constructor(
                 durationMillis = getScreenTimeDurationForGivenDayUseCase(),
                 precision = Duration.DisplayPrecision.MINUTES
             ),
+            isScreenTimeLimitEnabled = userSessionRepository.isScreenTimeLimitEnabled(),
+            screenTimeLimitMinutes = DEFAULT_SCREEN_TIME_LIMIT_MINUTES, // TODO
+            screenTimeLimitForTomorrowMinutes = null, // TODO
             lastWeekUnlockEventCounts = getLastWeekUnlockEventCountsUseCase().mapIndexed { x, y ->
                 BarEntry(x.toFloat(), y.toFloat())
             }

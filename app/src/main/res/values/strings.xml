@@ -258,4 +258,6 @@
     <string name="remove_tomorrow_screen_time_limit">Remove tomorrow’s new screen time limit?</string>
     <string name="remove_tomorrow_screen_time_limit_description">Are you sure you want to cancel the new screen time limit that would take effect tomorrow?</string>
     <string name="enable_screen_time_limit">Enable screen time limit</string>
+    <string name="enable_screen_time_limit_description">If you disable the limit it will exclude screen time limit from mobilizing notifications and daily wrap-ups.</string>
+    <string name="todays_screen_time_limit">Today’s screen time limit:</string>
 </resources>

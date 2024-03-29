@@ -115,6 +115,17 @@ class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepos
             preferences[ARE_OVER_UNLOCK_LIMIT_MOBILIZING_NOTIFICATIONS_ENABLED] ?: true
         }.first()
 
+    override suspend fun setScreenTimeLimitEnabled(isEnabled: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[IS_SCREEN_TIME_LIMIT_ENABLED] = isEnabled
+        }
+    }
+
+    override suspend fun isScreenTimeLimitEnabled(): Boolean =
+        context.dataStore.data.map { preferences ->
+            preferences[IS_SCREEN_TIME_LIMIT_ENABLED] ?: true
+        }.first()
+
     companion object {
         val IS_INTRODUCTION_FINISHED = booleanPreferencesKey("isIntroductionFinished")
         val IS_UNLOCK_COUNTER_PAUSED = booleanPreferencesKey("isUnlockCounterPaused")
@@ -129,5 +140,6 @@ class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepos
         val UI_THEME_MODE = stringPreferencesKey("uiThemeMode")
         val ARE_OVER_UNLOCK_LIMIT_MOBILIZING_NOTIFICATIONS_ENABLED =
             booleanPreferencesKey("areOverUnlockLimitMobilizingNotificationsEnabled")
+        val IS_SCREEN_TIME_LIMIT_ENABLED = booleanPreferencesKey("isScreenTimeLimitEnabled")
     }
 }

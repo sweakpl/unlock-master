@@ -10,6 +10,7 @@ import com.sweak.unlockmaster.domain.DEFAULT_SCREEN_TIME_LIMIT_MINUTES
 import com.sweak.unlockmaster.domain.SCREEN_TIME_LIMIT_INTERVAL_MINUTES
 import com.sweak.unlockmaster.domain.SCREEN_TIME_LIMIT_MINUTES_LOWER_BOUND
 import com.sweak.unlockmaster.domain.SCREEN_TIME_LIMIT_MINUTES_UPPER_BOUND
+import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.presentation.common.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -19,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ScreenTimeLimitSetupViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    private val userSessionRepository: UserSessionRepository
 ) : ViewModel() {
 
     private val isUpdatingExistingScreenTimeLimit: Boolean =
@@ -41,6 +43,7 @@ class ScreenTimeLimitSetupViewModel @Inject constructor(
                 pickedScreenTimeLimitMinutes = DEFAULT_SCREEN_TIME_LIMIT_MINUTES, // TODO
                 availableScreenTimeLimitRange = availableScreenTimeLimitRangeUseCase,
                 screenTimeLimitIntervalMinutes = SCREEN_TIME_LIMIT_INTERVAL_MINUTES,
+                isScreenTimeLimitEnabled = userSessionRepository.isScreenTimeLimitEnabled(),
                 screenTimeLimitMinutesForTomorrow = null // TODO
             )
         }
@@ -63,8 +66,10 @@ class ScreenTimeLimitSetupViewModel @Inject constructor(
                 }
             }
             is ScreenTimeLimitSetupScreenEvent.ToggleScreenTimeLimitEnabledState -> {
-                // TODO
-                state = state.copy(isScreenTimeLimitEnabled = event.isEnabled)
+                viewModelScope.launch {
+                    userSessionRepository.setScreenTimeLimitEnabled(isEnabled = event.isEnabled)
+                    state = state.copy(isScreenTimeLimitEnabled = event.isEnabled)
+                }
             }
             is ScreenTimeLimitSetupScreenEvent.IsRemoveScreenTimeLimitForTomorrowDialogVisible -> {
                 state = state.copy(

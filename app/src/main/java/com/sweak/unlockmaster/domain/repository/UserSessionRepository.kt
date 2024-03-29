@@ -20,5 +20,6 @@ interface UserSessionRepository {
     fun getUiThemeModeFlow(): Flow<UiThemeMode>
     suspend fun setOverUnlockLimitMobilizingNotificationsEnabled(areEnabled: Boolean)
     suspend fun areOverUnlockLimitMobilizingNotificationsEnabled(): Boolean
-
+    suspend fun setScreenTimeLimitEnabled(isEnabled: Boolean)
+    suspend fun isScreenTimeLimitEnabled(): Boolean
 }

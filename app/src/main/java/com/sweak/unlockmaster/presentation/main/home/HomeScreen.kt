@@ -67,6 +67,7 @@ import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.theme.space
+import com.sweak.unlockmaster.presentation.common.util.Duration
 import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
 import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
 import com.sweak.unlockmaster.presentation.main.home.components.WeeklyUnlocksChart
@@ -479,6 +480,148 @@ fun HomeScreen(
                                             R.string.content_description_next_icon
                                         )
                                     )
+                                }
+                            }
+                        }
+                    }
+
+                    AnimatedVisibility(
+                        visible = homeScreenState.isScreenTimeLimitEnabled &&
+                                homeScreenState.screenTimeLimitMinutes != null
+                    ) {
+                        ElevatedCard(
+                            elevation = CardDefaults.elevatedCardElevation(
+                                defaultElevation = MaterialTheme.space.xSmall
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    start = MaterialTheme.space.medium,
+                                    end = MaterialTheme.space.medium,
+                                    bottom = MaterialTheme.space.small
+                                )
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(all = MaterialTheme.space.medium)
+                            ) {
+                                Row(
+                                    horizontalArrangement = Arrangement.spacedBy(
+                                        MaterialTheme.space.medium
+                                    ),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(
+                                            bottom =
+                                            if (homeScreenState.screenTimeLimitForTomorrowMinutes != null)
+                                                MaterialTheme.space.smallMedium
+                                            else MaterialTheme.space.default
+                                        )
+                                ) {
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            text = stringResource(R.string.todays_screen_time_limit),
+                                            style = MaterialTheme.typography.headlineMedium
+                                        )
+
+                                        Text(
+                                            text = getCompactDurationString(
+                                                Duration(
+                                                    durationMillis =
+                                                    homeScreenState.screenTimeLimitMinutes!! * 60000L,
+                                                    precision = Duration.DisplayPrecision.MINUTES
+                                                )
+                                            ),
+                                            style = MaterialTheme.typography.displayMedium
+                                        )
+                                    }
+
+                                    Button(
+                                        onClick = {
+                                            navController.navigateThrottled(
+                                                Screen.ScreenTimeLimitSetupScreen.withArguments(
+                                                    true.toString()
+                                                ),
+                                                lifecycleOwner
+                                            )
+                                        }
+                                    ) {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Text(
+                                                text = stringResource(R.string.set_new),
+                                                style = MaterialTheme.typography.titleMedium,
+                                                modifier = Modifier
+                                                    .padding(end = MaterialTheme.space.small)
+                                            )
+
+                                            Icon(
+                                                imageVector = Icons.AutoMirrored.Outlined.NavigateNext,
+                                                contentDescription = stringResource(
+                                                    R.string.content_description_next_icon
+                                                )
+                                            )
+                                        }
+                                    }
+                                }
+
+                                AnimatedVisibility(
+                                    visible =
+                                    homeScreenState.screenTimeLimitForTomorrowMinutes != null,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    OutlinedCard(
+                                        colors = CardDefaults.outlinedCardColors(
+                                            containerColor = Color.Transparent
+                                        ),
+                                        border = BorderStroke(
+                                            width = 2.dp,
+                                            color = MaterialTheme.colorScheme.tertiary
+                                        ),
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clickable {
+                                                navController.navigateThrottled(
+                                                    Screen.ScreenTimeLimitSetupScreen.withArguments(
+                                                        true.toString()
+                                                    ),
+                                                    lifecycleOwner
+                                                )
+                                            }
+                                    ) {
+                                        Row(
+                                            horizontalArrangement = Arrangement.spacedBy(
+                                                MaterialTheme.space.medium
+                                            ),
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            modifier = Modifier.padding(
+                                                horizontal = MaterialTheme.space.smallMedium,
+                                                vertical = MaterialTheme.space.small
+                                            )
+                                        ) {
+                                            Text(
+                                                text = stringResource(
+                                                    R.string.new_screen_time_limit_set_for_tomorrow
+                                                ),
+                                                style = MaterialTheme.typography.titleSmall,
+                                                modifier = Modifier.weight(1f)
+                                            )
+
+                                            Text(
+                                                text = getCompactDurationString(
+                                                    Duration(
+                                                        durationMillis =
+                                                        homeScreenState.screenTimeLimitForTomorrowMinutes!! * 60000L,
+                                                        precision = Duration.DisplayPrecision.MINUTES
+                                                    )
+                                                ),
+                                                style = MaterialTheme.typography.displayMedium
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }

@@ -255,4 +255,6 @@
     <string name="remove_tomorrow_screen_time_limit">Yarınki yeni ekran süresi sınırını kaldıralım mı?</string>
     <string name="remove_tomorrow_screen_time_limit_description">Yarın yürürlüğe girecek olan yeni ekran süresi sınırını iptal etmek istediğinizden emin misiniz?</string>
     <string name="enable_screen_time_limit">Ekran süresi sınırını etkinleştirin</string>
+    <string name="enable_screen_time_limit_description">Sınırı devre dışı bırakırsanız, ekran süresi sınırı bildirimleri ve günlük özetleri mobilize etmekten hariç tutulacaktır.</string>
+    <string name="todays_screen_time_limit">Bugünün ekran süresi sınırı:</string>
 </resources>
