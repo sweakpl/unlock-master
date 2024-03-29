@@ -221,17 +221,19 @@ fun ScreenTimeLimitSetupScreen(
                                     style = MaterialTheme.typography.titleSmall
                                 )
 
-                                Text(
-                                    text = getCompactDurationString(
-                                        Duration(
-                                            durationMillis =
-                                            screenTimeLimitSetupScreenState
-                                                .screenTimeLimitMinutesForTomorrow!! * 60000L,
-                                            precision = Duration.DisplayPrecision.MINUTES
+                                screenTimeLimitSetupScreenState.screenTimeLimitMinutesForTomorrow
+                                    ?.let { screenTimeLimitMinutesForTomorrow ->
+                                        Text(
+                                            text = getCompactDurationString(
+                                                Duration(
+                                                    durationMillis =
+                                                    screenTimeLimitMinutesForTomorrow * 60000L,
+                                                    precision = Duration.DisplayPrecision.MINUTES
+                                                )
+                                            ),
+                                            style = MaterialTheme.typography.displayMedium
                                         )
-                                    ),
-                                    style = MaterialTheme.typography.displayMedium
-                                )
+                                    }
                             }
 
                             IconButton(

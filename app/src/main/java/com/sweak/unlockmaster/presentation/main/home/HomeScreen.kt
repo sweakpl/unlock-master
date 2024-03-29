@@ -526,16 +526,19 @@ fun HomeScreen(
                                             style = MaterialTheme.typography.headlineMedium
                                         )
 
-                                        Text(
-                                            text = getCompactDurationString(
-                                                Duration(
-                                                    durationMillis =
-                                                    homeScreenState.screenTimeLimitMinutes!! * 60000L,
-                                                    precision = Duration.DisplayPrecision.MINUTES
+                                        homeScreenState.screenTimeLimitMinutes
+                                            ?.let { screenTimeLimitMinutes ->
+                                                Text(
+                                                    text = getCompactDurationString(
+                                                        Duration(
+                                                            durationMillis =
+                                                            screenTimeLimitMinutes * 60000L,
+                                                            precision = Duration.DisplayPrecision.MINUTES
+                                                        )
+                                                    ),
+                                                    style = MaterialTheme.typography.displayMedium
                                                 )
-                                            ),
-                                            style = MaterialTheme.typography.displayMedium
-                                        )
+                                            }
                                     }
 
                                     Button(
@@ -610,16 +613,19 @@ fun HomeScreen(
                                                 modifier = Modifier.weight(1f)
                                             )
 
-                                            Text(
-                                                text = getCompactDurationString(
-                                                    Duration(
-                                                        durationMillis =
-                                                        homeScreenState.screenTimeLimitForTomorrowMinutes!! * 60000L,
-                                                        precision = Duration.DisplayPrecision.MINUTES
+                                            homeScreenState.screenTimeLimitForTomorrowMinutes
+                                                ?.let { screenTimeLimitForTomorrowMinutes ->
+                                                    Text(
+                                                        text = getCompactDurationString(
+                                                            Duration(
+                                                                durationMillis =
+                                                                screenTimeLimitForTomorrowMinutes * 60000L,
+                                                                precision = Duration.DisplayPrecision.MINUTES
+                                                            )
+                                                        ),
+                                                        style = MaterialTheme.typography.displayMedium
                                                     )
-                                                ),
-                                                style = MaterialTheme.typography.displayMedium
-                                            )
+                                                }
                                         }
                                     }
                                 }
