@@ -6,11 +6,13 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sweak.unlockmaster.domain.DEFAULT_SCREEN_TIME_LIMIT_MINUTES
 import com.sweak.unlockmaster.domain.SCREEN_TIME_LIMIT_INTERVAL_MINUTES
 import com.sweak.unlockmaster.domain.SCREEN_TIME_LIMIT_MINUTES_LOWER_BOUND
 import com.sweak.unlockmaster.domain.SCREEN_TIME_LIMIT_MINUTES_UPPER_BOUND
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
+import com.sweak.unlockmaster.domain.use_case.screen_time_limits.AddOrUpdateScreenTimeLimitForTodayUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_time_limits.GetScreenTimeLimitMinutesForTodayUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_time_limits.GetScreenTimeLimitMinutesForTomorrowUseCase
 import com.sweak.unlockmaster.presentation.common.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -21,7 +23,10 @@ import javax.inject.Inject
 @HiltViewModel
 class ScreenTimeLimitSetupViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val userSessionRepository: UserSessionRepository
+    private val userSessionRepository: UserSessionRepository,
+    private val addOrUpdateScreenTimeLimitForTodayUseCase: AddOrUpdateScreenTimeLimitForTodayUseCase,
+    private val getScreenTimeLimitMinutesForTodayUseCase: GetScreenTimeLimitMinutesForTodayUseCase,
+    private val getScreenTimeLimitMinutesForTomorrowUseCase: GetScreenTimeLimitMinutesForTomorrowUseCase
 ) : ViewModel() {
 
     private val isUpdatingExistingScreenTimeLimit: Boolean =
@@ -34,17 +39,23 @@ class ScreenTimeLimitSetupViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            val screenTimeLimitForToday = getScreenTimeLimitMinutesForTodayUseCase()
             val availableScreenTimeLimitRangeUseCase = IntRange(
                 start = SCREEN_TIME_LIMIT_MINUTES_LOWER_BOUND,
                 endInclusive = SCREEN_TIME_LIMIT_MINUTES_UPPER_BOUND
             )
+            val screenTimeLimitForTomorrow = getScreenTimeLimitMinutesForTomorrowUseCase()
 
             state = state.copy(
                 isScreenTimeLimitEnabled = userSessionRepository.isScreenTimeLimitEnabled(),
-                pickedScreenTimeLimitMinutes = DEFAULT_SCREEN_TIME_LIMIT_MINUTES, // TODO
+                pickedScreenTimeLimitMinutes = screenTimeLimitForToday,
                 availableScreenTimeLimitRange = availableScreenTimeLimitRangeUseCase,
                 screenTimeLimitIntervalMinutes = SCREEN_TIME_LIMIT_INTERVAL_MINUTES,
-                screenTimeLimitMinutesForTomorrow = null // TODO
+                screenTimeLimitMinutesForTomorrow =
+                if (screenTimeLimitForTomorrow != null &&
+                    screenTimeLimitForToday != screenTimeLimitForTomorrow
+                ) screenTimeLimitForTomorrow
+                else null
             )
         }
     }
@@ -60,7 +71,12 @@ class ScreenTimeLimitSetupViewModel @Inject constructor(
             is ScreenTimeLimitSetupScreenEvent.SubmitSelectedScreenTimeLimit -> {
                 state.pickedScreenTimeLimitMinutes?.let {
                     viewModelScope.launch {
-                        // TODO
+                        if (isUpdatingExistingScreenTimeLimit) {
+                            // TODO
+                        } else {
+                            addOrUpdateScreenTimeLimitForTodayUseCase(limitAmountMinutes = it)
+                        }
+
                         screenTimeLimitSubmittedEventsChannel.send(ScreenTimeLimitSubmittedEvent)
                     }
                 }

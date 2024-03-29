@@ -11,10 +11,11 @@ import com.sweak.unlockmaster.data.local.database.entities.*
         LockEventEntity::class,
         ScreenOnEventEntity::class,
         UnlockLimitEntity::class,
+        ScreenTimeLimitEntity::class,
         CounterPausedEventEntity::class,
         CounterUnpausedEventEntity::class
     ],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 abstract class UnlockMasterDatabase : RoomDatabase() {
@@ -22,6 +23,7 @@ abstract class UnlockMasterDatabase : RoomDatabase() {
     abstract fun lockEventsDao(): LockEventsDao
     abstract fun screenOnEventsDao(): ScreenOnEventsDao
     abstract fun unlockLimitsDao(): UnlockLimitsDao
+    abstract fun screenTimeLimitsDao(): ScreenTimeLimitsDao
     abstract fun counterPausedEventsDao(): CounterPausedEventsDao
     abstract fun counterUnpausedEventsDao(): CounterUnpausedEventsDao
 }

@@ -14,29 +14,18 @@ class AddOrUpdateUnlockLimitForTodayUseCase @Inject constructor(
             timeInMillis = timeRepository.getCurrentTimeInMillis()
         )
         val todayBeginningTimeInMillis = timeRepository.getTodayBeginningTimeInMillis()
+        val newUnlockLimit = UnlockLimit(
+            limitApplianceTimeInMillis = todayBeginningTimeInMillis,
+            limitAmount = limitAmount
+        )
 
         if (latestUnlockLimit == null) {
-            unlockLimitsRepository.addUnlockLimit(
-                unlockLimit = UnlockLimit(
-                    limitApplianceTimeInMillis = todayBeginningTimeInMillis,
-                    limitAmount = limitAmount
-                )
-            )
+            unlockLimitsRepository.addUnlockLimit(unlockLimit = newUnlockLimit)
         } else {
             if (latestUnlockLimit.limitApplianceTimeInMillis < todayBeginningTimeInMillis) {
-                unlockLimitsRepository.addUnlockLimit(
-                    unlockLimit = UnlockLimit(
-                        limitApplianceTimeInMillis = todayBeginningTimeInMillis,
-                        limitAmount = limitAmount
-                    )
-                )
+                unlockLimitsRepository.addUnlockLimit(unlockLimit = newUnlockLimit)
             } else {
-                unlockLimitsRepository.updateUnlockLimit(
-                    unlockLimit = UnlockLimit(
-                        limitApplianceTimeInMillis = todayBeginningTimeInMillis,
-                        limitAmount = limitAmount
-                    )
-                )
+                unlockLimitsRepository.updateUnlockLimit(unlockLimit = newUnlockLimit)
             }
         }
     }

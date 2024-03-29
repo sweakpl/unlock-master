@@ -6,9 +6,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.BarEntry
-import com.sweak.unlockmaster.domain.DEFAULT_SCREEN_TIME_LIMIT_MINUTES
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.use_case.screen_time.GetScreenTimeDurationForGivenDayUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_time_limits.GetScreenTimeLimitMinutesForTodayUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_time_limits.GetScreenTimeLimitMinutesForTomorrowUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetLastWeekUnlockEventCountsUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
@@ -24,6 +25,8 @@ class HomeViewModel @Inject constructor(
     private val getUnlockEventsCountForGivenDayUseCase: GetUnlockEventsCountForGivenDayUseCase,
     private val getUnlockLimitAmountForTodayUseCase: GetUnlockLimitAmountForTodayUseCase,
     private val getUnlockLimitAmountForTomorrowUseCase: GetUnlockLimitAmountForTomorrowUseCase,
+    private val getScreenTimeLimitMinutesForTodayUseCase: GetScreenTimeLimitMinutesForTodayUseCase,
+    private val getScreenTimeLimitMinutesForTomorrowUseCase: GetScreenTimeLimitMinutesForTomorrowUseCase,
     private val getScreenTimeDurationForGivenDayUseCase: GetScreenTimeDurationForGivenDayUseCase,
     private val getLastWeekUnlockEventCountsUseCase: GetLastWeekUnlockEventCountsUseCase,
     private val userSessionRepository: UserSessionRepository
@@ -39,6 +42,8 @@ class HomeViewModel @Inject constructor(
 
         val unlockLimitForToday = getUnlockLimitAmountForTodayUseCase()
         val unlockLimitForTomorrow = getUnlockLimitAmountForTomorrowUseCase()
+        val screenTimeLimitForToday = getScreenTimeLimitMinutesForTodayUseCase()
+        val screenTimeLimitForTomorrow = getScreenTimeLimitMinutesForTomorrowUseCase()
 
         state = state.copy(
             isInitializing = false,
@@ -54,8 +59,10 @@ class HomeViewModel @Inject constructor(
                 precision = Duration.DisplayPrecision.MINUTES
             ),
             isScreenTimeLimitEnabled = userSessionRepository.isScreenTimeLimitEnabled(),
-            screenTimeLimitMinutes = DEFAULT_SCREEN_TIME_LIMIT_MINUTES, // TODO
-            screenTimeLimitForTomorrowMinutes = null, // TODO
+            screenTimeLimitMinutes = screenTimeLimitForToday,
+            screenTimeLimitForTomorrowMinutes =
+            if (screenTimeLimitForTomorrow != screenTimeLimitForToday) screenTimeLimitForTomorrow
+            else null,
             lastWeekUnlockEventCounts = getLastWeekUnlockEventCountsUseCase().mapIndexed { x, y ->
                 BarEntry(x.toFloat(), y.toFloat())
             }

@@ -67,11 +67,11 @@ class UnlockLimitSetupViewModel @Inject constructor(
                     viewModelScope.launch {
                         if (isUpdatingExistingUnlockLimit) {
                             addOrUpdateUnlockLimitForTomorrowUseCase(limitAmount = it)
-                            unlockLimitSubmittedEventsChannel.send(UnlockLimitSubmittedEvent)
                         } else {
                             addOrUpdateUnlockLimitForTodayUseCase(limitAmount = it)
-                            unlockLimitSubmittedEventsChannel.send(UnlockLimitSubmittedEvent)
                         }
+
+                        unlockLimitSubmittedEventsChannel.send(UnlockLimitSubmittedEvent)
                     }
                 }
             }

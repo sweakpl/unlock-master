@@ -69,7 +69,7 @@ object ApplicationModule {
                 UnlockMasterDatabase::class.java,
                 "unlock_master_database"
             )
-            .fallbackToDestructiveMigration()
+            .fallbackToDestructiveMigration() // TODO
             .build()
 
     @Provides
@@ -96,6 +96,11 @@ object ApplicationModule {
     @Singleton
     fun provideUnlockLimitsDao(database: UnlockMasterDatabase): UnlockLimitsDao =
         database.unlockLimitsDao()
+
+    @Provides
+    @Singleton
+    fun provideScreenTimeLimitsDao(database: UnlockMasterDatabase): ScreenTimeLimitsDao =
+        database.screenTimeLimitsDao()
 
     @Provides
     @Singleton
@@ -126,6 +131,12 @@ object ApplicationModule {
     @Singleton
     fun provideUnlockLimitsRepository(unlockLimitsDao: UnlockLimitsDao): UnlockLimitsRepository =
         UnlockLimitsRepositoryImpl(unlockLimitsDao)
+
+    @Provides
+    @Singleton
+    fun provideScreenTimeLimitsRepository(
+        screenTimeLimitsDao: ScreenTimeLimitsDao
+    ): ScreenTimeLimitsRepository = ScreenTimeLimitsRepositoryImpl(screenTimeLimitsDao)
 
     @Provides
     @Singleton
