@@ -11,6 +11,8 @@ import com.sweak.unlockmaster.domain.SCREEN_TIME_LIMIT_MINUTES_LOWER_BOUND
 import com.sweak.unlockmaster.domain.SCREEN_TIME_LIMIT_MINUTES_UPPER_BOUND
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.use_case.screen_time_limits.AddOrUpdateScreenTimeLimitForTodayUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_time_limits.AddOrUpdateScreenTimeLimitForTomorrowUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_time_limits.DeleteScreenTimeLimitForTomorrowUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_time_limits.GetScreenTimeLimitMinutesForTodayUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_time_limits.GetScreenTimeLimitMinutesForTomorrowUseCase
 import com.sweak.unlockmaster.presentation.common.Screen
@@ -25,8 +27,10 @@ class ScreenTimeLimitSetupViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val userSessionRepository: UserSessionRepository,
     private val addOrUpdateScreenTimeLimitForTodayUseCase: AddOrUpdateScreenTimeLimitForTodayUseCase,
+    private val addOrUpdateScreenTimeLimitForTomorrowUseCase: AddOrUpdateScreenTimeLimitForTomorrowUseCase,
     private val getScreenTimeLimitMinutesForTodayUseCase: GetScreenTimeLimitMinutesForTodayUseCase,
-    private val getScreenTimeLimitMinutesForTomorrowUseCase: GetScreenTimeLimitMinutesForTomorrowUseCase
+    private val getScreenTimeLimitMinutesForTomorrowUseCase: GetScreenTimeLimitMinutesForTomorrowUseCase,
+    private val deleteScreenTimeLimitForTomorrowUseCase: DeleteScreenTimeLimitForTomorrowUseCase
 ) : ViewModel() {
 
     private val isUpdatingExistingScreenTimeLimit: Boolean =
@@ -72,7 +76,7 @@ class ScreenTimeLimitSetupViewModel @Inject constructor(
                 state.pickedScreenTimeLimitMinutes?.let {
                     viewModelScope.launch {
                         if (isUpdatingExistingScreenTimeLimit) {
-                            // TODO
+                            addOrUpdateScreenTimeLimitForTomorrowUseCase(limitAmountMinutes = it)
                         } else {
                             addOrUpdateScreenTimeLimitForTodayUseCase(limitAmountMinutes = it)
                         }
@@ -93,11 +97,13 @@ class ScreenTimeLimitSetupViewModel @Inject constructor(
                 )
             }
             is ScreenTimeLimitSetupScreenEvent.ConfirmRemoveScreenTimeLimitForTomorrow -> {
-                // TODO
-                state = state.copy(
-                    screenTimeLimitMinutesForTomorrow = null,
-                    isRemoveScreenTimeLimitForTomorrowDialogVisible = false
-                )
+                viewModelScope.launch {
+                    deleteScreenTimeLimitForTomorrowUseCase()
+                    state = state.copy(
+                        screenTimeLimitMinutesForTomorrow = null,
+                        isRemoveScreenTimeLimitForTomorrowDialogVisible = false
+                    )
+                }
             }
             is ScreenTimeLimitSetupScreenEvent.IsSettingsNotSavedDialogVisible -> {
                 state = state.copy(isSettingsNotSavedDialogVisible =  event.isVisible)

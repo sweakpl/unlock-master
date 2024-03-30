@@ -9,4 +9,5 @@ interface ScreenTimeLimitsRepository {
     suspend fun getScreenTimeLimitWithApplianceTime(
         limitApplianceTimeInMillis: Long
     ): ScreenTimeLimit?
+    suspend fun deleteScreenTimeLimitWithApplianceTime(limitApplianceTimeInMillis: Long)
 }

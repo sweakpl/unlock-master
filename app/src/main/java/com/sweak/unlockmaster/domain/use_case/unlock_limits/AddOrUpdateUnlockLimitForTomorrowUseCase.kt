@@ -17,18 +17,17 @@ class AddOrUpdateUnlockLimitForTomorrowUseCase @Inject constructor(
         val unlockLimitForTomorrow = unlockLimitsRepository.getUnlockLimitWithApplianceTime(
             limitApplianceTimeInMillis = tomorrowBeginningTimeInMillis
         )
+        val newUnlockLimit = UnlockLimit(
+            limitApplianceTimeInMillis = tomorrowBeginningTimeInMillis,
+            limitAmount = limitAmount
+        )
 
         if (unlockLimitForTomorrow == null) {
             if (currentUnlockLimit?.limitAmount == limitAmount) {
                 return
             }
 
-            unlockLimitsRepository.addUnlockLimit(
-                unlockLimit = UnlockLimit(
-                    limitApplianceTimeInMillis = tomorrowBeginningTimeInMillis,
-                    limitAmount = limitAmount
-                )
-            )
+            unlockLimitsRepository.addUnlockLimit(unlockLimit = newUnlockLimit)
         } else {
             if (currentUnlockLimit?.limitAmount == limitAmount) {
                 unlockLimitsRepository.deleteUnlockLimitWithApplianceTime(
@@ -37,12 +36,7 @@ class AddOrUpdateUnlockLimitForTomorrowUseCase @Inject constructor(
                 return
             }
 
-            unlockLimitsRepository.updateUnlockLimit(
-                unlockLimit = UnlockLimit(
-                    limitApplianceTimeInMillis = tomorrowBeginningTimeInMillis,
-                    limitAmount = limitAmount
-                )
-            )
+            unlockLimitsRepository.updateUnlockLimit(unlockLimit = newUnlockLimit)
         }
     }
 }

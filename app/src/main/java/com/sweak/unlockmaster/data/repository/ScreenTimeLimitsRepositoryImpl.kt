@@ -52,4 +52,15 @@ class ScreenTimeLimitsRepositoryImpl(
                     limitAmountMinutes = it.limitAmountMinutes
                 )
             }
+
+    override suspend fun deleteScreenTimeLimitWithApplianceTime(limitApplianceTimeInMillis: Long) {
+        getScreenTimeLimitWithApplianceTime(limitApplianceTimeInMillis)?.let {
+            screenTimeLimitsDao.delete(
+                ScreenTimeLimitEntity(
+                    limitApplianceDayTimeInMillis = it.limitApplianceTimeInMillis,
+                    limitAmountMinutes = it.limitAmountMinutes
+                )
+            )
+        }
+    }
 }
