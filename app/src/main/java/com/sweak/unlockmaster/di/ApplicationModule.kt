@@ -69,7 +69,7 @@ object ApplicationModule {
                 UnlockMasterDatabase::class.java,
                 "unlock_master_database"
             )
-            .fallbackToDestructiveMigration() // TODO
+            .addMigrations(UnlockMasterDatabase.MIGRATION_5_6)
             .build()
 
     @Provides
