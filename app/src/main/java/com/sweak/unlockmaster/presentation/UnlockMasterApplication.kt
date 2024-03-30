@@ -10,8 +10,11 @@ import android.os.Build
 import android.provider.Settings
 import androidx.core.app.NotificationManagerCompat
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.domain.DEFAULT_SCREEN_TIME_LIMIT_MINUTES
+import com.sweak.unlockmaster.domain.repository.ScreenTimeLimitsRepository
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpNotificationsUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_time_limits.AddOrUpdateScreenTimeLimitForTodayUseCase
 import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UPS_NOTIFICATIONS_CHANNEL_ID
 import com.sweak.unlockmaster.presentation.background_work.FOREGROUND_SERVICE_NOTIFICATION_CHANNEL_ID
 import com.sweak.unlockmaster.presentation.background_work.MOBILIZING_NOTIFICATION_CHANNEL_ID
@@ -30,7 +33,13 @@ class UnlockMasterApplication : Application() {
     lateinit var userSessionRepository: UserSessionRepository
 
     @Inject
+    lateinit var screenTimeLimitsRepository: ScreenTimeLimitsRepository
+
+    @Inject
     lateinit var scheduleDailyWrapUpNotificationsUseCase: ScheduleDailyWrapUpNotificationsUseCase
+
+    @Inject
+    lateinit var addOrUpdateScreenTimeLimitForTodayUseCase: AddOrUpdateScreenTimeLimitForTodayUseCase
 
     override fun onCreate() {
         super.onCreate()
@@ -38,6 +47,7 @@ class UnlockMasterApplication : Application() {
         createNotificationChannelsIfVersionRequires()
         checkForPotentialBackgroundWorkIssues()
         setUpUnlockMasterServiceAndDailyWrapUpsIfUserHasFinishedIntroduction()
+        addInitialScreenTimeLimitIfUserIsMissingInitialScreenTimeLimit()
     }
 
     private fun createNotificationChannelsIfVersionRequires() {
@@ -114,6 +124,18 @@ class UnlockMasterApplication : Application() {
                 }
 
                 scheduleDailyWrapUpNotificationsUseCase()
+            }
+        }
+    }
+
+    private fun addInitialScreenTimeLimitIfUserIsMissingInitialScreenTimeLimit() {
+        runBlocking {
+            val allScreenTimeLimits = screenTimeLimitsRepository.getAllScreenTimeLimits()
+
+            if (userSessionRepository.isIntroductionFinished() && allScreenTimeLimits.isEmpty()) {
+                addOrUpdateScreenTimeLimitForTodayUseCase(
+                    limitAmountMinutes = DEFAULT_SCREEN_TIME_LIMIT_MINUTES
+                )
             }
         }
     }

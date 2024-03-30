@@ -63,4 +63,12 @@ class ScreenTimeLimitsRepositoryImpl(
             )
         }
     }
+
+    override suspend fun getAllScreenTimeLimits(): List<ScreenTimeLimit> =
+        screenTimeLimitsDao.getAllScreenTimeLimits().map {
+            ScreenTimeLimit(
+                limitApplianceTimeInMillis = it.limitApplianceDayTimeInMillis,
+                limitAmountMinutes = it.limitAmountMinutes
+            )
+        }
 }
