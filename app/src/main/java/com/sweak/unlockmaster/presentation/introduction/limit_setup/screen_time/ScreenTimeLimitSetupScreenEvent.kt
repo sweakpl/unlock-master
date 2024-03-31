@@ -7,8 +7,9 @@ sealed class ScreenTimeLimitSetupScreenEvent {
 
     data object SubmitSelectedScreenTimeLimit : ScreenTimeLimitSetupScreenEvent()
 
-    data class ToggleScreenTimeLimitEnabledState(
-        val isEnabled: Boolean
+    data class ToggleScreenTimeLimitState(
+        val isEnabled: Boolean,
+        val screenTimeLimitStateChangedCallback: (Boolean) -> Unit
     ) : ScreenTimeLimitSetupScreenEvent()
 
     data object ConfirmRemoveScreenTimeLimitForTomorrow : ScreenTimeLimitSetupScreenEvent()

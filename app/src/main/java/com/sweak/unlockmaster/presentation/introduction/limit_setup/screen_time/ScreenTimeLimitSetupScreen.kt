@@ -1,5 +1,6 @@
 package com.sweak.unlockmaster.presentation.introduction.limit_setup.screen_time
 
+import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
@@ -38,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -45,6 +47,8 @@ import androidx.compose.ui.unit.times
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.presentation.background_work.ACTION_SCREEN_TIME_LIMIT_STATE_CHANGED
+import com.sweak.unlockmaster.presentation.background_work.EXTRA_IS_SCREEN_TIME_LIMIT_ENABLED
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.InformationCard
@@ -292,13 +296,27 @@ fun ScreenTimeLimitSetupScreen(
                             )
                         }
 
+                        val context = LocalContext.current
+
                         Switch(
                             checked = screenTimeLimitSetupScreenState.isScreenTimeLimitEnabled,
                             onCheckedChange = { isChecked ->
                                 screenTimeLimitSetupViewModel.onEvent(
                                     ScreenTimeLimitSetupScreenEvent
-                                        .ToggleScreenTimeLimitEnabledState(
-                                            isEnabled = isChecked
+                                        .ToggleScreenTimeLimitState(
+                                            isEnabled = isChecked,
+                                            screenTimeLimitStateChangedCallback = {
+                                                context.sendBroadcast(
+                                                    Intent(ACTION_SCREEN_TIME_LIMIT_STATE_CHANGED)
+                                                        .apply {
+                                                            setPackage(context.packageName)
+                                                            putExtra(
+                                                                EXTRA_IS_SCREEN_TIME_LIMIT_ENABLED,
+                                                                it
+                                                            )
+                                                        }
+                                                )
+                                            }
                                         )
                                 )
                             },

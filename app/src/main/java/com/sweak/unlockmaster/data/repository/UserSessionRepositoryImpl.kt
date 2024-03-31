@@ -10,6 +10,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.sweak.unlockmaster.domain.DEFAULT_DAILY_WRAP_UPS_NOTIFICATIONS_TIME_IN_MINUTES_PAST_MIDNIGHT
 import com.sweak.unlockmaster.domain.DEFAULT_MOBILIZING_NOTIFICATIONS_FREQUENCY_PERCENTAGE
+import com.sweak.unlockmaster.domain.model.ScreenTimeLimitWarningState
 import com.sweak.unlockmaster.domain.model.UiThemeMode
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import kotlinx.coroutines.flow.Flow
@@ -126,6 +127,21 @@ class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepos
             preferences[IS_SCREEN_TIME_LIMIT_ENABLED] ?: true
         }.first()
 
+    override suspend fun setScreenTimeLimitWarningState(state: ScreenTimeLimitWarningState) {
+        context.dataStore.edit { preferences ->
+            preferences[SCREEN_TIME_LIMIT_WARNING_STATE] = state.ordinal
+        }
+    }
+
+    override suspend fun getScreenTimeLimitWarningState(): ScreenTimeLimitWarningState {
+        val screenTimeLimitWarningStateOrdinal = context.dataStore.data.map { preferences ->
+            preferences[SCREEN_TIME_LIMIT_WARNING_STATE]
+                ?: ScreenTimeLimitWarningState.NO_WARNINGS_FIRED.ordinal
+        }.first()
+
+        return ScreenTimeLimitWarningState.entries[screenTimeLimitWarningStateOrdinal]
+    }
+
     companion object {
         val IS_INTRODUCTION_FINISHED = booleanPreferencesKey("isIntroductionFinished")
         val IS_UNLOCK_COUNTER_PAUSED = booleanPreferencesKey("isUnlockCounterPaused")
@@ -141,5 +157,6 @@ class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepos
         val ARE_OVER_UNLOCK_LIMIT_MOBILIZING_NOTIFICATIONS_ENABLED =
             booleanPreferencesKey("areOverUnlockLimitMobilizingNotificationsEnabled")
         val IS_SCREEN_TIME_LIMIT_ENABLED = booleanPreferencesKey("isScreenTimeLimitEnabled")
+        val SCREEN_TIME_LIMIT_WARNING_STATE = intPreferencesKey("screenTimeLimitWarningState")
     }
 }

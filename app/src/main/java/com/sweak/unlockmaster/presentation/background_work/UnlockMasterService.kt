@@ -13,12 +13,18 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.domain.model.ScreenTimeLimitWarningState
+import com.sweak.unlockmaster.domain.model.ScreenTimeLimitWarningState.NO_WARNINGS_FIRED
+import com.sweak.unlockmaster.domain.model.ScreenTimeLimitWarningState.WARNING_15_MINUTES_TO_LIMIT_FIRED
+import com.sweak.unlockmaster.domain.model.ScreenTimeLimitWarningState.WARNING_LIMIT_REACHED_FIRED
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.use_case.counter_pause.AddCounterPausedEventUseCase
 import com.sweak.unlockmaster.domain.use_case.counter_pause.AddCounterUnpausedEventUseCase
 import com.sweak.unlockmaster.domain.use_case.lock_events.AddLockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.lock_events.ShouldAddLockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.AddScreenOnEventUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_time.GetScreenTimeDurationForGivenDayUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_time_limits.GetScreenTimeLimitMinutesForTodayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.AddUnlockEventUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
@@ -27,12 +33,15 @@ import com.sweak.unlockmaster.presentation.background_work.global_receivers.Shut
 import com.sweak.unlockmaster.presentation.background_work.global_receivers.screen_event_receivers.ScreenLockReceiver
 import com.sweak.unlockmaster.presentation.background_work.global_receivers.screen_event_receivers.ScreenOnReceiver
 import com.sweak.unlockmaster.presentation.background_work.global_receivers.screen_event_receivers.ScreenUnlockReceiver
+import com.sweak.unlockmaster.presentation.background_work.local_receivers.ScreenTimeLimitStateReceiver
 import com.sweak.unlockmaster.presentation.background_work.local_receivers.UnlockCounterPauseReceiver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -73,15 +82,23 @@ class UnlockMasterService : Service() {
     @Inject
     lateinit var addCounterUnpausedEventUseCase: AddCounterUnpausedEventUseCase
 
+    @Inject
+    lateinit var getScreenTimeDurationForGivenDayUseCase: GetScreenTimeDurationForGivenDayUseCase
+
+    @Inject
+    lateinit var getScreenTimeLimitMinutesForTodayUseCase: GetScreenTimeLimitMinutesForTodayUseCase
+
     private val unlockCounterPauseReceiver = UnlockCounterPauseReceiver().apply {
         onCounterPauseChanged = { isPaused ->
             serviceScope.launch {
                 if (isPaused) {
                     unregisterScreenEventReceivers()
                     addCounterPausedEventUseCase()
+                    stopScreenTimeMonitoring()
                 } else {
                     addCounterUnpausedEventUseCase()
                     registerScreenEventReceivers()
+                    launchScreenTimeMonitoringIfEnabled()
                 }
 
                 try {
@@ -100,10 +117,23 @@ class UnlockMasterService : Service() {
         }
     }
 
+    private val screenTimeLimitStateReceiver = ScreenTimeLimitStateReceiver().apply {
+        onScreenTimeLimitStateChanged = { isEnabled ->
+            serviceScope.launch {
+                if (isEnabled && !userSessionRepository.isUnlockCounterPaused()) {
+                    launchScreenTimeMonitoringIfEnabled()
+                } else {
+                    stopScreenTimeMonitoring()
+                }
+            }
+        }
+    }
+
     private val screenUnlockReceiver = ScreenUnlockReceiver().apply {
         onScreenUnlock = {
             serviceScope.launch {
                 addUnlockEventUseCase()
+                launchScreenTimeMonitoringIfEnabled()
 
                 val currentUnlockCount = getUnlockEventsCountForGivenDayUseCase()
                 val currentUnlockLimit = getUnlockLimitAmountForTodayUseCase()
@@ -119,7 +149,7 @@ class UnlockMasterService : Service() {
                         createNewServiceNotification(currentUnlockCount, currentUnlockLimit, false)
                     )
 
-                    showMobilizingNotificationIfNeeded(
+                    showUnlockLimitMobilizingNotificationIfNeeded(
                         currentUnlockCount,
                         currentUnlockLimit,
                         mobilizingNotificationsFrequencyPercentage,
@@ -135,6 +165,7 @@ class UnlockMasterService : Service() {
             serviceScope.launch {
                 if (shouldAddLockEventUseCase()) {
                     addLockEventUseCase()
+                    stopScreenTimeMonitoring()
                 }
             }
         }
@@ -150,6 +181,47 @@ class UnlockMasterService : Service() {
 
     private val shutdownReceiver by lazy { ShutdownReceiver() }
 
+    private var screenTimeMonitoringJob: Job? = null
+
+    private suspend fun launchScreenTimeMonitoringIfEnabled() {
+        if (!userSessionRepository.isScreenTimeLimitEnabled()) {
+            return
+        }
+
+        screenTimeMonitoringJob?.cancel()
+        screenTimeMonitoringJob = serviceScope.launch {
+            while (true) {
+                delay(150000) // Wait for 2.5 minutes
+
+                val screenTimeLimitMillis = getScreenTimeLimitMinutesForTodayUseCase() * 60000
+                val currentScreenTimeMillis = getScreenTimeDurationForGivenDayUseCase()
+                val timeLeftUntilLimit = screenTimeLimitMillis - currentScreenTimeMillis
+                val screenTimeLimitWarningState =
+                    userSessionRepository.getScreenTimeLimitWarningState()
+
+                if (timeLeftUntilLimit <= 0) { // Limit reached
+                    if (screenTimeLimitWarningState != WARNING_LIMIT_REACHED_FIRED) {
+                        userSessionRepository
+                            .setScreenTimeLimitWarningState(WARNING_LIMIT_REACHED_FIRED)
+                        showScreenTimeLimitNotification(WARNING_LIMIT_REACHED_FIRED)
+                    }
+                } else if (timeLeftUntilLimit <= 900000) { // Less than 15 minutes
+                    if (screenTimeLimitWarningState != WARNING_15_MINUTES_TO_LIMIT_FIRED) {
+                        userSessionRepository
+                            .setScreenTimeLimitWarningState(WARNING_15_MINUTES_TO_LIMIT_FIRED)
+                        showScreenTimeLimitNotification(WARNING_15_MINUTES_TO_LIMIT_FIRED)
+                    }
+                } else {
+                    if (screenTimeLimitWarningState != NO_WARNINGS_FIRED) {
+                        userSessionRepository.setScreenTimeLimitWarningState(NO_WARNINGS_FIRED)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun stopScreenTimeMonitoring() = screenTimeMonitoringJob?.cancel()
+
     override fun onCreate() {
         super.onCreate()
 
@@ -157,6 +229,13 @@ class UnlockMasterService : Service() {
             this,
             unlockCounterPauseReceiver,
             IntentFilter(ACTION_UNLOCK_COUNTER_PAUSE_CHANGED),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
+
+        ContextCompat.registerReceiver(
+            this,
+            screenTimeLimitStateReceiver,
+            IntentFilter(ACTION_SCREEN_TIME_LIMIT_STATE_CHANGED),
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
 
@@ -222,6 +301,10 @@ class UnlockMasterService : Service() {
                     } catch (_: SecurityException) { /* no-op */ }
                 }
             }
+
+            if (!isUnlockCounterPaused) {
+                launchScreenTimeMonitoringIfEnabled()
+            }
         }
 
         return START_STICKY
@@ -262,7 +345,7 @@ class UnlockMasterService : Service() {
         }
     }
 
-    private fun showMobilizingNotificationIfNeeded(
+    private fun showUnlockLimitMobilizingNotificationIfNeeded(
         unlockCount: Int,
         unlockLimit: Int,
         percentage: Int,
@@ -277,8 +360,8 @@ class UnlockMasterService : Service() {
         if (unlockCount in multiples) {
             try {
                 notificationManager.notify(
-                    MOBILIZING_NOTIFICATION_ID,
-                    createNewMobilizingNotification(
+                    UNLOCK_LIMIT_MOBILIZING_NOTIFICATION_ID,
+                    createNewUnlockLimitMobilizingNotification(
                         (multiples.indexOf(unlockCount) + 1) * percentage,
                         unlockCount,
                         unlockLimit
@@ -288,14 +371,14 @@ class UnlockMasterService : Service() {
         }
     }
 
-    private fun createNewMobilizingNotification(
+    private fun createNewUnlockLimitMobilizingNotification(
         limitPercentageReached: Int,
         unlockCount: Int,
         unlockLimit: Int
     ): Notification {
         val notificationPendingIntent = PendingIntent.getActivity(
             applicationContext,
-            MOBILIZING_NOTIFICATION_REQUEST_CODE,
+            UNLOCK_LIMIT_MOBILIZING_NOTIFICATION_REQUEST_CODE,
             Intent(applicationContext, MainActivity::class.java),
             PendingIntent.FLAG_UPDATE_CURRENT or
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -318,6 +401,52 @@ class UnlockMasterService : Service() {
         }
     }
 
+    private fun showScreenTimeLimitNotification(
+        screenTimeLimitWarningState: ScreenTimeLimitWarningState
+    ) {
+        val notificationPendingIntent = PendingIntent.getActivity(
+            applicationContext,
+            SCREEN_TIME_LIMIT_MOBILIZING_NOTIFICATION_REQUEST_CODE,
+            Intent(applicationContext, MainActivity::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT or
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                        PendingIntent.FLAG_IMMUTABLE
+                    else 0
+        )
+        val notificationTitle = getString(
+            if (screenTimeLimitWarningState == WARNING_LIMIT_REACHED_FIRED) {
+                R.string.screen_time_limit_reached
+            } else {
+                R.string.screen_time_limit_near
+            }
+        )
+        val notificationDescription = getString(
+            if (screenTimeLimitWarningState == WARNING_LIMIT_REACHED_FIRED) {
+                R.string.screen_time_limit_reached_description
+            } else {
+                R.string.screen_time_limit_near_description
+            }
+        )
+
+        val notification = NotificationCompat.Builder(
+            applicationContext,
+            MOBILIZING_NOTIFICATION_CHANNEL_ID
+        ).run {
+            priority = NotificationCompat.PRIORITY_HIGH
+            setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+            setSmallIcon(R.drawable.ic_notification_icon)
+            setContentTitle(notificationTitle)
+            setContentText(notificationDescription)
+            setContentIntent(notificationPendingIntent)
+            setAutoCancel(true)
+            build()
+        }
+
+        try {
+            notificationManager.notify(SCREEN_TIME_LIMIT_MOBILIZING_NOTIFICATION_ID, notification)
+        } catch (_: SecurityException) { /* no-op */ }
+    }
+
     override fun onDestroy() {
         runBlocking {
             userSessionRepository.setUnlockMasterServiceProperlyClosed(true)
@@ -325,14 +454,14 @@ class UnlockMasterService : Service() {
 
         unregisterScreenEventReceivers()
         unregisterReceiver(unlockCounterPauseReceiver)
+        unregisterReceiver(screenTimeLimitStateReceiver)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             unregisterReceiver(shutdownReceiver)
         }
 
-        serviceScope.cancel(
-            CancellationException("UnlockMasterService has been destroyed")
-        )
+        stopScreenTimeMonitoring()
+        serviceScope.cancel(CancellationException("UnlockMasterService has been destroyed"))
 
         super.onDestroy()
     }

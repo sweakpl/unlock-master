@@ -257,4 +257,8 @@
     <string name="enable_screen_time_limit">Ekran süresi sınırını etkinleştirin</string>
     <string name="enable_screen_time_limit_description">Sınırı devre dışı bırakırsanız, ekran süresi sınırı bildirimleri ve günlük özetleri mobilize etmekten hariç tutulacaktır.</string>
     <string name="todays_screen_time_limit">Bugünün ekran süresi sınırı:</string>
+    <string name="screen_time_limit_reached">Ekran süresi sınırına ulaşıldı!</string>
+    <string name="screen_time_limit_reached_description">Günlük ekran süresi sınırınıza ulaştınız - zamanınıza dikkat edin!</string>
+    <string name="screen_time_limit_near">Ekran süresi sınırına yaklaşıyorsun!</string>
+    <string name="screen_time_limit_near_description">Ekran süresi sınırınıza ulaşmanıza 15 dakika kaldı.</string>
 </resources>

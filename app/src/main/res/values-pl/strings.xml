@@ -266,4 +266,8 @@
     <string name="enable_screen_time_limit">Włącz limit czasu przed ekranem</string>
     <string name="enable_screen_time_limit_description">Wyłączenie limitu spowoduje wyłączenie limitu czasu przed ekranem z powiadomień mobilizujących i codziennych podsumowań.</string>
     <string name="todays_screen_time_limit">Dzisiejszy limit czasu przed ekranem:</string>
+    <string name="screen_time_limit_reached">Limit czasu przed ekranem osiągnięty!</string>
+    <string name="screen_time_limit_reached_description">Osiągnąłeś dzienny limit czasu przed ekranem - pilnuj swojego czasu!</string>
+    <string name="screen_time_limit_near">Zbliżasz się do limitu czasu przed ekranem!</string>
+    <string name="screen_time_limit_near_description">Do osiągnięcia limitu czasu przed ekranem pozostało 15 minut.</string>
 </resources>

@@ -85,10 +85,11 @@ class ScreenTimeLimitSetupViewModel @Inject constructor(
                     }
                 }
             }
-            is ScreenTimeLimitSetupScreenEvent.ToggleScreenTimeLimitEnabledState -> {
+            is ScreenTimeLimitSetupScreenEvent.ToggleScreenTimeLimitState -> {
                 viewModelScope.launch {
                     userSessionRepository.setScreenTimeLimitEnabled(isEnabled = event.isEnabled)
                     state = state.copy(isScreenTimeLimitEnabled = event.isEnabled)
+                    event.screenTimeLimitStateChangedCallback(event.isEnabled)
                 }
             }
             is ScreenTimeLimitSetupScreenEvent.IsRemoveScreenTimeLimitForTomorrowDialogVisible -> {

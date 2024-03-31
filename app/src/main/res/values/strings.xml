@@ -260,4 +260,8 @@
     <string name="enable_screen_time_limit">Enable screen time limit</string>
     <string name="enable_screen_time_limit_description">If you disable the limit it will exclude screen time limit from mobilizing notifications and daily wrap-ups.</string>
     <string name="todays_screen_time_limit">Today’s screen time limit:</string>
+    <string name="screen_time_limit_reached">Screen time limit reached!</string>
+    <string name="screen_time_limit_reached_description">You’ve reached your daily screen time limit - watch your time!</string>
+    <string name="screen_time_limit_near">You’re nearing your screen time limit!</string>
+    <string name="screen_time_limit_near_description">There are 15 minutes left until you reach your screen time limit.</string>
 </resources>

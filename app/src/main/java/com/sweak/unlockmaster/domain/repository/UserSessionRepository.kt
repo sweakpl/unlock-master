@@ -1,5 +1,6 @@
 package com.sweak.unlockmaster.domain.repository
 
+import com.sweak.unlockmaster.domain.model.ScreenTimeLimitWarningState
 import com.sweak.unlockmaster.domain.model.UiThemeMode
 import kotlinx.coroutines.flow.Flow
 
@@ -22,4 +23,6 @@ interface UserSessionRepository {
     suspend fun areOverUnlockLimitMobilizingNotificationsEnabled(): Boolean
     suspend fun setScreenTimeLimitEnabled(isEnabled: Boolean)
     suspend fun isScreenTimeLimitEnabled(): Boolean
+    suspend fun setScreenTimeLimitWarningState(state: ScreenTimeLimitWarningState)
+    suspend fun getScreenTimeLimitWarningState(): ScreenTimeLimitWarningState
 }
