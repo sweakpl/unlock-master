@@ -11,5 +11,6 @@ data class StatisticsScreenState(
     val unlockLimitAmount: Int = 0,
     val screenOnEventsCount: Int = 0,
     val screenTimeDuration: Duration? = null,
+    val screenTimeLimitDuration: Duration? = null,
     val isScreenOnEventsInformationDialogVisible: Boolean = false
 )

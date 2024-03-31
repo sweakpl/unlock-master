@@ -274,4 +274,5 @@
     <string name="content_description_upload_icon">Ikona przesyłania</string>
     <string name="content_description_complementing_layers_icon">Ikona uzupełniających się warstw</string>
     <string name="content_description_screen_time_limit_mobilizing_notification_image">Obraz mobilizującego powiadomienia o limicie czasu przed ekranem</string>
+    <string name="content_description_alarm_icon">Ikona budzika</string>
 </resources>

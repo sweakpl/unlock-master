@@ -267,4 +267,5 @@
     <string name="content_description_upload_icon">Upload icon</string>
     <string name="content_description_complementing_layers_icon">Complementing layers icon</string>
     <string name="content_description_screen_time_limit_mobilizing_notification_image">Screen time limit mobilizing notification image</string>
+    <string name="content_description_alarm_icon">Alarm clock icon</string>
 </resources>

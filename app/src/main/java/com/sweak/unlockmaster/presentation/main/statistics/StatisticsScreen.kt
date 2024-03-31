@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.HelpOutline
 import androidx.compose.material.icons.automirrored.outlined.NavigateNext
 import androidx.compose.material.icons.outlined.AccessTime
+import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.LockOpen
@@ -287,6 +288,38 @@ fun StatisticsScreen(
                                 statisticsScreenState.screenTimeDuration?.let {
                                     Text(
                                         text = getCompactDurationString(it),
+                                        style = MaterialTheme.typography.displayLarge
+                                    )
+                                }
+                            }
+
+                            if (statisticsScreenState.screenTimeLimitDuration != null) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier
+                                        .padding(bottom = MaterialTheme.space.mediumLarge)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Alarm,
+                                        contentDescription = stringResource(
+                                            R.string.content_description_alarm_icon
+                                        ),
+                                        modifier = Modifier
+                                            .size(size = MaterialTheme.space.mediumLarge)
+                                    )
+
+                                    Text(
+                                        text = stringResource(R.string.screen_time_limit),
+                                        style = MaterialTheme.typography.headlineMedium,
+                                        modifier = Modifier
+                                            .padding(horizontal = MaterialTheme.space.smallMedium)
+                                            .weight(1f)
+                                    )
+
+                                    Text(
+                                        text = getCompactDurationString(
+                                            statisticsScreenState.screenTimeLimitDuration
+                                        ),
                                         style = MaterialTheme.typography.displayLarge
                                     )
                                 }
