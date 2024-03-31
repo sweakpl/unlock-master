@@ -134,7 +134,7 @@ fun MobilizingNotificationsScreen(
                 Image(
                     painter = painterResource(R.drawable.img_mobilizing_notification),
                     contentDescription = stringResource(
-                        R.string.content_description_mobilizing_notification_image
+                        R.string.content_description_unlock_limit_mobilizing_notification_image
                     ),
                     contentScale = ContentScale.FillWidth,
                     modifier = Modifier

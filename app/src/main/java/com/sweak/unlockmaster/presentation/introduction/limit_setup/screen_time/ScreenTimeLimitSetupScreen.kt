@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,8 +40,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
@@ -370,8 +373,41 @@ fun ScreenTimeLimitSetupScreen(
                         .padding(
                             start = MaterialTheme.space.medium,
                             end = MaterialTheme.space.medium,
-                            bottom = MaterialTheme.space.xLarge,
+                            bottom = MaterialTheme.space.mediumLarge,
                         )
+                )
+
+                Text(
+                    text = stringResource(R.string.screen_time_limit_warnings),
+                    style = MaterialTheme.typography.displaySmall,
+                    modifier = Modifier
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.small
+                        )
+                )
+
+                Text(
+                    text = stringResource(R.string.screen_time_limit_warnings_description),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier
+                        .padding(
+                            start = MaterialTheme.space.medium,
+                            end = MaterialTheme.space.medium,
+                            bottom = MaterialTheme.space.medium
+                        )
+                )
+
+                Image(
+                    painter = painterResource(R.drawable.img_screen_time_mobilizing_notification),
+                    contentDescription = stringResource(
+                        R.string.content_description_screen_time_limit_mobilizing_notification_image
+                    ),
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = MaterialTheme.space.mediumLarge)
                 )
 
                 Spacer(modifier = Modifier.height(MaterialTheme.space.run { xLarge + 2 * medium }))
