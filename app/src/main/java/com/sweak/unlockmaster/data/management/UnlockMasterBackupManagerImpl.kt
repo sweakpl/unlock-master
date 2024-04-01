@@ -153,10 +153,12 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
                 )
             } catch (ignored: IllegalArgumentException) { }
 
-            userSessionRepository.setOverUnlockLimitMobilizingNotificationsEnabled(
-                unlockMasterBackupData.userPreferences
-                    .areOverUnlockLimitMobilizingNotificationsEnabled
-            )
+            // Potentially restoring from the backup of UnlockMaster version that didn't have
+            // the over unlock limit notifications customization - the field might be null:
+            unlockMasterBackupData.userPreferences
+                .areOverUnlockLimitMobilizingNotificationsEnabled?.let {
+                    userSessionRepository.setOverUnlockLimitMobilizingNotificationsEnabled(it)
+                }
 
             // Potentially restoring from the backup of UnlockMaster version that didn't
             // have screen time limits - the field might be null:
@@ -295,7 +297,7 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
             val mobilizingNotificationsFrequencyPercentage: Int,
             val dailyWrapUpNotificationsTimeInMinutesPastMidnight: Int,
             val uiThemeMode: String,
-            val areOverUnlockLimitMobilizingNotificationsEnabled: Boolean,
+            val areOverUnlockLimitMobilizingNotificationsEnabled: Boolean?,
             val isScreenTimeLimitEnabled: Boolean?
         )
     }
