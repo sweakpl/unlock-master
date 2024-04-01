@@ -8,13 +8,16 @@ import com.sweak.unlockmaster.data.local.database.entities.CounterPausedEventEnt
 import com.sweak.unlockmaster.data.local.database.entities.CounterUnpausedEventEntity
 import com.sweak.unlockmaster.data.local.database.entities.LockEventEntity
 import com.sweak.unlockmaster.data.local.database.entities.ScreenOnEventEntity
+import com.sweak.unlockmaster.data.local.database.entities.ScreenTimeLimitEntity
 import com.sweak.unlockmaster.data.local.database.entities.UnlockEventEntity
 import com.sweak.unlockmaster.data.local.database.entities.UnlockLimitEntity
+import com.sweak.unlockmaster.domain.DEFAULT_SCREEN_TIME_LIMIT_MINUTES
 import com.sweak.unlockmaster.domain.management.UnlockMasterBackupManager
 import com.sweak.unlockmaster.domain.model.UiThemeMode
 import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpNotificationsUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_time_limits.AddOrUpdateScreenTimeLimitForTodayUseCase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import java.nio.charset.Charset
@@ -24,7 +27,8 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
     private val unlockMasterDatabase: UnlockMasterDatabase,
     private val userSessionRepository: UserSessionRepository,
     private val timeRepository: TimeRepository,
-    private val scheduleDailyWrapUpNotificationsUseCase: ScheduleDailyWrapUpNotificationsUseCase
+    private val scheduleDailyWrapUpNotificationsUseCase: ScheduleDailyWrapUpNotificationsUseCase,
+    private val addOrUpdateScreenTimeLimitForTodayUseCase: AddOrUpdateScreenTimeLimitForTodayUseCase
 ) : UnlockMasterBackupManager {
 
     private val backupFileCharset: Charset = Charsets.UTF_8
@@ -67,6 +71,8 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
 
         val unlockLimitsEntities = unlockMasterDatabase.unlockLimitsDao().getAllUnlockLimits()
         val screenOnEventsEntities = unlockMasterDatabase.screenOnEventsDao().getAllScreenOnEvents()
+        val screenTimeLimitsEntities =
+            unlockMasterDatabase.screenTimeLimitsDao().getAllScreenTimeLimits()
 
         val userPreferences = UnlockMasterBackupData.UserPreferences(
             mobilizingNotificationsFrequencyPercentage =
@@ -75,7 +81,8 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
             userSessionRepository.getDailyWrapUpNotificationsTimeInMinutesAfterMidnight(),
             uiThemeMode = userSessionRepository.getUiThemeModeFlow().first().name,
             areOverUnlockLimitMobilizingNotificationsEnabled =
-            userSessionRepository.areOverUnlockLimitMobilizingNotificationsEnabled()
+            userSessionRepository.areOverUnlockLimitMobilizingNotificationsEnabled(),
+            isScreenTimeLimitEnabled = userSessionRepository.isScreenTimeLimitEnabled()
         )
 
         val unlockMasterBackupData = UnlockMasterBackupData(
@@ -83,6 +90,7 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
             unlockEvents = unlockEventsEntities,
             lockEvents = lockEventsEntities,
             unlockLimits = unlockLimitsEntities,
+            screenTimeLimits = screenTimeLimitsEntities,
             screenOnEvents = screenOnEventsEntities,
             counterPausedEvents = counterPausedEventsEntities,
             counterUnpausedEvents = counterUnpausedEventsEntities,
@@ -116,6 +124,14 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
                     screenOnEventsDao().insertAll(unlockMasterBackupData.screenOnEvents)
                     counterPausedEventsDao().insertAll(unlockMasterBackupData.counterPausedEvents)
                     counterUnpausedEventsDao().insertAll(unlockMasterBackupData.counterUnpausedEvents)
+
+                    // Potentially restoring from the backup of UnlockMaster version that didn't
+                    // have screen time limits - the field might be null:
+                    unlockMasterBackupData.screenTimeLimits?.let {
+                        screenTimeLimitsDao().insertAll(it)
+                    } ?: run {
+                        addOrUpdateScreenTimeLimitForTodayUseCase(DEFAULT_SCREEN_TIME_LIMIT_MINUTES)
+                    }
                 }
             }
         }
@@ -141,6 +157,12 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
                 unlockMasterBackupData.userPreferences
                     .areOverUnlockLimitMobilizingNotificationsEnabled
             )
+
+            // Potentially restoring from the backup of UnlockMaster version that didn't
+            // have screen time limits - the field might be null:
+            unlockMasterBackupData.userPreferences.isScreenTimeLimitEnabled?.let {
+                userSessionRepository.setScreenTimeLimitEnabled(it)
+            }
         }
     }
 
@@ -250,9 +272,10 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
                 }
             }
 
-            // With unlock limits we take the straightforward approach of just removing all local
-            // unlock limits so that backup unlock limits take precedence:
+            // With unlock limits and screen time limits we take the straightforward approach of
+            // just removing all local limits so that backup limits take precedence:
             unlockLimitsDao().deleteAll(unlockLimitsDao().getAllUnlockLimits())
+            screenTimeLimitsDao().deleteAll(screenTimeLimitsDao().getAllScreenTimeLimits())
         }
 
     @Keep
@@ -261,6 +284,7 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
         val unlockEvents: List<UnlockEventEntity>,
         val lockEvents: List<LockEventEntity>,
         val unlockLimits: List<UnlockLimitEntity>,
+        val screenTimeLimits: List<ScreenTimeLimitEntity>?,
         val screenOnEvents: List<ScreenOnEventEntity>,
         val counterPausedEvents: List<CounterPausedEventEntity>,
         val counterUnpausedEvents: List<CounterUnpausedEventEntity>,
@@ -271,7 +295,8 @@ class UnlockMasterBackupManagerImpl @Inject constructor(
             val mobilizingNotificationsFrequencyPercentage: Int,
             val dailyWrapUpNotificationsTimeInMinutesPastMidnight: Int,
             val uiThemeMode: String,
-            val areOverUnlockLimitMobilizingNotificationsEnabled: Boolean
+            val areOverUnlockLimitMobilizingNotificationsEnabled: Boolean,
+            val isScreenTimeLimitEnabled: Boolean?
         )
     }
 }

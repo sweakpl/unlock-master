@@ -13,6 +13,9 @@ interface ScreenTimeLimitsDao {
     @Insert
     suspend fun insert(screenTimeLimitEntity: ScreenTimeLimitEntity)
 
+    @Insert
+    suspend fun insertAll(screenTimeLimitsEntities: List<ScreenTimeLimitEntity>)
+
     @Update
     suspend fun update(screenTimeLimitEntity: ScreenTimeLimitEntity)
 
@@ -21,4 +24,7 @@ interface ScreenTimeLimitsDao {
 
     @Query("SELECT * FROM screen_time_limit")
     suspend fun getAllScreenTimeLimits(): List<ScreenTimeLimitEntity>
+
+    @Delete
+    suspend fun deleteAll(screenTimeLimitsEntities: List<ScreenTimeLimitEntity>)
 }
