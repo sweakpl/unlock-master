@@ -7,6 +7,7 @@ data class ScreenTimeLimitSetupScreenState(
     val screenTimeLimitIntervalMinutes: Int? = null,
     val screenTimeLimitMinutesForTomorrow: Int? = null,
     val isRemoveScreenTimeLimitForTomorrowDialogVisible: Boolean = false,
+    val isScreenTimeLimitDisableConfirmationDialogVisible: Boolean = false,
     val hasUserChangedAnySettings: Boolean = false,
     val isSettingsNotSavedDialogVisible: Boolean = false
 )

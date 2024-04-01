@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.BarEntry
 import com.sweak.unlockmaster.domain.repository.ScreenTimeLimitsRepository
+import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.toTimeInMillis
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.GetScreenOnEventsCountForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_time.GetScreenTimeDurationForGivenDayUseCase
@@ -21,6 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
+    private val userSessionRepository: UserSessionRepository,
     private val screenTimeLimitsRepository: ScreenTimeLimitsRepository,
     private val getAllTimeDaysToUnlockEventCountsUseCase: GetAllTimeDaysToUnlockEventCountsUseCase,
     private val getUnlockEventsCountForGivenDayUseCase: GetUnlockEventsCountForGivenDayUseCase,
@@ -54,14 +56,17 @@ class StatisticsViewModel @Inject constructor(
                 val highlightedDayTimeInMillis = ZonedDateTime.now()
                     .minusDays((chartEntriesSize - event.selectedEntryIndex - 1).toLong())
                     .toTimeInMillis()
-                val screenTimeLimitDuration = screenTimeLimitsRepository
-                    .getScreenTimeLimitActiveAtTime(timeInMillis = highlightedDayTimeInMillis)
-                    ?.let {
-                        Duration(
-                            durationMillis = it.limitAmountMinutes * 60000L,
-                            precision = Duration.DisplayPrecision.MINUTES
-                        )
-                    }
+                val isScreenTimeLimitEnabled = userSessionRepository.isScreenTimeLimitEnabled()
+                val screenTimeLimitDuration = if (isScreenTimeLimitEnabled) {
+                    screenTimeLimitsRepository
+                        .getScreenTimeLimitActiveAtTime(timeInMillis = highlightedDayTimeInMillis)
+                        ?.let {
+                            Duration(
+                                durationMillis = it.limitAmountMinutes * 60000L,
+                                precision = Duration.DisplayPrecision.MINUTES
+                            )
+                        }
+                } else null
 
                 state = state.copy(
                     currentlyHighlightedDayTimeInMillis = highlightedDayTimeInMillis,

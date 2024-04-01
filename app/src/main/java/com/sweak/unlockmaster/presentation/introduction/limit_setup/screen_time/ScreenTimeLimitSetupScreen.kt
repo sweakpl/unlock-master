@@ -281,33 +281,27 @@ fun ScreenTimeLimitSetupScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(all = MaterialTheme.space.medium)
+                            .padding(
+                                horizontal = MaterialTheme.space.medium,
+                                vertical = MaterialTheme.space.small,
+                            )
                     ) {
-                        Column(
+                        Text(
+                            text = stringResource(R.string.enable_screen_time_limit),
+                            style = MaterialTheme.typography.displaySmall,
                             modifier = Modifier
                                 .weight(1f)
                                 .padding(end = MaterialTheme.space.medium)
-                        ) {
-                            Text(
-                                text = stringResource(R.string.enable_screen_time_limit),
-                                style = MaterialTheme.typography.displaySmall
-                            )
-
-                            Text(
-                                text = stringResource(R.string.enable_screen_time_limit_description),
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                        }
+                        )
 
                         val context = LocalContext.current
 
                         Switch(
                             checked = screenTimeLimitSetupScreenState.isScreenTimeLimitEnabled,
-                            onCheckedChange = { isChecked ->
+                            onCheckedChange = { _ ->
                                 screenTimeLimitSetupViewModel.onEvent(
                                     ScreenTimeLimitSetupScreenEvent
-                                        .ToggleScreenTimeLimitState(
-                                            isEnabled = isChecked,
+                                        .TryToggleScreenTimeLimitState(
                                             screenTimeLimitStateChangedCallback = {
                                                 context.sendBroadcast(
                                                     Intent(ACTION_SCREEN_TIME_LIMIT_STATE_CHANGED)
@@ -433,6 +427,35 @@ fun ScreenTimeLimitSetupScreen(
             },
             positiveButtonText = stringResource(R.string.yes),
             negativeButtonText = stringResource(R.string.no)
+        )
+    }
+
+    val context = LocalContext.current
+
+    if (screenTimeLimitSetupScreenState.isScreenTimeLimitDisableConfirmationDialogVisible) {
+        Dialog(
+            title = stringResource(R.string.disable_screen_time_limit),
+            message = stringResource(R.string.disable_screen_time_limit_description),
+            onDismissRequest = {
+                screenTimeLimitSetupViewModel.onEvent(
+                    ScreenTimeLimitSetupScreenEvent
+                        .IsScreenTimeLimitDisableConfirmationDialogVisible(isVisible = false)
+                )
+            },
+            onPositiveClick = {
+                screenTimeLimitSetupViewModel.onEvent(
+                    ScreenTimeLimitSetupScreenEvent.DisableScreenTimeLimit {
+                        context.sendBroadcast(
+                            Intent(ACTION_SCREEN_TIME_LIMIT_STATE_CHANGED).apply {
+                                setPackage(context.packageName)
+                                putExtra(EXTRA_IS_SCREEN_TIME_LIMIT_ENABLED, it)
+                            }
+                        )
+                    }
+                )
+            },
+            positiveButtonText = stringResource(R.string.disable),
+            negativeButtonText = stringResource(R.string.cancel)
         )
     }
 

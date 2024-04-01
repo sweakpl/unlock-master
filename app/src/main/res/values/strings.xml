@@ -215,7 +215,6 @@
     <string name="remove_tomorrow_screen_time_limit">Remove tomorrow’s new screen time limit?</string>
     <string name="remove_tomorrow_screen_time_limit_description">Are you sure you want to cancel the new screen time limit that would take effect tomorrow?</string>
     <string name="enable_screen_time_limit">Enable screen time limit</string>
-    <string name="enable_screen_time_limit_description">If you disable the limit it will exclude screen time limit from mobilizing notifications and daily wrap-ups.</string>
     <string name="todays_screen_time_limit">Today’s screen time limit:</string>
     <string name="screen_time_limit_reached">Screen time limit reached!</string>
     <string name="screen_time_limit_reached_description">You’ve reached your daily screen time limit - watch your time!</string>
@@ -268,4 +267,7 @@
     <string name="content_description_complementing_layers_icon">Complementing layers icon</string>
     <string name="content_description_screen_time_limit_mobilizing_notification_image">Screen time limit mobilizing notification image</string>
     <string name="content_description_alarm_icon">Alarm clock icon</string>
+    <string name="disable_screen_time_limit">Disable screen time limit</string>
+    <string name="disable_screen_time_limit_description">If you disable screen time limit it will be excluded from your statistics, mobilizing notifications and daily wrap-ups.</string>
+    <string name="disable">Disable</string>
 </resources>

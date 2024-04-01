@@ -223,7 +223,6 @@
     <string name="remove_tomorrow_screen_time_limit">Usunąć jutrzejszy nowy limit czasu przed ekranem?</string>
     <string name="remove_tomorrow_screen_time_limit_description">Czy na pewno chcesz anulować nowy limit czasu przed ekranem, który wszedłby w życie jutro?</string>
     <string name="enable_screen_time_limit">Włącz limit czasu przed ekranem</string>
-    <string name="enable_screen_time_limit_description">Wyłączenie limitu spowoduje wyłączenie limitu czasu przed ekranem z powiadomień mobilizujących i codziennych podsumowań.</string>
     <string name="todays_screen_time_limit">Dzisiejszy limit czasu przed ekranem:</string>
     <string name="screen_time_limit_reached">Limit czasu przed ekranem osiągnięty!</string>
     <string name="screen_time_limit_reached_description">Osiągnąłeś dzienny limit czasu przed ekranem - pilnuj swojego czasu!</string>
@@ -275,4 +274,7 @@
     <string name="content_description_complementing_layers_icon">Ikona uzupełniających się warstw</string>
     <string name="content_description_screen_time_limit_mobilizing_notification_image">Obraz mobilizującego powiadomienia o limicie czasu przed ekranem</string>
     <string name="content_description_alarm_icon">Ikona budzika</string>
+    <string name="disable_screen_time_limit">Wyłącz limit czasu przed ekranem</string>
+    <string name="disable_screen_time_limit_description">Po wyłączeniu limitu czasu przed ekranem nie będzie on uwzględniany w statystykach, powiadomieniach mobilizujących i codziennych podsumowaniach.</string>
+    <string name="disable">Wyłącz</string>
 </resources>

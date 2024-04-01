@@ -85,12 +85,33 @@ class ScreenTimeLimitSetupViewModel @Inject constructor(
                     }
                 }
             }
-            is ScreenTimeLimitSetupScreenEvent.ToggleScreenTimeLimitState -> {
+            is ScreenTimeLimitSetupScreenEvent.TryToggleScreenTimeLimitState -> {
                 viewModelScope.launch {
-                    userSessionRepository.setScreenTimeLimitEnabled(isEnabled = event.isEnabled)
-                    state = state.copy(isScreenTimeLimitEnabled = event.isEnabled)
-                    event.screenTimeLimitStateChangedCallback(event.isEnabled)
+                    val isScreenTimeLimitEnabled = userSessionRepository.isScreenTimeLimitEnabled()
+
+                    if (isScreenTimeLimitEnabled) {
+                        state = state.copy(isScreenTimeLimitDisableConfirmationDialogVisible = true)
+                    } else {
+                        userSessionRepository.setScreenTimeLimitEnabled(isEnabled = true)
+                        state = state.copy(isScreenTimeLimitEnabled = true)
+                        event.screenTimeLimitStateChangedCallback(true)
+                    }
                 }
+            }
+            is ScreenTimeLimitSetupScreenEvent.DisableScreenTimeLimit -> {
+                viewModelScope.launch {
+                    userSessionRepository.setScreenTimeLimitEnabled(isEnabled = false)
+                    state = state.copy(
+                        isScreenTimeLimitEnabled = false,
+                        isScreenTimeLimitDisableConfirmationDialogVisible = false
+                    )
+                    event.screenTimeLimitStateChangedCallback(false)
+                }
+            }
+            is ScreenTimeLimitSetupScreenEvent.IsScreenTimeLimitDisableConfirmationDialogVisible -> {
+                state = state.copy(
+                    isScreenTimeLimitDisableConfirmationDialogVisible = event.isVisible
+                )
             }
             is ScreenTimeLimitSetupScreenEvent.IsRemoveScreenTimeLimitForTomorrowDialogVisible -> {
                 state = state.copy(

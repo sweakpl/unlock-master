@@ -212,7 +212,6 @@
     <string name="remove_tomorrow_screen_time_limit">Yarınki yeni ekran süresi sınırını kaldıralım mı?</string>
     <string name="remove_tomorrow_screen_time_limit_description">Yarın yürürlüğe girecek olan yeni ekran süresi sınırını iptal etmek istediğinizden emin misiniz?</string>
     <string name="enable_screen_time_limit">Ekran süresi sınırını etkinleştirin</string>
-    <string name="enable_screen_time_limit_description">Sınırı devre dışı bırakırsanız, ekran süresi sınırı bildirimleri ve günlük özetleri mobilize etmekten hariç tutulacaktır.</string>
     <string name="todays_screen_time_limit">Bugünün ekran süresi sınırı:</string>
     <string name="screen_time_limit_reached">Ekran süresi sınırına ulaşıldı!</string>
     <string name="screen_time_limit_reached_description">Günlük ekran süresi sınırınıza ulaştınız - zamanınıza dikkat edin!</string>
@@ -265,4 +264,7 @@
     <string name="content_description_complementing_layers_icon">Tamamlayıcı katmanlar simgesi</string>
     <string name="content_description_screen_time_limit_mobilizing_notification_image">Ekran önünde zaman sınırı bildirimini harekete geçirme görüntüsü</string>
     <string name="content_description_alarm_icon">Çalar saat simgesi</string>
+    <string name="disable_screen_time_limit">Ekran süre sınırını devre dışı bırak</string>
+    <string name="disable_screen_time_limit_description">Ekran süresi sınırını devre dışı bırakırsanız, istatistiklerinizden, harekete geçirici bildirimlerden ve günlük özetlerden hariç tutulacaktır.</string>
+    <string name="disable">Devre dışı</string>
 </resources>
