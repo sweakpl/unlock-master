@@ -38,8 +38,8 @@ class ScreenTimeLimitSetupViewModel @Inject constructor(
 
     var state by mutableStateOf(ScreenTimeLimitSetupScreenState())
 
-    private val screenTimeLimitSubmittedEventsChannel = Channel<ScreenTimeLimitSubmittedEvent>()
-    val screenTimeLimitSubmittedEvents = screenTimeLimitSubmittedEventsChannel.receiveAsFlow()
+    private val selectedSettingsConfirmedEventsChannel = Channel<SelectedSettingsConfirmedEvent>()
+    val screenTimeLimitSubmittedEvents = selectedSettingsConfirmedEventsChannel.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -72,41 +72,59 @@ class ScreenTimeLimitSetupViewModel @Inject constructor(
                     hasUserChangedAnySettings = isUpdatingExistingScreenTimeLimit
                 )
             }
-            is ScreenTimeLimitSetupScreenEvent.SubmitSelectedScreenTimeLimit -> {
-                state.pickedScreenTimeLimitMinutes?.let {
-                    viewModelScope.launch {
-                        if (isUpdatingExistingScreenTimeLimit) {
-                            addOrUpdateScreenTimeLimitForTomorrowUseCase(limitAmountMinutes = it)
-                        } else {
-                            addOrUpdateScreenTimeLimitForTodayUseCase(limitAmountMinutes = it)
-                        }
+            is ScreenTimeLimitSetupScreenEvent.ConfirmSelectedSettings -> {
+                viewModelScope.launch {
+                    with (state) {
+                        if (pickedScreenTimeLimitMinutes != null &&
+                            isScreenTimeLimitEnabled != null
+                        ) {
+                            if (isUpdatingExistingScreenTimeLimit) {
+                                addOrUpdateScreenTimeLimitForTomorrowUseCase(
+                                    limitAmountMinutes = pickedScreenTimeLimitMinutes
+                                )
+                            } else {
+                                addOrUpdateScreenTimeLimitForTodayUseCase(
+                                    limitAmountMinutes = pickedScreenTimeLimitMinutes
+                                )
+                            }
 
-                        screenTimeLimitSubmittedEventsChannel.send(ScreenTimeLimitSubmittedEvent)
+                            val currentIsScreenTimeLimitEnabled =
+                                userSessionRepository.isScreenTimeLimitEnabled()
+
+                            // We're checking if the screen time limit state actually changed to
+                            // prevent redundant screenTimeLimitStateChangedCallback calls:
+                            if (currentIsScreenTimeLimitEnabled != isScreenTimeLimitEnabled) {
+                                userSessionRepository.setScreenTimeLimitEnabled(
+                                    isEnabled = isScreenTimeLimitEnabled
+                                )
+                                event.screenTimeLimitStateChangedCallback(isScreenTimeLimitEnabled)
+                            }
+
+                            selectedSettingsConfirmedEventsChannel.send(
+                                SelectedSettingsConfirmedEvent
+                            )
+                        }
                     }
                 }
             }
             is ScreenTimeLimitSetupScreenEvent.TryToggleScreenTimeLimitState -> {
-                viewModelScope.launch {
-                    val isScreenTimeLimitEnabled = userSessionRepository.isScreenTimeLimitEnabled()
-
-                    if (isScreenTimeLimitEnabled) {
-                        state = state.copy(isScreenTimeLimitDisableConfirmationDialogVisible = true)
+                state.isScreenTimeLimitEnabled?.let {
+                    state = if (it) {
+                        state.copy(isScreenTimeLimitDisableConfirmationDialogVisible = true)
                     } else {
-                        userSessionRepository.setScreenTimeLimitEnabled(isEnabled = true)
-                        state = state.copy(isScreenTimeLimitEnabled = true)
-                        event.screenTimeLimitStateChangedCallback(true)
+                        state.copy(
+                            isScreenTimeLimitEnabled = true,
+                            hasUserChangedAnySettings = isUpdatingExistingScreenTimeLimit
+                        )
                     }
                 }
             }
             is ScreenTimeLimitSetupScreenEvent.DisableScreenTimeLimit -> {
-                viewModelScope.launch {
-                    userSessionRepository.setScreenTimeLimitEnabled(isEnabled = false)
-                    state = state.copy(
-                        isScreenTimeLimitEnabled = false,
-                        isScreenTimeLimitDisableConfirmationDialogVisible = false
-                    )
-                    event.screenTimeLimitStateChangedCallback(false)
-                }
+                state = state.copy(
+                    isScreenTimeLimitEnabled = false,
+                    hasUserChangedAnySettings = isUpdatingExistingScreenTimeLimit,
+                    isScreenTimeLimitDisableConfirmationDialogVisible = false
+                )
             }
             is ScreenTimeLimitSetupScreenEvent.IsScreenTimeLimitDisableConfirmationDialogVisible -> {
                 state = state.copy(
@@ -133,5 +151,5 @@ class ScreenTimeLimitSetupViewModel @Inject constructor(
         }
     }
 
-    object ScreenTimeLimitSubmittedEvent
+    object SelectedSettingsConfirmedEvent
 }

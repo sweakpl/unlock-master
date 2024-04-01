@@ -119,11 +119,22 @@ fun ScreenTimeLimitSetupScreen(
             )
         },
         floatingActionButton = {
+            val context = LocalContext.current
+
             ProceedButton(
                 text = stringResource(R.string.confirm),
                 onClick = {
                     screenTimeLimitSetupViewModel.onEvent(
-                        ScreenTimeLimitSetupScreenEvent.SubmitSelectedScreenTimeLimit
+                        ScreenTimeLimitSetupScreenEvent.ConfirmSelectedSettings(
+                            screenTimeLimitStateChangedCallback = {
+                                context.sendBroadcast(
+                                    Intent(ACTION_SCREEN_TIME_LIMIT_STATE_CHANGED).apply {
+                                        setPackage(context.packageName)
+                                        putExtra(EXTRA_IS_SCREEN_TIME_LIMIT_ENABLED, it)
+                                    }
+                                )
+                            }
+                        )
                     )
                 },
                 modifier = Modifier.padding(horizontal = MaterialTheme.space.medium)
@@ -167,7 +178,8 @@ fun ScreenTimeLimitSetupScreen(
 
                 if (screenTimeLimitSetupScreenState.pickedScreenTimeLimitMinutes != null &&
                     screenTimeLimitSetupScreenState.availableScreenTimeLimitRange != null &&
-                    screenTimeLimitSetupScreenState.screenTimeLimitIntervalMinutes != null
+                    screenTimeLimitSetupScreenState.screenTimeLimitIntervalMinutes != null &&
+                    screenTimeLimitSetupScreenState.isScreenTimeLimitEnabled != null
                 ) {
                     ScreenTimeLimitPickerSlider(
                         pickedScreenTimeMinutes =
@@ -193,7 +205,8 @@ fun ScreenTimeLimitSetupScreen(
                 }
 
                 AnimatedVisibility(
-                    visible = screenTimeLimitSetupScreenState.isScreenTimeLimitEnabled &&
+                    visible = screenTimeLimitSetupScreenState.isScreenTimeLimitEnabled != null &&
+                            screenTimeLimitSetupScreenState.isScreenTimeLimitEnabled &&
                             screenTimeLimitSetupScreenState.screenTimeLimitMinutesForTomorrow != null
                 ) {
                     OutlinedCard(
@@ -294,34 +307,20 @@ fun ScreenTimeLimitSetupScreen(
                                 .padding(end = MaterialTheme.space.medium)
                         )
 
-                        val context = LocalContext.current
-
-                        Switch(
-                            checked = screenTimeLimitSetupScreenState.isScreenTimeLimitEnabled,
-                            onCheckedChange = { _ ->
-                                screenTimeLimitSetupViewModel.onEvent(
-                                    ScreenTimeLimitSetupScreenEvent
-                                        .TryToggleScreenTimeLimitState(
-                                            screenTimeLimitStateChangedCallback = {
-                                                context.sendBroadcast(
-                                                    Intent(ACTION_SCREEN_TIME_LIMIT_STATE_CHANGED)
-                                                        .apply {
-                                                            setPackage(context.packageName)
-                                                            putExtra(
-                                                                EXTRA_IS_SCREEN_TIME_LIMIT_ENABLED,
-                                                                it
-                                                            )
-                                                        }
-                                                )
-                                            }
-                                        )
+                        if (screenTimeLimitSetupScreenState.isScreenTimeLimitEnabled != null) {
+                            Switch(
+                                checked = screenTimeLimitSetupScreenState.isScreenTimeLimitEnabled,
+                                onCheckedChange = { _ ->
+                                    screenTimeLimitSetupViewModel.onEvent(
+                                        ScreenTimeLimitSetupScreenEvent.TryToggleScreenTimeLimitState
+                                    )
+                                },
+                                colors = SwitchDefaults.colors(
+                                    checkedThumbColor = MaterialTheme.colorScheme.secondary,
+                                    checkedTrackColor = MaterialTheme.colorScheme.primary
                                 )
-                            },
-                            colors = SwitchDefaults.colors(
-                                checkedThumbColor = MaterialTheme.colorScheme.secondary,
-                                checkedTrackColor = MaterialTheme.colorScheme.primary
                             )
-                        )
+                        }
                     }
                 }
 
@@ -430,8 +429,6 @@ fun ScreenTimeLimitSetupScreen(
         )
     }
 
-    val context = LocalContext.current
-
     if (screenTimeLimitSetupScreenState.isScreenTimeLimitDisableConfirmationDialogVisible) {
         Dialog(
             title = stringResource(R.string.disable_screen_time_limit),
@@ -444,14 +441,7 @@ fun ScreenTimeLimitSetupScreen(
             },
             onPositiveClick = {
                 screenTimeLimitSetupViewModel.onEvent(
-                    ScreenTimeLimitSetupScreenEvent.DisableScreenTimeLimit {
-                        context.sendBroadcast(
-                            Intent(ACTION_SCREEN_TIME_LIMIT_STATE_CHANGED).apply {
-                                setPackage(context.packageName)
-                                putExtra(EXTRA_IS_SCREEN_TIME_LIMIT_ENABLED, it)
-                            }
-                        )
-                    }
+                    ScreenTimeLimitSetupScreenEvent.DisableScreenTimeLimit
                 )
             },
             positiveButtonText = stringResource(R.string.disable),

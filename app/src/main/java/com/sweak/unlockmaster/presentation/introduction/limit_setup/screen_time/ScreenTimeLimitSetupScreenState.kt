@@ -1,7 +1,7 @@
 package com.sweak.unlockmaster.presentation.introduction.limit_setup.screen_time
 
 data class ScreenTimeLimitSetupScreenState(
-    val isScreenTimeLimitEnabled: Boolean = true,
+    val isScreenTimeLimitEnabled: Boolean? = null,
     val pickedScreenTimeLimitMinutes: Int? = null,
     val availableScreenTimeLimitRange: IntRange? = null,
     val screenTimeLimitIntervalMinutes: Int? = null,

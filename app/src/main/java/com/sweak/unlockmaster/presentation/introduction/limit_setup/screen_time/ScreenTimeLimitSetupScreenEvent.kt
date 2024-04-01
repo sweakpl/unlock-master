@@ -5,15 +5,13 @@ sealed class ScreenTimeLimitSetupScreenEvent {
         val newScreenTimeLimitMinutes: Int
     ) : ScreenTimeLimitSetupScreenEvent()
 
-    data object SubmitSelectedScreenTimeLimit : ScreenTimeLimitSetupScreenEvent()
-
-    data class TryToggleScreenTimeLimitState(
+    data class ConfirmSelectedSettings(
         val screenTimeLimitStateChangedCallback: (Boolean) -> Unit
     ) : ScreenTimeLimitSetupScreenEvent()
 
-    data class DisableScreenTimeLimit(
-        val screenTimeLimitStateChangedCallback: (Boolean) -> Unit
-    ) : ScreenTimeLimitSetupScreenEvent()
+    data object TryToggleScreenTimeLimitState : ScreenTimeLimitSetupScreenEvent()
+
+    data object DisableScreenTimeLimit : ScreenTimeLimitSetupScreenEvent()
 
     data class IsScreenTimeLimitDisableConfirmationDialogVisible(val isVisible: Boolean) :
         ScreenTimeLimitSetupScreenEvent()

@@ -20,10 +20,8 @@ class MobilizingNotificationsViewModel @Inject constructor(
 
     var state by mutableStateOf(MobilizingNotificationsScreenState())
 
-    private val frequencyPercentageSubmittedEventsChannel =
-        Channel<SelectedSettingsConfirmedEvent>()
-    val frequencyPercentageSubmittedEvents =
-        frequencyPercentageSubmittedEventsChannel.receiveAsFlow()
+    private val selectedSettingsConfirmedEventsChannel = Channel<SelectedSettingsConfirmedEvent>()
+    val frequencyPercentageSubmittedEvents = selectedSettingsConfirmedEventsChannel.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -72,7 +70,7 @@ class MobilizingNotificationsViewModel @Inject constructor(
                                 .setOverUnlockLimitMobilizingNotificationsEnabled(
                                     areEnabled = areOverLimitNotificationsEnabled
                                 )
-                            frequencyPercentageSubmittedEventsChannel.send(
+                            selectedSettingsConfirmedEventsChannel.send(
                                 SelectedSettingsConfirmedEvent
                             )
                         }
