@@ -14,7 +14,6 @@ import com.sweak.unlockmaster.domain.use_case.unlock_events.GetLastWeekUnlockEve
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTodayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForTomorrowUseCase
-import com.sweak.unlockmaster.presentation.common.util.Duration
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -54,10 +53,7 @@ class HomeViewModel @Inject constructor(
             userSessionRepository.shouldShowUnlockMasterBlockedWarning(),
             unlockLimitForTomorrow =
             if (unlockLimitForTomorrow != unlockLimitForToday) unlockLimitForTomorrow else null,
-            todayScreenTimeDuration = Duration(
-                durationMillis = getScreenTimeDurationForGivenDayUseCase(),
-                precision = Duration.DisplayPrecision.MINUTES
-            ),
+            todayScreenTimeDurationMillis = getScreenTimeDurationForGivenDayUseCase(),
             isScreenTimeLimitEnabled = userSessionRepository.isScreenTimeLimitEnabled(),
             screenTimeLimitMinutes = screenTimeLimitForToday,
             screenTimeLimitForTomorrowMinutes =

@@ -10,7 +10,6 @@ import com.sweak.unlockmaster.domain.model.DailyWrapUpData
 import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.GetDailyWrapUpDataUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.AddOrUpdateUnlockLimitForTomorrowUseCase
 import com.sweak.unlockmaster.presentation.common.Screen
-import com.sweak.unlockmaster.presentation.common.util.Duration
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenOnEventsDetailsData
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenTimeDetailsData
@@ -52,10 +51,7 @@ class DailyWrapUpViewModel @Inject constructor(
                     progress = convertDomainProgressToUiProgressEnum(dailyWrapUpData.screenUnlocksData.progress)
                 ),
                 screenTimePreviewData = DailyWrapUpCriterionPreviewType.ScreenTime(
-                    screenTimeDuration = Duration(
-                        todayScreenTimeDurationMillis,
-                        Duration.DisplayPrecision.MINUTES
-                    ),
+                    screenTimeDurationMillis = todayScreenTimeDurationMillis,
                     progress = convertDomainProgressToUiProgressEnum(dailyWrapUpData.screenTimeData.progress)
                 ),
                 unlockLimitPreviewData = DailyWrapUpCriterionPreviewType.UnlockLimit(
@@ -76,21 +72,12 @@ class DailyWrapUpViewModel @Inject constructor(
                     }
                 ),
                 screenTimeDetailsData = DailyWrapUpScreenTimeDetailsData(
-                    screenTimeDuration = Duration(
-                        todayScreenTimeDurationMillis,
-                        Duration.DisplayPrecision.MINUTES
-                    ),
-                    yesterdayDifference = dailyWrapUpData.screenTimeData.yesterdayScreenTimeDurationMillis?.let {
-                        Duration(
-                            todayScreenTimeDurationMillis - it,
-                            Duration.DisplayPrecision.MINUTES
-                        )
+                    screenTimeDurationMillis = todayScreenTimeDurationMillis,
+                    yesterdayDifferenceMillis = dailyWrapUpData.screenTimeData.yesterdayScreenTimeDurationMillis?.let {
+                        todayScreenTimeDurationMillis - it
                     },
-                    weekBeforeDifference = dailyWrapUpData.screenTimeData.lastWeekScreenTimeDurationMillis?.let {
-                        Duration(
-                            todayScreenTimeDurationMillis - it,
-                            Duration.DisplayPrecision.MINUTES
-                        )
+                    weekBeforeDifferenceMillis = dailyWrapUpData.screenTimeData.lastWeekScreenTimeDurationMillis?.let {
+                        todayScreenTimeDurationMillis - it
                     }
                 ),
                 unlockLimitDetailsData = DailyWrapUpUnlockLimitDetailsData(

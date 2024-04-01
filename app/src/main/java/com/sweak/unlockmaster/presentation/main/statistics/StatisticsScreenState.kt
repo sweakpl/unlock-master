@@ -1,7 +1,6 @@
 package com.sweak.unlockmaster.presentation.main.statistics
 
 import com.github.mikephil.charting.data.BarEntry
-import com.sweak.unlockmaster.presentation.common.util.Duration
 
 data class StatisticsScreenState(
     val isInitializing: Boolean = true,
@@ -10,7 +9,7 @@ data class StatisticsScreenState(
     val unlockEventsCount: Int = 0,
     val unlockLimitAmount: Int = 0,
     val screenOnEventsCount: Int = 0,
-    val screenTimeDuration: Duration? = null,
-    val screenTimeLimitDuration: Duration? = null,
+    val screenTimeDurationMillis: Long? = null,
+    val screenTimeLimitDurationMillis: Long? = null,
     val isScreenOnEventsInformationDialogVisible: Boolean = false
 )

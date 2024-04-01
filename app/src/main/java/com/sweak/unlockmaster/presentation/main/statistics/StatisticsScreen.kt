@@ -51,6 +51,7 @@ import com.sweak.unlockmaster.presentation.common.components.Dialog
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.theme.space
+import com.sweak.unlockmaster.presentation.common.util.Duration
 import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
 import com.sweak.unlockmaster.presentation.common.util.getFullDateString
 import com.sweak.unlockmaster.presentation.common.util.navigateThrottled
@@ -285,15 +286,17 @@ fun StatisticsScreen(
                                         .weight(1f)
                                 )
 
-                                statisticsScreenState.screenTimeDuration?.let {
+                                statisticsScreenState.screenTimeDurationMillis?.let {
                                     Text(
-                                        text = getCompactDurationString(it),
+                                        text = getCompactDurationString(
+                                            Duration(it, Duration.DisplayPrecision.MINUTES)
+                                        ),
                                         style = MaterialTheme.typography.displayLarge
                                     )
                                 }
                             }
 
-                            if (statisticsScreenState.screenTimeLimitDuration != null) {
+                            if (statisticsScreenState.screenTimeLimitDurationMillis != null) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
                                     modifier = Modifier
@@ -318,7 +321,10 @@ fun StatisticsScreen(
 
                                     Text(
                                         text = getCompactDurationString(
-                                            statisticsScreenState.screenTimeLimitDuration
+                                            Duration(
+                                                statisticsScreenState.screenTimeLimitDurationMillis,
+                                                Duration.DisplayPrecision.MINUTES
+                                            )
                                         ),
                                         style = MaterialTheme.typography.displayLarge
                                     )

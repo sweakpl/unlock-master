@@ -446,9 +446,11 @@ fun HomeScreen(
                                     style = MaterialTheme.typography.headlineMedium
                                 )
 
-                                homeScreenState.todayScreenTimeDuration?.let {
+                                homeScreenState.todayScreenTimeDurationMillis?.let {
                                     Text(
-                                        text = getCompactDurationString(it),
+                                        text = getCompactDurationString(
+                                            Duration(it, Duration.DisplayPrecision.MINUTES)
+                                        ),
                                         style = MaterialTheme.typography.displayMedium
                                     )
                                 }
@@ -531,9 +533,8 @@ fun HomeScreen(
                                                 Text(
                                                     text = getCompactDurationString(
                                                         Duration(
-                                                            durationMillis =
                                                             screenTimeLimitMinutes * 60000L,
-                                                            precision = Duration.DisplayPrecision.MINUTES
+                                                            Duration.DisplayPrecision.MINUTES
                                                         )
                                                     ),
                                                     style = MaterialTheme.typography.displayMedium
@@ -618,9 +619,8 @@ fun HomeScreen(
                                                     Text(
                                                         text = getCompactDurationString(
                                                             Duration(
-                                                                durationMillis =
                                                                 screenTimeLimitForTomorrowMinutes * 60000L,
-                                                                precision = Duration.DisplayPrecision.MINUTES
+                                                                Duration.DisplayPrecision.MINUTES
                                                             )
                                                         ),
                                                         style = MaterialTheme.typography.displayMedium

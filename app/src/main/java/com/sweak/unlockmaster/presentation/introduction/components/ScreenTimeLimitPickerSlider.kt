@@ -44,8 +44,8 @@ fun ScreenTimeLimitPickerSlider(
         Text(
             text = getCompactDurationString(
                 Duration(
-                    durationMillis = pickedScreenTimeMinutes * 60000L,
-                    precision = Duration.DisplayPrecision.MINUTES
+                    pickedScreenTimeMinutes * 60000L,
+                    Duration.DisplayPrecision.MINUTES
                 )
             ),
             style = MaterialTheme.typography.displayLarge.copy(fontSize = 48.sp),

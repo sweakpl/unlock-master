@@ -246,9 +246,8 @@ fun ScreenTimeLimitSetupScreen(
                                         Text(
                                             text = getCompactDurationString(
                                                 Duration(
-                                                    durationMillis =
                                                     screenTimeLimitMinutesForTomorrow * 60000L,
-                                                    precision = Duration.DisplayPrecision.MINUTES
+                                                    Duration.DisplayPrecision.MINUTES
                                                 )
                                             ),
                                             style = MaterialTheme.typography.displayMedium

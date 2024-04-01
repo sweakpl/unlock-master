@@ -48,7 +48,12 @@ fun DailyWrapUpScreenTimeDetailsCard(
 
             Row {
                 Text(
-                    text = getCompactDurationString(detailsData.screenTimeDuration),
+                    text = getCompactDurationString(
+                        Duration(
+                            detailsData.screenTimeDurationMillis,
+                            Duration.DisplayPrecision.MINUTES
+                        )
+                    ),
                     style = MaterialTheme.typography.displayLarge,
                     fontSize = 32.sp,
                     modifier = Modifier
@@ -58,7 +63,7 @@ fun DailyWrapUpScreenTimeDetailsCard(
 
                 Text(
                     text = stringResource(
-                        if (detailsData.yesterdayDifference != null) R.string.of_screen_time_which_is
+                        if (detailsData.yesterdayDifferenceMillis != null) R.string.of_screen_time_which_is
                         else R.string.of_screen_today
                     ),
                     style = MaterialTheme.typography.headlineMedium,
@@ -68,17 +73,20 @@ fun DailyWrapUpScreenTimeDetailsCard(
 
             val minuteInMillis = 60000
 
-            detailsData.yesterdayDifference?.let {
+            detailsData.yesterdayDifferenceMillis?.let { durationMillis ->
                 Row {
                     Text(
-                        text = if (it.durationMillis in -minuteInMillis..minuteInMillis) "—"
+                        text = if (durationMillis in -minuteInMillis..minuteInMillis) "—"
                         else getCompactDurationString(
-                            it.copy(durationMillis = abs(it.durationMillis))
+                            Duration(
+                                abs(durationMillis),
+                                Duration.DisplayPrecision.MINUTES
+                            )
                         ),
                         style = MaterialTheme.typography.displayLarge,
                         fontSize = 32.sp,
-                        color = if (it.durationMillis < -minuteInMillis) MaterialTheme.colorScheme.secondary
-                        else if (it.durationMillis > minuteInMillis) MaterialTheme.colorScheme.error
+                        color = if (durationMillis < -minuteInMillis) MaterialTheme.colorScheme.secondary
+                        else if (durationMillis > minuteInMillis) MaterialTheme.colorScheme.error
                         else MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier
                             .padding(end = MaterialTheme.space.xSmall)
@@ -87,13 +95,13 @@ fun DailyWrapUpScreenTimeDetailsCard(
 
                     Text(
                         text = stringResource(
-                            if (detailsData.weekBeforeDifference == null) {
-                                if (it.durationMillis < -minuteInMillis) R.string.less_than_yesterday
-                                else if (it.durationMillis > minuteInMillis) R.string.more_than_yesterday
+                            if (detailsData.weekBeforeDifferenceMillis == null) {
+                                if (durationMillis < -minuteInMillis) R.string.less_than_yesterday
+                                else if (durationMillis > minuteInMillis) R.string.more_than_yesterday
                                 else R.string.as_much_as_yesterday
                             } else {
-                                if (it.durationMillis < -minuteInMillis) R.string.less_than_yesterday_and
-                                else if (it.durationMillis > minuteInMillis) R.string.more_than_yesterday_and
+                                if (durationMillis < -minuteInMillis) R.string.less_than_yesterday_and
+                                else if (durationMillis > minuteInMillis) R.string.more_than_yesterday_and
                                 else R.string.as_much_as_yesterday_and
                             }
                         ),
@@ -103,17 +111,20 @@ fun DailyWrapUpScreenTimeDetailsCard(
                 }
             }
 
-            detailsData.weekBeforeDifference?.let {
+            detailsData.weekBeforeDifferenceMillis?.let { durationMillis ->
                 Row {
                     Text(
-                        text = if (it.durationMillis in -minuteInMillis..minuteInMillis) "—"
+                        text = if (durationMillis in -minuteInMillis..minuteInMillis) "—"
                         else getCompactDurationString(
-                            it.copy(durationMillis = abs(it.durationMillis))
+                            Duration(
+                                abs(durationMillis),
+                                Duration.DisplayPrecision.MINUTES
+                            )
                         ),
                         style = MaterialTheme.typography.displayLarge,
                         fontSize = 32.sp,
-                        color = if (it.durationMillis < -minuteInMillis) MaterialTheme.colorScheme.secondary
-                        else if (it.durationMillis > minuteInMillis) MaterialTheme.colorScheme.error
+                        color = if (durationMillis < -minuteInMillis) MaterialTheme.colorScheme.secondary
+                        else if (durationMillis > minuteInMillis) MaterialTheme.colorScheme.error
                         else MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier
                             .padding(end = MaterialTheme.space.xSmall)
@@ -122,8 +133,8 @@ fun DailyWrapUpScreenTimeDetailsCard(
 
                     Text(
                         text = stringResource(
-                            if (it.durationMillis < -minuteInMillis) R.string.less_than_a_week_before
-                            else if (it.durationMillis > minuteInMillis) R.string.more_than_a_week_before
+                            if (durationMillis < -minuteInMillis) R.string.less_than_a_week_before
+                            else if (durationMillis > minuteInMillis) R.string.more_than_a_week_before
                             else R.string.as_much_as_a_week_before
                         ),
                         style = MaterialTheme.typography.headlineMedium,
@@ -180,7 +191,7 @@ fun DailyWrapUpScreenTimeDetailsCard(
 }
 
 data class DailyWrapUpScreenTimeDetailsData(
-    val screenTimeDuration: Duration,
-    val yesterdayDifference: Duration?,
-    val weekBeforeDifference: Duration?
+    val screenTimeDurationMillis: Long,
+    val yesterdayDifferenceMillis: Long?,
+    val weekBeforeDifferenceMillis: Long?
 )

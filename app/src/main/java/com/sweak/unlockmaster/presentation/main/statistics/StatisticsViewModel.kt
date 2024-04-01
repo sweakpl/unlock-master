@@ -14,7 +14,6 @@ import com.sweak.unlockmaster.domain.use_case.screen_time.GetScreenTimeDurationF
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetAllTimeDaysToUnlockEventCountsUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForGivenDayUseCase
-import com.sweak.unlockmaster.presentation.common.util.Duration
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.ZonedDateTime
@@ -60,12 +59,7 @@ class StatisticsViewModel @Inject constructor(
                 val screenTimeLimitDuration = if (isScreenTimeLimitEnabled) {
                     screenTimeLimitsRepository
                         .getScreenTimeLimitActiveAtTime(timeInMillis = highlightedDayTimeInMillis)
-                        ?.let {
-                            Duration(
-                                durationMillis = it.limitAmountMinutes * 60000L,
-                                precision = Duration.DisplayPrecision.MINUTES
-                            )
-                        }
+                        ?.let { it.limitAmountMinutes * 60000L }
                 } else null
 
                 state = state.copy(
@@ -79,13 +73,10 @@ class StatisticsViewModel @Inject constructor(
                     screenOnEventsCount = getScreenOnEventsCountForGivenDayUseCase(
                         dayTimeInMillis = highlightedDayTimeInMillis
                     ),
-                    screenTimeDuration = Duration(
-                        durationMillis = getScreenTimeDurationForGivenDayUseCase(
-                            dayTimeInMillis = highlightedDayTimeInMillis
-                        ),
-                        precision = Duration.DisplayPrecision.MINUTES
+                    screenTimeDurationMillis = getScreenTimeDurationForGivenDayUseCase(
+                        dayTimeInMillis = highlightedDayTimeInMillis
                     ),
-                    screenTimeLimitDuration = screenTimeLimitDuration
+                    screenTimeLimitDurationMillis = screenTimeLimitDuration
                 )
             }
         }

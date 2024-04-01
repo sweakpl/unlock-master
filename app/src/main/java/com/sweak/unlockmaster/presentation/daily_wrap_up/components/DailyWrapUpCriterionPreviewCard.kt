@@ -77,7 +77,10 @@ fun DailyWrapUpCriterionPreviewCard(
             progress = dailyWrapUpCriterionPreviewType.progress
             isUnlockLimitSuggestionAvailable = false
             criterionValueText = getCompactDurationString(
-                dailyWrapUpCriterionPreviewType.screenTimeDuration
+                Duration(
+                    dailyWrapUpCriterionPreviewType.screenTimeDurationMillis,
+                    Duration.DisplayPrecision.MINUTES
+                )
             )
             criterionText = stringResource(R.string.screen_time)
         }
@@ -194,7 +197,7 @@ sealed class DailyWrapUpCriterionPreviewType {
     ) : DailyWrapUpCriterionPreviewType()
 
     data class ScreenTime(
-        val screenTimeDuration: Duration,
+        val screenTimeDurationMillis: Long,
         val progress: Progress
     ) : DailyWrapUpCriterionPreviewType()
 

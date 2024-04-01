@@ -36,6 +36,7 @@ import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.components.NavigationBar
 import com.sweak.unlockmaster.presentation.common.components.OnResume
 import com.sweak.unlockmaster.presentation.common.theme.space
+import com.sweak.unlockmaster.presentation.common.util.Duration
 import com.sweak.unlockmaster.presentation.common.util.TimeFormat
 import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
 import com.sweak.unlockmaster.presentation.common.util.getFullDateString
@@ -116,9 +117,11 @@ fun ScreenTimeScreen(
                                 style = MaterialTheme.typography.headlineMedium
                             )
 
-                            screenTimeScreenState.todayScreenTimeDuration?.let {
+                            screenTimeScreenState.todayScreenTimeDurationMillis?.let {
                                 Text(
-                                    text = getCompactDurationString(it),
+                                    text = getCompactDurationString(
+                                        Duration(it, Duration.DisplayPrecision.MINUTES)
+                                    ),
                                     style = MaterialTheme.typography.displayLarge
                                 )
                             }
@@ -181,7 +184,8 @@ fun ScreenTimeScreen(
                                     SingleScreenTimeSessionCard(
                                         screenSessionStartAndEndTimesInMillis =
                                         it.startAndEndTimesInMillis,
-                                        screenSessionDuration = it.screenSessionDuration,
+                                        screenSessionDuration =
+                                        Duration(it.screenSessionDurationMillis),
                                         timeFormat = timeFormat,
                                         modifier = Modifier
                                             .fillMaxWidth()
