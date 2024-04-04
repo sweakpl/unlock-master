@@ -5,7 +5,10 @@ import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -56,7 +59,7 @@ import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpS
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpUnlockLimitDetailsCard
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun DailyWrapUpScreen(
     navController: NavController,
@@ -151,8 +154,10 @@ fun DailyWrapUpScreen(
                         )
                     }
 
-                    Column(
+                    FlowRow(
                         verticalArrangement = Arrangement.spacedBy(MaterialTheme.space.medium),
+                        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.space.medium),
+                        maxItemsInEachRow = 2,
                         modifier = Modifier.padding(
                             start = MaterialTheme.space.medium,
                             top = MaterialTheme.space.medium,
@@ -160,12 +165,10 @@ fun DailyWrapUpScreen(
                             bottom = MaterialTheme.space.large
                         )
                     ) {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.space.medium)
-                        ) {
+                        if (dailyWrapUpScreenState.screenUnlocksPreviewData != null) {
                             DailyWrapUpCriterionPreviewCard(
                                 dailyWrapUpCriterionPreviewType =
-                                dailyWrapUpScreenState.screenUnlocksPreviewData!!,
+                                dailyWrapUpScreenState.screenUnlocksPreviewData,
                                 onClick = {
                                     scrollScope.launch {
                                         scrollState.animateScrollBy(
@@ -175,10 +178,12 @@ fun DailyWrapUpScreen(
                                 },
                                 modifier = Modifier.weight(1f)
                             )
+                        }
 
+                        if (dailyWrapUpScreenState.screenTimePreviewData != null) {
                             DailyWrapUpCriterionPreviewCard(
                                 dailyWrapUpCriterionPreviewType =
-                                dailyWrapUpScreenState.screenTimePreviewData!!,
+                                dailyWrapUpScreenState.screenTimePreviewData,
                                 onClick = {
                                     scrollScope.launch {
                                         scrollState.animateScrollBy(
@@ -190,12 +195,10 @@ fun DailyWrapUpScreen(
                             )
                         }
 
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.space.medium)
-                        ) {
+                        if (dailyWrapUpScreenState.unlockLimitPreviewData != null) {
                             DailyWrapUpCriterionPreviewCard(
                                 dailyWrapUpCriterionPreviewType =
-                                dailyWrapUpScreenState.unlockLimitPreviewData!!,
+                                dailyWrapUpScreenState.unlockLimitPreviewData,
                                 onClick = {
                                     scrollScope.launch {
                                         scrollState.animateScrollBy(
@@ -205,10 +208,21 @@ fun DailyWrapUpScreen(
                                 },
                                 modifier = Modifier.weight(1f)
                             )
+                        }
 
+                        if (dailyWrapUpScreenState.screenTimeLimitPreviewData != null) {
                             DailyWrapUpCriterionPreviewCard(
                                 dailyWrapUpCriterionPreviewType =
-                                dailyWrapUpScreenState.screenOnEventsPreviewData!!,
+                                dailyWrapUpScreenState.screenTimeLimitPreviewData,
+                                onClick = { /*TODO*/ },
+                                modifier = Modifier.weight(1f)
+                            )
+                        }
+
+                        if (dailyWrapUpScreenState.screenOnEventsPreviewData != null) {
+                            DailyWrapUpCriterionPreviewCard(
+                                dailyWrapUpCriterionPreviewType =
+                                dailyWrapUpScreenState.screenOnEventsPreviewData,
                                 onClick = {
                                     scrollScope.launch {
                                         scrollState.animateScrollBy(
@@ -218,6 +232,12 @@ fun DailyWrapUpScreen(
                                 },
                                 modifier = Modifier.weight(1f)
                             )
+                        }
+
+                        if (dailyWrapUpScreenState.screenTimeLimitPreviewData != null) {
+                            // Add a Spacer to prevent the only element in the FlowRow row
+                            // expand to full width:
+                            Spacer(modifier = Modifier.weight(1f))
                         }
                     }
 

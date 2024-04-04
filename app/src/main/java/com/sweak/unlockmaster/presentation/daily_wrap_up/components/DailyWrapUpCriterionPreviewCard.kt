@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.NavigateNext
 import androidx.compose.material.icons.outlined.AccessTime
+import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.HorizontalRule
 import androidx.compose.material.icons.outlined.LightMode
@@ -35,6 +36,7 @@ import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType.Progress
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType.ScreenOnEvents
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType.ScreenTime
+import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType.ScreenTimeLimit
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType.ScreenUnlocks
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType.UnlockLimit
 
@@ -61,15 +63,6 @@ fun DailyWrapUpCriterionPreviewCard(
             criterionValueText = dailyWrapUpCriterionPreviewType.screenUnlocksCount.toString()
             criterionText = stringResource(R.string.screen_unlocks)
         }
-        is ScreenOnEvents -> {
-            criterionIcon = Icons.Outlined.LightMode
-            criterionIconContentDescription =
-                stringResource(R.string.content_description_light_icon)
-            progress = dailyWrapUpCriterionPreviewType.progress
-            isUnlockLimitSuggestionAvailable = false
-            criterionValueText = dailyWrapUpCriterionPreviewType.screenOnEventsCount.toString()
-            criterionText = stringResource(R.string.screen_on_events)
-        }
         is ScreenTime -> {
             criterionIcon = Icons.Outlined.AccessTime
             criterionIconContentDescription =
@@ -92,6 +85,29 @@ fun DailyWrapUpCriterionPreviewCard(
             isUnlockLimitSuggestionAvailable = dailyWrapUpCriterionPreviewType.isSuggestionAvailable
             criterionValueText = dailyWrapUpCriterionPreviewType.unlockLimitCount.toString()
             criterionText = stringResource(R.string.unlock_limit)
+        }
+        is ScreenTimeLimit -> {
+            criterionIcon = Icons.Outlined.Alarm
+            criterionIconContentDescription =
+                stringResource(R.string.content_description_alarm_icon)
+            progress = null
+            isUnlockLimitSuggestionAvailable = dailyWrapUpCriterionPreviewType.isSuggestionAvailable
+            criterionValueText = getCompactDurationString(
+                Duration(
+                    dailyWrapUpCriterionPreviewType.screenTimeLimitDurationMillis,
+                    Duration.DisplayPrecision.MINUTES
+                )
+            )
+            criterionText = stringResource(R.string.screen_time_limit)
+        }
+        is ScreenOnEvents -> {
+            criterionIcon = Icons.Outlined.LightMode
+            criterionIconContentDescription =
+                stringResource(R.string.content_description_light_icon)
+            progress = dailyWrapUpCriterionPreviewType.progress
+            isUnlockLimitSuggestionAvailable = false
+            criterionValueText = dailyWrapUpCriterionPreviewType.screenOnEventsCount.toString()
+            criterionText = stringResource(R.string.screen_on_events)
         }
     }
 
@@ -203,6 +219,11 @@ sealed class DailyWrapUpCriterionPreviewType {
 
     data class UnlockLimit(
         val unlockLimitCount: Int,
+        val isSuggestionAvailable: Boolean
+    ) : DailyWrapUpCriterionPreviewType()
+
+    data class ScreenTimeLimit(
+        val screenTimeLimitDurationMillis: Long,
         val isSuggestionAvailable: Boolean
     ) : DailyWrapUpCriterionPreviewType()
 

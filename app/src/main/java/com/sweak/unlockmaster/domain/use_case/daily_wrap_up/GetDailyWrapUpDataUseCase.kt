@@ -8,6 +8,7 @@ import com.sweak.unlockmaster.domain.model.DailyWrapUpData
 import com.sweak.unlockmaster.domain.repository.ScreenTimeLimitsRepository
 import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.repository.UnlockEventsRepository
+import com.sweak.unlockmaster.domain.repository.UserSessionRepository
 import com.sweak.unlockmaster.domain.toTimeInMillis
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.GetScreenOnEventsCountForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_time.GetScreenTimeDurationForGivenDayUseCase
@@ -22,6 +23,7 @@ import kotlin.math.roundToInt
 import kotlin.properties.Delegates
 
 class GetDailyWrapUpDataUseCase @Inject constructor(
+    private val userSessionRepository: UserSessionRepository,
     private val unlockEventsRepository: UnlockEventsRepository,
     private val getUnlockEventsCountForGivenDayUseCase: GetUnlockEventsCountForGivenDayUseCase,
     private val getScreenTimeDurationForGivenDayUseCase: GetScreenTimeDurationForGivenDayUseCase,
@@ -197,6 +199,10 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
     }
 
     private suspend fun getScreenTimeLimitData(): DailyWrapUpData.ScreenTimeLimitData? {
+        if (!userSessionRepository.isScreenTimeLimitEnabled()) {
+            return null
+        }
+
         val minuteInMillis = 60000L
         val todayScreenTimeLimit = screenTimeLimitsRepository.getScreenTimeLimitActiveAtTime(
             timeInMillis = dailyWrapUpDateTime.toTimeInMillis()

@@ -12,6 +12,7 @@ data class DailyWrapUpScreenState(
     val screenUnlocksPreviewData: DailyWrapUpCriterionPreviewType.ScreenUnlocks? = null,
     val screenTimePreviewData: DailyWrapUpCriterionPreviewType.ScreenTime? = null,
     val unlockLimitPreviewData: DailyWrapUpCriterionPreviewType.UnlockLimit? = null,
+    val screenTimeLimitPreviewData: DailyWrapUpCriterionPreviewType.ScreenTimeLimit? = null,
     val screenOnEventsPreviewData: DailyWrapUpCriterionPreviewType.ScreenOnEvents? = null,
 
     val screenUnlocksDetailsData: DailyWrapUpScreenUnlocksDetailsData? = null,

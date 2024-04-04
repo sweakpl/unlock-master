@@ -58,6 +58,12 @@ class DailyWrapUpViewModel @Inject constructor(
                     unlockLimitCount = todayUnlockLimit,
                     isSuggestionAvailable = dailyWrapUpData.unlockLimitData.recommendedUnlockLimit != null
                 ),
+                screenTimeLimitPreviewData = dailyWrapUpData.screenTimeLimitData?.let {
+                    DailyWrapUpCriterionPreviewType.ScreenTimeLimit(
+                        screenTimeLimitDurationMillis = it.todayScreenTimeLimitDurationMillis,
+                        isSuggestionAvailable = it.recommendedScreenTimeLimitDurationMinutes != null
+                    )
+                },
                 screenOnEventsPreviewData = DailyWrapUpCriterionPreviewType.ScreenOnEvents(
                     screenOnEventsCount = todayScreenOnEventsCount,
                     progress = convertDomainProgressToUiProgressEnum(dailyWrapUpData.screenOnData.progress)
