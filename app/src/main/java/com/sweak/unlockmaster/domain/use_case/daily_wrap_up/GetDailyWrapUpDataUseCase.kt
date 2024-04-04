@@ -1,16 +1,19 @@
 package com.sweak.unlockmaster.domain.use_case.daily_wrap_up
 
+import com.sweak.unlockmaster.domain.SCREEN_TIME_LIMIT_INTERVAL_MINUTES
+import com.sweak.unlockmaster.domain.SCREEN_TIME_LIMIT_MINUTES_LOWER_BOUND
 import com.sweak.unlockmaster.domain.UNLOCK_LIMIT_LOWER_BOUND
 import com.sweak.unlockmaster.domain.UNLOCK_LIMIT_UPPER_BOUND
 import com.sweak.unlockmaster.domain.model.DailyWrapUpData
+import com.sweak.unlockmaster.domain.repository.ScreenTimeLimitsRepository
 import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.repository.UnlockEventsRepository
 import com.sweak.unlockmaster.domain.toTimeInMillis
 import com.sweak.unlockmaster.domain.use_case.screen_on_events.GetScreenOnEventsCountForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.screen_time.GetScreenTimeDurationForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
-import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitApplianceDayForGivenDayUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitAmountForGivenDayUseCase
+import com.sweak.unlockmaster.domain.use_case.unlock_limits.GetUnlockLimitApplianceDayForGivenDayUseCase
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -24,6 +27,7 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
     private val getScreenTimeDurationForGivenDayUseCase: GetScreenTimeDurationForGivenDayUseCase,
     private val getUnlockLimitAmountForGivenDayUseCase: GetUnlockLimitAmountForGivenDayUseCase,
     private val getUnlockLimitApplianceTimeOfUnlockLimitFromGivenDayUseCase: GetUnlockLimitApplianceDayForGivenDayUseCase,
+    private val screenTimeLimitsRepository: ScreenTimeLimitsRepository,
     private val getScreenOnEventsCountForGivenDayUseCase: GetScreenOnEventsCountForGivenDayUseCase,
     private val timeRepository: TimeRepository
 ) {
@@ -47,6 +51,7 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
             screenUnlocksData = getScreenUnlocksData(),
             screenTimeData = getScreenTimeData(),
             unlockLimitData = getUnlockLimitData(),
+            screenTimeLimitData = getScreenTimeLimitData(),
             screenOnData = getScreenOnData()
         )
     }
@@ -127,7 +132,7 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
 
         val isLastAppliedUnlockLimitEnoughDaysAgoForNewRecommendation =
             todayBeginningTimeInMillis - todayUnlockLimitApplianceTimeInMillis >=
-                    LAST_UNLOCK_LIMIT_APPLIANCE_DAYS_DIFFERENCE_FOR_RECOMMENDATION * dayInMillis
+                    LAST_LIMIT_APPLIANCE_DAYS_DIFFERENCE_FOR_RECOMMENDATION * dayInMillis
 
         val recommendedUnlockLimit: Int?
 
@@ -191,6 +196,96 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
         return if (weightedDivider == 0f) null else weightedSum / weightedDivider
     }
 
+    private suspend fun getScreenTimeLimitData(): DailyWrapUpData.ScreenTimeLimitData? {
+        val minuteInMillis = 60000L
+        val todayScreenTimeLimit = screenTimeLimitsRepository.getScreenTimeLimitActiveAtTime(
+            timeInMillis = dailyWrapUpDateTime.toTimeInMillis()
+        ) ?: return null
+        val todayScreenTimeLimitMillis = todayScreenTimeLimit.limitAmountMinutes * minuteInMillis
+        val tomorrowScreenTimeLimitMillis = screenTimeLimitsRepository.getScreenTimeLimitActiveAtTime(
+            timeInMillis = dailyWrapUpDateTime.plusDays(1).toTimeInMillis()
+        )?.limitAmountMinutes?.run { this * minuteInMillis } ?: return null
+
+        val todayBeginningTimeInMillis = timeRepository.getBeginningOfGivenDayTimeInMillis(
+            dailyWrapUpDateTime.toTimeInMillis()
+        )
+        val todayScreenTimeLimitApplianceTimeInMillis =
+            screenTimeLimitsRepository.getScreenTimeLimitActiveAtTime(
+                dailyWrapUpDateTime.toTimeInMillis()
+            )?.limitApplianceTimeInMillis ?: todayBeginningTimeInMillis
+        val dayInMillis = 86400000L
+        val isLastAppliedScreenTimeLimitEnoughDaysAgoForNewRecommendation =
+            todayBeginningTimeInMillis - todayScreenTimeLimitApplianceTimeInMillis >=
+                    LAST_LIMIT_APPLIANCE_DAYS_DIFFERENCE_FOR_RECOMMENDATION * dayInMillis
+
+        val recommendedScreenTimeLimit: Int?
+
+        if (tomorrowScreenTimeLimitMillis != todayScreenTimeLimitMillis ||
+            !isLastAppliedScreenTimeLimitEnoughDaysAgoForNewRecommendation ||
+            todayScreenTimeLimit.limitAmountMinutes == SCREEN_TIME_LIMIT_MINUTES_LOWER_BOUND
+        ) {
+            recommendedScreenTimeLimit = null
+        } else {
+            val lastWeekAverageScreenTimeMillis = getLastWeekWeightedAverageScreenTimeMillis()
+
+            recommendedScreenTimeLimit = lastWeekAverageScreenTimeMillis?.let {
+                val screenTimeDifferenceMinutes =
+                    ((todayScreenTimeLimitMillis - it) / minuteInMillis).roundToInt()
+
+                if (screenTimeDifferenceMinutes >= MINIMAL_SCREEN_TIME_IMPROVEMENT_MINUTES_FOR_RECOMMENDATION) {
+                    val screenTimeLimitDecreaseMultiplier =
+                        screenTimeDifferenceMinutes / MINIMAL_SCREEN_TIME_IMPROVEMENT_MINUTES_FOR_RECOMMENDATION
+                    val screenTimeLimitDecreaseMinutes =
+                        SCREEN_TIME_LIMIT_INTERVAL_MINUTES * screenTimeLimitDecreaseMultiplier
+
+                    ((todayScreenTimeLimitMillis / minuteInMillis).toInt() -
+                            screenTimeLimitDecreaseMinutes)
+                        .coerceAtLeast(SCREEN_TIME_LIMIT_MINUTES_LOWER_BOUND)
+                } else null
+            }
+        }
+
+        val isLimitSignificantlyExceeded = todayScreenTimeLimitMillis >=
+                todayScreenTimeLimitMillis * SCREEN_TIME_LIMIT_SIGNIFICANT_EXCEED_MULTIPLIER
+
+        return DailyWrapUpData.ScreenTimeLimitData(
+            todayScreenTimeLimitDurationMillis = todayScreenTimeLimitMillis,
+            tomorrowScreenTimeLimitDurationMillis = tomorrowScreenTimeLimitMillis,
+            recommendedScreenTimeLimitDurationMinutes = recommendedScreenTimeLimit,
+            isLimitSignificantlyExceeded = isLimitSignificantlyExceeded
+        )
+    }
+
+    private suspend fun getLastWeekWeightedAverageScreenTimeMillis(): Float? {
+        val firstUnlockEventDayBeginningInMillis =
+            timeRepository.getBeginningOfGivenDayTimeInMillis(
+                unlockEventsRepository.getFirstUnlockEvent()?.timeInMillis ?: return null
+            )
+        val lastWeekScreenTimes = (0..6).map {
+            val currentDayBeginningTimeInMillis =
+                timeRepository.getBeginningOfGivenDayTimeInMillis(
+                    dailyWrapUpDateTime.minusDays(it.toLong()).toTimeInMillis()
+                )
+
+            if (firstUnlockEventDayBeginningInMillis <= currentDayBeginningTimeInMillis) {
+                getScreenTimeDurationForGivenDayUseCase(currentDayBeginningTimeInMillis)
+            } else null
+        }
+
+        var weightedDivider = 0f
+        var weightedSum = 0L
+
+        lastWeekScreenTimes.forEachIndexed { index, screenTime ->
+            screenTime?.let {
+                val weight = if (index < 4) 1 else 2
+                weightedDivider += weight
+                weightedSum += screenTime * weight
+            }
+        }
+
+        return if (weightedDivider == 0f) null else weightedSum / weightedDivider
+    }
+
     private suspend fun getScreenOnData(): DailyWrapUpData.ScreenOnData {
         val todayScreenOnsCount = getScreenOnEventsCountForGivenDayUseCase(
             dailyWrapUpDateTime.toTimeInMillis()
@@ -233,8 +328,10 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
 
     private companion object {
         const val MINIMAL_UNLOCKS_IMPROVEMENT_AMOUNT_FOR_RECOMMENDATION = 3
+        const val MINIMAL_SCREEN_TIME_IMPROVEMENT_MINUTES_FOR_RECOMMENDATION = 15
         const val UNLOCK_LIMIT_SIGNIFICANT_EXCEED_MULTIPLIER = 1.5
-        const val LAST_UNLOCK_LIMIT_APPLIANCE_DAYS_DIFFERENCE_FOR_RECOMMENDATION = 3
+        const val SCREEN_TIME_LIMIT_SIGNIFICANT_EXCEED_MULTIPLIER = 1.5
+        const val LAST_LIMIT_APPLIANCE_DAYS_DIFFERENCE_FOR_RECOMMENDATION = 3
 
         enum class ManyMoreScreenOnsThanUnlocksMultiplier(
             val multiplier: Int,

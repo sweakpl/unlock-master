@@ -4,6 +4,7 @@ data class DailyWrapUpData(
     val screenUnlocksData: ScreenUnlocksData,
     val screenTimeData: ScreenTimeData,
     val unlockLimitData: UnlockLimitData,
+    val screenTimeLimitData: ScreenTimeLimitData?,
     val screenOnData: ScreenOnData
 ) {
     data class ScreenUnlocksData(
@@ -24,6 +25,13 @@ data class DailyWrapUpData(
         val todayUnlockLimit: Int,
         val tomorrowUnlockLimit: Int,
         val recommendedUnlockLimit: Int?,
+        val isLimitSignificantlyExceeded: Boolean
+    )
+
+    data class ScreenTimeLimitData(
+        val todayScreenTimeLimitDurationMillis: Long,
+        val tomorrowScreenTimeLimitDurationMillis: Long,
+        val recommendedScreenTimeLimitDurationMinutes: Int?,
         val isLimitSignificantlyExceeded: Boolean
     )
 
