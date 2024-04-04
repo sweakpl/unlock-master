@@ -46,6 +46,7 @@ class DailyWrapUpViewModel @Inject constructor(
                 dailyWrapUpData.screenTimeData.todayScreenTimeDurationMillis
             val todayUnlockLimit = dailyWrapUpData.unlockLimitData.todayUnlockLimit
             val todayScreenOnEventsCount = dailyWrapUpData.screenOnData.todayScreenOnsCount
+            val minuteInMillis = 60000L
 
             state = state.copy(
                 isInitializing = false,
@@ -63,7 +64,7 @@ class DailyWrapUpViewModel @Inject constructor(
                 ),
                 screenTimeLimitPreviewData = dailyWrapUpData.screenTimeLimitData?.let {
                     DailyWrapUpCriterionPreviewType.ScreenTimeLimit(
-                        screenTimeLimitDurationMillis = it.todayScreenTimeLimitDurationMillis,
+                        screenTimeLimitDurationMillis = it.todayScreenTimeLimitDurationMinutes * minuteInMillis,
                         isSuggestionAvailable = it.recommendedScreenTimeLimitDurationMinutes != null
                     )
                 },
@@ -98,10 +99,9 @@ class DailyWrapUpViewModel @Inject constructor(
                 ),
                 screenTimeLimitDetailsData = dailyWrapUpData.screenTimeLimitData?.let {
                     DailyWrapUpScreenTimeLimitDetailsData(
-                        screenTimeLimitDurationMillis = it.todayScreenTimeLimitDurationMillis,
-                        tomorrowScreenTimeLimitDurationMillis = it.tomorrowScreenTimeLimitDurationMillis,
-                        suggestedScreenTimeLimitDurationMillis =
-                        it.recommendedScreenTimeLimitDurationMinutes?.run { this * 60000L },
+                        screenTimeLimitDurationMinutes = it.todayScreenTimeLimitDurationMinutes,
+                        tomorrowScreenTimeLimitDurationMinutes = it.tomorrowScreenTimeLimitDurationMinutes,
+                        suggestedScreenTimeLimitDurationMinutes = it.recommendedScreenTimeLimitDurationMinutes,
                         isSuggestedScreenTimeLimitApplied = false,
                         isLimitSignificantlyExceeded = it.isLimitSignificantlyExceeded
                     )
@@ -149,11 +149,9 @@ class DailyWrapUpViewModel @Inject constructor(
                 }
             }
             is DailyWrapUpScreenEvent.ApplySuggestedScreenTimeLimit -> {
-                state.screenTimeLimitDetailsData?.suggestedScreenTimeLimitDurationMillis?.let {
+                state.screenTimeLimitDetailsData?.suggestedScreenTimeLimitDurationMinutes?.let {
                     viewModelScope.launch {
-                        addOrUpdateScreenTimeLimitForTomorrowUseCase(
-                            limitAmountMinutes = (it / 60000).toInt()
-                        )
+                        addOrUpdateScreenTimeLimitForTomorrowUseCase(limitAmountMinutes = it)
 
                         state = state.copy(
                             screenTimeLimitDetailsData = state.screenTimeLimitDetailsData?.copy(

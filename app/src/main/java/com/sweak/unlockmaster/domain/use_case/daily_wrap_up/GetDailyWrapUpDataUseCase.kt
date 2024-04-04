@@ -20,6 +20,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import javax.inject.Inject
 import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 import kotlin.properties.Delegates
 
 class GetDailyWrapUpDataUseCase @Inject constructor(
@@ -204,13 +205,12 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
         }
 
         val minuteInMillis = 60000L
-        val todayScreenTimeLimit = screenTimeLimitsRepository.getScreenTimeLimitActiveAtTime(
+        val todayScreenTimeLimitMinutes = screenTimeLimitsRepository.getScreenTimeLimitActiveAtTime(
             timeInMillis = dailyWrapUpDateTime.toTimeInMillis()
-        ) ?: return null
-        val todayScreenTimeLimitMillis = todayScreenTimeLimit.limitAmountMinutes * minuteInMillis
-        val tomorrowScreenTimeLimitMillis = screenTimeLimitsRepository.getScreenTimeLimitActiveAtTime(
+        )?.limitAmountMinutes ?: return null
+        val tomorrowScreenTimeLimitMinutes = screenTimeLimitsRepository.getScreenTimeLimitActiveAtTime(
             timeInMillis = dailyWrapUpDateTime.plusDays(1).toTimeInMillis()
-        )?.limitAmountMinutes?.run { this * minuteInMillis } ?: return null
+        )?.limitAmountMinutes ?: return null
 
         val todayBeginningTimeInMillis = timeRepository.getBeginningOfGivenDayTimeInMillis(
             dailyWrapUpDateTime.toTimeInMillis()
@@ -226,9 +226,9 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
 
         val recommendedScreenTimeLimit: Int?
 
-        if (tomorrowScreenTimeLimitMillis != todayScreenTimeLimitMillis ||
+        if (tomorrowScreenTimeLimitMinutes != todayScreenTimeLimitMinutes ||
             !isLastAppliedScreenTimeLimitEnoughDaysAgoForNewRecommendation ||
-            todayScreenTimeLimit.limitAmountMinutes == SCREEN_TIME_LIMIT_MINUTES_LOWER_BOUND
+            todayScreenTimeLimitMinutes == SCREEN_TIME_LIMIT_MINUTES_LOWER_BOUND
         ) {
             recommendedScreenTimeLimit = null
         } else {
@@ -236,33 +236,33 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
 
             recommendedScreenTimeLimit = lastWeekAverageScreenTimeMillis?.let {
                 val screenTimeDifferenceMinutes =
-                    ((todayScreenTimeLimitMillis - it) / minuteInMillis).roundToInt()
+                    (todayScreenTimeLimitMinutes * minuteInMillis - it) / minuteInMillis
 
                 if (screenTimeDifferenceMinutes >= MINIMAL_SCREEN_TIME_IMPROVEMENT_MINUTES_FOR_RECOMMENDATION) {
                     val screenTimeLimitDecreaseMultiplier =
                         screenTimeDifferenceMinutes / MINIMAL_SCREEN_TIME_IMPROVEMENT_MINUTES_FOR_RECOMMENDATION
                     val screenTimeLimitDecreaseMinutes =
-                        SCREEN_TIME_LIMIT_INTERVAL_MINUTES * screenTimeLimitDecreaseMultiplier
+                        (SCREEN_TIME_LIMIT_INTERVAL_MINUTES * screenTimeLimitDecreaseMultiplier)
+                            .toInt()
 
-                    ((todayScreenTimeLimitMillis / minuteInMillis).toInt() -
-                            screenTimeLimitDecreaseMinutes)
+                    (todayScreenTimeLimitMinutes - screenTimeLimitDecreaseMinutes)
                         .coerceAtLeast(SCREEN_TIME_LIMIT_MINUTES_LOWER_BOUND)
                 } else null
             }
         }
 
-        val isLimitSignificantlyExceeded = todayScreenTimeLimitMillis >=
-                todayScreenTimeLimitMillis * SCREEN_TIME_LIMIT_SIGNIFICANT_EXCEED_MULTIPLIER
+        val isLimitSignificantlyExceeded = todayScreenTimeLimitMinutes >=
+                todayScreenTimeLimitMinutes * SCREEN_TIME_LIMIT_SIGNIFICANT_EXCEED_MULTIPLIER
 
         return DailyWrapUpData.ScreenTimeLimitData(
-            todayScreenTimeLimitDurationMillis = todayScreenTimeLimitMillis,
-            tomorrowScreenTimeLimitDurationMillis = tomorrowScreenTimeLimitMillis,
+            todayScreenTimeLimitDurationMinutes = todayScreenTimeLimitMinutes,
+            tomorrowScreenTimeLimitDurationMinutes = tomorrowScreenTimeLimitMinutes,
             recommendedScreenTimeLimitDurationMinutes = recommendedScreenTimeLimit,
             isLimitSignificantlyExceeded = isLimitSignificantlyExceeded
         )
     }
 
-    private suspend fun getLastWeekWeightedAverageScreenTimeMillis(): Float? {
+    private suspend fun getLastWeekWeightedAverageScreenTimeMillis(): Long? {
         val firstUnlockEventDayBeginningInMillis =
             timeRepository.getBeginningOfGivenDayTimeInMillis(
                 unlockEventsRepository.getFirstUnlockEvent()?.timeInMillis ?: return null
@@ -289,7 +289,7 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
             }
         }
 
-        return if (weightedDivider == 0f) null else weightedSum / weightedDivider
+        return if (weightedDivider == 0f) null else (weightedSum / weightedDivider).roundToLong()
     }
 
     private suspend fun getScreenOnData(): DailyWrapUpData.ScreenOnData {

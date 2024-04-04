@@ -29,8 +29,8 @@ data class DailyWrapUpData(
     )
 
     data class ScreenTimeLimitData(
-        val todayScreenTimeLimitDurationMillis: Long,
-        val tomorrowScreenTimeLimitDurationMillis: Long,
+        val todayScreenTimeLimitDurationMinutes: Int,
+        val tomorrowScreenTimeLimitDurationMinutes: Int,
         val recommendedScreenTimeLimitDurationMinutes: Int?,
         val isLimitSignificantlyExceeded: Boolean
     )

@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import com.sweak.unlockmaster.R
-import com.sweak.unlockmaster.domain.UNLOCK_LIMIT_LOWER_BOUND
+import com.sweak.unlockmaster.domain.SCREEN_TIME_LIMIT_MINUTES_LOWER_BOUND
 import com.sweak.unlockmaster.presentation.common.theme.space
 import com.sweak.unlockmaster.presentation.common.util.Duration
 import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
@@ -41,6 +41,8 @@ fun DailyWrapUpScreenTimeLimitDetailsCard(
         ),
         modifier = modifier
     ) {
+        val minuteInMillis = 60000L
+
         Column(modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)) {
             Text(
                 text = stringResource(R.string.screen_time_limit),
@@ -52,7 +54,7 @@ fun DailyWrapUpScreenTimeLimitDetailsCard(
                 Text(
                     text = getCompactDurationString(
                         Duration(
-                            detailsData.screenTimeLimitDurationMillis,
+                            detailsData.screenTimeLimitDurationMinutes * minuteInMillis,
                             Duration.DisplayPrecision.MINUTES
                         )
                     ),
@@ -70,7 +72,7 @@ fun DailyWrapUpScreenTimeLimitDetailsCard(
                 )
             }
 
-            detailsData.suggestedScreenTimeLimitDurationMillis?.let { suggestedScreenTimeLimit ->
+            detailsData.suggestedScreenTimeLimitDurationMinutes?.let { suggestedScreenTimeLimit ->
                 Text(
                     text = stringResource(R.string.recommended_to_update),
                     style = MaterialTheme.typography.headlineMedium
@@ -80,7 +82,7 @@ fun DailyWrapUpScreenTimeLimitDetailsCard(
                     Text(
                         text = getCompactDurationString(
                             Duration(
-                                suggestedScreenTimeLimit,
+                                suggestedScreenTimeLimit * minuteInMillis,
                                 Duration.DisplayPrecision.MINUTES
                             )
                         ),
@@ -170,7 +172,7 @@ fun DailyWrapUpScreenTimeLimitDetailsCard(
                         }
                     }
                 }
-            } ?: if (detailsData.screenTimeLimitDurationMillis != detailsData.tomorrowScreenTimeLimitDurationMillis) {
+            } ?: if (detailsData.screenTimeLimitDurationMinutes != detailsData.tomorrowScreenTimeLimitDurationMinutes) {
                 Text(
                     text = stringResource(R.string.you_have_recently_set),
                     style = MaterialTheme.typography.headlineMedium
@@ -180,7 +182,7 @@ fun DailyWrapUpScreenTimeLimitDetailsCard(
                     Text(
                         text = getCompactDurationString(
                             Duration(
-                                detailsData.tomorrowScreenTimeLimitDurationMillis,
+                                detailsData.tomorrowScreenTimeLimitDurationMinutes * minuteInMillis,
                                 Duration.DisplayPrecision.MINUTES
                             )
                         ),
@@ -257,7 +259,7 @@ fun DailyWrapUpScreenTimeLimitDetailsCard(
 
                         Text(
                             text = stringResource(
-                                if (detailsData.screenTimeLimitDurationMillis != UNLOCK_LIMIT_LOWER_BOUND * 60000L)
+                                if (detailsData.screenTimeLimitDurationMinutes != SCREEN_TIME_LIMIT_MINUTES_LOWER_BOUND)
                                     R.string.keep_improving_for_screen_time_limit_recommendation
                                 else R.string.you_have_reached_the_lowest_screen_time_limit
                             ),
@@ -274,9 +276,9 @@ fun DailyWrapUpScreenTimeLimitDetailsCard(
 }
 
 data class DailyWrapUpScreenTimeLimitDetailsData(
-    val screenTimeLimitDurationMillis: Long,
-    val tomorrowScreenTimeLimitDurationMillis: Long,
-    val suggestedScreenTimeLimitDurationMillis: Long?,
+    val screenTimeLimitDurationMinutes: Int,
+    val tomorrowScreenTimeLimitDurationMinutes: Int,
+    val suggestedScreenTimeLimitDurationMinutes: Int?,
     val isSuggestedScreenTimeLimitApplied: Boolean,
     val isLimitSignificantlyExceeded: Boolean
 )
