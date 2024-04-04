@@ -55,6 +55,7 @@ import com.sweak.unlockmaster.presentation.common.util.popBackStackThrottled
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewCard
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenOnEventsDetailsCard
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenTimeDetailsCard
+import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenTimeLimitDetailsCard
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenUnlocksDetailsCard
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpUnlockLimitDetailsCard
 import kotlinx.coroutines.launch
@@ -118,6 +119,7 @@ fun DailyWrapUpScreen(
                 var screenUnlocksCardPosition by remember { mutableFloatStateOf(0f) }
                 var screenTimeCardPosition by remember { mutableFloatStateOf(0f) }
                 var unlockLimitCardPosition by remember { mutableFloatStateOf(0f) }
+                var screenTimeLimitCardPosition by remember { mutableFloatStateOf(0f) }
                 var screenOnEventsCardPosition by remember { mutableFloatStateOf(0f) }
 
                 val navBarWithPaddingHeight = with(LocalDensity.current) {
@@ -214,7 +216,13 @@ fun DailyWrapUpScreen(
                             DailyWrapUpCriterionPreviewCard(
                                 dailyWrapUpCriterionPreviewType =
                                 dailyWrapUpScreenState.screenTimeLimitPreviewData,
-                                onClick = { /*TODO*/ },
+                                onClick = {
+                                    scrollScope.launch {
+                                        scrollState.animateScrollBy(
+                                            screenTimeLimitCardPosition - navBarWithPaddingHeight
+                                        )
+                                    }
+                                },
                                 modifier = Modifier.weight(1f)
                             )
                         }
@@ -241,87 +249,116 @@ fun DailyWrapUpScreen(
                         }
                     }
 
-                    DailyWrapUpScreenUnlocksDetailsCard(
-                        detailsData = dailyWrapUpScreenState.screenUnlocksDetailsData!!,
-                        onInteraction = {
-                            navController.navigateThrottled(
-                                Screen.StatisticsScreen.route,
-                                lifecycleOwner
-                            )
-                        },
-                        modifier = Modifier
-                            .padding(
-                                start = MaterialTheme.space.medium,
-                                end = MaterialTheme.space.medium,
-                                bottom = MaterialTheme.space.large
-                            )
-                            .fillMaxWidth()
-                            .onGloballyPositioned {
-                                screenUnlocksCardPosition = it.positionInRoot().y
-                            }
-                    )
-
-                    DailyWrapUpScreenTimeDetailsCard(
-                        detailsData = dailyWrapUpScreenState.screenTimeDetailsData!!,
-                        onInteraction = {
-                            navController.navigateThrottled(
-                                Screen.ScreenTimeScreen.withArguments(
-                                    dailyWrapUpDayTimeInMillis.toString()
-                                ),
-                                lifecycleOwner
-                            )
-                        },
-                        modifier = Modifier
-                            .padding(
-                                start = MaterialTheme.space.medium,
-                                end = MaterialTheme.space.medium,
-                                bottom = MaterialTheme.space.large
-                            )
-                            .fillMaxWidth()
-                            .onGloballyPositioned {
-                                screenTimeCardPosition = it.positionInRoot().y
-                            }
-                    )
-
-                    DailyWrapUpUnlockLimitDetailsCard(
-                        detailsData = dailyWrapUpScreenState.unlockLimitDetailsData!!,
-                        onInteraction = {
-                            dailyWrapUpViewModel.onEvent(
-                                DailyWrapUpScreenEvent.ApplySuggestedUnlockLimit
-                            )
-                        },
-                        modifier = Modifier
-                            .padding(
-                                start = MaterialTheme.space.medium,
-                                end = MaterialTheme.space.medium,
-                                bottom = MaterialTheme.space.large
-                            )
-                            .fillMaxWidth()
-                            .onGloballyPositioned {
-                                unlockLimitCardPosition = it.positionInRoot().y
-                            }
-                    )
-
-                    DailyWrapUpScreenOnEventsDetailsCard(
-                        detailsData = dailyWrapUpScreenState.screenOnEventsDetailsData!!,
-                        onInteraction = {
-                            dailyWrapUpViewModel.onEvent(
-                                DailyWrapUpScreenEvent.ScreenOnEventsInformationDialogVisible(
-                                    isVisible = true
+                    if (dailyWrapUpScreenState.screenUnlocksDetailsData != null) {
+                        DailyWrapUpScreenUnlocksDetailsCard(
+                            detailsData = dailyWrapUpScreenState.screenUnlocksDetailsData,
+                            onInteraction = {
+                                navController.navigateThrottled(
+                                    Screen.StatisticsScreen.route,
+                                    lifecycleOwner
                                 )
-                            )
-                        },
-                        modifier = Modifier
-                            .padding(
-                                start = MaterialTheme.space.medium,
-                                end = MaterialTheme.space.medium,
-                                bottom = MaterialTheme.space.large
-                            )
-                            .fillMaxWidth()
-                            .onGloballyPositioned {
-                                screenOnEventsCardPosition = it.positionInRoot().y
-                            }
-                    )
+                            },
+                            modifier = Modifier
+                                .padding(
+                                    start = MaterialTheme.space.medium,
+                                    end = MaterialTheme.space.medium,
+                                    bottom = MaterialTheme.space.large
+                                )
+                                .fillMaxWidth()
+                                .onGloballyPositioned {
+                                    screenUnlocksCardPosition = it.positionInRoot().y
+                                }
+                        )
+                    }
+
+                    if (dailyWrapUpScreenState.screenTimeDetailsData != null) {
+                        DailyWrapUpScreenTimeDetailsCard(
+                            detailsData = dailyWrapUpScreenState.screenTimeDetailsData,
+                            onInteraction = {
+                                navController.navigateThrottled(
+                                    Screen.ScreenTimeScreen.withArguments(
+                                        dailyWrapUpDayTimeInMillis.toString()
+                                    ),
+                                    lifecycleOwner
+                                )
+                            },
+                            modifier = Modifier
+                                .padding(
+                                    start = MaterialTheme.space.medium,
+                                    end = MaterialTheme.space.medium,
+                                    bottom = MaterialTheme.space.large
+                                )
+                                .fillMaxWidth()
+                                .onGloballyPositioned {
+                                    screenTimeCardPosition = it.positionInRoot().y
+                                }
+                        )
+                    }
+
+                    if (dailyWrapUpScreenState.unlockLimitDetailsData != null) {
+                        DailyWrapUpUnlockLimitDetailsCard(
+                            detailsData = dailyWrapUpScreenState.unlockLimitDetailsData,
+                            onInteraction = {
+                                dailyWrapUpViewModel.onEvent(
+                                    DailyWrapUpScreenEvent.ApplySuggestedUnlockLimit
+                                )
+                            },
+                            modifier = Modifier
+                                .padding(
+                                    start = MaterialTheme.space.medium,
+                                    end = MaterialTheme.space.medium,
+                                    bottom = MaterialTheme.space.large
+                                )
+                                .fillMaxWidth()
+                                .onGloballyPositioned {
+                                    unlockLimitCardPosition = it.positionInRoot().y
+                                }
+                        )
+                    }
+
+                    if (dailyWrapUpScreenState.screenTimeLimitDetailsData != null) {
+                        DailyWrapUpScreenTimeLimitDetailsCard(
+                            detailsData = dailyWrapUpScreenState.screenTimeLimitDetailsData,
+                            onInteraction = {
+                                dailyWrapUpViewModel.onEvent(
+                                    DailyWrapUpScreenEvent.ApplySuggestedScreenTimeLimit
+                                )
+                            },
+                            modifier = Modifier
+                                .padding(
+                                    start = MaterialTheme.space.medium,
+                                    end = MaterialTheme.space.medium,
+                                    bottom = MaterialTheme.space.large
+                                )
+                                .fillMaxWidth()
+                                .onGloballyPositioned {
+                                    screenTimeLimitCardPosition = it.positionInRoot().y
+                                }
+                        )
+                    }
+
+                    if (dailyWrapUpScreenState.screenOnEventsDetailsData != null) {
+                        DailyWrapUpScreenOnEventsDetailsCard(
+                            detailsData = dailyWrapUpScreenState.screenOnEventsDetailsData,
+                            onInteraction = {
+                                dailyWrapUpViewModel.onEvent(
+                                    DailyWrapUpScreenEvent.ScreenOnEventsInformationDialogVisible(
+                                        isVisible = true
+                                    )
+                                )
+                            },
+                            modifier = Modifier
+                                .padding(
+                                    start = MaterialTheme.space.medium,
+                                    end = MaterialTheme.space.medium,
+                                    bottom = MaterialTheme.space.large
+                                )
+                                .fillMaxWidth()
+                                .onGloballyPositioned {
+                                    screenOnEventsCardPosition = it.positionInRoot().y
+                                }
+                        )
+                    }
                 }
             } else {
                 Box(

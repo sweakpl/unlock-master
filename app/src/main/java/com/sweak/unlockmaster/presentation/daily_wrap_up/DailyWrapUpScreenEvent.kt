@@ -5,4 +5,6 @@ sealed class DailyWrapUpScreenEvent {
         DailyWrapUpScreenEvent()
 
     data object ApplySuggestedUnlockLimit : DailyWrapUpScreenEvent()
+
+    data object ApplySuggestedScreenTimeLimit : DailyWrapUpScreenEvent()
 }

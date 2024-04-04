@@ -26,10 +26,12 @@ import androidx.compose.ui.unit.sp
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.domain.UNLOCK_LIMIT_LOWER_BOUND
 import com.sweak.unlockmaster.presentation.common.theme.space
+import com.sweak.unlockmaster.presentation.common.util.Duration
+import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
 
 @Composable
-fun DailyWrapUpUnlockLimitDetailsCard(
-    detailsData: DailyWrapUpUnlockLimitDetailsData,
+fun DailyWrapUpScreenTimeLimitDetailsCard(
+    detailsData: DailyWrapUpScreenTimeLimitDetailsData,
     onInteraction: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -41,14 +43,19 @@ fun DailyWrapUpUnlockLimitDetailsCard(
     ) {
         Column(modifier = Modifier.padding(all = MaterialTheme.space.smallMedium)) {
             Text(
-                text = stringResource(R.string.unlock_limit),
+                text = stringResource(R.string.screen_time_limit),
                 style = MaterialTheme.typography.displayLarge,
                 modifier = Modifier.padding(bottom = MaterialTheme.space.small)
             )
 
             Row {
                 Text(
-                    text = detailsData.unlockLimit.toString(),
+                    text = getCompactDurationString(
+                        Duration(
+                            detailsData.screenTimeLimitDurationMillis,
+                            Duration.DisplayPrecision.MINUTES
+                        )
+                    ),
                     style = MaterialTheme.typography.displayLarge,
                     fontSize = 32.sp,
                     modifier = Modifier
@@ -57,13 +64,13 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                 )
 
                 Text(
-                    text = stringResource(R.string.was_your_unlock_limit),
+                    text = stringResource(R.string.was_your_screen_time_limit),
                     style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier.alignByBaseline()
                 )
             }
 
-            detailsData.suggestedUnlockLimit?.let { suggestedUnlockLimit ->
+            detailsData.suggestedScreenTimeLimitDurationMillis?.let { suggestedScreenTimeLimit ->
                 Text(
                     text = stringResource(R.string.recommended_to_update),
                     style = MaterialTheme.typography.headlineMedium
@@ -71,7 +78,12 @@ fun DailyWrapUpUnlockLimitDetailsCard(
 
                 Row(modifier = Modifier.padding(bottom = MaterialTheme.space.medium)) {
                     Text(
-                        text = suggestedUnlockLimit.toString(),
+                        text = getCompactDurationString(
+                            Duration(
+                                suggestedScreenTimeLimit,
+                                Duration.DisplayPrecision.MINUTES
+                            )
+                        ),
                         style = MaterialTheme.typography.displayLarge,
                         fontSize = 32.sp,
                         color = MaterialTheme.colorScheme.secondary,
@@ -103,7 +115,7 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                         )
 
                         Text(
-                            text = stringResource(R.string.apply_suggested_unlock_limit),
+                            text = stringResource(R.string.apply_suggested_screen_time_limit),
                             style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier
                                 .weight(1f)
@@ -111,8 +123,8 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                         )
 
                         AnimatedContent(
-                            targetState = detailsData.isSuggestedUnlockLimitApplied,
-                            label = "applySuggestedUnlockLimitAnimation"
+                            targetState = detailsData.isSuggestedScreenTimeLimitApplied,
+                            label = "applySuggestedScreenTimeLimitAnimation"
                         ) {
                             if (it) {
                                 Row(
@@ -158,7 +170,7 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                         }
                     }
                 }
-            } ?: if (detailsData.unlockLimit != detailsData.tomorrowUnlockLimit) {
+            } ?: if (detailsData.screenTimeLimitDurationMillis != detailsData.tomorrowScreenTimeLimitDurationMillis) {
                 Text(
                     text = stringResource(R.string.you_have_recently_set),
                     style = MaterialTheme.typography.headlineMedium
@@ -166,7 +178,12 @@ fun DailyWrapUpUnlockLimitDetailsCard(
 
                 Row {
                     Text(
-                        text = detailsData.tomorrowUnlockLimit.toString(),
+                        text = getCompactDurationString(
+                            Duration(
+                                detailsData.tomorrowScreenTimeLimitDurationMillis,
+                                Duration.DisplayPrecision.MINUTES
+                            )
+                        ),
                         style = MaterialTheme.typography.displayLarge,
                         fontSize = 32.sp,
                         modifier = Modifier
@@ -175,7 +192,7 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                     )
 
                     Text(
-                        text = stringResource(R.string.as_your_new_unlock_limit),
+                        text = stringResource(R.string.as_your_new_screen_time_limit),
                         style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier.alignByBaseline()
                     )
@@ -205,14 +222,16 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                                 .padding(start = MaterialTheme.space.smallMedium)
                         ) {
                             Text(
-                                text = stringResource(R.string.unlock_limit_exceeded_significantly),
+                                text = stringResource(
+                                    R.string.screen_time_limit_exceeded_significantly
+                                ),
                                 style = MaterialTheme.typography.titleMedium,
                                 modifier = Modifier.padding(bottom = MaterialTheme.space.xSmall)
                             )
 
                             Text(
                                 text = stringResource(
-                                    R.string.consider_increasing_unlock_limit_or_pausing
+                                    R.string.consider_increasing_screen_time_limit_or_pausing
                                 ),
                                 style = MaterialTheme.typography.titleSmall,
                             )
@@ -238,9 +257,9 @@ fun DailyWrapUpUnlockLimitDetailsCard(
 
                         Text(
                             text = stringResource(
-                                if (detailsData.unlockLimit != UNLOCK_LIMIT_LOWER_BOUND)
-                                    R.string.keep_improving_for_unlock_limit_recommendation
-                                else R.string.you_have_reached_the_lowest_unlock_limit
+                                if (detailsData.screenTimeLimitDurationMillis != UNLOCK_LIMIT_LOWER_BOUND * 60000L)
+                                    R.string.keep_improving_for_screen_time_limit_recommendation
+                                else R.string.you_have_reached_the_lowest_screen_time_limit
                             ),
                             style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier
@@ -254,10 +273,10 @@ fun DailyWrapUpUnlockLimitDetailsCard(
     }
 }
 
-data class DailyWrapUpUnlockLimitDetailsData(
-    val unlockLimit: Int,
-    val tomorrowUnlockLimit: Int,
-    val suggestedUnlockLimit: Int?,
-    val isSuggestedUnlockLimitApplied: Boolean,
+data class DailyWrapUpScreenTimeLimitDetailsData(
+    val screenTimeLimitDurationMillis: Long,
+    val tomorrowScreenTimeLimitDurationMillis: Long,
+    val suggestedScreenTimeLimitDurationMillis: Long?,
+    val isSuggestedScreenTimeLimitApplied: Boolean,
     val isLimitSignificantlyExceeded: Boolean
 )

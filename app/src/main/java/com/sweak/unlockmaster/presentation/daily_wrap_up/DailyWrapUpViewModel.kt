@@ -8,11 +8,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sweak.unlockmaster.domain.model.DailyWrapUpData
 import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.GetDailyWrapUpDataUseCase
+import com.sweak.unlockmaster.domain.use_case.screen_time_limits.AddOrUpdateScreenTimeLimitForTomorrowUseCase
 import com.sweak.unlockmaster.domain.use_case.unlock_limits.AddOrUpdateUnlockLimitForTomorrowUseCase
 import com.sweak.unlockmaster.presentation.common.Screen
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenOnEventsDetailsData
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenTimeDetailsData
+import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenTimeLimitDetailsData
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenUnlocksDetailsData
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpUnlockLimitDetailsData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +26,8 @@ import javax.inject.Inject
 class DailyWrapUpViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getDailyWrapUpDataUseCase: GetDailyWrapUpDataUseCase,
-    private val addOrUpdateUnlockLimitForTomorrowUseCase: AddOrUpdateUnlockLimitForTomorrowUseCase
+    private val addOrUpdateUnlockLimitForTomorrowUseCase: AddOrUpdateUnlockLimitForTomorrowUseCase,
+    private val addOrUpdateScreenTimeLimitForTomorrowUseCase: AddOrUpdateScreenTimeLimitForTomorrowUseCase
 ) : ViewModel() {
 
     private val dailyWrapUpDayMillis: Long =
@@ -93,6 +96,16 @@ class DailyWrapUpViewModel @Inject constructor(
                     isSuggestedUnlockLimitApplied = false,
                     isLimitSignificantlyExceeded = dailyWrapUpData.unlockLimitData.isLimitSignificantlyExceeded
                 ),
+                screenTimeLimitDetailsData = dailyWrapUpData.screenTimeLimitData?.let {
+                    DailyWrapUpScreenTimeLimitDetailsData(
+                        screenTimeLimitDurationMillis = it.todayScreenTimeLimitDurationMillis,
+                        tomorrowScreenTimeLimitDurationMillis = it.tomorrowScreenTimeLimitDurationMillis,
+                        suggestedScreenTimeLimitDurationMillis =
+                        it.recommendedScreenTimeLimitDurationMinutes?.run { this * 60000L },
+                        isSuggestedScreenTimeLimitApplied = false,
+                        isLimitSignificantlyExceeded = it.isLimitSignificantlyExceeded
+                    )
+                },
                 screenOnEventsDetailsData = DailyWrapUpScreenOnEventsDetailsData(
                     screenOnEventsCount = todayScreenOnEventsCount,
                     yesterdayDifference = dailyWrapUpData.screenOnData.yesterdayScreenOnsCount?.let {
@@ -130,6 +143,21 @@ class DailyWrapUpViewModel @Inject constructor(
                         state = state.copy(
                             unlockLimitDetailsData = state.unlockLimitDetailsData?.copy(
                                 isSuggestedUnlockLimitApplied = true
+                            )
+                        )
+                    }
+                }
+            }
+            is DailyWrapUpScreenEvent.ApplySuggestedScreenTimeLimit -> {
+                state.screenTimeLimitDetailsData?.suggestedScreenTimeLimitDurationMillis?.let {
+                    viewModelScope.launch {
+                        addOrUpdateScreenTimeLimitForTomorrowUseCase(
+                            limitAmountMinutes = (it / 60000).toInt()
+                        )
+
+                        state = state.copy(
+                            screenTimeLimitDetailsData = state.screenTimeLimitDetailsData?.copy(
+                                isSuggestedScreenTimeLimitApplied = true
                             )
                         )
                     }

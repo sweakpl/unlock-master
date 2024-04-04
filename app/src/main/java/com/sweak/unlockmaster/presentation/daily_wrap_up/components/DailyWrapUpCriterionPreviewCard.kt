@@ -50,6 +50,7 @@ fun DailyWrapUpCriterionPreviewCard(
     val criterionIconContentDescription: String
     val progress: Progress?
     val isUnlockLimitSuggestionAvailable: Boolean
+    val isScreenTimeLimitSuggestionAvailable: Boolean
     val criterionValueText: String
     val criterionText: String
 
@@ -60,6 +61,7 @@ fun DailyWrapUpCriterionPreviewCard(
                 stringResource(R.string.content_description_open_padlock_icon)
             progress = dailyWrapUpCriterionPreviewType.progress
             isUnlockLimitSuggestionAvailable = false
+            isScreenTimeLimitSuggestionAvailable = false
             criterionValueText = dailyWrapUpCriterionPreviewType.screenUnlocksCount.toString()
             criterionText = stringResource(R.string.screen_unlocks)
         }
@@ -69,6 +71,7 @@ fun DailyWrapUpCriterionPreviewCard(
                 stringResource(R.string.content_description_clock_icon)
             progress = dailyWrapUpCriterionPreviewType.progress
             isUnlockLimitSuggestionAvailable = false
+            isScreenTimeLimitSuggestionAvailable = false
             criterionValueText = getCompactDurationString(
                 Duration(
                     dailyWrapUpCriterionPreviewType.screenTimeDurationMillis,
@@ -83,6 +86,7 @@ fun DailyWrapUpCriterionPreviewCard(
                 stringResource(R.string.content_description_crosshair_icon)
             progress = null
             isUnlockLimitSuggestionAvailable = dailyWrapUpCriterionPreviewType.isSuggestionAvailable
+            isScreenTimeLimitSuggestionAvailable = false
             criterionValueText = dailyWrapUpCriterionPreviewType.unlockLimitCount.toString()
             criterionText = stringResource(R.string.unlock_limit)
         }
@@ -91,7 +95,8 @@ fun DailyWrapUpCriterionPreviewCard(
             criterionIconContentDescription =
                 stringResource(R.string.content_description_alarm_icon)
             progress = null
-            isUnlockLimitSuggestionAvailable = dailyWrapUpCriterionPreviewType.isSuggestionAvailable
+            isUnlockLimitSuggestionAvailable = false
+            isScreenTimeLimitSuggestionAvailable = dailyWrapUpCriterionPreviewType.isSuggestionAvailable
             criterionValueText = getCompactDurationString(
                 Duration(
                     dailyWrapUpCriterionPreviewType.screenTimeLimitDurationMillis,
@@ -106,6 +111,7 @@ fun DailyWrapUpCriterionPreviewCard(
                 stringResource(R.string.content_description_light_icon)
             progress = dailyWrapUpCriterionPreviewType.progress
             isUnlockLimitSuggestionAvailable = false
+            isScreenTimeLimitSuggestionAvailable = false
             criterionValueText = dailyWrapUpCriterionPreviewType.screenOnEventsCount.toString()
             criterionText = stringResource(R.string.screen_on_events)
         }
@@ -185,7 +191,9 @@ fun DailyWrapUpCriterionPreviewCard(
                     style = MaterialTheme.typography.displayLarge
                 )
 
-                if (progress == null && isUnlockLimitSuggestionAvailable) {
+                if (progress == null &&
+                    (isUnlockLimitSuggestionAvailable || isScreenTimeLimitSuggestionAvailable)
+                ) {
                     Spacer(modifier = Modifier.width(MaterialTheme.space.xSmall))
 
                     Icon(

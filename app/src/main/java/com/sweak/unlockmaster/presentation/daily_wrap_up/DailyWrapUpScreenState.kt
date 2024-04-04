@@ -3,6 +3,7 @@ package com.sweak.unlockmaster.presentation.daily_wrap_up
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpCriterionPreviewType
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenOnEventsDetailsData
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenTimeDetailsData
+import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenTimeLimitDetailsData
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpScreenUnlocksDetailsData
 import com.sweak.unlockmaster.presentation.daily_wrap_up.components.DailyWrapUpUnlockLimitDetailsData
 
@@ -18,6 +19,7 @@ data class DailyWrapUpScreenState(
     val screenUnlocksDetailsData: DailyWrapUpScreenUnlocksDetailsData? = null,
     val screenTimeDetailsData: DailyWrapUpScreenTimeDetailsData? = null,
     val unlockLimitDetailsData: DailyWrapUpUnlockLimitDetailsData? = null,
+    val screenTimeLimitDetailsData: DailyWrapUpScreenTimeLimitDetailsData? = null,
     val screenOnEventsDetailsData: DailyWrapUpScreenOnEventsDetailsData? = null,
 
     val isScreenOnEventsInformationDialogVisible: Boolean = false

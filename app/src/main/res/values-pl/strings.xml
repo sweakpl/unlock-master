@@ -150,9 +150,9 @@
     <string name="as_much_as_yesterday">tyle samo, co wczoraj.</string>
     <string name="as_much_as_a_week_before">tyle samo, co tydzień temu.</string>
     <string name="of_screen_today">czasu przed ekranem dzisiaj.</string>
-    <string name="keep_improving_for_limit_recommendation">Nie przestawaj się poprawiać, aby otrzymać rekomendacje dotyczące aktualizacji limitu odblokowań!</string>
-    <string name="limit_exceeded_significantly">Limit odblokowań został znacznie przekroczony!</string>
-    <string name="consider_increasing_limit_or_pausing">Rozważ zwiększenie limitu odblokowań, jeśli intensywniej korzystasz z telefonu lub korzystasz z funkcji pauzy, gdy wiesz, że będziesz odblokowywać telefon celowo częściej (np. korzystając z kalkulatora lub aplikacji dziennika siłowni).</string>
+    <string name="keep_improving_for_unlock_limit_recommendation">Nie przestawaj się poprawiać, aby otrzymać rekomendacje dotyczące aktualizacji limitu odblokowań!</string>
+    <string name="unlock_limit_exceeded_significantly">Limit odblokowań został znacznie przekroczony!</string>
+    <string name="consider_increasing_unlock_limit_or_pausing">Rozważ zwiększenie limitu odblokowań, jeśli intensywniej korzystasz z telefonu lub skorzystaj z funkcji pauzy, gdy wiesz, że będziesz odblokowywać telefon celowo częściej (np. korzystając z kalkulatora lub aplikacji dziennika siłowni).</string>
     <string name="many_more_screen_ons_than_unlocks">O wiele więcej podświetleń ekranu niż odblokowań!</string>
     <string name="consider_limiting_auto_turn_on">Rozważ ograniczenie automatycznego włączania ekranu po otrzymaniu powiadomień lub umieść telefon dalej, aby zapobiec nadmiernemu zaglądaniu do telefonu.</string>
     <string name="daily_wrap_up_notifications_can_only_be_delivered_between">Codzienne powiadomienia podsumowujące mogą być dostarczane tylko między 20:00 a 23:59.</string>
@@ -230,6 +230,17 @@
     <string name="screen_time_limit_near_description">Do osiągnięcia limitu czasu przed ekranem pozostało 15 minut.</string>
     <string name="screen_time_limit_warnings">Ostrzeżenia o limicie czasu przed ekranem</string>
     <string name="screen_time_limit_warnings_description">UnlockMaster poinformuje Cię, kiedy zbliżasz się do limitu czasu przed ekranem i kiedy go osiągniesz, za pomocą powiadomień takich jak to:</string>
+    <string name="disable_screen_time_limit">Wyłącz limit czasu przed ekranem</string>
+    <string name="disable_screen_time_limit_description">Po wyłączeniu limitu czasu przed ekranem nie będzie on uwzględniany w statystykach, powiadomieniach mobilizujących i codziennych podsumowaniach.</string>
+    <string name="disable">Wyłącz</string>
+    <string name="was_your_screen_time_limit">było twoim limitem czasu przed ekranem.</string>
+    <string name="apply_suggested_screen_time_limit">Zastosuj sugerowany limit czasu przed ekranem:</string>
+    <string name="screen_time_limit_exceeded_significantly">Limit czasu przed ekranem znacznie przekroczony!</string>
+    <string name="consider_increasing_screen_time_limit_or_pausing">Rozważ zwiększenie limitu czasu przed ekranem, jeśli intensywniej korzystasz z telefonu lub skorzystaj funkcji pauzy, gdy wiesz, że ekran będzie celowo włączony dłużej (np. korzystając z kalkulatora lub aplikacji dziennika siłowni).</string>
+    <string name="keep_improving_for_screen_time_limit_recommendation">Nie przestawaj się poprawiać, aby otrzymać rekomendacje dotyczące aktualizacji limitu czasu przed ekranem!</string>
+    <string name="you_have_reached_the_lowest_screen_time_limit">Osiągnięto najniższy dostępny limit czasu przed ekranem. Dobra robota!</string>
+    <string name="as_your_new_screen_time_limit">jako nowy limit czasu przed ekranem.</string>
+
     <string name="content_description_application_icon">Ikona aplikacji UnlockMaster</string>
     <string name="content_description_back_icon">Ikona strzałki wstecz</string>
     <string name="content_description_guidance_icon">Ikona brzęczącego dzwonka</string>
@@ -274,7 +285,4 @@
     <string name="content_description_complementing_layers_icon">Ikona uzupełniających się warstw</string>
     <string name="content_description_screen_time_limit_mobilizing_notification_image">Obraz mobilizującego powiadomienia o limicie czasu przed ekranem</string>
     <string name="content_description_alarm_icon">Ikona budzika</string>
-    <string name="disable_screen_time_limit">Wyłącz limit czasu przed ekranem</string>
-    <string name="disable_screen_time_limit_description">Po wyłączeniu limitu czasu przed ekranem nie będzie on uwzględniany w statystykach, powiadomieniach mobilizujących i codziennych podsumowaniach.</string>
-    <string name="disable">Wyłącz</string>
 </resources>

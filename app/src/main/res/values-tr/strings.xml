@@ -140,9 +140,9 @@
     <string name="as_much_as_yesterday">dün olduğu kadar.</string>
     <string name="as_much_as_a_week_before">bir hafta öncesine kadar.</string>
     <string name="of_screen_today">bugün ekran zamanının.</string>
-    <string name="keep_improving_for_limit_recommendation">Kilidi açma limiti güncelleme önerileri almak için geliştirmeye devam et!</string>
-    <string name="limit_exceeded_significantly">Kilit açma sınırı önemli ölçüde aşıldı!</string>
-    <string name="consider_increasing_limit_or_pausing">Telefonunuzu daha kapsamlı kullanıyorsanız veya telefonun kilidini kasıtlı olarak daha sık açacağınızı bildiğinizde (örneğin hesap makinesi veya spor salonu kayıt uygulaması kullanarak) duraklatma özelliğini kullanıyorsanız kilit açma limitinizi artırmayı düşünün.</string>
+    <string name="keep_improving_for_unlock_limit_recommendation">Kilidi açma limiti güncelleme önerileri almak için geliştirmeye devam et!</string>
+    <string name="unlock_limit_exceeded_significantly">Kilit açma sınırı önemli ölçüde aşıldı!</string>
+    <string name="consider_increasing_unlock_limit_or_pausing">Telefonunuzu daha kapsamlı kullanıyorsanız veya telefonun kilidini kasıtlı olarak daha sık açacağınızı bildiğinizde (örneğin hesap makinesi veya spor salonu kayıt uygulaması kullanarak) duraklatma özelliğini kullanıyorsanız kilit açma limitinizi artırmayı düşünün.</string>
     <string name="many_more_screen_ons_than_unlocks">Kilidi açmaktan çok daha fazla ekran açılır!</string>
     <string name="consider_limiting_auto_turn_on">Telefonun gereksiz yere fazla kontrol edilmesini önlemek için bildirimleri aldıktan sonra otomatik ekran açmayı sınırlamayı veya telefonu daha uzağa koymayı düşünün.</string>
     <string name="daily_wrap_up_notifications_can_only_be_delivered_between">Günlük özet bildirimleri yalnızca 20:00 ile 23:59 (20:00 ile 23:59) arasında teslim edilebilir.</string>
@@ -219,6 +219,16 @@
     <string name="screen_time_limit_near_description">Ekran süresi sınırınıza ulaşmanıza 15 dakika kaldı.</string>
     <string name="screen_time_limit_warnings">Ekran süresi sınırı uyarıları</string>
     <string name="screen_time_limit_warnings_description">UnlockMaster, ekran süresi sınırınıza yaklaştığınızda ve ulaştığınızda bu gibi bildirimlerle sizi bilgilendirecektir:</string>
+    <string name="disable_screen_time_limit">Ekran süre sınırını devre dışı bırak</string>
+    <string name="disable_screen_time_limit_description">Ekran süresi sınırını devre dışı bırakırsanız, istatistiklerinizden, harekete geçirici bildirimlerden ve günlük özetlerden hariç tutulacaktır.</string>
+    <string name="disable">Devre dışı</string>
+    <string name="was_your_screen_time_limit">ekran süresi sınırınızdı.</string>
+    <string name="apply_suggested_screen_time_limit">Önerilen ekran süresi sınırını şimdi uygulayın:</string>
+    <string name="screen_time_limit_exceeded_significantly">Ekran süresi sınırı önemli ölçüde aşıldı!</string>
+    <string name="consider_increasing_screen_time_limit_or_pausing">Telefonunuzu daha yoğun kullanıyorsanız ekran süresi sınırınızı artırmayı veya ekranın bilinçli olarak daha uzun süre açık kalacağını bildiğinizde duraklatma özelliğini kullanmayı düşünün (ör. hesap makinesi veya spor günlüğü uygulaması kullanarak).</string>
+    <string name="keep_improving_for_screen_time_limit_recommendation">Ekran süresi sınırı güncelleme önerileri almak için gelişmeye devam edin!</string>
+    <string name="you_have_reached_the_lowest_screen_time_limit">Mevcut en düşük ekran süresi sınırına ulaştınız. İyi işti!</string>
+    <string name="as_your_new_screen_time_limit">yeni ekran süresi sınırınız olarak.</string>
 
     <string name="content_description_application_icon">UnlockMaster uygulama simgesi</string>
     <string name="content_description_back_icon">Geri ok simgesi</string>
@@ -264,7 +274,4 @@
     <string name="content_description_complementing_layers_icon">Tamamlayıcı katmanlar simgesi</string>
     <string name="content_description_screen_time_limit_mobilizing_notification_image">Ekran önünde zaman sınırı bildirimini harekete geçirme görüntüsü</string>
     <string name="content_description_alarm_icon">Çalar saat simgesi</string>
-    <string name="disable_screen_time_limit">Ekran süre sınırını devre dışı bırak</string>
-    <string name="disable_screen_time_limit_description">Ekran süresi sınırını devre dışı bırakırsanız, istatistiklerinizden, harekete geçirici bildirimlerden ve günlük özetlerden hariç tutulacaktır.</string>
-    <string name="disable">Devre dışı</string>
 </resources>
