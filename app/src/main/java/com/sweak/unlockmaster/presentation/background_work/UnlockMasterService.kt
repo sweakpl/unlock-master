@@ -190,10 +190,14 @@ class UnlockMasterService : Service() {
 
         screenTimeMonitoringJob?.cancel()
         screenTimeMonitoringJob = serviceScope.launch {
-            while (true) {
-                delay(150000) // Wait for 2.5 minutes
+            val secondInMillis = 1000L
+            val minuteInMillis = 60 * secondInMillis
 
-                val screenTimeLimitMillis = getScreenTimeLimitMinutesForTodayUseCase() * 60000
+            while (true) {
+                delay(15 * secondInMillis) // First, wait just 15 seconds
+
+                val screenTimeLimitMillis =
+                    getScreenTimeLimitMinutesForTodayUseCase() * minuteInMillis
                 val currentScreenTimeMillis = getScreenTimeDurationForGivenDayUseCase()
                 val timeLeftUntilLimit = screenTimeLimitMillis - currentScreenTimeMillis
                 val screenTimeLimitWarningState =
@@ -205,7 +209,7 @@ class UnlockMasterService : Service() {
                             .setScreenTimeLimitWarningState(WARNING_LIMIT_REACHED_FIRED)
                         showScreenTimeLimitNotification(WARNING_LIMIT_REACHED_FIRED)
                     }
-                } else if (timeLeftUntilLimit <= 900000) { // Less than 15 minutes
+                } else if (timeLeftUntilLimit <= 15 * minuteInMillis) { // Less than 15 minutes
                     if (screenTimeLimitWarningState != WARNING_15_MINUTES_TO_LIMIT_FIRED) {
                         userSessionRepository
                             .setScreenTimeLimitWarningState(WARNING_15_MINUTES_TO_LIMIT_FIRED)
@@ -216,6 +220,8 @@ class UnlockMasterService : Service() {
                         userSessionRepository.setScreenTimeLimitWarningState(NO_WARNINGS_FIRED)
                     }
                 }
+
+                delay(2 * minuteInMillis) // Then wait longer - 2 minutes
             }
         }
     }
