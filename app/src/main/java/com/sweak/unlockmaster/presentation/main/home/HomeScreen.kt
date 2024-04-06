@@ -107,14 +107,7 @@ fun HomeScreen(
                 title = {
                     Text(
                         text = stringResource(R.string.app_name),
-                        style = MaterialTheme.typography.displayMedium,
-                        modifier = Modifier.clickable {
-                            navController.navigate(
-                                Screen.DailyWrapUpScreen.withArguments(
-                                    System.currentTimeMillis().toString()
-                                )
-                            )
-                        }
+                        style = MaterialTheme.typography.displayMedium
                     )
                 },
                 navigationIcon = {
