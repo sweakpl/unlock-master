@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import com.sweak.unlockmaster.R
-import com.sweak.unlockmaster.domain.UNLOCK_LIMIT_LOWER_BOUND
 import com.sweak.unlockmaster.presentation.common.theme.space
 
 @Composable
@@ -98,7 +97,8 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.TipsAndUpdates,
-                            contentDescription = stringResource(R.string.content_description_tips_icon),
+                            contentDescription =
+                            stringResource(R.string.content_description_tips_icon),
                             modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
                         )
 
@@ -143,7 +143,8 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                                         Text(
                                             text = stringResource(R.string.update),
                                             style = MaterialTheme.typography.titleMedium,
-                                            modifier = Modifier.padding(end = MaterialTheme.space.small)
+                                            modifier = Modifier
+                                                .padding(end = MaterialTheme.space.small)
                                         )
 
                                         Icon(
@@ -232,13 +233,14 @@ fun DailyWrapUpUnlockLimitDetailsCard(
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.TipsAndUpdates,
-                            contentDescription = stringResource(R.string.content_description_tips_icon),
+                            contentDescription =
+                            stringResource(R.string.content_description_tips_icon),
                             modifier = Modifier.size(size = MaterialTheme.space.mediumLarge)
                         )
 
                         Text(
                             text = stringResource(
-                                if (detailsData.unlockLimit != UNLOCK_LIMIT_LOWER_BOUND)
+                                if (!detailsData.isLowestPossibleLimitReached)
                                     R.string.keep_improving_for_unlock_limit_recommendation
                                 else R.string.you_have_reached_the_lowest_unlock_limit
                             ),
@@ -259,5 +261,6 @@ data class DailyWrapUpUnlockLimitDetailsData(
     val tomorrowUnlockLimit: Int,
     val suggestedUnlockLimit: Int?,
     val isSuggestedUnlockLimitApplied: Boolean,
-    val isLimitSignificantlyExceeded: Boolean
+    val isLimitSignificantlyExceeded: Boolean,
+    val isLowestPossibleLimitReached: Boolean
 )

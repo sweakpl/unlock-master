@@ -59,7 +59,10 @@ class StatisticsViewModel @Inject constructor(
                 val screenTimeLimitDuration = if (isScreenTimeLimitEnabled) {
                     screenTimeLimitsRepository
                         .getScreenTimeLimitActiveAtTime(timeInMillis = highlightedDayTimeInMillis)
-                        ?.let { it.limitAmountMinutes * 60000L }
+                        ?.let {
+                            val minuteInMillis = 60000L
+                            it.limitAmountMinutes * minuteInMillis
+                        }
                 } else null
 
                 state = state.copy(

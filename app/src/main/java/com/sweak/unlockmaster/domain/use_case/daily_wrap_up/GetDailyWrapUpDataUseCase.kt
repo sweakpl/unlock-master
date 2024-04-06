@@ -165,7 +165,8 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
             todayUnlockLimit = todayUnlockLimit,
             tomorrowUnlockLimit = tomorrowUnlockLimit,
             recommendedUnlockLimit = recommendedUnlockLimit,
-            isLimitSignificantlyExceeded = isLimitSignificantlyExceeded
+            isLimitSignificantlyExceeded = isLimitSignificantlyExceeded,
+            isLowestUnlockLimitReached = todayUnlockLimit == UNLOCK_LIMIT_LOWER_BOUND
         )
     }
 
@@ -258,7 +259,9 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
             todayScreenTimeLimitDurationMinutes = todayScreenTimeLimitMinutes,
             tomorrowScreenTimeLimitDurationMinutes = tomorrowScreenTimeLimitMinutes,
             recommendedScreenTimeLimitDurationMinutes = recommendedScreenTimeLimit,
-            isLimitSignificantlyExceeded = isLimitSignificantlyExceeded
+            isLimitSignificantlyExceeded = isLimitSignificantlyExceeded,
+            isLowestScreenTimeLimitReached =
+            todayScreenTimeLimitMinutes == SCREEN_TIME_LIMIT_MINUTES_LOWER_BOUND
         )
     }
 

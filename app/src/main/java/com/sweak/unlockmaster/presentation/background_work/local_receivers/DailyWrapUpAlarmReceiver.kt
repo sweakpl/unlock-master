@@ -15,8 +15,8 @@ import com.sweak.unlockmaster.domain.MINIMAL_DAILY_WRAP_UPS_NOTIFICATIONS_TIME_H
 import com.sweak.unlockmaster.domain.repository.TimeRepository
 import com.sweak.unlockmaster.domain.toTimeInMillis
 import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.GetDailyWrapUpNotificationsTimeUseCase
-import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.IsGivenDayEligibleForDailyWrapUpUseCase
 import com.sweak.unlockmaster.domain.use_case.daily_wrap_up.ScheduleDailyWrapUpNotificationsUseCase
+import com.sweak.unlockmaster.domain.use_case.unlock_events.GetUnlockEventsCountForGivenDayUseCase
 import com.sweak.unlockmaster.presentation.MainActivity
 import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UPS_NOTIFICATIONS_CHANNEL_ID
 import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UP_NOTIFICATION_ID
@@ -40,7 +40,7 @@ class DailyWrapUpAlarmReceiver : BroadcastReceiver() {
     lateinit var timeRepository: TimeRepository
 
     @Inject
-    lateinit var isGivenDayEligibleForDailyWrapUpUseCase: IsGivenDayEligibleForDailyWrapUpUseCase
+    lateinit var getUnlockEventsCountForGivenDayUseCase: GetUnlockEventsCountForGivenDayUseCase
 
     @Inject
     lateinit var getDailyWrapUpNotificationsTimeUseCase: GetDailyWrapUpNotificationsTimeUseCase
@@ -74,7 +74,11 @@ class DailyWrapUpAlarmReceiver : BroadcastReceiver() {
                 dailyWrapUpDateTime.toTimeInMillis()
             }
 
-        if (!runBlocking { isGivenDayEligibleForDailyWrapUpUseCase(dailyWrapUpDayTimeInMillis) }) {
+        val isDayEligibleForDailyWrapUp = runBlocking {
+            getUnlockEventsCountForGivenDayUseCase(dailyWrapUpDayTimeInMillis) > 0
+        }
+
+        if (!isDayEligibleForDailyWrapUp) {
             return null
         }
 

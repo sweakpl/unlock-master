@@ -71,7 +71,7 @@ fun DailyWrapUpScreenTimeDetailsCard(
                 )
             }
 
-            val minuteInMillis = 60000
+            val minuteInMillis = 60000L
 
             detailsData.yesterdayDifferenceMillis?.let { durationMillis ->
                 Row {

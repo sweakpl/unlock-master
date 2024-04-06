@@ -8,8 +8,10 @@ class SetDailyWrapUpNotificationsTimeUseCase @Inject constructor(
     private val userSessionRepository: UserSessionRepository
 ) {
     suspend operator fun invoke(dailyWrapUpNotificationsTime: DailyWrapUpNotificationsTime) {
+        val hourInMinutes = 60
         val notificationTimeInMinutesAfterMidnight =
-            dailyWrapUpNotificationsTime.hourOfDay * 60 + dailyWrapUpNotificationsTime.minute
+            dailyWrapUpNotificationsTime.hourOfDay * hourInMinutes +
+                    dailyWrapUpNotificationsTime.minute
 
         userSessionRepository.setDailyWrapUpNotificationsTimeInMinutesAfterMidnight(
             minutes = notificationTimeInMinutesAfterMidnight

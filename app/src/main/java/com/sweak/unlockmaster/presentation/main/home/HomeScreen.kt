@@ -107,7 +107,14 @@ fun HomeScreen(
                 title = {
                     Text(
                         text = stringResource(R.string.app_name),
-                        style = MaterialTheme.typography.displayMedium
+                        style = MaterialTheme.typography.displayMedium,
+                        modifier = Modifier.clickable {
+                            navController.navigate(
+                                Screen.DailyWrapUpScreen.withArguments(
+                                    System.currentTimeMillis().toString()
+                                )
+                            )
+                        }
                     )
                 },
                 navigationIcon = {
@@ -508,6 +515,8 @@ fun HomeScreen(
                                     .fillMaxWidth()
                                     .padding(all = MaterialTheme.space.medium)
                             ) {
+                                val minuteInMillis = 60000L
+
                                 Row(
                                     horizontalArrangement = Arrangement.spacedBy(
                                         MaterialTheme.space.medium
@@ -533,7 +542,7 @@ fun HomeScreen(
                                                 Text(
                                                     text = getCompactDurationString(
                                                         Duration(
-                                                            screenTimeLimitMinutes * 60000L,
+                                                            screenTimeLimitMinutes * minuteInMillis,
                                                             Duration.DisplayPrecision.MINUTES
                                                         )
                                                     ),
@@ -619,7 +628,7 @@ fun HomeScreen(
                                                     Text(
                                                         text = getCompactDurationString(
                                                             Duration(
-                                                                screenTimeLimitForTomorrowMinutes * 60000L,
+                                                                screenTimeLimitForTomorrowMinutes * minuteInMillis,
                                                                 Duration.DisplayPrecision.MINUTES
                                                             )
                                                         ),

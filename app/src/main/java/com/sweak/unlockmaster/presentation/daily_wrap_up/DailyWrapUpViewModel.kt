@@ -52,41 +52,53 @@ class DailyWrapUpViewModel @Inject constructor(
                 isInitializing = false,
                 screenUnlocksPreviewData = DailyWrapUpCriterionPreviewType.ScreenUnlocks(
                     screenUnlocksCount = todayUnlocksCount,
-                    progress = convertDomainProgressToUiProgressEnum(dailyWrapUpData.screenUnlocksData.progress)
+                    progress = convertDomainProgressToUiProgressEnum(
+                        dailyWrapUpData.screenUnlocksData.progress
+                    )
                 ),
                 screenTimePreviewData = DailyWrapUpCriterionPreviewType.ScreenTime(
                     screenTimeDurationMillis = todayScreenTimeDurationMillis,
-                    progress = convertDomainProgressToUiProgressEnum(dailyWrapUpData.screenTimeData.progress)
+                    progress = convertDomainProgressToUiProgressEnum(
+                        dailyWrapUpData.screenTimeData.progress
+                    )
                 ),
                 unlockLimitPreviewData = DailyWrapUpCriterionPreviewType.UnlockLimit(
                     unlockLimitCount = todayUnlockLimit,
-                    isSuggestionAvailable = dailyWrapUpData.unlockLimitData.recommendedUnlockLimit != null
+                    isSuggestionAvailable =
+                    dailyWrapUpData.unlockLimitData.recommendedUnlockLimit != null
                 ),
                 screenTimeLimitPreviewData = dailyWrapUpData.screenTimeLimitData?.let {
                     DailyWrapUpCriterionPreviewType.ScreenTimeLimit(
-                        screenTimeLimitDurationMillis = it.todayScreenTimeLimitDurationMinutes * minuteInMillis,
+                        screenTimeLimitDurationMillis =
+                        it.todayScreenTimeLimitDurationMinutes * minuteInMillis,
                         isSuggestionAvailable = it.recommendedScreenTimeLimitDurationMinutes != null
                     )
                 },
                 screenOnEventsPreviewData = DailyWrapUpCriterionPreviewType.ScreenOnEvents(
                     screenOnEventsCount = todayScreenOnEventsCount,
-                    progress = convertDomainProgressToUiProgressEnum(dailyWrapUpData.screenOnData.progress)
+                    progress = convertDomainProgressToUiProgressEnum(
+                        dailyWrapUpData.screenOnData.progress
+                    )
                 ),
                 screenUnlocksDetailsData = DailyWrapUpScreenUnlocksDetailsData(
                     screenUnlocksCount = dailyWrapUpData.screenUnlocksData.todayUnlocksCount,
-                    yesterdayDifference = dailyWrapUpData.screenUnlocksData.yesterdayUnlocksCount?.let {
+                    yesterdayDifference =
+                    dailyWrapUpData.screenUnlocksData.yesterdayUnlocksCount?.let {
                         todayUnlocksCount - it
                     },
-                    weekBeforeDifference = dailyWrapUpData.screenUnlocksData.lastWeekUnlocksCount?.let {
+                    weekBeforeDifference =
+                    dailyWrapUpData.screenUnlocksData.lastWeekUnlocksCount?.let {
                         todayUnlocksCount - it
                     }
                 ),
                 screenTimeDetailsData = DailyWrapUpScreenTimeDetailsData(
                     screenTimeDurationMillis = todayScreenTimeDurationMillis,
-                    yesterdayDifferenceMillis = dailyWrapUpData.screenTimeData.yesterdayScreenTimeDurationMillis?.let {
+                    yesterdayDifferenceMillis =
+                    dailyWrapUpData.screenTimeData.yesterdayScreenTimeDurationMillis?.let {
                         todayScreenTimeDurationMillis - it
                     },
-                    weekBeforeDifferenceMillis = dailyWrapUpData.screenTimeData.lastWeekScreenTimeDurationMillis?.let {
+                    weekBeforeDifferenceMillis =
+                    dailyWrapUpData.screenTimeData.lastWeekScreenTimeDurationMillis?.let {
                         todayScreenTimeDurationMillis - it
                     }
                 ),
@@ -95,26 +107,35 @@ class DailyWrapUpViewModel @Inject constructor(
                     tomorrowUnlockLimit = dailyWrapUpData.unlockLimitData.tomorrowUnlockLimit,
                     suggestedUnlockLimit = dailyWrapUpData.unlockLimitData.recommendedUnlockLimit,
                     isSuggestedUnlockLimitApplied = false,
-                    isLimitSignificantlyExceeded = dailyWrapUpData.unlockLimitData.isLimitSignificantlyExceeded
+                    isLimitSignificantlyExceeded =
+                    dailyWrapUpData.unlockLimitData.isLimitSignificantlyExceeded,
+                    isLowestPossibleLimitReached =
+                    dailyWrapUpData.unlockLimitData.isLowestUnlockLimitReached
                 ),
                 screenTimeLimitDetailsData = dailyWrapUpData.screenTimeLimitData?.let {
                     DailyWrapUpScreenTimeLimitDetailsData(
                         screenTimeLimitDurationMinutes = it.todayScreenTimeLimitDurationMinutes,
-                        tomorrowScreenTimeLimitDurationMinutes = it.tomorrowScreenTimeLimitDurationMinutes,
-                        suggestedScreenTimeLimitDurationMinutes = it.recommendedScreenTimeLimitDurationMinutes,
+                        tomorrowScreenTimeLimitDurationMinutes =
+                        it.tomorrowScreenTimeLimitDurationMinutes,
+                        suggestedScreenTimeLimitDurationMinutes =
+                        it.recommendedScreenTimeLimitDurationMinutes,
                         isSuggestedScreenTimeLimitApplied = false,
-                        isLimitSignificantlyExceeded = it.isLimitSignificantlyExceeded
+                        isLimitSignificantlyExceeded = it.isLimitSignificantlyExceeded,
+                        isLowestPossibleLimitReached = it.isLowestScreenTimeLimitReached
                     )
                 },
                 screenOnEventsDetailsData = DailyWrapUpScreenOnEventsDetailsData(
                     screenOnEventsCount = todayScreenOnEventsCount,
-                    yesterdayDifference = dailyWrapUpData.screenOnData.yesterdayScreenOnsCount?.let {
+                    yesterdayDifference =
+                    dailyWrapUpData.screenOnData.yesterdayScreenOnsCount?.let {
                         todayScreenOnEventsCount - it
                     },
-                    weekBeforeDifference = dailyWrapUpData.screenOnData.lastWeekScreenOnsCount?.let {
+                    weekBeforeDifference =
+                    dailyWrapUpData.screenOnData.lastWeekScreenOnsCount?.let {
                         todayScreenOnEventsCount - it
                     },
-                    isManyMoreScreenOnEventsThanUnlocks = dailyWrapUpData.screenOnData.isManyMoreScreenOnsThanUnlocks
+                    isManyMoreScreenOnEventsThanUnlocks =
+                    dailyWrapUpData.screenOnData.isManyMoreScreenOnsThanUnlocks
                 )
             )
         }
@@ -124,9 +145,12 @@ class DailyWrapUpViewModel @Inject constructor(
         progress: DailyWrapUpData.Progress
     ): DailyWrapUpCriterionPreviewType.Progress {
         return when (progress) {
-            DailyWrapUpData.Progress.IMPROVEMENT -> DailyWrapUpCriterionPreviewType.Progress.IMPROVEMENT
-            DailyWrapUpData.Progress.REGRESS -> DailyWrapUpCriterionPreviewType.Progress.REGRESS
-            DailyWrapUpData.Progress.STABLE -> DailyWrapUpCriterionPreviewType.Progress.STABLE
+            DailyWrapUpData.Progress.IMPROVEMENT ->
+                DailyWrapUpCriterionPreviewType.Progress.IMPROVEMENT
+            DailyWrapUpData.Progress.REGRESS ->
+                DailyWrapUpCriterionPreviewType.Progress.REGRESS
+            DailyWrapUpData.Progress.STABLE ->
+                DailyWrapUpCriterionPreviewType.Progress.STABLE
         }
     }
 

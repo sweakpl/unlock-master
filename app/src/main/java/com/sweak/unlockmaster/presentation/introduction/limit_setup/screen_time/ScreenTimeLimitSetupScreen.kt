@@ -243,10 +243,12 @@ fun ScreenTimeLimitSetupScreen(
 
                                 screenTimeLimitSetupScreenState.screenTimeLimitMinutesForTomorrow
                                     ?.let { screenTimeLimitMinutesForTomorrow ->
+                                        val minuteInMillis = 60000L
+
                                         Text(
                                             text = getCompactDurationString(
                                                 Duration(
-                                                    screenTimeLimitMinutesForTomorrow * 60000L,
+                                                    screenTimeLimitMinutesForTomorrow * minuteInMillis,
                                                     Duration.DisplayPrecision.MINUTES
                                                 )
                                             ),

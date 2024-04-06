@@ -41,10 +41,12 @@ fun ScreenTimeLimitPickerSlider(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
+        val minuteInMillis = 60000L
+
         Text(
             text = getCompactDurationString(
                 Duration(
-                    pickedScreenTimeMinutes * 60000L,
+                    pickedScreenTimeMinutes * minuteInMillis,
                     Duration.DisplayPrecision.MINUTES
                 )
             ),
