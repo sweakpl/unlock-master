@@ -41,8 +41,9 @@ UnlockMaster doesn't just track unlocks; it also provides you with eye-catching 
    <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/HomeScreen.jpg" width="196" height="416"/>  
    <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/StatisticsScreen.jpg" width="196" height="416"/>  
    <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/ScreenTimeScreen.jpg" width="196" height="416"/>  
-   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/UnlockLimitSetupScreen.jpg" width="196" height="416"/>  
    <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/DailyWrapUpScreen.jpg" width="196" height="416"/>  
+   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/UnlockLimitSetupScreen.jpg" width="196" height="416"/>  
+   <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/ScreenTimeLimitSetupScreen.jpg" width="196" height="416"/>  
 </p>
 
 ## Setup
