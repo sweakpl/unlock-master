@@ -70,6 +70,9 @@ class MainActivity : ComponentActivity() {
     lateinit var scheduleDailyWrapUpNotificationsUseCase: ScheduleDailyWrapUpNotificationsUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Fix for https://issuetracker.google.com/issues/37095334
+        window.decorView
+
         super.onCreate(savedInstanceState)
 
         setContent {
