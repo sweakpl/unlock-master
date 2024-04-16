@@ -1,4 +1,0 @@
-* Added a new functionality of user-customizable screen time limit,
-* Added Polish and Turkish languages,
-* UI and performance improvements,
-* Bug fixes.
