@@ -25,7 +25,7 @@
     </plurals>
 
     <string name="app_name" translatable="false">UnlockMaster</string>
-    <string name="your_unlock_count_is">Your unlock count is %1$d/%2$d</string>
+    <string name="your_unlock_count_is">Your today\'s unlock count is %1$d/%2$d</string>
     <string name="background_service_notification_channel_title">Background work indication</string>
     <string name="background_service_notification_channel_description">Display an ongoing notification about background service running</string>
     <string name="welcome_to_unlock_master">Welcome to UnlockMaster!</string>
@@ -47,7 +47,7 @@
     <string name="unlock_limit_purposes">Unlock limit serves these purposes:</string>
     <string name="confirm">Confirm</string>
     <string name="reference">Reference</string>
-    <string name="reference_description">Unlock limit is a number of unlocks that you don’t want to exceed during the day.</string>
+    <string name="reference_description">Unlock limit is a number of unlocks that you don\'t want to exceed during the day.</string>
     <string name="adjustability">Adjustability</string>
     <string name="adjustability_description_unlock_limit">Unlock limit can be adjusted to meet your improving smartphone usage standards.</string>
     <string name="note_reaching_limit_wont_prevent_unlocking">Note: reaching your unlock limit will NOT prevent you from unlocking your screen.</string>
@@ -70,7 +70,7 @@
     <string name="notifications_permission_required_description">Notifications permission is crucial for UnlockMaster to function properly. Go to settings in order to grant it.</string>
     <string name="settings">Settings</string>
     <string name="later">Later</string>
-    <string name="all_set">All set, you’re ready to go!</string>
+    <string name="all_set">All set, you\'re ready to go!</string>
     <string name="all_set_description">Now UnlockMaster will constantly work for you and help you improve your smartphone usage habits! You can know that UnlockMaster is working when you see notification like this one:</string>
     <string name="mobilizing_notifications">Mobilizing notifications</string>
     <string name="mobilizing_notifications_description">UnlockMaster will cyclically post popping-off notifications reminding you of your goals and to prevent unnecessary smartphone usage:</string>
@@ -79,13 +79,12 @@
     <string name="note_you_can_change_time_of_notifications">Note: you can always change the frequency and time of those notifications in the settings.</string>
     <string name="lets_go">Let\'s go!</string>
     <string name="setup_complete">Setup complete</string>
-    <string name="unlock_master_paused">UnlockMaster (paused)</string>
     <string name="todays_unlock_limit">Today\'s unlock limit:</string>
     <string name="set_new">Set new</string>
     <string name="update_your_unlock_limit">Update your unlock limit</string>
     <string name="update_your_unlock_limit_description">You can change your unlock limit to better suit your smartphone usage style. The new unlock limit will take effect tomorrow:</string>
     <string name="new_unlock_limit_set_for_tomorrow">New unlock limit is already set for tomorrow:</string>
-    <string name="remove_tomorrow_unlock_limit">Remove tomorrow’s new unlock limit?</string>
+    <string name="remove_tomorrow_unlock_limit">Remove tomorrow\'s new unlock limit?</string>
     <string name="remove_tomorrow_unlock_limit_description">Are you sure you want to cancel the new unlock limit that would take effect tomorrow?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -102,7 +101,7 @@
     <string name="seconds_amount">%1$ds</string>
     <string name="counter_paused_colon">Counter paused:</string>
     <string name="pause_counter">Pause the counter?</string>
-    <string name="pause_counter_description">Are you sure you want to pause the counter? Phone unlocks, screen time etc. won’t be recorded when the counter is paused.</string>
+    <string name="pause_counter_description">Are you sure you want to pause the counter? Phone unlocks, screen time etc. won\'t be recorded when the counter is paused.</string>
     <string name="pause">Pause</string>
     <string name="cancel">Cancel</string>
     <string name="screen_time_details">Screen time details</string>
@@ -112,11 +111,11 @@
     <string name="ok">OK</string>
     <string name="history_empty_for_that_day">History is empty for that day</string>
     <string name="percent_of_limit_reached">%1$d%% of limit reached!</string>
-    <string name="thats_your_unlock_number">That’s your unlock number %1$d out of %2$d</string>
+    <string name="thats_your_unlock_number">That\'s your unlock number %1$d out of %2$d</string>
     <string name="mobilizing_notifications_channel_title">Mobilizing reminders</string>
     <string name="mobilizing_notifications_channel_description">Display notifications reminding about smartphone usage goals</string>
     <string name="mobilizing_notifications_setting_description">As per your preference, these notifications will be displayed every time you reach an unlock count that is a multiple of a given percent of your unlock limit. You can change that percent here:</string>
-    <string name="mobilizing_notifications_setting_example">Your unlock limit is 40 and you’ve selected notifications every 25% of your unlock limit.\nIn that case, mobilizing notifications will come when you reach 10, 20, 30 and 40 unlocks.</string>
+    <string name="mobilizing_notifications_setting_example">Your unlock limit is 40 and you\'ve selected notifications every 25% of your unlock limit.\nIn that case, mobilizing notifications will come when you reach 10, 20, 30 and 40 unlocks.</string>
     <string name="every_x_percent">Every %1$d%%</string>
     <string name="example">Example:</string>
     <string name="daily_wrapup_notifications_setting_description">As per your preference, these notifications will be displayed everyday at the time specified here. Drag the hour and minute fields to set it:</string>
@@ -166,7 +165,7 @@
     <string name="degraded_experience">Degraded experience</string>
     <string name="degraded_experience_description">The app cannot provide the best value to the user without being able to work properly.</string>
     <string name="setting_unavailable">Setting unavailable</string>
-    <string name="ignore_battery_optimization_unavailable">Unfortunately your system doesn’t support quick background work optimization setting. Please, refer to the next step: \"Fully optimize UnlockMaster for background work\".</string>
+    <string name="ignore_battery_optimization_unavailable">Unfortunately your system doesn\'t support quick background work optimization setting. Please, refer to the next step: \"Fully optimize UnlockMaster for background work\".</string>
     <string name="work_in_background_enabled">Work in background is enabled. Good job!</string>
     <string name="browser_not_found">Web browser not found</string>
     <string name="browser_not_found_open_link_manually">UnlockMaster could not find the web browser application to open the link. If you believe the browser is installed - please, open the link manually.</string>
@@ -212,13 +211,13 @@
     <string name="complementation_description">Screen time limit along with unlock limit lets you control usage habits even more precise.</string>
     <string name="complementation">Complementation</string>
     <string name="adjustability_description_screen_time_limit">Screen time limit can be adjusted to meet your improving smartphone usage standards.</string>
-    <string name="remove_tomorrow_screen_time_limit">Remove tomorrow’s new screen time limit?</string>
+    <string name="remove_tomorrow_screen_time_limit">Remove tomorrow\'s new screen time limit?</string>
     <string name="remove_tomorrow_screen_time_limit_description">Are you sure you want to cancel the new screen time limit that would take effect tomorrow?</string>
     <string name="enable_screen_time_limit">Enable screen time limit</string>
-    <string name="todays_screen_time_limit">Today’s screen time limit:</string>
+    <string name="todays_screen_time_limit">Today\'s screen time limit:</string>
     <string name="screen_time_limit_reached">Screen time limit reached!</string>
-    <string name="screen_time_limit_reached_description">You’ve reached your daily screen time limit - watch your time!</string>
-    <string name="screen_time_limit_near">You’re nearing your screen time limit!</string>
+    <string name="screen_time_limit_reached_description">You\'ve reached your daily screen time limit - watch your time!</string>
+    <string name="screen_time_limit_near">You\'re nearing your screen time limit!</string>
     <string name="screen_time_limit_near_description">There are 15 minutes left until you reach your screen time limit.</string>
     <string name="screen_time_limit_warnings">Screen time limit warnings</string>
     <string name="screen_time_limit_warnings_description">UnlockMaster will let you know when you are nearing your screen time limit and when you reach it with notifications like this:</string>
@@ -232,6 +231,8 @@
     <string name="keep_improving_for_screen_time_limit_recommendation">Keep improving to get screen time limit update recommendations!</string>
     <string name="you_have_reached_the_lowest_screen_time_limit">You have reached the lowest screen time limit available. Good job!</string>
     <string name="as_your_new_screen_time_limit">as your new screen time limit.</string>
+    <string name="unlock_count">Unlock count: %1$d/%2$d</string>
+    <string name="unlock_count_paused">Unlock count: %1$d/%2$d (paused)</string>
 
     <string name="content_description_application_icon">UnlockMaster application icon</string>
     <string name="content_description_back_icon">Back arrow icon</string>

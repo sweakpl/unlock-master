@@ -24,7 +24,7 @@
         <item quantity="other">ekran kilidi bugün açılıyor.</item>
     </plurals>
 
-    <string name="your_unlock_count_is">Kilit açma sayınız %1$d/%2$d</string>
+    <string name="your_unlock_count_is">Bugünkü kilit açma sayınız %1$d/%2$d</string>
     <string name="background_service_notification_channel_title">Arka plan çalışması göstergesi</string>
     <string name="background_service_notification_channel_description">Çalışan arka plan hizmeti hakkında devam eden bir bildirim görüntüleyin</string>
     <string name="welcome_to_unlock_master">UnlockMaster\'a hoş geldiniz!</string>
@@ -76,7 +76,6 @@
     <string name="note_you_can_change_time_of_notifications">Not: Bu bildirimlerin sıklığını ve saatini istediğiniz zaman ayarlardan değiştirebilirsiniz.</string>
     <string name="lets_go">Hadi gidelim!</string>
     <string name="setup_complete">Kurulum tamamlandı</string>
-    <string name="unlock_master_paused">UnlockMaster (duraklatıldı)</string>
     <string name="todays_unlock_limit">Bugünün kilit açma limiti:</string>
     <string name="set_new">Yeni ayarla</string>
     <string name="update_your_unlock_limit">Kilit açma sınırınızı güncelleyin</string>
@@ -230,6 +229,8 @@
     <string name="you_have_reached_the_lowest_screen_time_limit">Mevcut en düşük ekran süresi sınırına ulaştınız. İyi işti!</string>
     <string name="as_your_new_screen_time_limit">yeni ekran süresi sınırınız olarak.</string>
 
+    <string name="unlock_count">Kilit açma sayısı: %1$d/%2$d</string>
+    <string name="unlock_count_paused">Kilit açma sayısı: %1$d/%2$d (duraklatıldı)</string>
     <string name="content_description_application_icon">UnlockMaster uygulama simgesi</string>
     <string name="content_description_back_icon">Geri ok simgesi</string>
     <string name="content_description_guidance_icon">Zil simgesi</string>

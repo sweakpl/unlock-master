@@ -340,7 +340,10 @@ class UnlockMasterService : Service() {
             setSmallIcon(R.drawable.ic_notification_icon)
             setContentTitle(
                 getString(
-                    if (isUnlockCounterPaused) R.string.unlock_master_paused else R.string.app_name
+                    if (isUnlockCounterPaused) R.string.unlock_count_paused
+                    else R.string.unlock_count,
+                    todayUnlockEventsCount,
+                    todayUnlockLimit
                 )
             )
             setContentText(
