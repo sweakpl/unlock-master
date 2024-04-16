@@ -37,6 +37,7 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
     private lateinit var dailyWrapUpDateTime: ZonedDateTime
     private var todayUnlocksCount by Delegates.notNull<Int>()
     private var todayUnlockLimit by Delegates.notNull<Int>()
+    private var todayScreenTimeDurationMillis by Delegates.notNull<Long>()
 
     suspend operator fun invoke(dailyWrapUpDayMillis: Long): DailyWrapUpData {
         dailyWrapUpDateTime = ZonedDateTime.ofInstant(
@@ -47,6 +48,9 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
             dailyWrapUpDateTime.toTimeInMillis()
         )
         todayUnlockLimit = getUnlockLimitAmountForGivenDayUseCase(
+            dailyWrapUpDateTime.toTimeInMillis()
+        )
+        todayScreenTimeDurationMillis = getScreenTimeDurationForGivenDayUseCase(
             dailyWrapUpDateTime.toTimeInMillis()
         )
 
@@ -86,9 +90,6 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
     }
 
     private suspend fun getScreenTimeData(): DailyWrapUpData.ScreenTimeData {
-        val todayScreenTimeDurationMillis = getScreenTimeDurationForGivenDayUseCase(
-            dailyWrapUpDateTime.toTimeInMillis()
-        )
         val yesterdayScreenTimeDurationMillis = getScreenTimeDurationForGivenDayUseCase(
             dailyWrapUpDateTime.minusDays(1).toTimeInMillis()
         ).run { if (this == 0L) null else this }
@@ -252,7 +253,7 @@ class GetDailyWrapUpDataUseCase @Inject constructor(
             }
         }
 
-        val isLimitSignificantlyExceeded = todayScreenTimeLimitMinutes >=
+        val isLimitSignificantlyExceeded = todayScreenTimeDurationMillis * 1f / minuteInMillis >=
                 todayScreenTimeLimitMinutes * SCREEN_TIME_LIMIT_SIGNIFICANT_EXCEED_MULTIPLIER
 
         return DailyWrapUpData.ScreenTimeLimitData(
