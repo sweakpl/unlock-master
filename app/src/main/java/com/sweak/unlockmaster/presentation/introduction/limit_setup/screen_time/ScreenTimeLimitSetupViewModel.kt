@@ -52,7 +52,8 @@ class ScreenTimeLimitSetupViewModel @Inject constructor(
 
             state = state.copy(
                 isScreenTimeLimitEnabled = userSessionRepository.isScreenTimeLimitEnabled(),
-                pickedScreenTimeLimitMinutes = screenTimeLimitForToday,
+                pickedScreenTimeLimitMinutes =
+                screenTimeLimitForTomorrow ?: screenTimeLimitForToday,
                 availableScreenTimeLimitRange = availableScreenTimeLimitRangeUseCase,
                 screenTimeLimitIntervalMinutes = SCREEN_TIME_LIMIT_INTERVAL_MINUTES,
                 screenTimeLimitMinutesForTomorrow =
