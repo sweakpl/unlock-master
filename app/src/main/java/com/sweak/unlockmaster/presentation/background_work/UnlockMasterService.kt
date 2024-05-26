@@ -35,6 +35,8 @@ import com.sweak.unlockmaster.presentation.background_work.global_receivers.scre
 import com.sweak.unlockmaster.presentation.background_work.global_receivers.screen_event_receivers.ScreenUnlockReceiver
 import com.sweak.unlockmaster.presentation.background_work.local_receivers.ScreenTimeLimitStateReceiver
 import com.sweak.unlockmaster.presentation.background_work.local_receivers.UnlockCounterPauseReceiver
+import com.sweak.unlockmaster.presentation.common.util.Duration
+import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -106,11 +108,7 @@ class UnlockMasterService : Service() {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                             FOREGROUND_SERVICE_ID
                         else FOREGROUND_SERVICE_NOTIFICATION_ID,
-                        createNewServiceNotification(
-                            getUnlockEventsCountForGivenDayUseCase(),
-                            getUnlockLimitAmountForTodayUseCase(),
-                            isPaused
-                        )
+                        createNewServiceNotification()
                     )
                 } catch (_: SecurityException) { /* no-op */ }
             }
@@ -135,26 +133,14 @@ class UnlockMasterService : Service() {
                 addUnlockEventUseCase()
                 launchScreenTimeMonitoringIfEnabled()
 
-                val currentUnlockCount = getUnlockEventsCountForGivenDayUseCase()
-                val currentUnlockLimit = getUnlockLimitAmountForTodayUseCase()
-                val mobilizingNotificationsFrequencyPercentage =
-                    userSessionRepository.getMobilizingNotificationsFrequencyPercentage()
-                val areOverUnlockLimitMobilizingNotificationsEnabled =
-                    userSessionRepository.areOverUnlockLimitMobilizingNotificationsEnabled()
-
                 try {
                     notificationManager.notify(
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) FOREGROUND_SERVICE_ID
                         else FOREGROUND_SERVICE_NOTIFICATION_ID,
-                        createNewServiceNotification(currentUnlockCount, currentUnlockLimit, false)
+                        createNewServiceNotification()
                     )
 
-                    showUnlockLimitMobilizingNotificationIfNeeded(
-                        currentUnlockCount,
-                        currentUnlockLimit,
-                        mobilizingNotificationsFrequencyPercentage,
-                        areOverUnlockLimitMobilizingNotificationsEnabled
-                    )
+                    showUnlockLimitMobilizingNotificationIfNeeded()
                 } catch (_: SecurityException) { /* no-op */ }
             }
         }
@@ -193,8 +179,21 @@ class UnlockMasterService : Service() {
             val secondInMillis = 1000L
             val minuteInMillis = 60 * secondInMillis
 
+            val millisUntilNextFullMinute =
+                getScreenTimeDurationForGivenDayUseCase() % minuteInMillis
+
+            // First, wait for the next full minute of screen time to update the service
+            // notification with up-to-date screen time:
+            delay(millisUntilNextFullMinute)
+
             while (true) {
-                delay(15 * secondInMillis) // First, wait just 15 seconds
+                try {
+                    notificationManager.notify(
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) FOREGROUND_SERVICE_ID
+                        else FOREGROUND_SERVICE_NOTIFICATION_ID,
+                        createNewServiceNotification()
+                    )
+                } catch (_: SecurityException) { /* no-op */ }
 
                 val screenTimeLimitMillis =
                     getScreenTimeLimitMinutesForTodayUseCase() * minuteInMillis
@@ -221,7 +220,8 @@ class UnlockMasterService : Service() {
                     }
                 }
 
-                delay(2 * minuteInMillis) // Then wait longer - 2 minutes
+                // Update service notification with screen time and screen time limit every minute
+                delay(minuteInMillis)
             }
         }
     }
@@ -268,47 +268,31 @@ class UnlockMasterService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         serviceScope.launch {
-            val todayUnlockEventsCount = getUnlockEventsCountForGivenDayUseCase()
-            val todayUnlockLimit = getUnlockLimitAmountForTodayUseCase()
-            val isUnlockCounterPaused = userSessionRepository.isUnlockCounterPaused()
-
             when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> {
                     startForeground(
                         FOREGROUND_SERVICE_ID,
-                        createNewServiceNotification(
-                            todayUnlockEventsCount,
-                            todayUnlockLimit,
-                            isUnlockCounterPaused
-                        ),
+                        createNewServiceNotification(),
                         ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST
                     )
                 }
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
                     startForeground(
                         FOREGROUND_SERVICE_ID,
-                        createNewServiceNotification(
-                            todayUnlockEventsCount,
-                            todayUnlockLimit,
-                            isUnlockCounterPaused
-                        )
+                        createNewServiceNotification()
                     )
                 }
                 else -> {
                     try {
                         notificationManager.notify(
                             FOREGROUND_SERVICE_NOTIFICATION_ID,
-                            createNewServiceNotification(
-                                todayUnlockEventsCount,
-                                todayUnlockLimit,
-                                isUnlockCounterPaused
-                            )
+                            createNewServiceNotification()
                         )
                     } catch (_: SecurityException) { /* no-op */ }
                 }
             }
 
-            if (!isUnlockCounterPaused) {
+            if (!userSessionRepository.isUnlockCounterPaused()) {
                 launchScreenTimeMonitoringIfEnabled()
             }
         }
@@ -316,11 +300,20 @@ class UnlockMasterService : Service() {
         return START_STICKY
     }
 
-    private fun createNewServiceNotification(
-        todayUnlockEventsCount: Int,
-        todayUnlockLimit: Int,
-        isUnlockCounterPaused: Boolean
-    ): Notification {
+    private suspend fun createNewServiceNotification(): Notification {
+        val todayUnlockEventsCount = getUnlockEventsCountForGivenDayUseCase()
+        val todayUnlockLimit = getUnlockLimitAmountForTodayUseCase()
+        val isUnlockCounterPaused = userSessionRepository.isUnlockCounterPaused()
+        val todayScreenTimeMillis = getScreenTimeDurationForGivenDayUseCase()
+
+        val compactScreenTimeString = getCompactDurationString(
+            duration = Duration(
+                durationMillis = todayScreenTimeMillis,
+                precision = Duration.DisplayPrecision.MINUTES
+            ),
+            resources = applicationContext.resources
+        )
+
         val notificationPendingIntent = PendingIntent.getActivity(
             applicationContext,
             FOREGROUND_SERVICE_NOTIFICATION_REQUEST_CODE,
@@ -337,6 +330,7 @@ class UnlockMasterService : Service() {
         ).run {
             priority = NotificationCompat.PRIORITY_LOW
             setOngoing(true)
+            setShowWhen(false)
             setSmallIcon(R.drawable.ic_notification_icon)
             setContentTitle(
                 getString(
@@ -347,19 +341,25 @@ class UnlockMasterService : Service() {
                 )
             )
             setContentText(
-                getString(R.string.your_unlock_count_is, todayUnlockEventsCount, todayUnlockLimit)
+                getString(
+                    R.string.your_unlock_count_is_your_screen_time_is,
+                    todayUnlockEventsCount,
+                    todayUnlockLimit,
+                    compactScreenTimeString
+                )
             )
             setContentIntent(notificationPendingIntent)
             build()
         }
     }
 
-    private fun showUnlockLimitMobilizingNotificationIfNeeded(
-        unlockCount: Int,
-        unlockLimit: Int,
-        percentage: Int,
-        areOverLimitNotificationsEnabled: Boolean
-    ) {
+    private suspend fun showUnlockLimitMobilizingNotificationIfNeeded() {
+        val unlockCount = getUnlockEventsCountForGivenDayUseCase()
+        val unlockLimit = getUnlockLimitAmountForTodayUseCase()
+        val percentage = userSessionRepository.getMobilizingNotificationsFrequencyPercentage()
+        val areOverLimitNotificationsEnabled =
+            userSessionRepository.areOverUnlockLimitMobilizingNotificationsEnabled()
+
         val multiple = unlockLimit * percentage / 100f
         val maxMultiple = if (areOverLimitNotificationsEnabled) 1000 else 100
         val multiples = (percentage..maxMultiple step percentage).mapIndexed { index, _ ->

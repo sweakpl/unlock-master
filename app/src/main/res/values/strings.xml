@@ -25,7 +25,7 @@
     </plurals>
 
     <string name="app_name" translatable="false">UnlockMaster</string>
-    <string name="your_unlock_count_is">Your today\'s unlock count is %1$d/%2$d</string>
+    <string name="your_unlock_count_is_your_screen_time_is">Your today\'s unlock count is %1$d/%2$d. Your screen time is %3$s.</string>
     <string name="background_service_notification_channel_title">Background work indication</string>
     <string name="background_service_notification_channel_description">Display an ongoing notification about background service running</string>
     <string name="welcome_to_unlock_master">Welcome to UnlockMaster!</string>

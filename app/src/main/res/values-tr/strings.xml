@@ -24,7 +24,7 @@
         <item quantity="other">ekran kilidi bugün açılıyor.</item>
     </plurals>
 
-    <string name="your_unlock_count_is">Bugünkü kilit açma sayınız %1$d/%2$d</string>
+    <string name="your_unlock_count_is_your_screen_time_is">Bugünkü kilit açma sayınız %1$d/%2$d. Ekran süreniz %3$s.</string>
     <string name="background_service_notification_channel_title">Arka plan çalışması göstergesi</string>
     <string name="background_service_notification_channel_description">Çalışan arka plan hizmeti hakkında devam eden bir bildirim görüntüleyin</string>
     <string name="welcome_to_unlock_master">UnlockMaster\'a hoş geldiniz!</string>

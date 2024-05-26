@@ -34,7 +34,7 @@
         <item quantity="other">odblokowań ekranu dzisiaj.</item>
     </plurals>
 
-    <string name="your_unlock_count_is">Twoja dzisiejsza liczba odblokowań to %1$d/%2$d</string>
+    <string name="your_unlock_count_is_your_screen_time_is">Twoja dzisiejsza liczba odblokowań to %1$d/%2$d. Twój czas przed ekranem to %3$s.</string>
     <string name="background_service_notification_channel_title">Sygnalizacja pracy w tle</string>
     <string name="background_service_notification_channel_description">Wyświetla stałe powiadomienie o uruchomionym serwisie w tle</string>
     <string name="welcome_to_unlock_master">Witaj w UnlockMaster!</string>
