@@ -38,6 +38,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
@@ -48,9 +49,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -160,24 +159,14 @@ fun HomeScreen(
                             label = "unlockLimitProgressAnimation"
                         )
 
-                        val surfaceColor = MaterialTheme.colorScheme.surface
-
                         CircularProgressIndicator(
                             progress = { progress },
                             color = MaterialTheme.colorScheme.secondary,
+                            trackColor = MaterialTheme.colorScheme.surface,
                             strokeWidth = progressBarStrokeWidth,
                             modifier = Modifier
                                 .size(size = 216.dp)
                                 .padding(all = MaterialTheme.space.smallMedium)
-                                .drawBehind {
-                                    drawCircle(
-                                        color = surfaceColor,
-                                        radius = size.width / 2 - progressBarStrokeWidth.toPx() / 2,
-                                        style = Stroke(
-                                            width = progressBarStrokeWidth.toPx()
-                                        ),
-                                    )
-                                }
                         )
 
                         Column(
@@ -485,31 +474,48 @@ fun HomeScreen(
                                 }
                             }
                         }
-                    }
 
-                    AnimatedVisibility(
-                        visible = homeScreenState.isScreenTimeLimitEnabled &&
-                                homeScreenState.screenTimeLimitMinutes != null
-                    ) {
-                        ElevatedCard(
-                            elevation = CardDefaults.elevatedCardElevation(
-                                defaultElevation = MaterialTheme.space.xSmall
-                            ),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    start = MaterialTheme.space.medium,
-                                    end = MaterialTheme.space.medium,
-                                    bottom = MaterialTheme.space.small
-                                )
+                        AnimatedVisibility(
+                            visible = homeScreenState.isScreenTimeLimitEnabled &&
+                                    homeScreenState.screenTimeLimitMinutes != null
                         ) {
+                            val minuteInMillis = 60000L
+                            val progress: Float by animateFloatAsState(
+                                targetValue = homeScreenState.run {
+                                    if (todayScreenTimeDurationMillis == null ||
+                                        screenTimeLimitMinutes == null
+                                    ) {
+                                        0f
+                                    } else {
+                                        val todayScreenTimeDurationMinutes =
+                                            todayScreenTimeDurationMillis / minuteInMillis
+
+                                        todayScreenTimeDurationMinutes.toFloat() /
+                                                screenTimeLimitMinutes.toFloat()
+                                    }
+                                },
+                                label = "screenTimeLimitProgressAnimation"
+                            )
+
+                            LinearProgressIndicator(
+                                progress = { progress },
+                                color = MaterialTheme.colorScheme.secondary,
+                                trackColor = MaterialTheme.colorScheme.background,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = MaterialTheme.space.medium)
+                            )
+
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(all = MaterialTheme.space.medium)
+                                    .padding(
+                                        start = MaterialTheme.space.medium,
+                                        top = MaterialTheme.space.mediumLarge,
+                                        end = MaterialTheme.space.medium,
+                                        bottom = MaterialTheme.space.medium
+                                    )
                             ) {
-                                val minuteInMillis = 60000L
-
                                 Row(
                                     horizontalArrangement = Arrangement.spacedBy(
                                         MaterialTheme.space.medium
@@ -526,7 +532,7 @@ fun HomeScreen(
                                 ) {
                                     Column(modifier = Modifier.weight(1f)) {
                                         Text(
-                                            text = stringResource(R.string.todays_screen_time_limit),
+                                            text = stringResource(R.string.screen_time_limit_colon),
                                             style = MaterialTheme.typography.headlineMedium
                                         )
 

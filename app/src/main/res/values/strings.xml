@@ -214,7 +214,7 @@
     <string name="remove_tomorrow_screen_time_limit">Remove tomorrow\'s new screen time limit?</string>
     <string name="remove_tomorrow_screen_time_limit_description">Are you sure you want to cancel the new screen time limit that would take effect tomorrow?</string>
     <string name="enable_screen_time_limit">Enable screen time limit</string>
-    <string name="todays_screen_time_limit">Today\'s screen time limit:</string>
+    <string name="screen_time_limit_colon">Screen time limit:</string>
     <string name="screen_time_limit_reached">Screen time limit reached!</string>
     <string name="screen_time_limit_reached_description">You\'ve reached your daily screen time limit - watch your time!</string>
     <string name="screen_time_limit_near">You\'re nearing your screen time limit!</string>

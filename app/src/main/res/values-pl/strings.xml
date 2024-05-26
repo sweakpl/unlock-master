@@ -222,7 +222,7 @@
     <string name="remove_tomorrow_screen_time_limit">Usunąć jutrzejszy nowy limit czasu przed ekranem?</string>
     <string name="remove_tomorrow_screen_time_limit_description">Czy na pewno chcesz anulować nowy limit czasu przed ekranem, który wszedłby w życie jutro?</string>
     <string name="enable_screen_time_limit">Włącz limit czasu przed ekranem</string>
-    <string name="todays_screen_time_limit">Dzisiejszy limit czasu przed ekranem:</string>
+    <string name="screen_time_limit_colon">Limit czasu przed ekranem:</string>
     <string name="screen_time_limit_reached">Limit czasu przed ekranem osiągnięty!</string>
     <string name="screen_time_limit_reached_description">Osiągnąłeś dzienny limit czasu przed ekranem - pilnuj swojego czasu!</string>
     <string name="screen_time_limit_near">Zbliżasz się do limitu czasu przed ekranem!</string>
