@@ -70,6 +70,10 @@ dependencies {
     implementation 'androidx.compose.material3:material3:1.2.1'
     debugImplementation 'androidx.compose.ui:ui-tooling:1.6.7'
 
+    // Glance
+    implementation('androidx.glance:glance-appwidget:1.0.0')
+    implementation('androidx.glance:glance-material3:1.0.0')
+
     // Coroutines
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.0'
 

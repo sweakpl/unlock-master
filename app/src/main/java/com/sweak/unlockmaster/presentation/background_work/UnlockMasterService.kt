@@ -3,6 +3,7 @@ package com.sweak.unlockmaster.presentation.background_work
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
+import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ServiceInfo
@@ -12,6 +13,7 @@ import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.glance.appwidget.GlanceAppWidgetManager
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.domain.model.ScreenTimeLimitWarningState
 import com.sweak.unlockmaster.domain.model.ScreenTimeLimitWarningState.NO_WARNINGS_FIRED
@@ -37,6 +39,7 @@ import com.sweak.unlockmaster.presentation.background_work.local_receivers.Scree
 import com.sweak.unlockmaster.presentation.background_work.local_receivers.UnlockCounterPauseReceiver
 import com.sweak.unlockmaster.presentation.common.util.Duration
 import com.sweak.unlockmaster.presentation.common.util.getCompactDurationString
+import com.sweak.unlockmaster.presentation.widget.UnlockCountWidget
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -142,8 +145,23 @@ class UnlockMasterService : Service() {
 
                     showUnlockLimitMobilizingNotificationIfNeeded()
                 } catch (_: SecurityException) { /* no-op */ }
+
+                updateUnlockCountWidgetIfRequired()
             }
         }
+    }
+
+    private suspend fun updateUnlockCountWidgetIfRequired() {
+        GlanceAppWidgetManager(applicationContext)
+            .getGlanceIds(UnlockCountWidget::class.java).also {
+                it.ifEmpty { return }
+            }
+
+        sendBroadcast(
+            Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).apply {
+                `package` = packageName
+            }
+        )
     }
 
     private val screenLockReceiver = ScreenLockReceiver().apply {

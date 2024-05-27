@@ -150,7 +150,6 @@ fun HomeScreen(
                             )
                             .align(alignment = Alignment.CenterHorizontally)
                     ) {
-                        val progressBarStrokeWidth = MaterialTheme.space.small
                         val progress: Float by animateFloatAsState(
                             targetValue = homeScreenState.run {
                                 if (unlockCount == null || unlockLimit == null) 0f
@@ -163,7 +162,7 @@ fun HomeScreen(
                             progress = { progress },
                             color = MaterialTheme.colorScheme.secondary,
                             trackColor = MaterialTheme.colorScheme.surface,
-                            strokeWidth = progressBarStrokeWidth,
+                            strokeWidth = MaterialTheme.space.small,
                             modifier = Modifier
                                 .size(size = 216.dp)
                                 .padding(all = MaterialTheme.space.smallMedium)
