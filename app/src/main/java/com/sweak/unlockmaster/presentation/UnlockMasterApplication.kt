@@ -3,12 +3,14 @@ package com.sweak.unlockmaster.presentation
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.graphics.Color
 import android.media.AudioAttributes
 import android.os.Build
 import android.provider.Settings
 import androidx.core.app.NotificationManagerCompat
+import androidx.glance.appwidget.GlanceAppWidgetManager
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.domain.DEFAULT_SCREEN_TIME_LIMIT_MINUTES
 import com.sweak.unlockmaster.domain.repository.ScreenTimeLimitsRepository
@@ -19,6 +21,7 @@ import com.sweak.unlockmaster.presentation.background_work.DAILY_WRAP_UPS_NOTIFI
 import com.sweak.unlockmaster.presentation.background_work.FOREGROUND_SERVICE_NOTIFICATION_CHANNEL_ID
 import com.sweak.unlockmaster.presentation.background_work.MOBILIZING_NOTIFICATION_CHANNEL_ID
 import com.sweak.unlockmaster.presentation.background_work.UnlockMasterService
+import com.sweak.unlockmaster.presentation.widget.UnlockCountWidget
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -48,6 +51,7 @@ class UnlockMasterApplication : Application() {
         checkForPotentialBackgroundWorkIssues()
         setUpUnlockMasterServiceAndDailyWrapUpsIfUserHasFinishedIntroduction()
         addInitialScreenTimeLimitIfUserIsMissingInitialScreenTimeLimit()
+        updateUnlockCountWidgetIfRequired()
     }
 
     private fun createNotificationChannelsIfVersionRequires() {
@@ -137,6 +141,21 @@ class UnlockMasterApplication : Application() {
                     limitAmountMinutes = DEFAULT_SCREEN_TIME_LIMIT_MINUTES
                 )
             }
+        }
+    }
+
+    private fun updateUnlockCountWidgetIfRequired() {
+        runBlocking {
+            GlanceAppWidgetManager(applicationContext)
+                .getGlanceIds(UnlockCountWidget::class.java).also {
+                    it.ifEmpty { return@runBlocking }
+                }
+
+            sendBroadcast(
+                Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).apply {
+                    setPackage(packageName)
+                }
+            )
         }
     }
 }

@@ -159,7 +159,7 @@ class UnlockMasterService : Service() {
 
         sendBroadcast(
             Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).apply {
-                `package` = packageName
+                setPackage(packageName)
             }
         )
     }
@@ -358,14 +358,14 @@ class UnlockMasterService : Service() {
                     todayUnlockLimit
                 )
             )
-            setContentText(
-                getString(
-                    R.string.your_unlock_count_is_your_screen_time_is,
-                    todayUnlockEventsCount,
-                    todayUnlockLimit,
-                    compactScreenTimeString
-                )
+            val contentText = getString(
+                R.string.your_unlock_count_is_your_screen_time_is,
+                todayUnlockEventsCount,
+                todayUnlockLimit,
+                compactScreenTimeString
             )
+            setContentText(contentText)
+            setStyle(NotificationCompat.BigTextStyle().bigText(contentText))
             setContentIntent(notificationPendingIntent)
             build()
         }
