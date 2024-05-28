@@ -1,0 +1,3 @@
+* Added unlocks count home screen widget,
+* Persistent notification now shows screen time,
+* User interface improvements.
