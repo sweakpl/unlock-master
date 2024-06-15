@@ -6,6 +6,7 @@
 
 <p align="center">
    <a href="https://play.google.com/store/apps/details?id=com.sweak.unlockmaster"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Get it on Google Play" height=80/></a>
+   <a href="https://apt.izzysoft.de/fdroid/index/apk/com.sweak.unlockmaster"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" alt="Get it on IzzyOnDroid" height=80/></a>
 </p>
 
 **UnlockMaster: Unlock the Power of Mindful Smartphone Use**
