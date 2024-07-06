@@ -115,7 +115,7 @@
     <string name="mobilizing_notifications_channel_title">Harekete geçirici hatırlatıcılar</string>
     <string name="mobilizing_notifications_channel_description">Akıllı telefon kullanım hedeflerini hatırlatan bildirimleri göster</string>
     <string name="mobilizing_notifications_setting_description">Tercihinize göre, bu bildirimler kilit açma limitinizin belirli bir yüzdesinin katı olan bir kilit açma sayısına her ulaştığınızda görüntülenecektir. Bu yüzdeyi buradan değiştirebilirsiniz:</string>
-    <string name="mobilizing_notifications_setting_example">Kilit açma limitiniz 40 ve kilit açma limitinizin her %25'inde bildirim almayı seçtiniz.\nBu durumda, 10, 20, 30 ve 40 kilit açmaya ulaştığınızda harekete geçirici bildirimler gelecektir.</string>
+    <string name="mobilizing_notifications_setting_example">Kilit açma limitiniz 40 ve kilit açma limitinizin her %25\'inde bildirim almayı seçtiniz.\nBu durumda, 10, 20, 30 ve 40 kilit açmaya ulaştığınızda harekete geçirici bildirimler gelecektir.</string>
     <string name="every_x_percent">Her %1$d%%</string>
     <string name="example">Örnek:</string>
     <string name="daily_wrapup_notifications_setting_description">Tercihinize göre, bu bildirimler burada belirtilen saatte her gün görüntülenecektir. Ayarlamak için saat ve dakika alanlarını sürükleyin:</string>
@@ -278,4 +278,4 @@
     <string name="content_description_complementing_layers_icon">Tamamlayıcı katmanlar simgesi</string>
     <string name="content_description_screen_time_limit_mobilizing_notification_image">Ekran süresi limiti harekete geçirici bildirim resmi</string>
     <string name="content_description_alarm_icon">Çalar saat simgesi</string>
-    
+</resources>
