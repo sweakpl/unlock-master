@@ -9,6 +9,8 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.LocalContext
+import androidx.glance.action.actionStartActivity
+import androidx.glance.action.clickable
 import androidx.glance.appwidget.AndroidRemoteViews
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
@@ -26,6 +28,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.sweak.unlockmaster.R
+import com.sweak.unlockmaster.presentation.MainActivity
 
 class UnlockCountWidget : GlanceAppWidget() {
 
@@ -34,7 +37,8 @@ class UnlockCountWidget : GlanceAppWidget() {
             Box(
                 modifier = GlanceModifier
                     .fillMaxSize()
-                    .background(ColorProvider(Color(0xFFF3F4F5))),
+                    .background(ColorProvider(Color(0xFFF3F4F5)))
+                    .clickable(actionStartActivity<MainActivity>()),
                 contentAlignment = Center
             ) {
                 val unlockCount = currentState(UNLOCK_EVENTS_COUNT_PREFERENCES_KEY) ?: 0
