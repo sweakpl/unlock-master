@@ -28,7 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -94,6 +94,9 @@ fun ScreenTimeScreen(
                     )
 
                     ElevatedCard(
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surface
+                        ),
                         elevation = CardDefaults.elevatedCardElevation(
                             defaultElevation = MaterialTheme.space.xSmall
                         ),
@@ -140,6 +143,9 @@ fun ScreenTimeScreen(
 
                     if (screenTimeScreenState.uiReadySessionEvents.isEmpty()) {
                         ElevatedCard(
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.surface
+                            ),
                             elevation = CardDefaults.elevatedCardElevation(
                                 defaultElevation = MaterialTheme.space.xSmall
                             ),

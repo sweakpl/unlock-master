@@ -10,10 +10,9 @@ import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,12 +21,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.sweak.unlockmaster.R
 import com.sweak.unlockmaster.presentation.common.theme.space
 import kotlin.math.abs
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DailyWrapUpScreenOnEventsDetailsCard(
     detailsData: DailyWrapUpScreenOnEventsDetailsData,
@@ -35,6 +34,9 @@ fun DailyWrapUpScreenOnEventsDetailsCard(
     modifier: Modifier = Modifier
 ) {
     ElevatedCard(
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = MaterialTheme.space.xSmall
         ),
@@ -52,7 +54,7 @@ fun DailyWrapUpScreenOnEventsDetailsCard(
                 )
 
                 CompositionLocalProvider(
-                    LocalMinimumInteractiveComponentEnforcement provides false
+                    LocalMinimumInteractiveComponentSize provides Dp.Unspecified
                 ) {
                     IconButton(
                         onClick = onInteraction,

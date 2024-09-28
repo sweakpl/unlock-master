@@ -29,6 +29,9 @@ fun CardTimePicker(
     val is24HourFormat = DateFormat.is24HourFormat(context)
 
     ElevatedCard(
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = MaterialTheme.space.xSmall
         ),

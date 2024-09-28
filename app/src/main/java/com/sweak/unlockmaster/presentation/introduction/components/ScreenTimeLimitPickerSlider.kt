@@ -84,6 +84,7 @@ fun ScreenTimeLimitPickerSlider(
                 valueRange = limitRange.run { first.toFloat()..last.toFloat() },
                 steps = steps,
                 colors = SliderDefaults.colors(
+                    inactiveTrackColor = MaterialTheme.colorScheme.surface,
                     activeTickColor = Color.Transparent,
                     inactiveTickColor = Color.Transparent,
                     disabledActiveTickColor = Color.Transparent,
