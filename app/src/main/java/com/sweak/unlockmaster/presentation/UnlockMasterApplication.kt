@@ -61,6 +61,7 @@ class UnlockMasterApplication : Application() {
                 getString(R.string.background_service_notification_channel_title),
                 NotificationManager.IMPORTANCE_LOW
             ).apply {
+                setShowBadge(false)
                 description =
                     getString(R.string.background_service_notification_channel_description)
             }
