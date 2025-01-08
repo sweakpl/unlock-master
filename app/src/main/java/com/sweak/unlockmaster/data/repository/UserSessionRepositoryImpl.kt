@@ -2,10 +2,12 @@ package com.sweak.unlockmaster.data.repository
 
 import android.content.Context
 import androidx.datastore.core.DataStore
+import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.preferencesOf
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.sweak.unlockmaster.domain.DEFAULT_DAILY_WRAP_UPS_NOTIFICATIONS_TIME_IN_MINUTES_PAST_MIDNIGHT
@@ -19,7 +21,14 @@ import kotlinx.coroutines.flow.map
 
 class UserSessionRepositoryImpl(private val context: Context) : UserSessionRepository {
 
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("dataStore")
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
+        name = "dataStore",
+        corruptionHandler = ReplaceFileCorruptionHandler {
+            preferencesOf(
+                IS_INTRODUCTION_FINISHED to true
+            )
+        }
+    )
 
     override suspend fun setIntroductionFinished() {
         context.dataStore.edit { preferences ->
