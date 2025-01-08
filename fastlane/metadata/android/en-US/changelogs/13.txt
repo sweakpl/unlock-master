@@ -1,2 +1,0 @@
-* Unlock count widget is now opening the app on click,
-* Android 15 ready.
