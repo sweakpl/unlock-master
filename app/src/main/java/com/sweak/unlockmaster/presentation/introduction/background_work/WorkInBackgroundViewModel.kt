@@ -22,14 +22,12 @@ class WorkInBackgroundViewModel @Inject constructor(
     var state by mutableStateOf(WorkInBackgroundScreenState())
 
     init {
-        viewModelScope.launch {
-            state = state.copy(
-                isIgnoringBatteryOptimizations =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    powerManager.isIgnoringBatteryOptimizations(packageName)
-                } else true
-            )
-        }
+        state = state.copy(
+            isIgnoringBatteryOptimizations =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                powerManager.isIgnoringBatteryOptimizations(packageName)
+            } else true
+        )
     }
 
     fun onEvent(event: WorkInBackgroundScreenEvent) {
